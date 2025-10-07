@@ -1,5 +1,9 @@
 from typing import List, Dict, Tuple, Optional
 from itertools import combinations
+import time
+# from pysat.solvers import Solver  # uses Glucose by default
+from pysat.solvers import Minisat22 as Solver
+from nonograms import nonograms
 
 
 def validate_puzzle(p: Dict[str, List[List[int]]]) -> Tuple[int,int]:
@@ -123,11 +127,32 @@ def nonogram_to_cnf(puzzle: Dict[str, List[List[int]]]) -> Tuple[List[List[int]]
 
 
 def solve_with_pysat(clauses: List[List[int]]) -> Optional[List[int]]:
-    from pysat.solvers import Solver  # uses Glucose by default
+    nvars_input = max(abs(lit) for cl in clauses for lit in cl)
+    nclauses_input = len(clauses)
     with Solver(bootstrap_with=clauses) as s:
-        if not s.solve():
+        t0 = time.perf_counter()
+        sat = s.solve()
+        t1 = time.perf_counter()
+        elapsed = t1 - t0
+        stats = s.accum_stats().copy()
+        stats.update({
+            "nvars_input": nvars_input,
+            "nclauses_input": nclauses_input,
+            "nvars_solver": s.nof_vars(),
+            "nclauses_solver": s.nof_clauses(),
+            "backend": type(s).__name__,
+            "time_ms": round(elapsed * 1000, 3),
+        })
+        print(stats)
+        if not sat:
             return None
         return s.get_model()  # list of signed ints
+
+
+def check_model(clauses, model):
+    assignment = {abs(l): (l > 0) for l in model}
+    return all(any(assignment.get(abs(lit), False) == (lit > 0) for lit in cl)
+               for cl in clauses)
 
 
 def model_to_grid(model: List[int], rlen: int, clen: int) -> List[List[int]]:
@@ -142,15 +167,26 @@ def pretty_print(grid: List[List[int]]) -> None:
 
 
 if __name__ == "__main__":
-    demo = {
-        "columns": [[3, 3], [2, 5], [2, 4], [2, 5], [2, 3], [2, 1, 3], [2, 1], [2], [2, 1, 1], [4]],
-        "rows":    [[8], [9], [1, 1], [1], [2], [1, 1, 1, 1], [3, 1], [6], [6], [7, 1]]
-    }
-    clauses, num_vars, rlen, clen = nonogram_to_cnf(demo)
-    model = solve_with_pysat(clauses)
-    if model is None:
-        print("UNSAT")
-    else:
-        grid = model_to_grid(model, rlen, clen)
-        print(grid)
-        pretty_print(grid)
+    # demo = {
+    #     "columns": [[3, 3], [2, 5], [2, 4], [2, 5], [2, 3], [2, 1, 3], [2, 1], [2], [2, 1, 1], [4]],
+    #     "rows":    [[8], [9], [1, 1], [1], [2], [1, 1, 1, 1], [3, 1], [6], [6], [7, 1]]
+    # }
+    # clauses, num_vars, rlen, clen = nonogram_to_cnf(demo)
+    # model = solve_with_pysat(clauses)
+    # if model is None:
+    #     print("UNSAT")
+    # else:
+    #     grid = model_to_grid(model, rlen, clen)
+    #     pretty_print(grid)
+
+    for puzzle in nonograms:
+        print(f"Puzzle {puzzle['id']} - {puzzle['name']}")
+        clauses, num_vars, rlen, clen = nonogram_to_cnf(puzzle["clues"])
+        model = solve_with_pysat(clauses)
+        if model is None:
+            print("UNSAT")
+        else:
+            print("All clauses satisfied:", check_model(clauses, model))
+            grid = model_to_grid(model, rlen, clen)
+            pretty_print(grid)
+        print()
