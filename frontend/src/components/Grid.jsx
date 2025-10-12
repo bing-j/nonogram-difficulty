@@ -9,12 +9,15 @@ export default function Grid({ grid, onCellClick, clues }) {
   const handleMouseEnter = (r, c) => setHovered({ row: r, col: c });
   const handleMouseLeave = () => setHovered({ row: null, col: null });
 
+  const maxRowClues = Math.max(...clues.rows.map((r) => r.length));
+  const rowCluesWidth = maxRowClues * 16 + 2;
+
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         
         {/* column clues */}
-        <div style={{ display: "flex", marginLeft: 40 }}>
+        <div style={{ display: "flex", marginLeft: rowCluesWidth, alignItems: "flex-end"}}>
           {clues.columns.map((col, c) => {
             const isHighlighted = hovered.col === c;
             return (

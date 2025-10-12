@@ -1,41 +1,61 @@
-import React, { useState } from "react";
-import Grid from "@/components/Grid";
-import Controls from "@/components/Controls";
-import Timer from "@/components/Timer";
-import nonograms from "@/data/nonograms.json";
+import Link from "next/link";
+import puzzles from "@/data/nonograms.json";
 
-export default function App() {
-  const puzzle = nonograms.find((p) => p.name === "Boat");
-
-  const numRows = puzzle.clues.rows.length;
-  const numCols = puzzle.clues.columns.length;
-
-  const [grid, setGrid] = useState(
-    Array.from({ length: numRows }, () => Array(numCols).fill(0))
-  );
-
-  const cycleCell = (r, c) => {
-    setGrid((prev) =>
-      prev.map((row, i) =>
-        row.map((cell, j) =>
-          i === r && j === c ? (cell + 1) % 3 : cell
-        )
-      )
-    );
-  };
-
-  const resetGrid = () => {
-    setGrid(Array.from({ length: numRows }, () => Array(numCols).fill(0)));
-  };
-
+export default function PuzzleListPage() {
   return (
-    <div className="App">
-      <h1 className="text-5xl font-bold text-center mt-8 mb-4">
-        Nonogram Puzzle
+    <main
+      style={{
+        padding: "2rem",
+        maxWidth: 600,
+        margin: "0 auto",
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "2rem",
+          fontWeight: "bold",
+          textAlign: "center",
+          marginBottom: "1.5rem",
+          color: "#2d3436",
+        }}
+      >
+        Choose a Puzzle
       </h1>
-      <Timer />
-      <Grid grid={grid} onCellClick={cycleCell} clues={puzzle.clues} />
-      <Controls onReset={resetGrid} onSubmit={() => null} grid={grid} />
-    </div>
+
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {puzzles.map((puzzle) => (
+          <li
+            key={puzzle.id}
+            style={{
+              marginBottom: "0.75rem",
+            }}
+          >
+            <Link
+              href={`/puzzles/${puzzle.id}`}
+              style={{
+                display: "block",
+                padding: "0.75rem 1rem",
+                borderRadius: "10px",
+                backgroundColor: "#f1f2f6",
+                color: "#2d3436",
+                textDecoration: "none",
+                fontSize: "1.1rem",
+                fontWeight: 500,
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) =>
+                (e.target.style.backgroundColor = "#dfe6e9")
+              }
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "#f1f2f6")
+              }
+            >
+              Puzzle {puzzle.id}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </main>
   );
 }
