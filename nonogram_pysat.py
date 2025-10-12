@@ -4,6 +4,7 @@ import time
 # from pysat.solvers import Solver  # uses Glucose by default
 from pysat.solvers import Minisat22 as Solver
 from nonograms import nonograms
+import csv
 
 
 def validate_puzzle(p: Dict[str, List[List[int]]]) -> Tuple[int,int]:
@@ -166,6 +167,14 @@ def pretty_print(grid: List[List[int]]) -> None:
         print(" ".join("█" if v else "·" for v in row))
 
 
+def save_nonogram_csv(grid, puzzle_id):
+    filename = f"nonogram_solution_{puzzle_id}.csv"
+    with open(filename, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerows(grid)
+    print(f"Raw grid saved to '{filename}'")
+
+
 if __name__ == "__main__":
     # demo = {
     #     "columns": [[3, 3], [2, 5], [2, 4], [2, 5], [2, 3], [2, 1, 3], [2, 1], [2], [2, 1, 1], [4]],
@@ -177,6 +186,7 @@ if __name__ == "__main__":
     #     print("UNSAT")
     # else:
     #     grid = model_to_grid(model, rlen, clen)
+    #     save_nonogram_csv(grid, puzzle['id'])
     #     pretty_print(grid)
 
     for puzzle in nonograms:
@@ -188,5 +198,5 @@ if __name__ == "__main__":
         else:
             print("All clauses satisfied:", check_model(clauses, model))
             grid = model_to_grid(model, rlen, clen)
-            pretty_print(grid)
+            save_nonogram_csv(grid, puzzle['id'])
         print()
