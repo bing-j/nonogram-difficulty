@@ -1,68 +1,118 @@
-import React from "react";
+import React, { useState } from "react";
 import Cell from "./Cell";
 
 export default function Grid({ grid, onCellClick, clues }) {
+  const [hovered, setHovered] = useState({ row: null, col: null });
   const numRows = grid.length;
   const numCols = grid[0].length;
 
-  return (
-    <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${numCols + 1}, 40px)`,
-          gridTemplateRows: `repeat(${numRows + 1}, 40px)`,
-          gap: "4px",
-        }}
-      >
-        {/* Empty top-left corner */}
-        <div></div>
+  const handleMouseEnter = (r, c) => setHovered({ row: r, col: c });
+  const handleMouseLeave = () => setHovered({ row: null, col: null });
 
-        {/* Column clues */}
-        {clues.columns.map((col, idx) => (
+  return (
+    <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        
+        {/* column clues */}
+        <div style={{ display: "flex", marginLeft: 40 }}>
+          {clues.columns.map((col, c) => {
+            const isHighlighted = hovered.col === c;
+            return (
+              <div
+                key={`col-${c}`}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  minWidth: 40,
+                  padding: 4,
+                  backgroundColor: isHighlighted
+                    ? "rgba(155, 89, 182, 0.15)"
+                    : "transparent",
+                  borderRadius: 6,
+                  transition: "background-color 0.2s ease",
+                }}
+              >
+                {col.map((num, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      color: isHighlighted ? "#6C5CE7" : "black",
+                      fontWeight: isHighlighted ? 600 : 400,
+                      lineHeight: "1.2em",
+                    }}
+                  >
+                    {num}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* row clues + grid */}
+        <div style={{ display: "flex" }}>
+          
+          {/* row clues */}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {clues.rows.map((rowClue, r) => {
+              const isHighlighted = hovered.row === r;
+              return (
+                <div
+                  key={`row-${r}`}
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    minHeight: 40,
+                    paddingRight: 6,
+                    paddingLeft: 4,
+                    backgroundColor: isHighlighted
+                      ? "rgba(155, 89, 182, 0.15)"
+                      : "transparent",
+                    borderRadius: 6,
+                    transition: "background-color 0.2s ease",
+                  }}
+                >
+                  {rowClue.map((num, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        marginLeft: 4,
+                        color: isHighlighted ? "#6C5CE7" : "black",
+                        fontWeight: isHighlighted ? 600 : 400,
+                      }}
+                    >
+                      {num}
+                    </span>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* grid cells */}
           <div
-            key={`col-${idx}`}
             style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "end",
-              alignItems: "center",
-              fontSize: "16px",
-              height: "40px",
+              display: "grid",
+              gridTemplateColumns: `repeat(${numCols}, 40px)`,
+              gridTemplateRows: `repeat(${numRows}, 40px)`,
             }}
           >
-            {col.map((clue, i) => (
-              <div key={i}>{clue}</div>
-            ))}
+            {grid.map((row, r) =>
+              row.map((cell, c) => (
+                <div
+                  key={`${r}-${c}`}
+                  onMouseEnter={() => handleMouseEnter(r, c)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <Cell value={cell} onClick={() => onCellClick(r, c)} />
+                </div>
+              ))
+            )}
           </div>
-        ))}
-
-        {/* Row clues + grid cells */}
-        {grid.map((row, r) => (
-          <React.Fragment key={r}>
-            {/* Row clue */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "right",
-                alignItems: "center",
-                fontSize: "16px",
-                paddingRight: "4px",
-              }}
-            >
-              {clues.rows[r].join(" ")}
-            </div>
-
-            {/* Cells */}
-            {row.map((cell, c) => (
-              <Cell
-                key={`${r}-${c}`}
-                value={cell}
-                onClick={() => onCellClick(r, c)}
-              />
-            ))}
-          </React.Fragment>
-        ))}
+        </div>
       </div>
     </div>
   );
