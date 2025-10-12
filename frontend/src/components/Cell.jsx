@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Cell({ value, onClick, rightBorder, bottomBorder, isHovered, onMouseEnter, onMouseLeave }) {
+export default function Cell({ value, onClick, rightBorder, bottomBorder, onMouseEnter, onMouseLeave }) {
   const getBackground = () => {  
     if (value === 1) return "#333";   // filled
     if (value === 2) return "#eee";   // cross
@@ -18,8 +18,8 @@ export default function Cell({ value, onClick, rightBorder, bottomBorder, isHove
         margin: 2,
         borderLeft: "1px solid black",
         borderTop: "1px solid black",
-        borderRight: rightBorder ? "2px solid black" : "1px solid black",
-        borderBottom: bottomBorder ? "2px solid black" : "1px solid black",
+        borderRight: rightBorder ? "3px solid black" : "1px solid black",
+        borderBottom: bottomBorder ? "3px solid black" : "1px solid black",
         background: getBackground(),
         display: "flex",
         alignItems: "center",

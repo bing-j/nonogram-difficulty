@@ -93,6 +93,7 @@ export default function Grid({ grid, onCellClick, clues }) {
           </div>
 
           {/* grid cells */}
+          
           <div
             style={{
               display: "grid",
@@ -101,15 +102,20 @@ export default function Grid({ grid, onCellClick, clues }) {
             }}
           >
             {grid.map((row, r) =>
-              row.map((cell, c) => (
-                <div
-                  key={`${r}-${c}`}
-                  onMouseEnter={() => handleMouseEnter(r, c)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <Cell value={cell} onClick={() => onCellClick(r, c)} />
-                </div>
-              ))
+              row.map((cell, c) => {
+                const isRightBorder = (c + 1) % 5 === 0 && c !== numCols - 1; 
+                const isBottomBorder = (r + 1) % 5 === 0 && r !== numRows - 1;
+
+                return (
+                  <div
+                    key={`${r}-${c}`}
+                    onMouseEnter={() => handleMouseEnter(r, c)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Cell value={cell} onClick={() => onCellClick(r, c)} rightBorder={isRightBorder} bottomBorder={isBottomBorder} />
+                  </div>
+                );
+              })
             )}
           </div>
         </div>
