@@ -3,7 +3,7 @@ from itertools import combinations
 import time
 # from pysat.solvers import Solver  # uses Glucose by default
 from pysat.solvers import Minisat22 as Solver
-from nonograms import nonograms
+from .nonograms import nonograms
 import csv
 
 
