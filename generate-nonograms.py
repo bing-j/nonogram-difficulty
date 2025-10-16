@@ -59,35 +59,36 @@ def generate_nonogram_set(num_per_density: int, densities: list[int]):
             i += 1
     return nonograms
 
-def generate_unique_nonograms(num_nonograms: int, densities: list[int]):
+def generate_unique_nonograms(num_per_density: int, densities: list[int]):
     """
     Generate nonograms and filter to those with a unique solution.
     Returns a list of nonograms with unique solutions.
     """
-    
-    all_nonograms = generate_nonogram_set(num_nonograms, densities)
-    unique_nonograms = []
-    density_index = 0
-    while len(unique_nonograms) < num_nonograms:
-        density = densities[density_index % len(densities)]
-        density_index += 1
-        print(f"Generating nonogram with density {density}")
-        grid, row_hints, column_hints = generate_nonogram(density)
-        puzzle = {
-            "id": len(all_nonograms) + 1,
-            "solution": grid.tolist(),
-            "clues": {
-                "rows": row_hints,
-                "columns": column_hints
-            },
-            "density": density / 100
-        }
-        all_nonograms.append(puzzle)
-        grids = solve_nonogram(puzzle['clues'])
-        if len(grids) == 1:
-            unique_nonograms.append(puzzle)
-            print(f"Found unique solution for puzzle {puzzle['id']} with density {puzzle['density']:.2f}")
-    return unique_nonograms
+    all_nonograms = []
+    all_unique_nonograms = []
+    one_density_unique_nonograms = []
+    for i in range(len(densities)):
+        while len(one_density_unique_nonograms) < num_per_density:
+            density = densities[i]
+            print(f"Generating nonogram with density {density}")
+            grid, row_hints, column_hints = generate_nonogram(density)
+            puzzle = {
+                "id": len(all_nonograms) + 1,
+                "solution": grid.tolist(),
+                "clues": {
+                    "rows": row_hints,
+                    "columns": column_hints
+                },
+                "density": density / 100
+            }
+            all_nonograms.append(puzzle)
+            grids = solve_nonogram(puzzle['clues'], print_stats=False)
+            if len(grids) == 1 and puzzle not in one_density_unique_nonograms:
+                one_density_unique_nonograms.append(puzzle)
+                print(f"Found unique solution for puzzle {puzzle['id']} with density {puzzle['density']:.2f}")
+        all_unique_nonograms.extend(one_density_unique_nonograms)
+        one_density_unique_nonograms = []
+    return all_unique_nonograms
 
 if __name__ == "__main__":
     # import json
@@ -98,6 +99,6 @@ if __name__ == "__main__":
     # print(f"Generated {len(nonograms)} nonograms and saved to 'generated_nonograms.json'")
     import json
     densities = [25, 50, 75]
-    unique_nonograms = generate_unique_nonograms(12, densities)
+    unique_nonograms = generate_unique_nonograms(3, densities)
     with open('unique_solution_nonograms.json', 'w') as f:
         json.dump(unique_nonograms, f, indent=4)
