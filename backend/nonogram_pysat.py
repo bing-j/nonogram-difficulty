@@ -3,7 +3,6 @@ from itertools import combinations
 import time
 # from pysat.solvers import Solver  # uses Glucose by default
 from pysat.solvers import Minisat22 as Solver
-from .nonograms import nonograms
 import csv
 
 
@@ -127,7 +126,7 @@ def nonogram_to_cnf(puzzle: Dict[str, List[List[int]]]) -> Tuple[List[List[int]]
     return clauses, num_vars, rlen, clen
 
 
-def solve_with_pysat(clauses: List[List[int]]) -> Optional[List[int]]:
+def solve_with_pysat(clauses: List[List[int]], print_stats: bool = True) -> Optional[List[int]]:
     nvars_input = max(abs(lit) for cl in clauses for lit in cl)
     nclauses_input = len(clauses)
     with Solver(bootstrap_with=clauses) as s:
@@ -144,7 +143,8 @@ def solve_with_pysat(clauses: List[List[int]]) -> Optional[List[int]]:
             "backend": type(s).__name__,
             "time_ms": round(elapsed * 1000, 3),
         })
-        print(stats)
+        if print_stats:
+            print(stats)
         if not sat:
             return None
         return s.get_model()  # list of signed ints
@@ -174,6 +174,29 @@ def save_nonogram_csv(grid, puzzle_id):
         writer.writerows(grid)
     print(f"Raw grid saved to '{filename}'")
 
+def solve_nonogram(puzzle: Dict[str, List[List[int]]], print_stats = True) -> List[List[List[int]]]:
+    clauses, num_vars, rlen, clen = nonogram_to_cnf(puzzle)
+    grids = []
+    unsolvable = False
+    num_solutions = 0
+    while not unsolvable:
+        model = solve_with_pysat(clauses, print_stats=print_stats)
+        if model is None:
+            unsolvable = True
+            break
+        # add blocking clause to prevent same solution
+        grid = model_to_grid(model, rlen, clen)
+        grids.append(grid)
+        blocking_clauses = [-cell_var(r, c, clen) if grid[r][c] == 1 else cell_var(r, c, clen)
+                           for r in range(rlen) for c in range(clen)]
+        clauses.append(blocking_clauses)
+        num_solutions += 1
+        if num_solutions >= 2:
+            print("Reached 2 solutions, stopping search.")
+            break
+    
+    return grids
+
 
 if __name__ == "__main__":
     # demo = {
@@ -189,14 +212,41 @@ if __name__ == "__main__":
     #     save_nonogram_csv(grid, puzzle['id'])
     #     pretty_print(grid)
 
-    for puzzle in nonograms:
-        print(f"Puzzle {puzzle['id']} - {puzzle['name']}")
-        clauses, num_vars, rlen, clen = nonogram_to_cnf(puzzle["clues"])
-        model = solve_with_pysat(clauses)
-        if model is None:
-            print("UNSAT")
-        else:
-            print("All clauses satisfied:", check_model(clauses, model))
-            grid = model_to_grid(model, rlen, clen)
-            save_nonogram_csv(grid, puzzle['id'])
-        print()
+    import json
+    # nonograms = json.load(open('generated_nonograms.json'))
+    # single_count = 0
+    # matched_count = 0
+    # unique_solution_nonograms = []
+    # for puzzle in nonograms:
+    #     # print(f"Solving puzzle {puzzle['id']} with density {puzzle['density']:.2f}")
+    #     grids = solve_nonogram(puzzle['clues'])
+    #     print(len(grids), "solutions found.")
+    #     if puzzle['solution'] in grids:
+    #         matched_count += 1
+    #     if len(grids) == 1:
+    #         single_count += 1
+    #         unique_solution_nonograms.append(puzzle)
+    #         # save_nonogram_csv(grid, puzzle['id'])
+    # json.dump(unique_solution_nonograms, open('unique_solution_nonograms.json', 'a'), indent=4)
+
+    # verify unique solution nonograms are indeed unique and solution matches original
+    unique_solution_nonograms = json.load(open('unique_solution_nonograms.json'))
+    for nonogram in unique_solution_nonograms:
+        grids = solve_nonogram(nonogram['clues'], False)
+        assert len(grids) == 1 and grids[0] == nonogram['solution']
+        print(f"Verified puzzle {nonogram['id']} with density {nonogram['density']:.2f} has a unique solution.")
+    
+    # print(f"{matched_count}/{len(nonograms)} puzzles matched the original solution.")
+    # print(f"{single_count}/{len(nonograms)} puzzles had a unique solution.")
+
+    # for puzzle in nonograms:
+    #     print(f"Puzzle {puzzle['id']} - {puzzle['name']}")
+    #     clauses, num_vars, rlen, clen = nonogram_to_cnf(puzzle["clues"])
+    #     model = solve_with_pysat(clauses)
+    #     if model is None:
+    #         print("UNSAT")
+    #     else:
+    #         print("All clauses satisfied:", check_model(clauses, model))
+    #         grid = model_to_grid(model, rlen, clen)
+    #         save_nonogram_csv(grid, puzzle['id'])
+    #     print()
