@@ -1,0 +1,16 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.log
+
+# --- Virtual environment ---
+env/
+venv/
+
+# --- FastAPI logs ---
+backend/logs/
+*.ndjson
+*.json
