@@ -99,6 +99,6 @@ if __name__ == "__main__":
     # print(f"Generated {len(nonograms)} nonograms and saved to 'generated_nonograms.json'")
     import json
     densities = [25, 50, 75]
-    unique_nonograms = generate_unique_nonograms(3, densities)
+    unique_nonograms = generate_unique_nonograms(4, densities)
     with open('unique_solution_nonograms.json', 'w') as f:
         json.dump(unique_nonograms, f, indent=4)

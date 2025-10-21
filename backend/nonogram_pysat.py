@@ -208,3 +208,4 @@ if __name__ == "__main__":
         grids = solve_nonogram(nonogram['clues'], True)
         assert len(grids) == 1 and grids[0] == nonogram['solution']
         print(f"Verified puzzle {nonogram['id']} with density {nonogram['density']:.2f} has a unique solution.")
+        pretty_print(grids[0])
