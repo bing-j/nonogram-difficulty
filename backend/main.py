@@ -8,7 +8,7 @@ from pathlib import Path
 import uuid
 import json, io, zipfile
 
-from .solver_adapter import solve_nonogram, UnsolvableError
+from backend.solver_adapter import solve_nonogram, UnsolvableError
 
 app = FastAPI(title="Nonogram API")
 

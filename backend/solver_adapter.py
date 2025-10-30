@@ -1,5 +1,5 @@
 from typing import List
-from .nonogram_pysat import nonogram_to_cnf, solve_with_pysat, model_to_grid, validate_puzzle
+from backend.nonogram_pysat import nonogram_to_cnf, solve_with_pysat, model_to_grid, validate_puzzle
 
 class UnsolvableError(Exception):
     """Raised when the Nonogram puzzle has no valid solution."""
