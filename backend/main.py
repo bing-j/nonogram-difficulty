@@ -10,6 +10,7 @@ from pydantic import BaseModel
 import random
 import uuid
 import json, io, zipfile
+import yaml
 
 from backend.solver_adapter import solve_nonogram, UnsolvableError
 
@@ -58,6 +59,21 @@ def log_file_ndjson(session_id: str) -> Path:
 
 def log_file_json(session_id: str) -> Path:
     return LOG_DIR / f"{session_id}.json"
+
+def log_file_yaml(session_id: str) -> Path:
+    return LOG_DIR / f"{session_id}.yaml"
+
+def convert_json_to_yaml(session_id: str) -> Path:
+    """
+    Ensure the latest JSON snapshot exists, then convert it to YAML.
+    """
+    p_json = write_snapshot_json(session_id)  # refresh JSON from in-memory log
+    with p_json.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+    p_yaml = log_file_yaml(session_id)
+    with p_yaml.open("w", encoding="utf-8") as f:
+        yaml.safe_dump(data, f, sort_keys=False, allow_unicode=True)
+    return p_yaml
 
 def append_event(session_id: str, event: dict) -> None:
     """Append a single event to NDJSON log on disk."""
@@ -135,19 +151,21 @@ def start_three():
     sid = uuid.uuid4().hex
     first = chosen[0]
     SESSIONS[sid] = {
-        "mode": "bank_three",            # distinguish from custom /puzzles
-        "queue": queue_ids,              # order matters
-        "idx": 0,                        # which of the 3 we're on
+        "mode": "bank_three",
+        "queue": queue_ids,
+        "idx": 0,
         "answers": {p["id"]: p["solution"] for p in chosen},
         "board": blank_board(len(first["solution"]), len(first["solution"][0])),
         "log": {
-            "puzzle_id": f"bank:{queue_ids[0]}",  # keep existing shape
+            "puzzle_id": f"bank:{queue_ids[0]}",
             "start_time": now_iso(),
             "end_time": None,
             "moves": [],
             "checks_count": 0,
             "resets_count": 0,
-            "queue": queue_ids,          # helpful for analytics
+            "checks": [[], [], []],
+            "resets": [[], [], []],
+            "queue": queue_ids,
         }
     }
 
@@ -186,9 +204,11 @@ def create_puzzle(payload: PuzzleCreate):
             "puzzle_id": puzzle_id,
             "start_time": now_iso(),
             "end_time": None,
-            "moves": [],          # list of {r,c,value,t}
+            "moves": [],
             "checks_count": 0,
-            "resets_count": 0
+            "resets_count": 0,
+            "checks": [[]],
+            "resets": [[]],
         }
     }
 
@@ -259,8 +279,9 @@ def check_session(session_id: str):
         mismatches = check_board(board01, truth)
         solved = (len(mismatches) == 0)
 
-        # logging (keeps your counters/events consistent)
+        # logging
         s["log"]["checks_count"] = s["log"].get("checks_count", 0) + 1
+        s["log"]["checks"][s["idx"]].append(now_iso())  # NEW: timestamp per current puzzle
         append_event(session_id, {
             "type": "check_bank",
             "puzzle_id": cur_id,
@@ -306,18 +327,26 @@ def check_session(session_id: str):
     truth = s["puzzle"]["solution"]
     board01 = [[1 if c == 1 else 0 for c in row] for row in board]
     mismatches = check_board(board01, truth)
+    s["log"]["checks_count"] = s["log"].get("checks_count", 0) + 1
+    s["log"]["checks"][0].append(now_iso())
     return {"solved": len(mismatches) == 0, "mismatches": mismatches}
 
 @app.post("/sessions/{session_id}/reset", response_model=Board)
 def reset_board(session_id: str):
     s = ensure_session(session_id)
-    p = PUZZLES[s["puzzle_id"]]
-    s["board"] = blank_board(p.rows, p.cols)
 
-    # logging (memory)
-    s["log"]["resets_count"] += 1
-    s["log"]["moves"].append({"r": None, "c": None, "value": "RESET", "t": now_iso()})
-    # logging (disk)
+    # Reset board to current size (works for both single and bank_three)
+    rows, cols = len(s["board"]), len(s["board"][0])
+    s["board"] = blank_board(rows, cols)
+
+    # Log counters + per-puzzle timestamp (NO pseudo-move)
+    s["log"]["resets_count"] = s["log"].get("resets_count", 0) + 1
+    if s.get("mode") == "bank_three":
+        s["log"]["resets"][s["idx"]].append(now_iso())   # NEW
+    else:
+        s["log"]["resets"][0].append(now_iso())          # NEW
+
+    # Disk event remains
     append_event(session_id, {"type": "reset", "t": now_iso()})
     return Board(board=s["board"])
 
@@ -336,6 +365,16 @@ def end_session(session_id: str):
     return {"ok": True, "end_time": s["log"]["end_time"]}
 
 # ---- Download endpoints ----
+
+@app.get("/sessions/{session_id}/log/download.yaml")
+def download_yaml_snapshot(session_id: str):
+    ensure_session(session_id)  # your existing helper
+    p = convert_json_to_yaml(session_id)  # generate from JSON snapshot
+    return FileResponse(
+        path=str(p),
+        media_type="application/x-yaml",
+        filename=f"{session_id}.yaml",
+    )
 
 @app.get("/sessions/{session_id}/log/download.ndjson")
 def download_ndjson(session_id: str):
