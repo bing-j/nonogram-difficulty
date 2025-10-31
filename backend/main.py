@@ -10,7 +10,7 @@ from pydantic import BaseModel
 import random
 import uuid
 import json, io, zipfile
-import csv
+import yaml
 
 from backend.solver_adapter import solve_nonogram, UnsolvableError
 
@@ -59,6 +59,21 @@ def log_file_ndjson(session_id: str) -> Path:
 
 def log_file_json(session_id: str) -> Path:
     return LOG_DIR / f"{session_id}.json"
+
+def log_file_yaml(session_id: str) -> Path:
+    return LOG_DIR / f"{session_id}.yaml"
+
+def convert_json_to_yaml(session_id: str) -> Path:
+    """
+    Ensure the latest JSON snapshot exists, then convert it to YAML.
+    """
+    p_json = write_snapshot_json(session_id)  # refresh JSON from in-memory log
+    with p_json.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+    p_yaml = log_file_yaml(session_id)
+    with p_yaml.open("w", encoding="utf-8") as f:
+        yaml.safe_dump(data, f, sort_keys=False, allow_unicode=True)
+    return p_yaml
 
 def append_event(session_id: str, event: dict) -> None:
     """Append a single event to NDJSON log on disk."""
@@ -350,6 +365,16 @@ def end_session(session_id: str):
     return {"ok": True, "end_time": s["log"]["end_time"]}
 
 # ---- Download endpoints ----
+
+@app.get("/sessions/{session_id}/log/download.yaml")
+def download_yaml_snapshot(session_id: str):
+    ensure_session(session_id)  # your existing helper
+    p = convert_json_to_yaml(session_id)  # generate from JSON snapshot
+    return FileResponse(
+        path=str(p),
+        media_type="application/x-yaml",
+        filename=f"{session_id}.yaml",
+    )
 
 @app.get("/sessions/{session_id}/log/download.ndjson")
 def download_ndjson(session_id: str):
