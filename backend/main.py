@@ -14,6 +14,193 @@ import yaml
 
 from backend.solver_adapter import solve_nonogram, UnsolvableError
 
+SURVEY_SPEC = {
+    "pre": [
+        {
+            "id": "played_before",
+            "prompt": "Have you played Nonogram before?",
+            "type": "single",  # one choice only
+            "options": [
+                {"value": "never", "label": "Never"},
+                {"value": "few", "label": "A few times"},
+                {"value": "many", "label": "Many times"},
+                {"value": "regular", "label": "Regularly"},
+            ],
+        },
+        {
+            "id": "skill_nonogram",
+            "prompt": "In scale of 1 to 10, how would you rate your Nonogram skill",
+            "type": "scale",
+            "min": 1,
+            "max": 10,
+        },
+        {
+            "id": "nonogram_size_experience",
+            "prompt": "If you have played Nonogram before, what are the sizes you have solved (select all that apply)?",
+            "type": "multi",  # multiple choices allowed
+            "options": [
+                {"value": "0-5", "label": "<= 5 by 5"},
+                {"value": "10*10", "label": "10 by 10"},
+                {"value": "15*15", "label": "15 by 15"},
+                {"value": "15+", "label": "> 15"},
+                {"value": "other", "label": "Other:"},
+                {"value": "N/A", "label": "Not sure or not applicable"},
+            ],
+            "allow_free_text": True
+        },
+        {
+            "id": "logic_experience",
+            "prompt": "Have you played any other logic puzzles before (select all that apply)?",
+            "type": "multi",  # multiple choices allowed
+            "options": [
+                {"value": "sudoku", "label": "Sudoku"},
+                {"value": "minesweeper", "label": "Minesweeper"},
+                {"value": "norinoti", "label": "Norinori"},
+                {"value": "battleships", "label": "Battleships"},
+                {"value": "other", "label": "Other:"},
+            ],
+            "allow_free_text": True
+        },
+        {
+            "id": "puzzle_played_frequency",
+            "prompt": "Have you played any other logic puzzles before (select all that apply)?",
+            "type": "single",  # one choice only
+            "options": [
+                {"value": "never", "label": "Never"},
+                {"value": "few", "label": "A few times"},
+                {"value": "many", "label": "Many times"},
+                {"value": "regular", "label": "Regularly"},
+            ],
+        },
+        {
+            "id": "skill_puzzles",
+            "prompt": "In scale of 1 to 10, how would you rate your logic-puzzle skill",
+            "type": "scale",
+            "min": 1,
+            "max": 10,
+        },
+    ],
+    "puzzle_1": [
+        {
+            "id": "difficulty",
+            "prompt": "Rate the difficulty of this puzzle (1–5)",
+            "type": "scale",
+            "min": 1,
+            "max": 5,
+        },
+    ],
+    "puzzle_2": [
+        {
+            "id": "difficulty",
+            "prompt": "Rate the difficulty of this puzzle (1–5)",
+            "type": "scale",
+            "min": 1,
+            "max": 5,
+        },
+    ],
+    "puzzle_3": [
+        {
+            "id": "difficulty",
+            "prompt": "Rate the difficulty of this puzzle (1–5)",
+            "type": "scale",
+            "min": 1,
+            "max": 5,
+        },
+    ],
+    "post": [
+        {
+            "id": "puzzle_1_rate_again",
+            "prompt": "Would you like to adjust your difficulty rating for Puzzle 1?", # show original rating
+            "type": "scale",
+            "min": 1,
+            "max": 5,
+        },
+        {
+            "id": "puzzle_1_rating_reason",
+            "prompt": "Briefly, why did you rate this difficulty? What made it easy/hard?",
+            "type": "text",
+            "allow_free_text": True
+        },
+        {
+            "id": "puzzle_1_guesses",
+            "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 1?",
+            "type": "single",
+            "options": [
+                {"value": "0", "label": "0"},
+                {"value": "1-5", "label": "1-5"},
+                {"value": "6-10", "label": "6-10"},
+                {"value": "10+", "label": "10 or more"},
+            ],
+        },
+        {
+            "id": "puzzle_2_rate_again",
+            "prompt": "Would you like to adjust your difficulty rating for Puzzle 2?", # show original rating
+            "type": "scale",
+            "min": 1,
+            "max": 5,
+        },
+        {
+            "id": "puzzle_2_rating_reason",
+            "prompt": "Briefly, why did you rate this difficulty? What made it easy/hard?",
+            "type": "text",
+            "allow_free_text": True
+        },
+        {
+            "id": "puzzle_2_guesses",
+            "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 2?",
+            "type": "single",
+            "options": [
+                {"value": "0", "label": "0"},
+                {"value": "1-5", "label": "1-5"},
+                {"value": "6-10", "label": "6-10"},
+                {"value": "10+", "label": "10 or more"},
+            ],
+        },
+        {
+            "id": "puzzle_3_rate_again",
+            "prompt": "Would you like to adjust your difficulty rating for Puzzle 3?", # show original rating
+            "type": "scale",
+            "min": 1,
+            "max": 5,
+        },
+        {
+            "id": "puzzle_3_rating_reason",
+            "prompt": "Briefly, why did you rate this difficulty? What made it easy/hard?",
+            "type": "text",
+            "allow_free_text": True
+        },
+        {
+            "id": "puzzle_3_guesses",
+            "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 3?",
+            "type": "single",
+            "options": [
+                {"value": "0", "label": "0"},
+                {"value": "1-5", "label": "1-5"},
+                {"value": "6-10", "label": "6-10"},
+                {"value": "10+", "label": "10 or more"},
+            ],
+        },
+        {
+            "id": "strategy",
+            "prompt": "What strategies did you use when solving the puzzles?",
+            "type": "text",
+            "allow_free_text": True
+        },
+        {
+            "id": "difficulty_factor",
+            "prompt": "Which factor most signaled difficulty to you?",
+            "type": "text",
+            "allow_free_text": True
+        },
+        {
+            "id": "comments",
+            "prompt": "Anything else about what made puzzles feel easy or hard?",
+            "type": "text",
+            "allow_free_text": True
+        },
+    ]
+}
+
 app = FastAPI(title="Nonogram API")
 
 # Allow frontend to talk to backend (during development)
@@ -166,6 +353,7 @@ def start_three():
             "checks": [[], [], []],
             "resets": [[], [], []],
             "queue": queue_ids,
+            "surveys": {"pre": None, "puzzle": [None, None, None], "post": None}
         }
     }
 
@@ -175,6 +363,76 @@ def start_three():
         "index": 0,
         "puzzle": _pack_public_from_bank(first)  # send only clues+size
     }
+
+# -------- SURVEY ENDPOINTS --------
+@app.get("/sessions/{session_id}/survey/{survey_type}")
+def get_survey(session_id: str, survey_type: str):
+    ensure_session(session_id)
+    spec = SURVEY_SPEC.get(survey_type)
+    if not spec:
+        raise HTTPException(404, f"Unknown survey type: {survey_type}")
+    return {"survey_type": survey_type, "questions": spec}
+
+
+@app.post("/sessions/{session_id}/survey_submit")
+def survey_submit(session_id: str, payload: dict):
+    """
+    Accepts answers for survey blocks defined in SURVEY_SPEC:
+      survey_type ∈ {"pre", "puzzle_1", "puzzle_2", "puzzle_3", "post"}
+    Body shape (no strict validation):
+      {
+        "survey_type": "pre" | "puzzle_1" | "puzzle_2" | "puzzle_3" | "post",
+        "answers": { "<question_id>": <value>, ... }
+      }
+    """
+    s = ensure_session(session_id)
+
+    survey_type = (payload.get("survey_type") or "").strip()
+    answers = payload.get("answers") or {}
+
+    # Ensure surveys container exists (defensive, keeps structure stable)
+    s.setdefault("log", {})
+    s["log"].setdefault("surveys", {"pre": None, "puzzle": [None, None, None], "post": None})
+
+    # Build the record we store (what was submitted + timestamp)
+    record = {
+        "t": now_iso(),
+        "survey_type": survey_type,
+        "answers": answers,
+    }
+
+    # Route by survey_type exactly as in SURVEY_SPEC
+    if survey_type == "pre":
+        s["log"]["surveys"]["pre"] = record
+
+    elif survey_type in ("puzzle_1", "puzzle_2", "puzzle_3"):
+        # Map "puzzle_1"->0, "puzzle_2"->1, "puzzle_3"->2
+        idx = int(survey_type.split("_")[1]) - 1
+        record["puzzle_idx"] = idx
+
+        # Make sure the list can hold this index
+        lst = s["log"]["surveys"].setdefault("puzzle", [None, None, None])
+        if idx >= len(lst):
+            lst.extend([None] * (idx + 1 - len(lst)))
+        lst[idx] = record
+
+    elif survey_type == "post":
+        s["log"]["surveys"]["post"] = record
+
+    else:
+        raise HTTPException(status_code=400, detail=f"Unknown survey_type: {survey_type!r}")
+
+    # Persist a flat event line for easy CSV/NDJSON processing
+    append_event(session_id, {
+        "type": "survey_submit",
+        "survey_type": survey_type,
+        "puzzle_idx": record.get("puzzle_idx"),
+        "answers": answers,
+        "t": record["t"],
+    })
+
+    return {"ok": True, "saved": record}
+
 
 @app.post("/puzzles")
 def create_puzzle(payload: PuzzleCreate):
