@@ -3,6 +3,11 @@ import Cell from "./Cell";
 
 export default function Grid({ grid, onCellClick, clues }) {
   const [hovered, setHovered] = useState({ row: null, col: null });
+
+  if (!grid || grid.length === 0 || !Array.isArray(grid[0])) {
+    return <p>Loading grid...</p>;
+  }
+  
   const numRows = grid.length;
   const numCols = grid[0].length;
 
@@ -42,7 +47,7 @@ export default function Grid({ grid, onCellClick, clues }) {
                     key={i}
                     style={{
                       color: isHighlighted ? "#6C5CE7" : "black",
-                      fontWeight: isHighlighted ? 600 : 400,
+                      fontWeight: 500,
                       lineHeight: "1.2em",
                     }}
                   >
@@ -84,7 +89,7 @@ export default function Grid({ grid, onCellClick, clues }) {
                       style={{
                         marginLeft: 4,
                         color: isHighlighted ? "#6C5CE7" : "black",
-                        fontWeight: isHighlighted ? 600 : 400,
+                        fontWeight: 500,
                       }}
                     >
                       {num}

@@ -1,10 +1,11 @@
 import React from "react";
 
 export default function Cell({ value, onClick, rightBorder, bottomBorder, onMouseEnter, onMouseLeave }) {
+  // Map backend values to visuals
   const getBackground = () => {  
     if (value === 1) return "#333";   // filled
-    if (value === 2) return "#eee";   // cross
-    return "white";                   // empty
+    if (value === -1) return "#eee";  // unknown (cross)
+    return "#fff";                     // empty
   };
 
   return (
@@ -24,13 +25,13 @@ export default function Cell({ value, onClick, rightBorder, bottomBorder, onMous
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: "18px",
+        fontSize: 18,
         cursor: "pointer",
         userSelect: "none",
         transition: "background 0.1s ease",
       }}
     >
-      {value === 2 ? "✕" : ""}
+      {value === -1 ? "✕" : ""}
     </div>
   );
 }

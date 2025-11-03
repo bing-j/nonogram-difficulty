@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 
-export default function Timer({ start = 0, onTimeUp }) {
+export default function Timer({ start = 0, running = true }) {
   const [seconds, setSeconds] = useState(start);
 
   useEffect(() => {
+    if (!running) return;
+
     const interval = setInterval(() => {
       setSeconds((prev) => prev + 1);
     }, 1000);
 
-    return () => clearInterval(interval); 
-  }, []);
+    return () => clearInterval(interval);
+  }, [running]);
 
   return (
     <div className="text-center text-xl font-bold mb-4">
-      Time: {Math.floor(seconds / 60)
-        .toString()
-        .padStart(2, "0")}
-      :
+      Time: {Math.floor(seconds / 60).toString().padStart(2, "0")}:
       {(seconds % 60).toString().padStart(2, "0")}
     </div>
   );
