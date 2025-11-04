@@ -15,7 +15,7 @@ def count_consecutive_ones(arr: np.ndarray):
         lengths.append(count)
     return lengths
 
-def generate_nonogram(cell_count: int = 25):
+def generate_nonogram(cell_count: int):
     """
     Generate a random 10x10 nonogram with a specified number of filled cells.
     Returns the grid and the corresponding row and column hints.
@@ -27,7 +27,7 @@ def generate_nonogram(cell_count: int = 25):
     grid = np.zeros((10, 10), dtype=int)
 
     # Randomly select 25 unique positions to set to 1
-    indices = np.random.choice(grid.size, 25, replace=False)
+    indices = np.random.choice(grid.size, cell_count, replace=False)
     np.put(grid, indices, 1)
 
     # For each row, count lengths of groups of consecutive 1s
