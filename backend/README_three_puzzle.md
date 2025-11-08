@@ -99,6 +99,26 @@ Also logged with a timestamp.
 
 ---
 
+### `GET /sessions/{session_id}/hint`
+Provides a logical hint for the current puzzle.
+
+**Description**
+- Compares the player's current board (treating `-1` as white) against the puzzle's true solution.
+- Returns one random mismatched cell coordinate as a hint.
+- If no mismatches exist, returns `{"solved": true, "hint": null}`.
+
+**Response**
+```json
+{ "solved": false, "hint": { "r": 3, "c": 7 } }
+```
+```json
+{ "solved": true, "hint": null }
+```
+
+**Notes**
+- Works for both single-puzzle and three-puzzle (`bank_three`) sessions.
+- Each call logs a `"hint"` event (or `"hint_none"` if already solved).
+
 ## 🧾 Surveys
 
 The backend defines a `SURVEY_SPEC` with five survey blocks:

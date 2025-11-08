@@ -39,10 +39,9 @@ SURVEY_SPEC = {
             "prompt": "If you have played Nonogram before, what are the sizes you have solved (select all that apply)?",
             "type": "multi",  # multiple choices allowed
             "options": [
-                {"value": "0-5", "label": "<= 5 by 5"},
+                {"value": "<=10*10", "label": "<= 10 by 10"},
                 {"value": "10*10", "label": "10 by 10"},
-                {"value": "15*15", "label": "15 by 15"},
-                {"value": "15+", "label": "> 15"},
+                {"value": ">=10*10", "label": ">= 10 by 10"},
                 {"value": "other", "label": "Other:"},
                 {"value": "N/A", "label": "Not sure or not applicable"},
             ],
@@ -88,6 +87,17 @@ SURVEY_SPEC = {
             "min": 1,
             "max": 5,
         },
+        {
+            "id": "puzzle_1_guesses",
+            "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 1?",
+            "type": "single",
+            "options": [
+                {"value": "0", "label": "0"},
+                {"value": "1-5", "label": "1-5"},
+                {"value": "6-10", "label": "6-10"},
+                {"value": "10+", "label": "10 or more"},
+            ],
+        },
     ],
     "puzzle_2": [
         {
@@ -97,6 +107,17 @@ SURVEY_SPEC = {
             "min": 1,
             "max": 5,
         },
+        {
+            "id": "puzzle_2_guesses",
+            "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 2?",
+            "type": "single",
+            "options": [
+                {"value": "0", "label": "0"},
+                {"value": "1-5", "label": "1-5"},
+                {"value": "6-10", "label": "6-10"},
+                {"value": "10+", "label": "10 or more"},
+            ],
+        },
     ],
     "puzzle_3": [
         {
@@ -105,6 +126,17 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+        },
+        {
+            "id": "puzzle_3_guesses",
+            "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 3?",
+            "type": "single",
+            "options": [
+                {"value": "0", "label": "0"},
+                {"value": "1-5", "label": "1-5"},
+                {"value": "6-10", "label": "6-10"},
+                {"value": "10+", "label": "10 or more"},
+            ],
         },
     ],
     "post": [
@@ -183,15 +215,22 @@ SURVEY_SPEC = {
         {
             "id": "strategy",
             "prompt": "What strategies did you use when solving the puzzles?",
-            "type": "text",
+            "type": "multi",  # multiple choices allowed
+            "options": [
+                {"value": "placeholder1", "label": "placeholder1"},
+                {"value": "placeholder2", "label": "placeholder2"},
+                {"value": "placeholder3", "label": "placeholder3"},
+                {"value": "other", "label": "Other:"},
+                {"value": "N/A", "label": "Not sure or not applicable"},
+            ],
             "allow_free_text": True
         },
-        {
-            "id": "difficulty_factor",
-            "prompt": "Which factor most signaled difficulty to you?",
-            "type": "text",
-            "allow_free_text": True
-        },
+        # {
+        #     "id": "difficulty_factor",
+        #     "prompt": "Which factor most signaled difficulty to you?",
+        #     "type": "text",
+        #     "allow_free_text": True
+        # },
         {
             "id": "comments",
             "prompt": "Anything else about what made puzzles feel easy or hard?",
@@ -588,6 +627,50 @@ def check_session(session_id: str):
     s["log"]["checks_count"] = s["log"].get("checks_count", 0) + 1
     s["log"]["checks"][0].append(now_iso())
     return {"solved": len(mismatches) == 0, "mismatches": mismatches}
+
+@app.get("/sessions/{session_id}/hint")
+def get_hint(session_id: str):
+    """
+    Return a random mismatched cell coordinate between the player's current
+    board and the puzzle solution. If there are no mismatches, indicate solved.
+    """
+    s = ensure_session(session_id)
+
+    # Current board (may contain -1 / 0 / 1)
+    board = s["board"]
+    board01 = [[1 if c == 1 else 0 for c in row] for row in board]
+
+    # Resolve the correct ground-truth solution based on mode
+    if s.get("mode") == "bank_three":
+        cur_id = s["queue"][s["idx"]]
+        truth = s["answers"][cur_id]  # 2D 0/1
+    else:
+        # Single-puzzle mode: use the global SOLUTIONS by puzzle_id
+        pid = s.get("puzzle_id")
+        if pid is None or pid not in SOLUTIONS:
+            raise HTTPException(500, "Solution not available for this session")
+        truth = SOLUTIONS[pid]
+
+    # Find mismatches (reuse your existing logic)
+    mismatches = check_board(board01, truth)
+
+    # Nothing to hint if already matching the solution
+    if not mismatches:
+        append_event(session_id, {
+            "type": "hint_none",
+            "t": now_iso()
+        })
+        return {"solved": True, "hint": None}
+
+    # Pick a random mismatched cell and return just the coordinate (as requested)
+    r, c = random.choice(mismatches)
+    append_event(session_id, {
+        "type": "hint",
+        "r": r,
+        "c": c,
+        "t": now_iso()
+    })
+    return {"solved": False, "hint": {"r": r, "c": c}}
 
 @app.post("/sessions/{session_id}/reset", response_model=Board)
 def reset_board(session_id: str):
