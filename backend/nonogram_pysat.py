@@ -191,10 +191,10 @@ def solve_nonogram(puzzle: Dict[str, List[List[int]]], print_stats = True) -> Li
                            for r in range(rlen) for c in range(clen)]
         clauses.append(blocking_clauses)
         num_solutions += 1
-        if num_solutions >= 2:
-            print("Reached 2 solutions, stopping search.")
+        if num_solutions >= 100:
+            print("Reached 500 solutions, stopping search.")
             break
-    
+
     return grids
 
 
