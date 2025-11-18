@@ -259,7 +259,7 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # --- Puzzle bank (three-at-a-time sessions) ---
 ROOT_DIR = BASE_DIR.parent  # project root
-BANK_PATH = ROOT_DIR / "unique_solution_nonograms.json"
+BANK_PATH = ROOT_DIR / "unique_solution_nonograms_50.json"
 with BANK_PATH.open("r", encoding="utf-8") as f:
     PUZZLE_BANK = json.load(f)            # list[dict]
 BANK_BY_ID = {p["id"]: p for p in PUZZLE_BANK}
