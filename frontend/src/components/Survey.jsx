@@ -1,8 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function Survey({ questions, onSubmit }) {
-  const [answers, setAnswers] = useState({});
+export default function Survey({ questions, onSubmit, initialAnswers = {} }) {
+  // Initialize answers with any initial answers provided
+  const getInitialAnswers = () => {
+    return { ...initialAnswers };
+  };
+
+  const [answers, setAnswers] = useState(getInitialAnswers());
   const [errors, setErrors] = useState({});
+
+  // Update answers when initialAnswers change
+  useEffect(() => {
+    if (Object.keys(initialAnswers).length > 0) {
+      setAnswers(prev => ({ ...prev, ...initialAnswers }));
+    }
+  }, [initialAnswers]);
 
   const handleChange = (questionId, value) => {
     setAnswers(prev => ({ ...prev, [questionId]: value }));
@@ -18,7 +30,8 @@ export default function Survey({ questions, onSubmit }) {
     // Validate required questions
     const newErrors = {};
     questions.forEach(q => {
-      if (!answers[q.id]) {
+      // Check if question has a value
+      if (answers[q.id] === undefined || answers[q.id] === null || answers[q.id] === "") {
         newErrors[q.id] = "This question is required";
       }
     });
@@ -112,26 +125,67 @@ export default function Survey({ questions, onSubmit }) {
     }
 
     if (type === "scale") {
+      // Get the current value (no default)
+      const scaleValue = answers[id];
+      const isDifficulty = id === "difficulty" || id.includes("difficulty");
+      
+      // Generate array of all scale values
+      const scaleNumbers = [];
+      for (let i = min; i <= max; i++) {
+        scaleNumbers.push(i);
+      }
+      
       return (
         <div key={id} style={{ marginBottom: "2rem" }}>
           <label style={{ display: "block", marginBottom: "1rem", fontWeight: 500 }}>
             {prompt}
           </label>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <span style={{ fontSize: "0.9rem" }}>{min}</span>
-            <input
-              type="range"
-              min={min}
-              max={max}
-              value={answers[id] || min}
-              onChange={(e) => handleChange(id, parseInt(e.target.value))}
-              style={{ flex: 1 }}
-            />
-            <span style={{ fontSize: "0.9rem" }}>{max}</span>
-            <span style={{ fontSize: "1.2rem", fontWeight: "bold", minWidth: "2rem", textAlign: "center" }}>
-              {answers[id] || min}
-            </span>
+          
+          {/* Circle selection for difficulty or all scales */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "0.5rem" }}>
+            <div style={{ display: "flex", alignItems: "center", width: "100%", maxWidth: "600px", justifyContent: "space-between" }}>
+              
+              {/* Circles with numbers */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flex: 1, gap: "0.5rem" }}>
+                {scaleNumbers.map((num) => (
+                  <div
+                    key={num}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      flex: 1
+                    }}
+                    onClick={() => handleChange(id, num)}
+                  >
+                    {/* Number above circle */}
+                    <span
+                      style={{
+                        fontSize: "0.9rem",
+                        color: "#666",
+                        marginBottom: "0.5rem"
+                      }}
+                    >
+                      {num}
+                    </span>
+                    {/* Circle */}
+                    <div
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        borderRadius: "50%",
+                        border: num === scaleValue ? "3px solid #4169E1" : "2px solid #ccc",
+                        backgroundColor: num === scaleValue ? "#4169E1" : "transparent",
+                        transition: "all 0.2s ease"
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
+          
           {errors[id] && <p style={{ color: "red", fontSize: "0.9rem", marginTop: "0.25rem" }}>{errors[id]}</p>}
         </div>
       );

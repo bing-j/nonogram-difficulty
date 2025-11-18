@@ -80,3 +80,20 @@ export async function submitSurvey(sessionId, surveyType, answers) {
   });
   return await res.json();
 }
+
+export async function getHint(sessionId) {
+  const res = await fetch(`${BASE_URL}/sessions/${sessionId}/hint`);
+  return await res.json();
+}
+
+export async function getSessionLog(sessionId) {
+  const res = await fetch(`${BASE_URL}/sessions/${sessionId}/log`);
+  return await res.json();
+}
+
+export async function advancePuzzle(sessionId) {
+  const res = await fetch(`${BASE_URL}/sessions/${sessionId}/advance`, {
+    method: "POST",
+  });
+  return await res.json();
+}

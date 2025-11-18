@@ -18,7 +18,7 @@ SURVEY_SPEC = {
     "pre": [
         {
             "id": "played_before",
-            "prompt": "Have you played Nonogram before?",
+            "prompt": "Have you played Nonograms before?",
             "type": "single",  # one choice only
             "options": [
                 {"value": "never", "label": "Never"},
@@ -29,14 +29,14 @@ SURVEY_SPEC = {
         },
         {
             "id": "skill_nonogram",
-            "prompt": "In scale of 1 to 10, how would you rate your Nonogram skill",
+            "prompt": "On a scale of 1 to 10 (1 indicates beginner, 10 indicates expert), how would you rate your Nonogram skills?",
             "type": "scale",
             "min": 1,
             "max": 10,
         },
         {
             "id": "nonogram_size_experience",
-            "prompt": "If you have played Nonogram before, what are the sizes you have solved (select all that apply)?",
+            "prompt": "If you have played Nonogram before, what are the sizes you have solved? (select all that apply)",
             "type": "multi",  # multiple choices allowed
             "options": [
                 {"value": "<=10*10", "label": "<= 10 by 10"},
@@ -62,7 +62,7 @@ SURVEY_SPEC = {
         },
         {
             "id": "puzzle_played_frequency",
-            "prompt": "Have you played any other logic puzzles before (select all that apply)?",
+            "prompt": "Have you played any other logic puzzles before? (select all that apply)",
             "type": "single",  # one choice only
             "options": [
                 {"value": "never", "label": "Never"},
@@ -73,7 +73,7 @@ SURVEY_SPEC = {
         },
         {
             "id": "skill_puzzles",
-            "prompt": "In scale of 1 to 10, how would you rate your logic-puzzle skill",
+            "prompt": "On a scale of 1 to 10 (1 indicates beginner, 10 indicates expert), how would you rate your logic-puzzle skills?",
             "type": "scale",
             "min": 1,
             "max": 10,
@@ -671,6 +671,53 @@ def get_hint(session_id: str):
         "t": now_iso()
     })
     return {"solved": False, "hint": {"r": r, "c": c}}
+
+@app.post("/sessions/{session_id}/advance")
+def advance_puzzle(session_id: str):
+    """
+    Advance to the next puzzle in the three-puzzle flow (for give-up scenarios).
+    Only works for bank_three mode.
+    """
+    s = ensure_session(session_id)
+    
+    if s.get("mode") != "bank_three":
+        raise HTTPException(400, "advance only works for three-puzzle sessions")
+    
+    # Advance to next puzzle (similar to check when solved)
+    s["idx"] += 1
+    if s["idx"] >= 3:
+        if s["log"].get("end_time") is None:
+            s["log"]["end_time"] = now_iso()
+        append_event(session_id, {"type": "completed_all_three", "t": s["log"]["end_time"]})
+        return {"completed": True}
+    
+    # Get next puzzle metadata
+    next_id = s["queue"][s["idx"]]
+    next_pz = BANK_BY_ID[next_id]
+    rows, cols = len(next_pz["solution"]), len(next_pz["solution"][0])
+    
+    # Reset server board for the next puzzle
+    s["board"] = blank_board(rows, cols)
+    s["log"]["puzzle_id"] = f"bank:{next_id}"
+    
+    append_event(session_id, {
+        "type": "puzzle_advanced",
+        "from_idx": s["idx"] - 1,
+        "to_idx": s["idx"],
+        "puzzle_id": next_id,
+        "t": now_iso()
+    })
+    
+    return {
+        "index": s["idx"],
+        "puzzle": {
+            "id": next_pz["id"],
+            "rows": rows,
+            "cols": cols,
+            "row_clues": next_pz["clues"]["rows"],
+            "col_clues": next_pz["clues"]["columns"],
+        }
+    }
 
 @app.post("/sessions/{session_id}/reset", response_model=Board)
 def reset_board(session_id: str):

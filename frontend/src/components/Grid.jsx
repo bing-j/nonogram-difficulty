@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Cell from "./Cell";
 
-export default function Grid({ grid, onCellClick, clues }) {
+export default function Grid({ grid, onCellClick, onCellRightClick, clues, highlightedCell }) {
   const [hovered, setHovered] = useState({ row: null, col: null });
 
   if (!grid || grid.length === 0 || !Array.isArray(grid[0])) {
@@ -19,7 +19,7 @@ export default function Grid({ grid, onCellClick, clues }) {
 
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", transform: `translateX(-${rowCluesWidth / 2}px)` }}>
         
         {/* column clues */}
         <div style={{ display: "flex", marginLeft: rowCluesWidth, alignItems: "flex-end"}}>
@@ -36,7 +36,7 @@ export default function Grid({ grid, onCellClick, clues }) {
                   minWidth: 40,
                   padding: 4,
                   backgroundColor: isHighlighted
-                    ? "rgba(155, 89, 182, 0.15)"
+                    ? "rgba(128, 128, 128, 0.2)"
                     : "transparent",
                   borderRadius: 6,
                   transition: "background-color 0.2s ease",
@@ -46,7 +46,7 @@ export default function Grid({ grid, onCellClick, clues }) {
                   <div
                     key={i}
                     style={{
-                      color: isHighlighted ? "#6C5CE7" : "black",
+                      color: isHighlighted ? "#666" : "black",
                       fontWeight: 500,
                       lineHeight: "1.2em",
                     }}
@@ -77,7 +77,7 @@ export default function Grid({ grid, onCellClick, clues }) {
                     paddingRight: 6,
                     paddingLeft: 4,
                     backgroundColor: isHighlighted
-                      ? "rgba(155, 89, 182, 0.15)"
+                      ? "rgba(128, 128, 128, 0.2)"
                       : "transparent",
                     borderRadius: 6,
                     transition: "background-color 0.2s ease",
@@ -88,7 +88,7 @@ export default function Grid({ grid, onCellClick, clues }) {
                       key={i}
                       style={{
                         marginLeft: 4,
-                        color: isHighlighted ? "#6C5CE7" : "black",
+                        color: isHighlighted ? "#666" : "black",
                         fontWeight: 500,
                       }}
                     >
@@ -120,7 +120,14 @@ export default function Grid({ grid, onCellClick, clues }) {
                     onMouseEnter={() => handleMouseEnter(r, c)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <Cell value={cell} onClick={() => onCellClick(r, c)} rightBorder={isRightBorder} bottomBorder={isBottomBorder} />
+                    <Cell 
+                      value={cell} 
+                      onClick={() => onCellClick(r, c)} 
+                      onRightClick={() => onCellRightClick && onCellRightClick(r, c)}
+                      rightBorder={isRightBorder} 
+                      bottomBorder={isBottomBorder}
+                      isHighlighted={highlightedCell && highlightedCell.r === r && highlightedCell.c === c}
+                    />
                   </div>
                 );
               })
