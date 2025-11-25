@@ -1,11 +1,20 @@
 import React from "react";
 
-export default function Cell({ value, onClick, onRightClick, rightBorder, bottomBorder, onMouseEnter, onMouseLeave, isHighlighted }) {
+export default function Cell({ value, onClick, onRightClick, rightBorder, bottomBorder, onMouseEnter, onMouseLeave, isHighlighted, isInSelection, isDragging }) {
   // Map backend values to visuals
   const getBackground = () => {  
     if (value === 1) return "#333";   // filled
     if (value === -1) return "#eee";  // unknown (cross)
     return "#fff";                     // empty
+  };
+  
+  // Get selection border style
+  const getSelectionStyle = () => {
+    if (!isInSelection || !isDragging) return {};
+    return {
+      boxShadow: "inset 0 0 0 2px rgba(65, 105, 225, 0.6)",
+      backgroundColor: isInSelection && value === 0 ? "rgba(65, 105, 225, 0.1)" : undefined
+    };
   };
 
   const handleContextMenu = (e) => {
@@ -37,9 +46,14 @@ export default function Cell({ value, onClick, onRightClick, rightBorder, bottom
         cursor: "pointer",
         userSelect: "none",
         transition: "background 0.1s ease",
-        boxShadow: isHighlighted ? "0 0 0 5px #8E24AA, 0 0 15px rgba(142, 36, 170, 0.8)" : "none",
+        boxShadow: isHighlighted 
+          ? "0 0 0 5px #8E24AA, 0 0 15px rgba(142, 36, 170, 0.8)" 
+          : isInSelection && isDragging
+          ? "inset 0 0 0 2px rgba(65, 105, 225, 0.6)"
+          : "none",
         position: "relative",
-        zIndex: isHighlighted ? 10 : 1,
+        zIndex: isHighlighted ? 10 : isInSelection && isDragging ? 5 : 1,
+        ...getSelectionStyle(),
       }}
     >
       {value === -1 ? "✕" : ""}

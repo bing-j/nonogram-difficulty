@@ -39,9 +39,9 @@ SURVEY_SPEC = {
             "prompt": "If you have played Nonogram before, what are the sizes you have solved? (select all that apply)",
             "type": "multi",  # multiple choices allowed
             "options": [
-                {"value": "<=10*10", "label": "<= 10 by 10"},
+                {"value": "<=10*10", "label": "≤ 10 by 10"},
                 {"value": "10*10", "label": "10 by 10"},
-                {"value": ">=10*10", "label": ">= 10 by 10"},
+                {"value": ">=10*10", "label": "≥ 10 by 10"},
                 {"value": "other", "label": "Other:"},
                 {"value": "N/A", "label": "Not sure or not applicable"},
             ],

@@ -77,6 +77,16 @@ export default function Home() {
   
   // Highlighted cell for hints
   const [highlightedCell, setHighlightedCell] = useState(null);
+  
+  // Drag selection state
+  const [dragState, setDragState] = useState({
+    isDragging: false,
+    startRow: null,
+    startCol: null,
+    endRow: null,
+    endCol: null,
+    isRightClick: false
+  });
 
   // Initialize session and get pre-survey
   useEffect(() => {
@@ -137,9 +147,133 @@ export default function Home() {
     setHighlightedCell(null); // Clear any previous highlight
   };
 
+  // Track if we actually moved during drag (to distinguish click from drag)
+  const dragMovedRef = useRef(false);
+  const isProcessingDragRef = useRef(false);
+
+  // Handle drag start
+  const handleDragStart = (r, c, isRightClick) => {
+    if (!sessionId || solved) return;
+    
+    dragMovedRef.current = false;
+    isProcessingDragRef.current = false;
+    setDragState({
+      isDragging: true,
+      startRow: r,
+      startCol: c,
+      endRow: r,
+      endCol: c,
+      isRightClick: isRightClick
+    });
+  };
+
+  // Handle drag update
+  const handleDragUpdate = (r, c) => {
+    if (!dragState.isDragging) return;
+    
+    setDragState(prev => {
+      // Mark that we've moved (so it's a drag, not a click)
+      if (r !== prev.startRow || c !== prev.startCol) {
+        dragMovedRef.current = true;
+      }
+      
+      return {
+        ...prev,
+        endRow: r,
+        endCol: c
+      };
+    });
+  };
+
+  // Handle drag end - apply action to all selected cells
+  const handleDragEnd = async () => {
+    if (!dragState.isDragging || !sessionId || solved || isProcessingDragRef.current) return;
+    
+    // Mark that we're processing a drag to prevent duplicate calls
+    isProcessingDragRef.current = true;
+    
+    // Capture the drag state before resetting
+    const { startRow, startCol, endRow, endCol, isRightClick } = dragState;
+    
+    // Check if it was actually a drag (start != end) or just a click
+    const wasDrag = (startRow !== endRow || startCol !== endCol) || dragMovedRef.current;
+    
+    // Reset drag state first
+    setDragState({
+      isDragging: false,
+      startRow: null,
+      startCol: null,
+      endRow: null,
+      endCol: null,
+      isRightClick: false
+    });
+    
+    // If it was just a click (no movement), let the normal click handler deal with it
+    if (!wasDrag) {
+      dragMovedRef.current = false;
+      isProcessingDragRef.current = false;
+      return;
+    }
+    
+    // Calculate the range of cells to update
+    const minRow = Math.min(startRow, endRow);
+    const maxRow = Math.max(startRow, endRow);
+    const minCol = Math.min(startCol, endCol);
+    const maxCol = Math.max(startCol, endCol);
+    
+    // Collect all cells in the selection
+    const cellsToUpdate = [];
+    for (let r = minRow; r <= maxRow; r++) {
+      for (let c = minCol; c <= maxCol; c++) {
+        cellsToUpdate.push({ r, c });
+      }
+    }
+    
+    // Determine the action based on click type
+    if (isRightClick) {
+      // Right click drag: toggle cross (-1)
+      // Use the state of the starting cell to determine action
+      const startValue = board[startRow][startCol];
+      const newValue = startValue === -1 ? 0 : -1;
+      
+      // Apply to all cells in selection
+      for (const { r, c } of cellsToUpdate) {
+        const res = await makeMove(sessionId, r, c, newValue);
+        setBoard(res.board);
+      }
+    } else {
+      // Left click drag: always fill with black (1)
+      const newValue = 1;
+      
+      // Apply to all cells in selection
+      for (const { r, c } of cellsToUpdate) {
+        const res = await makeMove(sessionId, r, c, newValue);
+        setBoard(res.board);
+      }
+    }
+    
+    // Reset refs after processing
+    dragMovedRef.current = false;
+    // Reset processing flag after a delay to allow click handler to check it
+    setTimeout(() => {
+      isProcessingDragRef.current = false;
+    }, 200);
+  };
+
   // Handle left click - toggle between black (1) and white (0)
   const handleCellClick = async (r, c) => {
     if (!sessionId || solved) return;
+    
+    // Don't handle click if we're processing a drag or if drag state indicates we were dragging
+    if (isProcessingDragRef.current || dragState.isDragging) {
+      return;
+    }
+    
+    // Also check if we just finished a drag (using a small delay check)
+    if (dragMovedRef.current) {
+      dragMovedRef.current = false;
+      return;
+    }
 
     // Clear highlight if user clicks on the highlighted cell
     if (highlightedCell && highlightedCell.r === r && highlightedCell.c === c) {
@@ -477,7 +611,17 @@ export default function Home() {
           
           <Timer key={`puzzle-${puzzleIndex}`} start={0} running={timerRunning} onTimeUpdate={handleTimeUpdate} />
           
-          <Grid grid={board} onCellClick={handleCellClick} onCellRightClick={handleCellRightClick} clues={clues} highlightedCell={highlightedCell} />
+          <Grid 
+            grid={board} 
+            onCellClick={handleCellClick} 
+            onCellRightClick={handleCellRightClick} 
+            clues={clues} 
+            highlightedCell={highlightedCell}
+            dragState={dragState}
+            onDragStart={handleDragStart}
+            onDragUpdate={handleDragUpdate}
+            onDragEnd={handleDragEnd}
+          />
           
           <div style={{ marginTop: 30, display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", maxWidth: 800 }}>
             {/* Left side buttons - Reset and Hint */}
