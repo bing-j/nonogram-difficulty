@@ -264,6 +264,13 @@ with BANK_PATH.open("r", encoding="utf-8") as f:
     PUZZLE_BANK = json.load(f)            # list[dict]
 BANK_BY_ID = {p["id"]: p for p in PUZZLE_BANK}
 
+# --- Tutorial puzzle bank ---
+TUTORIAL_BANK_PATH = ROOT_DIR / "tutorial_nonograms_5x5.json"
+with TUTORIAL_BANK_PATH.open("r", encoding="utf-8") as f:
+    TUTORIAL_PUZZLE_BANK = json.load(f)
+
+TUTORIAL_BANK_BY_ID = {p["id"]: p for p in TUTORIAL_PUZZLE_BANK}
+
 def _pack_public_from_bank(p: dict) -> dict:
     """Only the safe bits to send to the client."""
     rows = len(p["solution"])
@@ -366,6 +373,46 @@ def check_board(board, solution):
     return mismatches
 
 # --- Routes ---
+
+@app.post("/session/start_tutorial")
+def start_tutorial(tutorial_id: str = "tutorial_5x5"):
+    p = TUTORIAL_BANK_BY_ID.get(tutorial_id)
+    if not p:
+        raise HTTPException(404, "Unknown tutorial_id")
+
+    sid = uuid.uuid4().hex
+
+    rows = len(p["solution"])
+    cols = len(p["solution"][0])
+
+    SESSIONS[sid] = {
+        "mode": "tutorial",
+        "tutorial_id": tutorial_id,
+        "board": blank_board(rows, cols),
+        "answer": p["solution"],
+        "log": {
+            "puzzle_id": f"tutorial:{tutorial_id}",
+            "start_time": now_iso(),
+            "end_time": None,
+            "moves": [],
+            "checks_count": 0,
+            "resets_count": 0,
+            "checks": [[]],
+            "resets": [[]],
+        }
+    }
+
+    append_event(sid, {
+        "type": "session_start_tutorial",
+        "tutorial_id": tutorial_id,
+        "t": now_iso()
+    })
+
+    return {
+        "session_id": sid,
+        "puzzle": _pack_public_from_bank(p)
+    }
+
 
 @app.post("/session/start_three")
 def start_three():
@@ -564,6 +611,27 @@ def check_session(session_id: str):
     # Board the user has built via /move calls
     board = s["board"]
 
+    # ========== tutorial flow (single fixed puzzle) ==========
+    if s.get("mode") == "tutorial":
+        truth = s.get("answer")
+        if truth is None:
+            raise HTTPException(500, "Tutorial answer not available for this session")
+
+        board01 = [[1 if c == 1 else 0 for c in row] for row in board]
+        mismatches = check_board(board01, truth)
+
+        s["log"]["checks_count"] = s["log"].get("checks_count", 0) + 1
+        s["log"]["checks"][0].append(now_iso())
+
+        append_event(session_id, {
+            "type": "check_tutorial",
+            "solved": len(mismatches) == 0,
+            "mismatches": mismatches,
+            "t": now_iso(),
+        })
+
+        return {"solved": len(mismatches) == 0, "mismatches": mismatches}
+
     # ========== 3-puzzle bank flow ==========
     if s.get("mode") == "bank_three":
         # What puzzle are we on?
@@ -644,6 +712,10 @@ def get_hint(session_id: str):
     if s.get("mode") == "bank_three":
         cur_id = s["queue"][s["idx"]]
         truth = s["answers"][cur_id]  # 2D 0/1
+    elif s.get("mode") == "tutorial":
+        truth = s.get("answer")
+        if truth is None:
+            raise HTTPException(500, "Tutorial answer not available for this session")
     else:
         # Single-puzzle mode: use the global SOLUTIONS by puzzle_id
         pid = s.get("puzzle_id")
