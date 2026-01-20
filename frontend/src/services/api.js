@@ -67,6 +67,13 @@ export async function startThreePuzzleSession() {
   return await res.json();
 }
 
+export async function startTutorialSession() {
+  const res = await fetch(`${BASE_URL}/session/start_tutorial`, {
+    method: "POST",
+  });
+  return await res.json();
+}
+
 export async function getSurvey(sessionId, surveyType) {
   const res = await fetch(`${BASE_URL}/sessions/${sessionId}/survey/${surveyType}`);
   return await res.json();
