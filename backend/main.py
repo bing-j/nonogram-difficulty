@@ -82,7 +82,7 @@ SURVEY_SPEC = {
     "puzzle_1": [
         {
             "id": "difficulty",
-            "prompt": "Rate the difficulty of this puzzle (1–5)",
+            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 10 indicates hardest), how would you rate the difficulty of this puzzle?",
             "type": "scale",
             "min": 1,
             "max": 5,
@@ -92,17 +92,17 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 1?",
             "type": "single",
             "options": [
-                {"value": "0", "label": "0"},
-                {"value": "1-5", "label": "1-5"},
-                {"value": "6-10", "label": "6-10"},
-                {"value": "10+", "label": "10 or more"},
+                {"value": "never", "label": "Never"},
+                {"value": "few", "label": "A few times"},
+                {"value": "many", "label": "Many times"},
+                {"value": "all", "label": "All the times"},
             ],
         },
     ],
     "puzzle_2": [
         {
             "id": "difficulty",
-            "prompt": "Rate the difficulty of this puzzle (1–5)",
+            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 10 indicates hardest), how would you rate the difficulty of this puzzle?",
             "type": "scale",
             "min": 1,
             "max": 5,
@@ -112,17 +112,17 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 2?",
             "type": "single",
             "options": [
-                {"value": "0", "label": "0"},
-                {"value": "1-5", "label": "1-5"},
-                {"value": "6-10", "label": "6-10"},
-                {"value": "10+", "label": "10 or more"},
+                {"value": "never", "label": "Never"},
+                {"value": "few", "label": "A few times"},
+                {"value": "many", "label": "Many times"},
+                {"value": "all", "label": "All the times"},
             ],
         },
     ],
     "puzzle_3": [
         {
             "id": "difficulty",
-            "prompt": "Rate the difficulty of this puzzle (1–5)",
+            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 10 indicates hardest), how would you rate the difficulty of this puzzle?",
             "type": "scale",
             "min": 1,
             "max": 5,
@@ -132,24 +132,24 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 3?",
             "type": "single",
             "options": [
-                {"value": "0", "label": "0"},
-                {"value": "1-5", "label": "1-5"},
-                {"value": "6-10", "label": "6-10"},
-                {"value": "10+", "label": "10 or more"},
+                {"value": "never", "label": "Never"},
+                {"value": "few", "label": "A few times"},
+                {"value": "many", "label": "Many times"},
+                {"value": "all", "label": "All the times"},
             ],
         },
     ],
     "post": [
         {
             "id": "puzzle_1_rate_again",
-            "prompt": "Would you like to adjust your difficulty rating for Puzzle 1?", # show original rating
+            "prompt": "Would you like to adjust your difficulty rating for Puzzle 1? The value is preset to the rating you rated earlier.", # show original rating
             "type": "scale",
             "min": 1,
             "max": 5,
         },
         {
             "id": "puzzle_1_rating_reason",
-            "prompt": "Briefly, why did you rate this difficulty? What made it easy/hard?",
+            "prompt": "Why did you rate this difficulty? What made it easy/hard?",
             "type": "text",
             "allow_free_text": True
         },
@@ -158,22 +158,22 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 1?",
             "type": "single",
             "options": [
-                {"value": "0", "label": "0"},
-                {"value": "1-5", "label": "1-5"},
-                {"value": "6-10", "label": "6-10"},
-                {"value": "10+", "label": "10 or more"},
+                {"value": "never", "label": "Never"},
+                {"value": "few", "label": "A few times"},
+                {"value": "many", "label": "Many times"},
+                {"value": "all", "label": "All the times"},
             ],
         },
         {
             "id": "puzzle_2_rate_again",
-            "prompt": "Would you like to adjust your difficulty rating for Puzzle 2?", # show original rating
+            "prompt": "Would you like to adjust your difficulty rating for Puzzle 2? The value is preset to the rating you rated earlier.", # show original rating
             "type": "scale",
             "min": 1,
             "max": 5,
         },
         {
             "id": "puzzle_2_rating_reason",
-            "prompt": "Briefly, why did you rate this difficulty? What made it easy/hard?",
+            "prompt": "Why did you rate this difficulty? What made it easy/hard?",
             "type": "text",
             "allow_free_text": True
         },
@@ -182,22 +182,22 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 2?",
             "type": "single",
             "options": [
-                {"value": "0", "label": "0"},
-                {"value": "1-5", "label": "1-5"},
-                {"value": "6-10", "label": "6-10"},
-                {"value": "10+", "label": "10 or more"},
+                {"value": "never", "label": "Never"},
+                {"value": "few", "label": "A few times"},
+                {"value": "many", "label": "Many times"},
+                {"value": "all", "label": "All the times"},
             ],
         },
         {
             "id": "puzzle_3_rate_again",
-            "prompt": "Would you like to adjust your difficulty rating for Puzzle 3?", # show original rating
+            "prompt": "Would you like to adjust your difficulty rating for Puzzle 3? The value is preset to the rating you rated earlier.", # show original rating
             "type": "scale",
             "min": 1,
             "max": 5,
         },
         {
             "id": "puzzle_3_rating_reason",
-            "prompt": "Briefly, why did you rate this difficulty? What made it easy/hard?",
+            "prompt": "Why did you rate this difficulty? What made it easy/hard?",
             "type": "text",
             "allow_free_text": True
         },
@@ -206,23 +206,16 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 3?",
             "type": "single",
             "options": [
-                {"value": "0", "label": "0"},
-                {"value": "1-5", "label": "1-5"},
-                {"value": "6-10", "label": "6-10"},
-                {"value": "10+", "label": "10 or more"},
+                {"value": "never", "label": "Never"},
+                {"value": "few", "label": "A few times"},
+                {"value": "many", "label": "Many times"},
+                {"value": "all", "label": "All the times"},
             ],
         },
         {
             "id": "strategy",
             "prompt": "What strategies did you use when solving the puzzles?",
-            "type": "multi",  # multiple choices allowed
-            "options": [
-                {"value": "placeholder1", "label": "placeholder1"},
-                {"value": "placeholder2", "label": "placeholder2"},
-                {"value": "placeholder3", "label": "placeholder3"},
-                {"value": "other", "label": "Other:"},
-                {"value": "N/A", "label": "Not sure or not applicable"},
-            ],
+            "type": "text",
             "allow_free_text": True
         },
         # {
