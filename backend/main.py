@@ -367,6 +367,31 @@ def check_board(board, solution):
 
 # --- Routes ---
 
+@app.post("/session/start_warmup")
+def start_warmup():
+    sid = uuid.uuid4().hex
+    rows = len(WARMUP_PUZZLE["solution"])
+    cols = len(WARMUP_PUZZLE["solution"][0])
+
+    SESSIONS[sid] = {
+        "mode": "warmup",
+        "board": blank_board(rows, cols),
+        "answer": WARMUP_PUZZLE["solution"],  # ground truth stored in session
+        # NOTE: intentionally no "log" and no disk logging for warmup sessions
+    }
+
+    return {
+        "session_id": sid,
+        "puzzle": {
+            "id": WARMUP_PUZZLE["id"],
+            "rows": rows,
+            "cols": cols,
+            "row_clues": WARMUP_PUZZLE["clues"]["rows"],
+            "col_clues": WARMUP_PUZZLE["clues"]["columns"],
+        }
+    }
+
+
 @app.post("/session/start_tutorial")
 def start_tutorial(tutorial_id: str = "tutorial_5x5"):
     p = TUTORIAL_BANK_BY_ID.get(tutorial_id)
@@ -580,21 +605,22 @@ def move(session_id: str, move: Move):
         raise HTTPException(400, "Invalid value")
     s["board"][move.r][move.c] = move.value
 
-    # log the move (memory)
-    s["log"]["moves"].append({
-        "r": move.r,
-        "c": move.c,
-        "value": move.value,
-        "t": now_iso()
-    })
-    # log the move (disk)
-    append_event(session_id, {
-        "type": "move",
-        "r": move.r,
-        "c": move.c,
-        "value": move.value,
-        "t": now_iso()
-    })
+    if s.get("mode") != "warmup":  # logging (skip for warmup)
+        # log the move (memory)
+        s["log"]["moves"].append({
+            "r": move.r,
+            "c": move.c,
+            "value": move.value,
+            "t": now_iso()
+        })
+        # log the move (disk)
+        append_event(session_id, {
+            "type": "move",
+            "r": move.r,
+            "c": move.c,
+            "value": move.value,
+            "t": now_iso()
+        })
     return Board(board=s["board"])
 
 @app.post("/sessions/{session_id}/check")
@@ -603,6 +629,19 @@ def check_session(session_id: str):
 
     # Board the user has built via /move calls
     board = s["board"]
+
+    # ========== warmup flow ==========
+    if s.get("mode") == "warmup":
+        truth = s.get("answer")
+        if truth is None:
+            raise HTTPException(500, "Warmup answer not available for this session")
+
+        board01 = [[1 if c == 1 else 0 for c in row] for row in board]
+        mismatches = check_board(board01, truth)
+
+        if mismatches:
+            return {"solved": False, "mismatches": mismatches}
+        return {"solved": True, "completed": True}
 
     # ========== tutorial flow (single fixed puzzle) ==========
     if s.get("mode") == "tutorial":
@@ -705,7 +744,7 @@ def get_hint(session_id: str):
     if s.get("mode") == "bank_three":
         cur_id = s["queue"][s["idx"]]
         truth = s["answers"][cur_id]  # 2D 0/1
-    elif s.get("mode") == "tutorial":
+    elif s.get("mode") == "tutorial" or s.get("mode") == "warmup":
         truth = s.get("answer")
         if truth is None:
             raise HTTPException(500, "Tutorial answer not available for this session")
@@ -729,12 +768,13 @@ def get_hint(session_id: str):
 
     # Pick a random mismatched cell and return just the coordinate (as requested)
     r, c = random.choice(mismatches)
-    append_event(session_id, {
-        "type": "hint",
-        "r": r,
-        "c": c,
-        "t": now_iso()
-    })
+    if s.get("mode") != "warmup":  # skip for warmup
+        append_event(session_id, {
+            "type": "hint",
+            "r": r,
+            "c": c,
+            "t": now_iso()
+        })
     return {"solved": False, "hint": {"r": r, "c": c}}
 
 @app.post("/sessions/{session_id}/advance")
@@ -792,15 +832,16 @@ def reset_board(session_id: str):
     rows, cols = len(s["board"]), len(s["board"][0])
     s["board"] = blank_board(rows, cols)
 
-    # Log counters + per-puzzle timestamp (NO pseudo-move)
-    s["log"]["resets_count"] = s["log"].get("resets_count", 0) + 1
-    if s.get("mode") == "bank_three":
-        s["log"]["resets"][s["idx"]].append(now_iso())   # NEW
-    else:
-        s["log"]["resets"][0].append(now_iso())          # NEW
+    if s.get("mode") != "warmup":  # skip for warmup
+        # Log counters + per-puzzle timestamp (NO pseudo-move)
+        s["log"]["resets_count"] = s["log"].get("resets_count", 0) + 1
+        if s.get("mode") == "bank_three":
+            s["log"]["resets"][s["idx"]].append(now_iso())   # NEW
+        else:
+            s["log"]["resets"][0].append(now_iso())          # NEW
 
-    # Disk event remains
-    append_event(session_id, {"type": "reset", "t": now_iso()})
+        # Disk event remains
+        append_event(session_id, {"type": "reset", "t": now_iso()})
     return Board(board=s["board"])
 
 @app.get("/sessions/{session_id}/log")
