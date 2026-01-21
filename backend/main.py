@@ -42,8 +42,8 @@ SURVEY_SPEC = {
                 {"value": "<=10*10", "label": "≤ 10 by 10"},
                 {"value": "10*10", "label": "10 by 10"},
                 {"value": ">=10*10", "label": "≥ 10 by 10"},
-                {"value": "other", "label": "Other:"},
                 {"value": "N/A", "label": "Not sure or not applicable"},
+                {"value": "other", "label": "Other:"},
             ],
             "allow_free_text": True
         },
@@ -770,8 +770,31 @@ def get_hint(session_id: str):
         })
         return {"solved": True, "hint": None}
 
-    # Pick a random mismatched cell and return just the coordinate (as requested)
-    r, c = random.choice(mismatches)
+
+    # Prioritize hint selection:
+    # 1) false positives: user filled black (1) but truth is white (0)
+    # 2) crossed-out but should be black: user marked X (-1) but truth is black (1)
+    # 3) otherwise: any mismatched cell
+    false_positives = [(r, c) for (r, c) in mismatches if board[r][c] == 1 and truth[r][c] == 0]
+    # print(false_positives)
+    if false_positives:
+        # print("in false_positives")
+        r, c = random.choice(false_positives)
+        # print("r, c", r, c)
+    else:
+        # print("not in false_positives")
+        crossed_should_be_black = [(r, c) for (r, c) in mismatches if board[r][c] == -1 and truth[r][c] == 1]
+        if crossed_should_be_black:
+            # print("in crossed_should_be_black")
+            r, c = random.choice(crossed_should_be_black)
+            # print("r, c", r, c)
+        else:
+            # print("not in crossed_should_be_black")
+            r, c = random.choice(mismatches)
+            # print("r, c", r, c)
+
+    # print("r, c", r, c)
+
     if s.get("mode") != "warmup":  # skip for warmup
         append_event(session_id, {
             "type": "hint",
