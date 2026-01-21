@@ -4,17 +4,15 @@ import Grid from "@/components/Grid";
 import Timer from "@/components/Timer";
 import ConfirmModal from "@/components/ConfirmModal";
 import {
-  startTutorialSession,
+  startWarmupSession,
+  startThreePuzzleSession,
   makeMove,
   checkBoard,
   resetBoard,
   getHint
 } from "@/services/api";
 
-// Hint button appears after 2 minutes (120 seconds)
-const HINT_DELAY_SECONDS = 120;
-
-export default function Tutorial() {
+export default function Warmup() {
   const [sessionId, setSessionId] = useState(null);
   const [board, setBoard] = useState([]);
   const [clues, setClues] = useState({ rows: [], columns: [] });
@@ -23,15 +21,15 @@ export default function Tutorial() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [solvedPuzzleTime, setSolvedPuzzleTime] = useState(null);
   const [timerKey, setTimerKey] = useState(0);
-  const [puzzleStartTimestamp, setPuzzleStartTimestamp] = useState(null);
-  const [showHintButton, setShowHintButton] = useState(false);
   const [highlightedCell, setHighlightedCell] = useState(null);
 
   const [confirmModal, setConfirmModal] = useState({
     isOpen: false,
     message: "",
     onConfirm: null,
-    onCancel: null
+    onCancel: null,
+    confirmText: "Confirm",
+    cancelText: "Cancel"
   });
 
   const [dragState, setDragState] = useState({
@@ -43,14 +41,13 @@ export default function Tutorial() {
     isRightClick: false
   });
 
-  // Track if we actually moved during drag (to distinguish click from drag)
   const dragMovedRef = useRef(false);
   const isProcessingDragRef = useRef(false);
 
   useEffect(() => {
     async function init() {
       try {
-        const session = await startTutorialSession();
+        const session = await startWarmupSession();
         setSessionId(session.session_id);
 
         const rows = session.puzzle.rows;
@@ -63,36 +60,17 @@ export default function Tutorial() {
 
         setSolved(false);
         setTimerRunning(true);
-        setPuzzleStartTimestamp(Date.now());
-        setShowHintButton(false);
         setHighlightedCell(null);
         setSolvedPuzzleTime(null);
         setElapsedTime(0);
         setTimerKey(prev => prev + 1);
       } catch (error) {
-        console.error("Failed to start tutorial session:", error);
-        toast.error("Failed to start tutorial session.");
+        console.error("Failed to start warmup session:", error);
+        toast.error("Failed to start warmup session.");
       }
     }
     init();
   }, []);
-
-  // Check if hint button should be shown
-  useEffect(() => {
-    if (!puzzleStartTimestamp || timerRunning === false) {
-      setShowHintButton(false);
-      return;
-    }
-
-    const checkHintButton = () => {
-      const elapsed = Math.floor((Date.now() - puzzleStartTimestamp) / 1000);
-      setShowHintButton(elapsed >= HINT_DELAY_SECONDS);
-    };
-
-    checkHintButton();
-    const interval = setInterval(checkHintButton, 1000);
-    return () => clearInterval(interval);
-  }, [puzzleStartTimestamp, timerRunning]);
 
   const handleDragStart = (r, c, isRightClick) => {
     if (!sessionId || solved) return;
@@ -243,19 +221,65 @@ export default function Tutorial() {
     setElapsedTime(seconds);
   };
 
+  const closeConfirmModal = () => {
+    setConfirmModal({
+      isOpen: false,
+      message: "",
+      onConfirm: null,
+      onCancel: null,
+      confirmText: "Confirm",
+      cancelText: "Cancel"
+    });
+  };
+
+  const startExperiment = async () => {
+    try {
+      const session = await startThreePuzzleSession();
+      if (typeof window !== "undefined") {
+        window.sessionStorage.setItem("experimentSession", JSON.stringify(session));
+        window.location.href = `/?session_id=${session.session_id}`;
+      }
+    } catch (error) {
+      console.error("Failed to start experiment:", error);
+      toast.error("Failed to start the experiment.");
+    }
+  };
+
   const handleCheck = async () => {
     if (!sessionId || solved) return;
 
     const res = await checkBoard(sessionId);
 
     if (!res.solved) {
-      toast.error("Not correct yet. Try again!");
+      setConfirmModal({
+        isOpen: true,
+        message: "Not solved yet. You can keep trying or skip to proceed to the experiment.",
+        onConfirm: () => {
+          closeConfirmModal();
+          startExperiment();
+        },
+        onCancel: closeConfirmModal,
+        confirmText: "Skip",
+        cancelText: "Keep Trying"
+      });
       return;
     }
 
     setSolved(true);
     setTimerRunning(false);
     setSolvedPuzzleTime(elapsedTime);
+
+    setConfirmModal({
+      isOpen: true,
+      message: "Puzzle solved! If you want to proceed to the experiment, click Skip.",
+      onConfirm: () => {
+        closeConfirmModal();
+        startExperiment();
+      },
+      onCancel: closeConfirmModal,
+      confirmText: "Skip",
+      cancelText: "Stay Here"
+    });
   };
 
   const handleReset = () => {
@@ -263,34 +287,36 @@ export default function Tutorial() {
 
     setConfirmModal({
       isOpen: true,
-      message: "Are you sure you want to reset this tutorial? All progress will be lost.",
+      message: "Are you sure you want to reset this warmup? All progress will be lost.",
       onConfirm: async () => {
-        setConfirmModal({
-          isOpen: false,
-          message: "",
-          onConfirm: null,
-          onCancel: null
-        });
+        closeConfirmModal();
         const res = await resetBoard(sessionId);
         setBoard(res.board);
         setSolved(false);
         setTimerRunning(true);
-        setPuzzleStartTimestamp(Date.now());
-        setShowHintButton(false);
         setHighlightedCell(null);
         setSolvedPuzzleTime(null);
         setElapsedTime(0);
         setTimerKey(prev => prev + 1);
         toast.success("Puzzle reset", { duration: 2000 });
       },
-      onCancel: () => {
-        setConfirmModal({
-          isOpen: false,
-          message: "",
-          onConfirm: null,
-          onCancel: null
-        });
-      }
+      onCancel: closeConfirmModal,
+      confirmText: "Reset",
+      cancelText: "Cancel"
+    });
+  };
+
+  const handleSkip = () => {
+    setConfirmModal({
+      isOpen: true,
+      message: "Are you sure you want to skip the warmup and start the experiment?",
+      onConfirm: () => {
+        closeConfirmModal();
+        startExperiment();
+      },
+      onCancel: closeConfirmModal,
+      confirmText: "Skip",
+      cancelText: "Cancel"
     });
   };
 
@@ -318,10 +344,10 @@ export default function Tutorial() {
           color: "#2d3436",
         }}
       >
-        Nonogram Tutorial
+        Nonogram Warmup
       </h1>
 
-      <Timer key={`tutorial-${timerKey}`} start={0} running={timerRunning} onTimeUpdate={handleTimeUpdate} />
+      <Timer key={`warmup-${timerKey}`} start={0} running={timerRunning} onTimeUpdate={handleTimeUpdate} />
 
       <Grid
         grid={board}
@@ -353,47 +379,63 @@ export default function Tutorial() {
             Reset
           </button>
 
-          {showHintButton && (
-            <button
-              onClick={handleHint}
-              style={{
-                padding: "0.75rem 2rem",
-                backgroundColor: "#8E24AA",
-                color: "white",
-                fontWeight: "bold",
-                borderRadius: "8px",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "1rem"
-              }}
-            >
-              Hint
-            </button>
-          )}
+          <button
+            onClick={handleHint}
+            style={{
+              padding: "0.75rem 2rem",
+              backgroundColor: "#8E24AA",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "8px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "1rem"
+            }}
+          >
+            Hint
+          </button>
         </div>
 
-        <button
-          onClick={handleCheck}
-          disabled={solved}
-          style={{
-            padding: "0.75rem 2rem",
-            backgroundColor: solved ? "#ccc" : "#4169E1",
-            color: "white",
-            fontWeight: "bold",
-            borderRadius: "8px",
-            border: "none",
-            cursor: solved ? "not-allowed" : "pointer",
-            fontSize: "1rem"
-          }}
-        >
-          Submit
-        </button>
+        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <button
+            onClick={handleCheck}
+            disabled={solved}
+            style={{
+              padding: "0.75rem 2rem",
+              backgroundColor: solved ? "#ccc" : "#4169E1",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "8px",
+              border: "none",
+              cursor: solved ? "not-allowed" : "pointer",
+              fontSize: "1rem"
+            }}
+          >
+            Submit
+          </button>
+
+          <button
+            onClick={handleSkip}
+            style={{
+              padding: "0.75rem 2rem",
+              backgroundColor: "#E3963E",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "8px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "1rem"
+            }}
+          >
+            Skip
+          </button>
+        </div>
       </div>
 
-      {solved && (
+      {solved && solvedPuzzleTime !== null && (
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
           <h2 style={{ fontSize: "1.8rem", marginBottom: "0.75rem", color: "#4169E1" }}>
-            Tutorial Solved!
+            Warmup Solved!
           </h2>
           <p style={{ fontSize: "1.1rem", color: "#666" }}>
             Time used: {formatTime(solvedPuzzleTime)}
@@ -406,6 +448,8 @@ export default function Tutorial() {
         message={confirmModal.message}
         onConfirm={confirmModal.onConfirm || (() => {})}
         onCancel={confirmModal.onCancel || (() => {})}
+        confirmText={confirmModal.confirmText}
+        cancelText={confirmModal.cancelText}
       />
     </main>
   );

@@ -91,8 +91,31 @@ export default function Home() {
   // Initialize session and get pre-survey
   useEffect(() => {
     async function init() {
+      let session = null;
+
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        const preloadedId = params.get("session_id");
+        const storedSession = window.sessionStorage.getItem("experimentSession");
+
+        if (preloadedId && storedSession) {
+          try {
+            const parsedSession = JSON.parse(storedSession);
+            if (parsedSession.session_id === preloadedId) {
+              session = parsedSession;
+              window.sessionStorage.removeItem("experimentSession");
+              window.history.replaceState({}, "", window.location.pathname);
+            }
+          } catch (error) {
+            window.sessionStorage.removeItem("experimentSession");
+          }
+        }
+      }
+
       // Start the three-puzzle session
-      const session = await startThreePuzzleSession();
+      if (!session) {
+        session = await startThreePuzzleSession();
+      }
       setSessionId(session.session_id);
       setInitialSessionData(session);
       
@@ -242,8 +265,9 @@ export default function Home() {
         setBoard(res.board);
       }
     } else {
-      // Left click drag: always fill with black (1)
-      const newValue = 1;
+      // Left click drag: toggle based on the starting cell (match click behavior)
+      const startValue = board[startRow][startCol];
+      const newValue = startValue === 1 ? 0 : 1;
       
       // Apply to all cells in selection
       for (const { r, c } of cellsToUpdate) {

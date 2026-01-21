@@ -1,6 +1,13 @@
 import React from "react";
 
-export default function ConfirmModal({ message, onConfirm, onCancel, isOpen }) {
+export default function ConfirmModal({
+  message,
+  onConfirm,
+  onCancel,
+  isOpen,
+  confirmText = "Confirm",
+  cancelText = "Cancel"
+}) {
   if (!isOpen) return null;
 
   return (
@@ -47,7 +54,7 @@ export default function ConfirmModal({ message, onConfirm, onCancel, isOpen }) {
               fontSize: "1rem",
             }}
           >
-            Cancel
+            {cancelText}
           </button>
           <button
             onClick={onConfirm}
@@ -62,11 +69,10 @@ export default function ConfirmModal({ message, onConfirm, onCancel, isOpen }) {
               fontSize: "1rem",
             }}
           >
-            Confirm
+            {confirmText}
           </button>
         </div>
       </div>
     </div>
   );
 }
-

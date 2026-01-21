@@ -74,6 +74,13 @@ export async function startTutorialSession() {
   return await res.json();
 }
 
+export async function startWarmupSession() {
+  const res = await fetch(`${BASE_URL}/session/start_warmup`, {
+    method: "POST",
+  });
+  return await res.json();
+}
+
 export async function getSurvey(sessionId, surveyType) {
   const res = await fetch(`${BASE_URL}/sessions/${sessionId}/survey/${surveyType}`);
   return await res.json();
