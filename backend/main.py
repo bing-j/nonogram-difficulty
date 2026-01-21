@@ -264,6 +264,13 @@ with TUTORIAL_BANK_PATH.open("r", encoding="utf-8") as f:
 
 TUTORIAL_BANK_BY_ID = {p["id"]: p for p in TUTORIAL_PUZZLE_BANK}
 
+# --- Warmup puzzle bank (single 2x2 puzzle) ---
+WARMUP_BANK_PATH = ROOT_DIR / "warmup_nonogram_2x2.json"
+with WARMUP_BANK_PATH.open("r", encoding="utf-8") as f:
+    WARMUP_PUZZLE_BANK = json.load(f)   # list[dict] with exactly one element
+
+WARMUP_BANK_BY_ID = {p["id"]: p for p in WARMUP_PUZZLE_BANK}
+
 def _pack_public_from_bank(p: dict) -> dict:
     """Only the safe bits to send to the client."""
     rows = len(p["solution"])
@@ -369,26 +376,23 @@ def check_board(board, solution):
 
 @app.post("/session/start_warmup")
 def start_warmup():
+    # since there is exactly one warmup puzzle
+    p = WARMUP_PUZZLE_BANK[0]
+
     sid = uuid.uuid4().hex
-    rows = len(WARMUP_PUZZLE["solution"])
-    cols = len(WARMUP_PUZZLE["solution"][0])
+    rows = len(p["solution"])
+    cols = len(p["solution"][0])
 
     SESSIONS[sid] = {
         "mode": "warmup",
         "board": blank_board(rows, cols),
-        "answer": WARMUP_PUZZLE["solution"],  # ground truth stored in session
-        # NOTE: intentionally no "log" and no disk logging for warmup sessions
+        "answer": p["solution"],  # ground truth
+        # intentionally no logging
     }
 
     return {
         "session_id": sid,
-        "puzzle": {
-            "id": WARMUP_PUZZLE["id"],
-            "rows": rows,
-            "cols": cols,
-            "row_clues": WARMUP_PUZZLE["clues"]["rows"],
-            "col_clues": WARMUP_PUZZLE["clues"]["columns"],
-        }
+        "puzzle": _pack_public_from_bank(p)
     }
 
 
