@@ -190,10 +190,10 @@ if __name__ == "__main__":
 
     # CAREFUL: The following code is commented out to prevent overwriting existing files.
 
-    # Save to CSV
-    output_file = "nonogram_solver_stats.csv"
-    df.to_csv(output_file, index=False)
-    print(f"\nStatistics saved to '{output_file}'")
+    # # Save to CSV
+    # output_file = "nonogram_solver_stats.csv"
+    # df.to_csv(output_file, index=False)
+    # print(f"\nStatistics saved to '{output_file}'")
 
     # # Show that solving times are not consistent across runs
     # show_solving_time_diff(nonograms)
