@@ -265,7 +265,7 @@ with TUTORIAL_BANK_PATH.open("r", encoding="utf-8") as f:
 TUTORIAL_BANK_BY_ID = {p["id"]: p for p in TUTORIAL_PUZZLE_BANK}
 
 # --- Warmup puzzle bank (single 2x2 puzzle) ---
-WARMUP_BANK_PATH = ROOT_DIR / "warmup_nonogram_2x2.json"
+WARMUP_BANK_PATH = ROOT_DIR / "warmup_nonogram_3x3.json"
 with WARMUP_BANK_PATH.open("r", encoding="utf-8") as f:
     WARMUP_PUZZLE_BANK = json.load(f)   # list[dict] with exactly one element
 
@@ -764,10 +764,11 @@ def get_hint(session_id: str):
 
     # Nothing to hint if already matching the solution
     if not mismatches:
-        append_event(session_id, {
-            "type": "hint_none",
-            "t": now_iso()
-        })
+        if s.get("mode") != "warmup":  # skip for warmup
+            append_event(session_id, {
+                "type": "hint_none",
+                "t": now_iso()
+            })
         return {"solved": True, "hint": None}
 
 
