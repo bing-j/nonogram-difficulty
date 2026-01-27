@@ -26,5 +26,5 @@ while any(groups[i] for i in IDS):
 assert len(schedule) == 120
 
 # save as JSON you can commit
-with open("assignment_schedule_6puzzles_3perms.json", "w", encoding="utf-8") as f:
+with open("../assignment_schedule_6puzzles_3perms.json", "w", encoding="utf-8") as f:
     json.dump({"version": 1, "sequences": schedule}, f, indent=2)
