@@ -86,12 +86,14 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_1_guesses",
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 1?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -106,12 +108,14 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_2_guesses",
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 2?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -126,12 +130,14 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_3_guesses",
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 3?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -146,6 +152,7 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_1_rating_reason",
@@ -158,6 +165,7 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 1?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -170,6 +178,7 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_2_rating_reason",
@@ -182,6 +191,7 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 2?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -194,6 +204,7 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_3_rating_reason",
@@ -206,6 +217,7 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 3?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
