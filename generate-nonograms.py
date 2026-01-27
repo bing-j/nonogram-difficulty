@@ -1,4 +1,7 @@
+import time
 import numpy as np
+import pandas as pd
+from backend.nonogram_pysat import nonogram_to_cnf, solve_with_pysat
 from backend.nonogram_pysat import solve_nonogram
 
 def count_consecutive_ones(arr: np.ndarray):
@@ -26,7 +29,7 @@ def generate_nonogram(cell_count: int):
     # Create a 10x10 array filled with zeros
     grid = np.zeros((10, 10), dtype=int)
 
-    # Randomly select 25 unique positions to set to 1
+    # Randomly select cell_count unique positions to set to 1
     indices = np.random.choice(grid.size, cell_count, replace=False)
     np.put(grid, indices, 1)
 
@@ -90,15 +93,108 @@ def generate_unique_nonograms(num_per_density: int, densities: list[int]):
         one_density_unique_nonograms = []
     return all_unique_nonograms
 
+def solve_batch(nonograms: list[dict]):
+    """
+    Generate random nonograms and solve them using PySAT.
+    Collects solver statistics for each puzzle.
+    
+    Args:
+        num_nonograms: Number of nonograms to generate and solve
+        cell_count: Number of filled cells (default 50 for 10x10 = 50% density)
+    
+    Returns:
+        DataFrame with solver statistics for each puzzle
+    """
+    stats_list = []
+    for i in range(len(nonograms)):
+        # Generate a random nonogram
+        grid, row_hints, column_hints = nonograms[i]['solution'], nonograms[i]['clues']['rows'], nonograms[i]['clues']['columns']
+
+        # Save the nonogram
+        
+        puzzle = {
+            "rows": row_hints,
+            "columns": column_hints
+        }
+        
+        try:
+            # Convert to CNF
+            clauses, num_vars, rlen, clen = nonogram_to_cnf(puzzle)
+            
+            # Solve with PySAT and capture statistics
+            t0 = time.perf_counter()
+            model = solve_with_pysat(clauses, print_stats=False)
+            t1 = time.perf_counter()
+            
+            # Get solver stats (solve_with_pysat returns None for model if UNSAT)
+            # We need to re-run to get stats, so let's extract from solver
+            from pysat.solvers import Minisat22 as Solver
+            with Solver(bootstrap_with=clauses) as s:
+                sat = s.solve()
+                stats = s.accum_stats().copy()
+                stats.update({
+                    "puzzle_id": i + 1,
+                    "solving_time": round((t1 - t0)*1000, 2),  # in milliseconds
+                    "nvars_input": max(abs(lit) for cl in clauses for lit in cl) if clauses else 0,
+                    "nclauses_input": len(clauses),
+                    "nvars_solver": s.nof_vars(),
+                    "nclauses_solver": s.nof_clauses(),
+                })
+            
+            stats_list.append(stats)
+            
+        except Exception as e:
+            print(f"Error solving puzzle {i + 1}: {e}")
+            stats_list.append({
+                "puzzle_id": i + 1,
+                "grid_size": "10x10",
+                "error": str(e)
+            })
+    
+    # Create DataFrame
+    df = pd.DataFrame(stats_list)
+    
+    return df
+
+def show_solving_time_diff(nonograms):
+    df = solve_batch(nonograms)
+    df2 = solve_batch(nonograms)
+
+    # Print the difference between solving times of two runs
+    diffs = df['solving_time'] - df2['solving_time']
+    print("\nDifferences in solving times between two runs (in ms):")
+    print(diffs)
+
+    # Print the max difference
+    max_diff = diffs.abs().max()
+    print(f"\nMaximum difference in solving times between two runs: {max_diff} ms")
+
+    # Plot the distribution of solving time differences
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    plt.figure(figsize=(10, 6))
+    sns.histplot(diffs, bins=30, kde=True)
+    plt.title('Distribution of Solving Time Differences Between Two Runs')
+    plt.xlabel('Solving Time Difference (ms)')
+    plt.ylabel('Frequency')
+    plt.show()
+
+
 if __name__ == "__main__":
-    # import json
-    # densities = [25, 50, 75]
-    # nonograms = generate_nonogram_set(100, densities)
-    # with open('generated_nonograms.json', 'w') as f:
-    #     json.dump(nonograms, f, indent=4)
-    # print(f"Generated {len(nonograms)} nonograms and saved to 'generated_nonograms.json'")
     import json
-    densities = [50]
-    unique_nonograms = generate_unique_nonograms(12, densities)
-    with open('unique_solution_nonograms_50.json', 'w') as f:
-        json.dump(unique_nonograms, f, indent=4)
+    # Re-generate and solve 1000 nonograms
+    nonograms = generate_nonogram_set(1000, [50])
+    with open('unique_solution_nonograms_1000.json', 'w') as f:
+        json.dump(nonograms, f, indent=4)
+    df = solve_batch(nonograms)
+
+    # CAREFUL: The following code is commented out to prevent overwriting existing files.
+
+    # Save to CSV
+    output_file = "nonogram_solver_stats.csv"
+    df.to_csv(output_file, index=False)
+    print(f"\nStatistics saved to '{output_file}'")
+
+    # # Show that solving times are not consistent across runs
+    # show_solving_time_diff(nonograms)
+
