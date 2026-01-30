@@ -133,7 +133,7 @@ def solve_batch(nonograms: list[dict]):
                 sat = s.solve()
                 stats = s.accum_stats().copy()
                 stats.update({
-                    "puzzle_id": i + 1,
+                    "puzzle_id": nonograms[i]['id'],
                     "solving_time": round((t1 - t0)*1000, 2),  # in milliseconds
                     "nvars_input": max(abs(lit) for cl in clauses for lit in cl) if clauses else 0,
                     "nclauses_input": len(clauses),
