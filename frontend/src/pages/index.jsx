@@ -343,7 +343,7 @@ export default function Home() {
       } else if (res.hint) {
         // Highlight the cell and show notification
         setHighlightedCell({ r: res.hint.r, c: res.hint.c });
-        toast("Take another look at the highlighted cell!\n There is a mismatch with the clues.", {
+        toast("The highlighted cell is incorrect.", {
           duration: 6000,
         });
       }

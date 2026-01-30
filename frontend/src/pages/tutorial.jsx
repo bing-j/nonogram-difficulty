@@ -230,7 +230,7 @@ export default function Tutorial() {
         toast.success("Puzzle is already solved!");
       } else if (res.hint) {
         setHighlightedCell({ r: res.hint.r, c: res.hint.c });
-        toast("Take another look at the highlighted cell!\n There is a mismatch with the clues.", {
+        toast("The highlighted cell is incorrect.", {
           duration: 6000,
         });
       }
