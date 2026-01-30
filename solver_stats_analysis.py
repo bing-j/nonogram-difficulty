@@ -57,7 +57,9 @@ if __name__ == "__main__":
     # import json
     # selected_ids = selected_puzzles_df['puzzle_id'].tolist()
     # puzzles = json.load(open('unique_solution_nonograms_1000.json', 'r'))
+    # print(len(puzzles))
     # selected_puzzles = [p for p in puzzles if p['id'] in selected_ids]
+    # print(len(selected_puzzles))
     # # overwrite ids to be 0-5
     # for i in range(len(selected_puzzles)):
     #     selected_puzzles[i]['id'] = i
