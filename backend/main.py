@@ -14,6 +14,8 @@ import yaml
 
 from backend.solver_adapter import solve_nonogram, UnsolvableError
 
+HINT_LIMIT = 5
+
 SURVEY_SPEC = {
     "pre": [
         {
@@ -408,6 +410,24 @@ def check_board(board, solution):
                 mismatches.append((r, c))
     return mismatches
 
+def _get_hint_count(session: Dict) -> int:
+    if session.get("mode") == "bank_three":
+        idx = session.get("idx", 0)
+        hint_counts = session.setdefault("hint_counts", [0, 0, 0])
+        if 0 <= idx < len(hint_counts):
+            return hint_counts[idx]
+        return 0
+    return session.get("hint_count", 0)
+
+def _increment_hint_count(session: Dict) -> None:
+    if session.get("mode") == "bank_three":
+        idx = session.get("idx", 0)
+        hint_counts = session.setdefault("hint_counts", [0, 0, 0])
+        if 0 <= idx < len(hint_counts):
+            hint_counts[idx] += 1
+        return
+    session["hint_count"] = session.get("hint_count", 0) + 1
+
 # --- Routes ---
 
 @app.post("/session/start_warmup")
@@ -423,12 +443,16 @@ def start_warmup():
         "mode": "warmup",
         "board": blank_board(rows, cols),
         "answer": p["solution"],  # ground truth
+        "hint_count": 0,
+        "hint_limit": HINT_LIMIT,
         # intentionally no logging
     }
 
     return {
         "session_id": sid,
-        "puzzle": _pack_public_from_bank(p)
+        "puzzle": _pack_public_from_bank(p),
+        "hint_limit": HINT_LIMIT,
+        "hints_remaining": HINT_LIMIT
     }
 
 
@@ -448,6 +472,8 @@ def start_tutorial(tutorial_id: str = "tutorial_5x5"):
         "tutorial_id": tutorial_id,
         "board": blank_board(rows, cols),
         "answer": p["solution"],
+        "hint_count": 0,
+        "hint_limit": HINT_LIMIT,
         "log": {
             "puzzle_id": f"tutorial:{tutorial_id}",
             "start_time": now_iso(),
@@ -468,7 +494,9 @@ def start_tutorial(tutorial_id: str = "tutorial_5x5"):
 
     return {
         "session_id": sid,
-        "puzzle": _pack_public_from_bank(p)
+        "puzzle": _pack_public_from_bank(p),
+        "hint_limit": HINT_LIMIT,
+        "hints_remaining": HINT_LIMIT
     }
 
 
@@ -496,6 +524,8 @@ def start_three():
         "idx": 0,
         "solved_flags": [False, False, False],
         "skipped_flags": [False, False, False],
+        "hint_counts": [0, 0, 0],
+        "hint_limit": HINT_LIMIT,
         "answers": {p["id"]: p["solution"] for p in chosen},
         "board": blank_board(len(first["solution"]), len(first["solution"][0])),
         "schedule_idx": next_idx,  # store for commit-on-completion
@@ -518,7 +548,9 @@ def start_three():
     return {
         "session_id": sid,
         "index": 0,
-        "puzzle": _pack_public_from_bank(first)  # send only clues+size
+        "puzzle": _pack_public_from_bank(first),  # send only clues+size
+        "hint_limit": HINT_LIMIT,
+        "hints_remaining": HINT_LIMIT
     }
 
 # -------- SURVEY ENDPOINTS --------
@@ -796,7 +828,9 @@ def check_session(session_id: str):
                 "cols": cols,
                 "row_clues": next_pz["clues"]["rows"],
                 "col_clues": next_pz["clues"]["columns"],
-            }
+            },
+            "hint_limit": s.get("hint_limit", HINT_LIMIT),
+            "hints_remaining": max(0, s.get("hint_limit", HINT_LIMIT) - _get_hint_count(s))
         }
 
     # ========== original single-puzzle flow ==========
@@ -814,6 +848,7 @@ def get_hint(session_id: str):
     board and the puzzle solution. If there are no mismatches, indicate solved.
     """
     s = ensure_session(session_id)
+    hint_limit = s.get("hint_limit", HINT_LIMIT)
 
     # Current board (may contain -1 / 0 / 1)
     board = s["board"]
@@ -844,7 +879,30 @@ def get_hint(session_id: str):
                 "type": "hint_none",
                 "t": now_iso()
             })
-        return {"solved": True, "hint": None}
+        return {
+            "solved": True,
+            "hint": None,
+            "hint_limit": hint_limit,
+            "hints_used": _get_hint_count(s),
+            "hints_remaining": max(0, hint_limit - _get_hint_count(s)),
+            "limit_reached": False
+        }
+
+    hints_used = _get_hint_count(s)
+    if hints_used >= hint_limit:
+        if s.get("mode") != "warmup":  # skip for warmup
+            append_event(session_id, {
+                "type": "hint_limit",
+                "t": now_iso()
+            })
+        return {
+            "solved": False,
+            "hint": None,
+            "hint_limit": hint_limit,
+            "hints_used": hints_used,
+            "hints_remaining": 0,
+            "limit_reached": True
+        }
 
 
     # Prioritize hint selection:
@@ -871,6 +929,8 @@ def get_hint(session_id: str):
 
     # print("r, c", r, c)
 
+    _increment_hint_count(s)
+
     if s.get("mode") != "warmup":  # skip for warmup
         append_event(session_id, {
             "type": "hint",
@@ -878,7 +938,15 @@ def get_hint(session_id: str):
             "c": c,
             "t": now_iso()
         })
-    return {"solved": False, "hint": {"r": r, "c": c}}
+    hints_used = _get_hint_count(s)
+    return {
+        "solved": False,
+        "hint": {"r": r, "c": c},
+        "hint_limit": hint_limit,
+        "hints_used": hints_used,
+        "hints_remaining": max(0, hint_limit - hints_used),
+        "limit_reached": False
+    }
 
 @app.post("/sessions/{session_id}/advance")
 def advance_puzzle(session_id: str):
@@ -946,7 +1014,9 @@ def advance_puzzle(session_id: str):
             "cols": cols,
             "row_clues": next_pz["clues"]["rows"],
             "col_clues": next_pz["clues"]["columns"],
-        }
+        },
+        "hint_limit": s.get("hint_limit", HINT_LIMIT),
+        "hints_remaining": max(0, s.get("hint_limit", HINT_LIMIT) - _get_hint_count(s))
     }
 
 @app.post("/sessions/{session_id}/reset", response_model=Board)
@@ -956,6 +1026,13 @@ def reset_board(session_id: str):
     # Reset board to current size (works for both single and bank_three)
     rows, cols = len(s["board"]), len(s["board"][0])
     s["board"] = blank_board(rows, cols)
+    if s.get("mode") == "bank_three":
+        hint_counts = s.setdefault("hint_counts", [0, 0, 0])
+        idx = s.get("idx", 0)
+        if 0 <= idx < len(hint_counts):
+            hint_counts[idx] = 0
+    else:
+        s["hint_count"] = 0
 
     if s.get("mode") != "warmup":  # skip for warmup
         # Log counters + per-puzzle timestamp (NO pseudo-move)

@@ -12,6 +12,8 @@ import {
   getHint
 } from "@/services/api";
 
+const DEFAULT_HINT_LIMIT = 5;
+
 export default function Warmup() {
   const [sessionId, setSessionId] = useState(null);
   const [board, setBoard] = useState([]);
@@ -22,6 +24,8 @@ export default function Warmup() {
   const [solvedPuzzleTime, setSolvedPuzzleTime] = useState(null);
   const [timerKey, setTimerKey] = useState(0);
   const [highlightedCell, setHighlightedCell] = useState(null);
+  const [hintLimit, setHintLimit] = useState(DEFAULT_HINT_LIMIT);
+  const [hintsRemaining, setHintsRemaining] = useState(DEFAULT_HINT_LIMIT);
 
   const [confirmModal, setConfirmModal] = useState({
     isOpen: false,
@@ -57,6 +61,9 @@ export default function Warmup() {
           rows: session.puzzle.row_clues,
           columns: session.puzzle.col_clues
         });
+        const limit = session.hint_limit ?? DEFAULT_HINT_LIMIT;
+        setHintLimit(limit);
+        setHintsRemaining(session.hints_remaining ?? limit);
 
         setSolved(false);
         setTimerRunning(true);
@@ -201,13 +208,28 @@ export default function Warmup() {
 
   const handleHint = async () => {
     if (!sessionId) return;
+    if (hintsRemaining <= 0) {
+      toast(`Hint limit reached (${hintLimit} max).`);
+      return;
+    }
 
     try {
       const res = await getHint(sessionId);
       if (res.solved) {
         toast.success("Puzzle is already solved!");
+        if (typeof res.hints_remaining === "number") {
+          setHintsRemaining(res.hints_remaining);
+        }
+      } else if (res.limit_reached) {
+        setHintsRemaining(0);
+        toast(`Hint limit reached (${hintLimit} max).`);
       } else if (res.hint) {
         setHighlightedCell({ r: res.hint.r, c: res.hint.c });
+        if (typeof res.hints_remaining === "number") {
+          setHintsRemaining(res.hints_remaining);
+        } else {
+          setHintsRemaining(prev => Math.max(0, prev - 1));
+        }
         toast("The highlighted cell is incorrect.", {
           duration: 6000,
         });
@@ -297,6 +319,7 @@ export default function Warmup() {
         setHighlightedCell(null);
         setSolvedPuzzleTime(null);
         setElapsedTime(0);
+        setHintsRemaining(hintLimit);
         setTimerKey(prev => prev + 1);
         toast.success("Puzzle reset", { duration: 2000 });
       },
@@ -381,19 +404,23 @@ export default function Warmup() {
 
           <button
             onClick={handleHint}
+            disabled={hintsRemaining <= 0}
             style={{
               padding: "0.75rem 2rem",
-              backgroundColor: "#8E24AA",
+              backgroundColor: hintsRemaining <= 0 ? "#ccc" : "#8E24AA",
               color: "white",
               fontWeight: "bold",
               borderRadius: "8px",
               border: "none",
-              cursor: "pointer",
+              cursor: hintsRemaining <= 0 ? "not-allowed" : "pointer",
               fontSize: "1rem"
             }}
           >
             Hint
           </button>
+          <div style={{ fontSize: "0.95rem", color: "#555" }}>
+            Hints remaining: {hintsRemaining} / {hintLimit}
+          </div>
         </div>
 
         <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>

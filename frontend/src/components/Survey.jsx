@@ -46,6 +46,7 @@ export default function Survey({ questions, onSubmit, initialAnswers = {} }) {
 
   const renderQuestion = (question) => {
     const { id, prompt, type, options, min, max, allow_free_text } = question;
+    const naValue = question["n/a"];
 
     if (type === "single") {
       return (
@@ -125,9 +126,15 @@ export default function Survey({ questions, onSubmit, initialAnswers = {} }) {
     }
 
     if (type === "scale") {
-      // Get the current value (no default)
-      const scaleValue = answers[id];
-      const isDifficulty = id === "difficulty" || id.includes("difficulty");
+      // Get the current value (no default), normalize numeric strings
+      const rawValue = answers[id];
+      let scaleValue = rawValue;
+      if (typeof rawValue === "string" && rawValue.trim() !== "") {
+        const asNumber = Number(rawValue);
+        if (!Number.isNaN(asNumber)) {
+          scaleValue = asNumber;
+        }
+      }
       
       // Generate array of all scale values
       const scaleNumbers = [];
@@ -185,6 +192,25 @@ export default function Survey({ questions, onSubmit, initialAnswers = {} }) {
               </div>
             </div>
           </div>
+
+          {naValue !== undefined && (
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5rem" }}>
+              <button
+                type="button"
+                onClick={() => handleChange(id, naValue)}
+                style={{
+                  padding: "0.4rem 0.9rem",
+                  borderRadius: "16px",
+                  border: scaleValue === naValue ? "2px solid #4169E1" : "1px solid #ccc",
+                  backgroundColor: scaleValue === naValue ? "#E9F0FF" : "white",
+                  color: "#333",
+                  cursor: "pointer"
+                }}
+              >
+                N/A
+              </button>
+            </div>
+          )}
           
           {errors[id] && <p style={{ color: "red", fontSize: "0.9rem", marginTop: "0.25rem" }}>{errors[id]}</p>}
         </div>
@@ -250,4 +276,3 @@ export default function Survey({ questions, onSubmit, initialAnswers = {} }) {
     </div>
   );
 }
-

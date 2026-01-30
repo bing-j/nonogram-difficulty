@@ -11,8 +11,7 @@ import {
   getHint
 } from "@/services/api";
 
-// Hint button appears after 2 minutes (120 seconds)
-const HINT_DELAY_SECONDS = 120;
+const DEFAULT_HINT_LIMIT = 5;
 
 export default function Tutorial() {
   const [sessionId, setSessionId] = useState(null);
@@ -23,9 +22,10 @@ export default function Tutorial() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [solvedPuzzleTime, setSolvedPuzzleTime] = useState(null);
   const [timerKey, setTimerKey] = useState(0);
-  const [puzzleStartTimestamp, setPuzzleStartTimestamp] = useState(null);
   const [showHintButton, setShowHintButton] = useState(false);
   const [highlightedCell, setHighlightedCell] = useState(null);
+  const [hintLimit, setHintLimit] = useState(DEFAULT_HINT_LIMIT);
+  const [hintsRemaining, setHintsRemaining] = useState(DEFAULT_HINT_LIMIT);
 
   const [confirmModal, setConfirmModal] = useState({
     isOpen: false,
@@ -60,11 +60,13 @@ export default function Tutorial() {
           rows: session.puzzle.row_clues,
           columns: session.puzzle.col_clues
         });
+        const limit = session.hint_limit ?? DEFAULT_HINT_LIMIT;
+        setHintLimit(limit);
+        setHintsRemaining(session.hints_remaining ?? limit);
 
         setSolved(false);
         setTimerRunning(true);
-        setPuzzleStartTimestamp(Date.now());
-        setShowHintButton(false);
+        setShowHintButton(true);
         setHighlightedCell(null);
         setSolvedPuzzleTime(null);
         setElapsedTime(0);
@@ -76,23 +78,6 @@ export default function Tutorial() {
     }
     init();
   }, []);
-
-  // Check if hint button should be shown
-  useEffect(() => {
-    if (!puzzleStartTimestamp || timerRunning === false) {
-      setShowHintButton(false);
-      return;
-    }
-
-    const checkHintButton = () => {
-      const elapsed = Math.floor((Date.now() - puzzleStartTimestamp) / 1000);
-      setShowHintButton(elapsed >= HINT_DELAY_SECONDS);
-    };
-
-    checkHintButton();
-    const interval = setInterval(checkHintButton, 1000);
-    return () => clearInterval(interval);
-  }, [puzzleStartTimestamp, timerRunning]);
 
   const handleDragStart = (r, c, isRightClick) => {
     if (!sessionId || solved) return;
@@ -223,13 +208,28 @@ export default function Tutorial() {
 
   const handleHint = async () => {
     if (!sessionId) return;
+    if (hintsRemaining <= 0) {
+      toast(`Hint limit reached (${hintLimit} max).`);
+      return;
+    }
 
     try {
       const res = await getHint(sessionId);
       if (res.solved) {
         toast.success("Puzzle is already solved!");
+        if (typeof res.hints_remaining === "number") {
+          setHintsRemaining(res.hints_remaining);
+        }
+      } else if (res.limit_reached) {
+        setHintsRemaining(0);
+        toast(`Hint limit reached (${hintLimit} max).`);
       } else if (res.hint) {
         setHighlightedCell({ r: res.hint.r, c: res.hint.c });
+        if (typeof res.hints_remaining === "number") {
+          setHintsRemaining(res.hints_remaining);
+        } else {
+          setHintsRemaining(prev => Math.max(0, prev - 1));
+        }
         toast("The highlighted cell is incorrect.", {
           duration: 6000,
         });
@@ -275,11 +275,11 @@ export default function Tutorial() {
         setBoard(res.board);
         setSolved(false);
         setTimerRunning(true);
-        setPuzzleStartTimestamp(Date.now());
-        setShowHintButton(false);
+        setShowHintButton(true);
         setHighlightedCell(null);
         setSolvedPuzzleTime(null);
         setElapsedTime(0);
+        setHintsRemaining(hintLimit);
         setTimerKey(prev => prev + 1);
         toast.success("Puzzle reset", { duration: 2000 });
       },
@@ -356,20 +356,24 @@ export default function Tutorial() {
           {showHintButton && (
             <button
               onClick={handleHint}
+              disabled={hintsRemaining <= 0}
               style={{
                 padding: "0.75rem 2rem",
-                backgroundColor: "#8E24AA",
+                backgroundColor: hintsRemaining <= 0 ? "#ccc" : "#8E24AA",
                 color: "white",
                 fontWeight: "bold",
                 borderRadius: "8px",
                 border: "none",
-                cursor: "pointer",
+                cursor: hintsRemaining <= 0 ? "not-allowed" : "pointer",
                 fontSize: "1rem"
               }}
             >
               Hint
             </button>
           )}
+          <div style={{ fontSize: "0.95rem", color: "#555" }}>
+            Hints remaining: {hintsRemaining} / {hintLimit}
+          </div>
         </div>
 
         <button

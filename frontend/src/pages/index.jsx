@@ -27,8 +27,7 @@ const STAGES = {
   COMPLETED: "completed"
 };
 
-// Hint button appears after 2 minutes (120 seconds)
-const HINT_DELAY_SECONDS = 120;
+const DEFAULT_HINT_LIMIT = 5;
 
 export default function Home() {
   const [stage, setStage] = useState(STAGES.PRE_SURVEY);
@@ -56,9 +55,9 @@ export default function Home() {
   
   // Store solved puzzle time for success page
   const [solvedPuzzleTime, setSolvedPuzzleTime] = useState(null);
+  const [puzzleSolvedFlags, setPuzzleSolvedFlags] = useState(null);
+  const [puzzleSkippedFlags, setPuzzleSkippedFlags] = useState(null);
   
-  // Track when puzzle started for hint button
-  const [puzzleStartTimestamp, setPuzzleStartTimestamp] = useState(null);
   const [showHintButton, setShowHintButton] = useState(false);
   
   // Confirmation modal state
@@ -77,6 +76,8 @@ export default function Home() {
   
   // Highlighted cell for hints
   const [highlightedCell, setHighlightedCell] = useState(null);
+  const [hintLimit, setHintLimit] = useState(DEFAULT_HINT_LIMIT);
+  const [hintsRemaining, setHintsRemaining] = useState(DEFAULT_HINT_LIMIT);
   
   // Drag selection state
   const [dragState, setDragState] = useState({
@@ -126,26 +127,6 @@ export default function Home() {
     init();
   }, []);
 
-  // Check if hint button should be shown
-  useEffect(() => {
-    if (!puzzleStartTimestamp || timerRunning === false) {
-      setShowHintButton(false);
-      return;
-    }
-
-    const checkHintButton = () => {
-      const elapsed = Math.floor((Date.now() - puzzleStartTimestamp) / 1000);
-      setShowHintButton(elapsed >= HINT_DELAY_SECONDS);
-    };
-
-    // Check immediately
-    checkHintButton();
-
-    // Check every second
-    const interval = setInterval(checkHintButton, 1000);
-    return () => clearInterval(interval);
-  }, [puzzleStartTimestamp, timerRunning]);
-
   // Handle pre-survey submission
   const handlePreSurveySubmit = async (answers) => {
     await submitSurvey(sessionId, "pre", answers);
@@ -162,11 +143,13 @@ export default function Home() {
       rows: session.puzzle.row_clues,
       columns: session.puzzle.col_clues
     });
+    const limit = session.hint_limit ?? DEFAULT_HINT_LIMIT;
+    setHintLimit(limit);
+    setHintsRemaining(session.hints_remaining ?? limit);
     
     setStage(STAGES.PUZZLE);
     setTimerRunning(true);
-    setPuzzleStartTimestamp(Date.now());
-    setShowHintButton(false);
+    setShowHintButton(true);
     setHighlightedCell(null); // Clear any previous highlight
   };
 
@@ -335,14 +318,29 @@ export default function Home() {
   // Handle hint request
   const handleHint = async () => {
     if (!sessionId) return;
+    if (hintsRemaining <= 0) {
+      toast(`Hint limit reached (${hintLimit} max).`);
+      return;
+    }
     
     try {
       const res = await getHint(sessionId);
       if (res.solved) {
         toast.success("Puzzle is already solved!");
+        if (typeof res.hints_remaining === "number") {
+          setHintsRemaining(res.hints_remaining);
+        }
+      } else if (res.limit_reached) {
+        setHintsRemaining(0);
+        toast(`Hint limit reached (${hintLimit} max).`);
       } else if (res.hint) {
         // Highlight the cell and show notification
         setHighlightedCell({ r: res.hint.r, c: res.hint.c });
+        if (typeof res.hints_remaining === "number") {
+          setHintsRemaining(res.hints_remaining);
+        } else {
+          setHintsRemaining(prev => Math.max(0, prev - 1));
+        }
         toast("The highlighted cell is incorrect.", {
           duration: 6000,
         });
@@ -384,6 +382,18 @@ export default function Home() {
 
   // Proceed to survey after success page
   const proceedToSurvey = async (checkResponse) => {
+    if (checkResponse && checkResponse.completed === true) {
+      setPuzzleSolvedFlags([true, true, true]);
+      setPuzzleSkippedFlags([false, false, false]);
+    } else if (checkResponse && checkResponse.finished) {
+      if (Array.isArray(checkResponse.solved_flags)) {
+        setPuzzleSolvedFlags(checkResponse.solved_flags);
+      }
+      if (Array.isArray(checkResponse.skipped_flags)) {
+        setPuzzleSkippedFlags(checkResponse.skipped_flags);
+      }
+    }
+
     // Always show per-puzzle survey first (even for puzzle 3)
     const surveyType = `puzzle_${puzzleIndex + 1}`;
     const survey = await getSurvey(sessionId, surveyType);
@@ -455,7 +465,20 @@ export default function Home() {
     
     // Check if this was puzzle 3 (index 2)
     if (puzzleIndex === 2) {
-      // Puzzle 3 completed, go to post-survey
+      if (nextPuzzleData && nextPuzzleData.isGiveUp) {
+        try {
+          const res = await advancePuzzle(sessionId);
+          if (Array.isArray(res.solved_flags)) {
+            setPuzzleSolvedFlags(res.solved_flags);
+          }
+          if (Array.isArray(res.skipped_flags)) {
+            setPuzzleSkippedFlags(res.skipped_flags);
+          }
+        } catch (error) {
+          console.error("Failed to finalize skipped puzzle:", error);
+        }
+      }
+
       const survey = await getSurvey(sessionId, "post");
       setCurrentSurvey(survey);
       setStage(STAGES.POST_SURVEY);
@@ -472,20 +495,39 @@ export default function Home() {
         rows: nextPuzzle.row_clues,
         columns: nextPuzzle.col_clues
       });
+      const limit = nextPuzzleData.hint_limit ?? DEFAULT_HINT_LIMIT;
+      setHintLimit(limit);
+      setHintsRemaining(nextPuzzleData.hints_remaining ?? limit);
       
       setSolved(false);
       setNextPuzzleData(null);
       setStage(STAGES.PUZZLE);
       setTimerRunning(true);
-      setPuzzleStartTimestamp(Date.now());
-      setShowHintButton(false);
+      setShowHintButton(true);
       setHighlightedCell(null); // Clear any previous highlight
+      if (nextPuzzleData.finished && Array.isArray(nextPuzzleData.solved_flags)) {
+        setPuzzleSolvedFlags(nextPuzzleData.solved_flags);
+      }
+      if (nextPuzzleData.finished && Array.isArray(nextPuzzleData.skipped_flags)) {
+        setPuzzleSkippedFlags(nextPuzzleData.skipped_flags);
+      }
     } else if (nextPuzzleData && nextPuzzleData.isGiveUp) {
       // This is from give-up - use backend advance endpoint to get next puzzle
       const nextIndex = nextPuzzleData.nextIndex;
       
       if (nextIndex >= 3) {
         // Puzzle 3 was given up, go to post-survey
+        try {
+          const res = await advancePuzzle(sessionId);
+          if (Array.isArray(res.solved_flags)) {
+            setPuzzleSolvedFlags(res.solved_flags);
+          }
+          if (Array.isArray(res.skipped_flags)) {
+            setPuzzleSkippedFlags(res.skipped_flags);
+          }
+        } catch (error) {
+          console.error("Failed to finalize skipped puzzle:", error);
+        }
         const survey = await getSurvey(sessionId, "post");
         setCurrentSurvey(survey);
         setStage(STAGES.POST_SURVEY);
@@ -496,6 +538,8 @@ export default function Home() {
           
           if (res.completed) {
             // All puzzles done, go to post-survey
+            setPuzzleSolvedFlags([true, true, true]);
+            setPuzzleSkippedFlags([false, false, false]);
             const survey = await getSurvey(sessionId, "post");
             setCurrentSurvey(survey);
             setStage(STAGES.POST_SURVEY);
@@ -511,14 +555,22 @@ export default function Home() {
               rows: res.puzzle.row_clues,
               columns: res.puzzle.col_clues
             });
+            const limit = res.hint_limit ?? DEFAULT_HINT_LIMIT;
+            setHintLimit(limit);
+            setHintsRemaining(res.hints_remaining ?? limit);
             
             setSolved(false);
             setNextPuzzleData(null);
             setStage(STAGES.PUZZLE);
             setTimerRunning(true);
-            setPuzzleStartTimestamp(Date.now());
-            setShowHintButton(false);
+            setShowHintButton(true);
             setHighlightedCell(null);
+            if (Array.isArray(res.solved_flags)) {
+              setPuzzleSolvedFlags(res.solved_flags);
+            }
+            if (Array.isArray(res.skipped_flags)) {
+              setPuzzleSkippedFlags(res.skipped_flags);
+            }
           }
         } catch (error) {
           console.error("Failed to advance puzzle:", error);
@@ -535,6 +587,9 @@ export default function Home() {
     // Pre-fill from per-puzzle surveys
     // Map difficulty -> puzzle_X_rate_again and puzzle_X_guesses -> puzzle_X_guesses
     for (let i = 1; i <= 3; i++) {
+      if (Array.isArray(puzzleSolvedFlags) && puzzleSolvedFlags[i - 1] === false) {
+        continue;
+      }
       const puzzleKey = `puzzle_${i}`;
       const answers = puzzleSurveyAnswers[puzzleKey];
       if (answers) {
@@ -550,6 +605,19 @@ export default function Home() {
     }
     
     return initial;
+  };
+
+  const filterPostSurveyQuestions = (questions) => {
+    if (!Array.isArray(puzzleSolvedFlags)) return questions;
+    return questions.filter((q) => {
+      const match = q.id && q.id.match(/^puzzle_(\d+)_/);
+      if (!match) return true;
+      const idx = Number(match[1]) - 1;
+      if (Number.isNaN(idx) || idx < 0 || idx >= puzzleSolvedFlags.length) {
+        return true;
+      }
+      return puzzleSolvedFlags[idx];
+    });
   };
 
   // Handle post-survey submission
@@ -577,6 +645,8 @@ export default function Home() {
         const res = await resetBoard(sessionId);
         setBoard(res.board);
         setSolved(false);
+        setHighlightedCell(null);
+        setHintsRemaining(hintLimit);
         toast.success("Puzzle reset", { duration: 2000 });
       },
       onCancel: () => {
@@ -669,20 +739,24 @@ export default function Home() {
               {showHintButton && (
                 <button
                   onClick={handleHint}
+                  disabled={hintsRemaining <= 0}
                   style={{
                     padding: "0.75rem 2rem",
-                    backgroundColor: "#8E24AA",
+                    backgroundColor: hintsRemaining <= 0 ? "#ccc" : "#8E24AA",
                     color: "white",
                     fontWeight: "bold",
                     borderRadius: "8px",
                     border: "none",
-                    cursor: "pointer",
+                    cursor: hintsRemaining <= 0 ? "not-allowed" : "pointer",
                     fontSize: "1rem"
                   }}
                 >
                   Hint
                 </button>
               )}
+              <div style={{ fontSize: "0.95rem", color: "#555" }}>
+                Hints remaining: {hintsRemaining} / {hintLimit}
+              </div>
             </div>
             
             {/* Right side buttons - Submit and Skip */}
@@ -752,7 +826,7 @@ export default function Home() {
         <div>
           <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Post Survey</h2>
           <Survey 
-            questions={currentSurvey.questions} 
+            questions={filterPostSurveyQuestions(currentSurvey.questions)} 
             onSubmit={handlePostSurveySubmit}
             initialAnswers={getPostSurveyInitialAnswers()}
           />
