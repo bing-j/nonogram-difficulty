@@ -86,12 +86,14 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_1_guesses",
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 1?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -106,12 +108,14 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_2_guesses",
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 2?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -126,12 +130,14 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_3_guesses",
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 3?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -146,6 +152,7 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_1_rating_reason",
@@ -158,6 +165,7 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 1?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -170,6 +178,7 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_2_rating_reason",
@@ -182,6 +191,7 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 2?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -194,6 +204,7 @@ SURVEY_SPEC = {
             "type": "scale",
             "min": 1,
             "max": 5,
+            "n/a": -1,
         },
         {
             "id": "puzzle_3_rating_reason",
@@ -206,6 +217,7 @@ SURVEY_SPEC = {
             "prompt": "How many times did you guess a cell (which means the decision was not based on logical deduction) on Puzzle 3?",
             "type": "single",
             "options": [
+                {"value": "n/a", "label": "N/A"},
                 {"value": "never", "label": "Never"},
                 {"value": "few", "label": "A few times"},
                 {"value": "many", "label": "Many times"},
@@ -249,13 +261,37 @@ BASE_DIR = Path(__file__).resolve().parent   # .../backend
 LOG_DIR = BASE_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
-
-# --- Puzzle bank (three-at-a-time sessions) ---
 ROOT_DIR = BASE_DIR.parent  # project root
-BANK_PATH = ROOT_DIR / "unique_solution_nonograms_50.json"
-with BANK_PATH.open("r", encoding="utf-8") as f:
-    PUZZLE_BANK = json.load(f)            # list[dict]
-BANK_BY_ID = {p["id"]: p for p in PUZZLE_BANK}
+
+# # --- Puzzle bank (three-at-a-time sessions) ---
+# BANK_PATH = ROOT_DIR / "unique_solution_nonograms_50.json"
+# with BANK_PATH.open("r", encoding="utf-8") as f:
+#     PUZZLE_BANK = json.load(f)            # list[dict]
+# BANK_BY_ID = {p["id"]: p for p in PUZZLE_BANK}
+
+# --- 6-puzzle pool (ids 0-5) ---
+POOL6_PATH = ROOT_DIR / "nonograms_6.json"
+with POOL6_PATH.open("r", encoding="utf-8") as f:
+    POOL6 = json.load(f)  # list[dict]
+POOL6_BY_ID = {p["id"]: p for p in POOL6}
+
+# --- Assignment schedule (ordered triples of ids 0-5) ---
+SCHEDULE_PATH = ROOT_DIR / "assignment_schedule_6puzzles_3perms.json"
+with SCHEDULE_PATH.open("r", encoding="utf-8") as f:
+    ASSIGNMENT_SCHEDULE = json.load(f)["sequences"]  # list[list[int]]
+
+# --- Assignment state (tracked by git) ---
+STATE_PATH = ROOT_DIR / "assignment_state.json"
+
+def load_assignment_state() -> dict:
+    if not STATE_PATH.exists():
+        data = {"next_idx": 0}
+        STATE_PATH.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        return data
+    return json.loads(STATE_PATH.read_text(encoding="utf-8"))
+
+def save_assignment_state(state: dict) -> None:
+    STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
 # --- Tutorial puzzle bank ---
 TUTORIAL_BANK_PATH = ROOT_DIR / "tutorial_nonograms_5x5.json"
@@ -265,7 +301,7 @@ with TUTORIAL_BANK_PATH.open("r", encoding="utf-8") as f:
 TUTORIAL_BANK_BY_ID = {p["id"]: p for p in TUTORIAL_PUZZLE_BANK}
 
 # --- Warmup puzzle bank (single 2x2 puzzle) ---
-WARMUP_BANK_PATH = ROOT_DIR / "warmup_nonogram_2x2.json"
+WARMUP_BANK_PATH = ROOT_DIR / "warmup_nonogram_3x3.json"
 with WARMUP_BANK_PATH.open("r", encoding="utf-8") as f:
     WARMUP_PUZZLE_BANK = json.load(f)   # list[dict] with exactly one element
 
@@ -438,19 +474,31 @@ def start_tutorial(tutorial_id: str = "tutorial_5x5"):
 
 @app.post("/session/start_three")
 def start_three():
-    # choose 3 distinct puzzles uniformly at random
-    chosen = random.sample(PUZZLE_BANK, k=3)
-    queue_ids = [p["id"] for p in chosen]
+    state = load_assignment_state()
+    next_idx = int(state.get("next_idx", 0))
 
-    # session memory
+    if next_idx >= len(ASSIGNMENT_SCHEDULE):
+        raise HTTPException(409, "No more scheduled sequences available")
+
+    queue_ids = ASSIGNMENT_SCHEDULE[next_idx]  # e.g. [0, a, b]
+
+    # pull the 3 puzzles from the 6-puzzle pool by id (in order)
+    try:
+        chosen = [POOL6_BY_ID[pid] for pid in queue_ids]
+    except KeyError as e:
+        raise HTTPException(500, f"Schedule contains unknown puzzle id: {e}")
+
     sid = uuid.uuid4().hex
     first = chosen[0]
     SESSIONS[sid] = {
         "mode": "bank_three",
         "queue": queue_ids,
         "idx": 0,
+        "solved_flags": [False, False, False],
+        "skipped_flags": [False, False, False],
         "answers": {p["id"]: p["solution"] for p in chosen},
         "board": blank_board(len(first["solution"]), len(first["solution"][0])),
+        "schedule_idx": next_idx,  # store for commit-on-completion
         "log": {
             "puzzle_id": f"bank:{queue_ids[0]}",
             "start_time": now_iso(),
@@ -461,11 +509,12 @@ def start_three():
             "checks": [[], [], []],
             "resets": [[], [], []],
             "queue": queue_ids,
+            "schedule_idx": next_idx,  # helpful for analysis/audit
             "surveys": {"pre": None, "puzzle": [None, None, None], "post": None}
         }
     }
 
-    append_event(sid, {"type": "session_start_three", "queue": queue_ids, "t": now_iso()})
+    append_event(sid, {"type": "session_start_three", "queue": queue_ids, "schedule_idx": next_idx, "t": now_iso()})
     return {
         "session_id": sid,
         "index": 0,
@@ -694,17 +743,43 @@ def check_session(session_id: str):
         if not solved:
             return {"solved": False, "mismatches": mismatches}
 
+        s["solved_flags"][s["idx"]] = True
         # advance to next puzzle (or finish)
         s["idx"] += 1
         if s["idx"] >= 3:
+            completed_all_three = all(s.get("solved_flags", [False, False, False]))
+            if completed_all_three:
+                if s["log"].get("end_time") is None:
+                    s["log"]["end_time"] = now_iso()
+                append_event(session_id, {"type": "completed_all_three", "t": s["log"]["end_time"]})
+
+                # commit schedule index only on full completion
+                state = load_assignment_state()
+                cur = int(state.get("next_idx", 0))
+                used = int(s.get("schedule_idx", cur))
+                if used == cur:
+                    state["next_idx"] = cur + 1
+                    save_assignment_state(state)
+
+                return {"solved": True, "completed": True}
+
+            # Not all solved (some skipped)
             if s["log"].get("end_time") is None:
                 s["log"]["end_time"] = now_iso()
-            append_event(session_id, {"type": "completed_all_three", "t": s["log"]["end_time"]})
-            return {"solved": True, "completed": True}
+            append_event(session_id, {"type": "ended_without_full_completion", "solved_flags": s["solved_flags"],
+                                      "t": s["log"]["end_time"]})
+
+            return {
+                "solved": True,  # the last puzzle they checked was solved
+                "completed": False,  # but NOT all three solved
+                "finished": True,  # optional convenience flag for frontend
+                "solved_flags": s.get("solved_flags"),
+                "skipped_flags": s.get("skipped_flags")
+            }
 
         # next puzzle metadata to send to client
         next_id = s["queue"][s["idx"]]
-        next_pz = BANK_BY_ID[next_id]
+        next_pz = POOL6_BY_ID[next_id]
         rows, cols = len(next_pz["solution"]), len(next_pz["solution"][0])
 
         # reset server board for the next puzzle
@@ -764,10 +839,11 @@ def get_hint(session_id: str):
 
     # Nothing to hint if already matching the solution
     if not mismatches:
-        append_event(session_id, {
-            "type": "hint_none",
-            "t": now_iso()
-        })
+        if s.get("mode") != "warmup":  # skip for warmup
+            append_event(session_id, {
+                "type": "hint_none",
+                "t": now_iso()
+            })
         return {"solved": True, "hint": None}
 
 
@@ -814,18 +890,40 @@ def advance_puzzle(session_id: str):
     
     if s.get("mode") != "bank_three":
         raise HTTPException(400, "advance only works for three-puzzle sessions")
-    
+
+    # mark current puzzle as skipped (only if not already solved)
+    if not s["solved_flags"][s["idx"]]:
+        s["skipped_flags"][s["idx"]] = True
+        append_event(session_id,
+                     {"type": "skip_puzzle", "idx": s["idx"], "puzzle_id": s["queue"][s["idx"]], "t": now_iso()})
+
     # Advance to next puzzle (similar to check when solved)
     s["idx"] += 1
     if s["idx"] >= 3:
+        # if s["log"].get("end_time") is None:
+        #     s["log"]["end_time"] = now_iso()
+        # append_event(session_id, {"type": "completed_all_three", "t": s["log"]["end_time"]})
+        # return {"completed": True}
         if s["log"].get("end_time") is None:
             s["log"]["end_time"] = now_iso()
-        append_event(session_id, {"type": "completed_all_three", "t": s["log"]["end_time"]})
-        return {"completed": True}
+
+        completed_all_three = all(s.get("solved_flags", [False, False, False]))
+        if completed_all_three:
+            append_event(session_id, {"type": "completed_all_three", "t": s["log"]["end_time"]})
+            return {"completed": True}
+
+        append_event(session_id, {
+            "type": "ended_without_full_completion",
+            "solved_flags": s.get("solved_flags"),
+            "skipped_flags": s.get("skipped_flags"),
+            "t": s["log"]["end_time"]
+        })
+        return {"completed": False, "finished": True, "solved_flags": s.get("solved_flags"),
+                "skipped_flags": s.get("skipped_flags")}
     
     # Get next puzzle metadata
     next_id = s["queue"][s["idx"]]
-    next_pz = BANK_BY_ID[next_id]
+    next_pz = POOL6_BY_ID[next_id]
     rows, cols = len(next_pz["solution"]), len(next_pz["solution"][0])
     
     # Reset server board for the next puzzle
