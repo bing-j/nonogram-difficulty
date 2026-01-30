@@ -183,7 +183,7 @@ def show_solving_time_diff(nonograms):
 if __name__ == "__main__":
     import json
     # Re-generate and solve 1000 nonograms
-    nonograms = generate_nonogram_set(1000, [50])
+    nonograms = generate_unique_nonograms(1000, [50])
     with open('unique_solution_nonograms_1000.json', 'w') as f:
         json.dump(nonograms, f, indent=4)
     df = solve_batch(nonograms)
