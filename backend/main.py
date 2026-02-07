@@ -428,6 +428,28 @@ def _increment_hint_count(session: Dict) -> None:
         return
     session["hint_count"] = session.get("hint_count", 0) + 1
 
+def _ensure_undo(session: Dict) -> None:
+    session.setdefault("undo_stack", [])
+
+def _push_undo(session: Dict, diffs: List[Dict], label: str) -> None:
+    if not diffs:
+        return
+    _ensure_undo(session)
+    session["undo_stack"].append({
+        "label": label,
+        "t": now_iso(),
+        "diffs": diffs
+    })
+
+def _apply_undo_group(session: Dict, group: Dict) -> None:
+    board = session["board"]
+    rows, cols = len(board), len(board[0])
+    # revert in reverse order (not strictly required here, but good practice)
+    for d in reversed(group.get("diffs", [])):
+        r, c = int(d["r"]), int(d["c"])
+        if 0 <= r < rows and 0 <= c < cols:
+            board[r][c] = int(d["from"])
+
 # --- Routes ---
 
 @app.post("/session/start_warmup")
@@ -445,6 +467,7 @@ def start_warmup():
         "answer": p["solution"],  # ground truth
         "hint_count": 0,
         "hint_limit": HINT_LIMIT,
+        "undo_stack": [],
         # intentionally no logging
     }
 
@@ -474,6 +497,7 @@ def start_tutorial(tutorial_id: str = "tutorial_5x5"):
         "answer": p["solution"],
         "hint_count": 0,
         "hint_limit": HINT_LIMIT,
+        "undo_stack": [],
         "log": {
             "puzzle_id": f"tutorial:{tutorial_id}",
             "start_time": now_iso(),
@@ -526,6 +550,7 @@ def start_three():
         "skipped_flags": [False, False, False],
         "hint_counts": [0, 0, 0],
         "hint_limit": HINT_LIMIT,
+        "undo_stack": [],
         "answers": {p["id"]: p["solution"] for p in chosen},
         "board": blank_board(len(first["solution"]), len(first["solution"][0])),
         "schedule_idx": next_idx,  # store for commit-on-completion
@@ -688,7 +713,20 @@ def move(session_id: str, move: Move):
         raise HTTPException(400, "Invalid coordinates")
     if move.value not in (-1, 0, 1):
         raise HTTPException(400, "Invalid value")
-    s["board"][move.r][move.c] = move.value
+    prev = s["board"][move.r][move.c]
+    nxt = move.value
+    if prev == nxt:
+        return Board(board=s["board"])
+
+    s["board"][move.r][move.c] = nxt
+
+    # Record undo (only cell modifications)
+    _push_undo(s, [{
+        "r": move.r,
+        "c": move.c,
+        "from": prev,
+        "to": nxt
+    }], label="cell")
 
     if s.get("mode") != "warmup":  # logging (skip for warmup)
         # log the move (memory)
@@ -816,6 +854,7 @@ def check_session(session_id: str):
 
         # reset server board for the next puzzle
         s["board"] = blank_board(rows, cols)
+        s["undo_stack"] = []
         s["log"]["puzzle_id"] = f"bank:{next_id}"
 
         return {
@@ -996,6 +1035,7 @@ def advance_puzzle(session_id: str):
     
     # Reset server board for the next puzzle
     s["board"] = blank_board(rows, cols)
+    s["undo_stack"] = []
     s["log"]["puzzle_id"] = f"bank:{next_id}"
     
     append_event(session_id, {
@@ -1025,7 +1065,18 @@ def reset_board(session_id: str):
 
     # Reset board to current size (works for both single and bank_three)
     rows, cols = len(s["board"]), len(s["board"][0])
+
+    diffs = []
+    for r in range(rows):
+        for c in range(cols):
+            prev = s["board"][r][c]
+            if prev != 0:
+                diffs.append({"r": r, "c": c, "from": prev, "to": 0})
+
     s["board"] = blank_board(rows, cols)
+
+    _push_undo(s, diffs, label="reset")
+
     if s.get("mode") == "bank_three":
         hint_counts = s.setdefault("hint_counts", [0, 0, 0])
         idx = s.get("idx", 0)
@@ -1044,6 +1095,28 @@ def reset_board(session_id: str):
 
         # Disk event remains
         append_event(session_id, {"type": "reset", "t": now_iso()})
+    return Board(board=s["board"])
+
+@app.post("/sessions/{session_id}/undo", response_model=Board)
+def undo(session_id: str):
+    s = ensure_session(session_id)
+    _ensure_undo(s)
+
+    if not s["undo_stack"]:
+        # nothing to undo
+        return Board(board=s["board"]), "Nothing to undo."
+
+    group = s["undo_stack"].pop()
+    _apply_undo_group(s, group)
+
+    if s.get("mode") != "warmup":
+        append_event(session_id, {
+            "type": "undo",
+            "label": group.get("label"),
+            "diffs_len": len(group.get("diffs", [])),
+            "t": now_iso()
+        })
+
     return Board(board=s["board"])
 
 @app.get("/sessions/{session_id}/log")
