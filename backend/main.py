@@ -296,14 +296,14 @@ def save_assignment_state(state: dict) -> None:
     STATE_PATH.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
 # --- Tutorial puzzle bank ---
-TUTORIAL_BANK_PATH = ROOT_DIR / "tutorial_nonograms_5x5.json"
+TUTORIAL_BANK_PATH = ROOT_DIR / "tutorial_nonograms_10x10.json"
 with TUTORIAL_BANK_PATH.open("r", encoding="utf-8") as f:
     TUTORIAL_PUZZLE_BANK = json.load(f)
 
 TUTORIAL_BANK_BY_ID = {p["id"]: p for p in TUTORIAL_PUZZLE_BANK}
 
 # --- Warmup puzzle bank (single 2x2 puzzle) ---
-WARMUP_BANK_PATH = ROOT_DIR / "warmup_nonogram_3x3.json"
+WARMUP_BANK_PATH = ROOT_DIR / "warmup_nonogram_10x10.json"
 with WARMUP_BANK_PATH.open("r", encoding="utf-8") as f:
     WARMUP_PUZZLE_BANK = json.load(f)   # list[dict] with exactly one element
 
