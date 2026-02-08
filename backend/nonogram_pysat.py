@@ -203,7 +203,7 @@ if __name__ == "__main__":
     import json
 
     # verify unique solution nonograms are indeed unique and solution matches original
-    unique_solution_nonograms = json.load(open('nonograms_6.json'))
+    unique_solution_nonograms = json.load(open('tutorial_nonograms.json'))
     for nonogram in unique_solution_nonograms:
         grids = solve_nonogram(nonogram['clues'], True)
         assert len(grids) == 1 and grids[0] == nonogram['solution']
