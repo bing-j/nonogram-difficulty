@@ -183,10 +183,10 @@ def show_solving_time_diff(nonograms):
 if __name__ == "__main__":
     import json
     # Re-generate and solve 1000 nonograms
-    nonograms = generate_unique_nonograms(1000, [50])
-    with open('unique_solution_nonograms_1000.json', 'w') as f:
-        json.dump(nonograms, f, indent=4)
-    df = solve_batch(nonograms)
+    # nonograms = generate_unique_nonograms(1000, [50])
+    # with open('unique_solution_nonograms_1000.json', 'w') as f:
+    #     json.dump(nonograms, f, indent=4)
+    # df = solve_batch(nonograms)
 
     # CAREFUL: The following code is commented out to prevent overwriting existing files.
 
@@ -197,4 +197,8 @@ if __name__ == "__main__":
 
     # # Show that solving times are not consistent across runs
     # show_solving_time_diff(nonograms)
+
+    tutorial_nonograms = generate_unique_nonograms(2, [75])
+    with open('tutorial_nonograms.json', 'w') as f:
+        json.dump(tutorial_nonograms, f, indent=4)
 
