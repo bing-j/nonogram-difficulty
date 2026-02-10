@@ -8,7 +8,8 @@ import {
   makeMove,
   checkBoard,
   resetBoard,
-  getHint
+  getHint,
+  undoBoard
 } from "@/services/api";
 
 const DEFAULT_HINT_LIMIT = 5;
@@ -297,6 +298,13 @@ export default function Tutorial() {
     });
   };
 
+  const handleUndo = async () => {
+    if (!sessionId || solved) return;
+    const res = await undoBoard(sessionId);
+    setBoard(res.board);
+    setHighlightedCell(null);
+  };
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -354,6 +362,23 @@ export default function Tutorial() {
             }}
           >
             Reset
+          </button>
+
+          <button
+            onClick={handleUndo}
+            disabled={solved}
+            style={{
+              padding: "0.75rem 2rem",
+              backgroundColor: solved ? "#ccc" : "#5E6A75",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "8px",
+              border: "none",
+              cursor: solved ? "not-allowed" : "pointer",
+              fontSize: "1rem",
+            }}
+          >
+            Undo
           </button>
 
           {showHintButton && (

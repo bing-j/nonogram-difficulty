@@ -15,7 +15,8 @@ import {
   endSession,
   getHint,
   getSessionLog,
-  advancePuzzle
+  advancePuzzle,
+  undoBoard
 } from "@/services/api";
 
 const STAGES = {
@@ -665,6 +666,13 @@ export default function Home() {
     });
   };
 
+  const handleUndo = async () => {
+    if (!sessionId || solved) return;
+    const res = await undoBoard(sessionId);
+    setBoard(res.board);
+    setHighlightedCell(null);
+  };
+
   // Format time for display
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -739,6 +747,23 @@ export default function Home() {
                 }}
               >
                 Reset
+              </button>
+
+              <button
+                onClick={handleUndo}
+                disabled={solved}
+                style={{
+                  padding: "0.75rem 2rem",
+                  backgroundColor: solved ? "#ccc" : "#5E6A75",
+                  color: "white",
+                  fontWeight: "bold",
+                  borderRadius: "8px",
+                  border: "none",
+                  cursor: solved ? "not-allowed" : "pointer",
+                  fontSize: "1rem",
+                }}
+              >
+                Undo
               </button>
               
               {showHintButton && (

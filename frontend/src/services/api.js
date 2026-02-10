@@ -33,6 +33,11 @@ export async function resetBoard(sessionId) {
   return await res.json();
 }
 
+export async function undoBoard(sessionId) {
+  const res = await fetch(`${BASE_URL}/sessions/${sessionId}/undo`, { method: "POST" });
+  return await res.json();
+}
+
 export async function endSession(sessionId) {
   const res = await fetch(`${BASE_URL}/sessions/${sessionId}/end`, { method: "POST" });
   return await res.json();
