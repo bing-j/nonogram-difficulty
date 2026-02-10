@@ -24,8 +24,8 @@ export default function Tutorial() {
   const [timerKey, setTimerKey] = useState(0);
   const [showHintButton, setShowHintButton] = useState(false);
   const [highlightedCell, setHighlightedCell] = useState(null);
-  const [hintLimit, setHintLimit] = useState(DEFAULT_HINT_LIMIT);
   const [hintsRemaining, setHintsRemaining] = useState(DEFAULT_HINT_LIMIT);
+  const [hintsUsed, setHintsUsed] = useState(0);
 
   const [confirmModal, setConfirmModal] = useState({
     isOpen: false,
@@ -60,9 +60,8 @@ export default function Tutorial() {
           rows: session.puzzle.row_clues,
           columns: session.puzzle.col_clues
         });
-        const limit = session.hint_limit ?? DEFAULT_HINT_LIMIT;
-        setHintLimit(limit);
-        setHintsRemaining(session.hints_remaining ?? limit);
+        setHintsRemaining(session.hints_remaining ?? 0);
+        setHintsUsed(0);
 
         setSolved(false);
         setTimerRunning(true);
@@ -209,7 +208,7 @@ export default function Tutorial() {
   const handleHint = async () => {
     if (!sessionId) return;
     if (hintsRemaining <= 0) {
-      toast(`Hint limit reached (${hintLimit} max).`);
+      toast("No hints available yet.");
       return;
     }
 
@@ -222,9 +221,10 @@ export default function Tutorial() {
         }
       } else if (res.limit_reached) {
         setHintsRemaining(0);
-        toast(`Hint limit reached (${hintLimit} max).`);
+        toast("No hints available yet.");
       } else if (res.hint) {
         setHighlightedCell({ r: res.hint.r, c: res.hint.c });
+        setHintsUsed(prev => prev + 1);
         if (typeof res.hints_remaining === "number") {
           setHintsRemaining(res.hints_remaining);
         } else {
@@ -242,6 +242,14 @@ export default function Tutorial() {
   const handleTimeUpdate = (seconds) => {
     setElapsedTime(seconds);
   };
+
+  useEffect(() => {
+    const accrued = Math.floor(elapsedTime / 60);
+    const available = Math.max(0, accrued - hintsUsed);
+    if (available !== hintsRemaining) {
+      setHintsRemaining(available);
+    }
+  }, [elapsedTime, hintsUsed, hintsRemaining]);
 
   const handleCheck = async () => {
     if (!sessionId || solved) return;
@@ -274,13 +282,8 @@ export default function Tutorial() {
         const res = await resetBoard(sessionId);
         setBoard(res.board);
         setSolved(false);
-        setTimerRunning(true);
         setShowHintButton(true);
         setHighlightedCell(null);
-        setSolvedPuzzleTime(null);
-        setElapsedTime(0);
-        setHintsRemaining(hintLimit);
-        setTimerKey(prev => prev + 1);
         toast.success("Puzzle reset", { duration: 2000 });
       },
       onCancel: () => {
@@ -372,7 +375,7 @@ export default function Tutorial() {
             </button>
           )}
           <div style={{ fontSize: "0.95rem", color: "#555" }}>
-            Hints remaining: {hintsRemaining} / {hintLimit}
+            Hints available: {hintsRemaining}
           </div>
         </div>
 

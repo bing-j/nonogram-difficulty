@@ -15,6 +15,7 @@ import yaml
 from backend.solver_adapter import solve_nonogram, UnsolvableError
 
 HINT_LIMIT = 5
+HINT_INTERVAL_SECONDS = 60
 
 SURVEY_SPEC = {
     "pre": [
@@ -325,6 +326,12 @@ def _pack_public_from_bank(p: dict) -> dict:
 def now_iso():
     return datetime.now(timezone.utc).isoformat()
 
+def _parse_iso(ts: str) -> datetime:
+    try:
+        return datetime.fromisoformat(ts)
+    except Exception:
+        return datetime.now(timezone.utc)
+
 def log_file_ndjson(session_id: str) -> Path:
     return LOG_DIR / f"{session_id}.ndjson"
 
@@ -428,6 +435,28 @@ def _increment_hint_count(session: Dict) -> None:
         return
     session["hint_count"] = session.get("hint_count", 0) + 1
 
+def _get_hint_start_time(session: Dict) -> datetime:
+    if session.get("mode") == "bank_three":
+        idx = session.get("idx", 0)
+        hint_starts = session.setdefault("hint_start_times", [None, None, None])
+        if idx >= len(hint_starts):
+            hint_starts.extend([None] * (idx + 1 - len(hint_starts)))
+        if hint_starts[idx] is None:
+            hint_starts[idx] = now_iso()
+        return _parse_iso(hint_starts[idx])
+
+    if not session.get("hint_start_time"):
+        session["hint_start_time"] = now_iso()
+    return _parse_iso(session["hint_start_time"])
+
+def _get_hint_allowance(session: Dict) -> int:
+    start = _get_hint_start_time(session)
+    elapsed = (datetime.now(timezone.utc) - start).total_seconds()
+    return max(0, int(elapsed // HINT_INTERVAL_SECONDS))
+
+def _get_hints_remaining(session: Dict) -> int:
+    return max(0, _get_hint_allowance(session) - _get_hint_count(session))
+
 def _ensure_undo(session: Dict) -> None:
     session.setdefault("undo_stack", [])
 
@@ -467,6 +496,7 @@ def start_warmup():
         "answer": p["solution"],  # ground truth
         "hint_count": 0,
         "hint_limit": HINT_LIMIT,
+        "hint_start_time": now_iso(),
         "undo_stack": [],
         # intentionally no logging
     }
@@ -475,7 +505,7 @@ def start_warmup():
         "session_id": sid,
         "puzzle": _pack_public_from_bank(p),
         "hint_limit": HINT_LIMIT,
-        "hints_remaining": HINT_LIMIT
+        "hints_remaining": _get_hints_remaining(SESSIONS[sid])
     }
 
 
@@ -497,6 +527,7 @@ def start_tutorial(tutorial_id: str = "tutorial_5x5"):
         "answer": p["solution"],
         "hint_count": 0,
         "hint_limit": HINT_LIMIT,
+        "hint_start_time": now_iso(),
         "undo_stack": [],
         "log": {
             "puzzle_id": f"tutorial:{tutorial_id}",
@@ -520,7 +551,7 @@ def start_tutorial(tutorial_id: str = "tutorial_5x5"):
         "session_id": sid,
         "puzzle": _pack_public_from_bank(p),
         "hint_limit": HINT_LIMIT,
-        "hints_remaining": HINT_LIMIT
+        "hints_remaining": _get_hints_remaining(SESSIONS[sid])
     }
 
 
@@ -550,6 +581,7 @@ def start_three():
         "skipped_flags": [False, False, False],
         "hint_counts": [0, 0, 0],
         "hint_limit": HINT_LIMIT,
+        "hint_start_times": [now_iso(), None, None],
         "undo_stack": [],
         "answers": {p["id"]: p["solution"] for p in chosen},
         "board": blank_board(len(first["solution"]), len(first["solution"][0])),
@@ -575,7 +607,7 @@ def start_three():
         "index": 0,
         "puzzle": _pack_public_from_bank(first),  # send only clues+size
         "hint_limit": HINT_LIMIT,
-        "hints_remaining": HINT_LIMIT
+        "hints_remaining": _get_hints_remaining(SESSIONS[sid])
     }
 
 # -------- SURVEY ENDPOINTS --------
@@ -672,6 +704,9 @@ def create_puzzle(payload: PuzzleCreate):
     SESSIONS[session_id] = {
         "puzzle_id": puzzle_id,
         "board": blank_board(len(payload.row_clues), len(payload.col_clues)),
+        "hint_count": 0,
+        "hint_limit": HINT_LIMIT,
+        "hint_start_time": now_iso(),
         "log": {
             "puzzle_id": puzzle_id,
             "start_time": now_iso(),
@@ -856,6 +891,10 @@ def check_session(session_id: str):
         s["board"] = blank_board(rows, cols)
         s["undo_stack"] = []
         s["log"]["puzzle_id"] = f"bank:{next_id}"
+        hint_starts = s.setdefault("hint_start_times", [None, None, None])
+        if s["idx"] >= len(hint_starts):
+            hint_starts.extend([None] * (s["idx"] + 1 - len(hint_starts)))
+        hint_starts[s["idx"]] = now_iso()
 
         return {
             "solved": True,
@@ -869,7 +908,7 @@ def check_session(session_id: str):
                 "col_clues": next_pz["clues"]["columns"],
             },
             "hint_limit": s.get("hint_limit", HINT_LIMIT),
-            "hints_remaining": max(0, s.get("hint_limit", HINT_LIMIT) - _get_hint_count(s))
+            "hints_remaining": _get_hints_remaining(s)
         }
 
     # ========== original single-puzzle flow ==========
@@ -923,12 +962,12 @@ def get_hint(session_id: str):
             "hint": None,
             "hint_limit": hint_limit,
             "hints_used": _get_hint_count(s),
-            "hints_remaining": max(0, hint_limit - _get_hint_count(s)),
+            "hints_remaining": _get_hints_remaining(s),
             "limit_reached": False
         }
 
-    hints_used = _get_hint_count(s)
-    if hints_used >= hint_limit:
+    hints_remaining = _get_hints_remaining(s)
+    if hints_remaining <= 0:
         if s.get("mode") != "warmup":  # skip for warmup
             append_event(session_id, {
                 "type": "hint_limit",
@@ -938,7 +977,7 @@ def get_hint(session_id: str):
             "solved": False,
             "hint": None,
             "hint_limit": hint_limit,
-            "hints_used": hints_used,
+            "hints_used": _get_hint_count(s),
             "hints_remaining": 0,
             "limit_reached": True
         }
@@ -983,7 +1022,7 @@ def get_hint(session_id: str):
         "hint": {"r": r, "c": c},
         "hint_limit": hint_limit,
         "hints_used": hints_used,
-        "hints_remaining": max(0, hint_limit - hints_used),
+        "hints_remaining": _get_hints_remaining(s),
         "limit_reached": False
     }
 
@@ -1037,6 +1076,10 @@ def advance_puzzle(session_id: str):
     s["board"] = blank_board(rows, cols)
     s["undo_stack"] = []
     s["log"]["puzzle_id"] = f"bank:{next_id}"
+    hint_starts = s.setdefault("hint_start_times", [None, None, None])
+    if s["idx"] >= len(hint_starts):
+        hint_starts.extend([None] * (s["idx"] + 1 - len(hint_starts)))
+    hint_starts[s["idx"]] = now_iso()
     
     append_event(session_id, {
         "type": "puzzle_advanced",
@@ -1056,7 +1099,7 @@ def advance_puzzle(session_id: str):
             "col_clues": next_pz["clues"]["columns"],
         },
         "hint_limit": s.get("hint_limit", HINT_LIMIT),
-        "hints_remaining": max(0, s.get("hint_limit", HINT_LIMIT) - _get_hint_count(s))
+        "hints_remaining": _get_hints_remaining(s)
     }
 
 @app.post("/sessions/{session_id}/reset", response_model=Board)
@@ -1076,14 +1119,6 @@ def reset_board(session_id: str):
     s["board"] = blank_board(rows, cols)
 
     _push_undo(s, diffs, label="reset")
-
-    if s.get("mode") == "bank_three":
-        hint_counts = s.setdefault("hint_counts", [0, 0, 0])
-        idx = s.get("idx", 0)
-        if 0 <= idx < len(hint_counts):
-            hint_counts[idx] = 0
-    else:
-        s["hint_count"] = 0
 
     if s.get("mode") != "warmup":  # skip for warmup
         # Log counters + per-puzzle timestamp (NO pseudo-move)
