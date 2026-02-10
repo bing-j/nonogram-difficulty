@@ -452,7 +452,16 @@ def _get_hint_start_time(session: Dict) -> datetime:
 def _get_hint_allowance(session: Dict) -> int:
     start = _get_hint_start_time(session)
     elapsed = (datetime.now(timezone.utc) - start).total_seconds()
-    return max(0, int(elapsed // HINT_INTERVAL_SECONDS))
+    if elapsed <= 0:
+        return 0
+    # 0-4 mins: 1 hint every 2 minutes (at 2, 4)
+    if elapsed < 240:
+        return int(elapsed // 120)
+    # 4-8 mins: 1 hint every 1 minute (next 4 hints)
+    if elapsed < 480:
+        return 2 + int((elapsed - 240) // 60)
+    # 8+ mins: 1 hint every 30 seconds (fastest)
+    return 6 + int((elapsed - 480) // 30)
 
 def _get_hints_remaining(session: Dict) -> int:
     return max(0, _get_hint_allowance(session) - _get_hint_count(session))
@@ -510,7 +519,7 @@ def start_warmup():
 
 
 @app.post("/session/start_tutorial")
-def start_tutorial(tutorial_id: str = "tutorial_5x5"):
+def start_tutorial(tutorial_id: str = "tutorial_10x10"):
     p = TUTORIAL_BANK_BY_ID.get(tutorial_id)
     if not p:
         raise HTTPException(404, "Unknown tutorial_id")

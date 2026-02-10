@@ -5,6 +5,7 @@ import Timer from "@/components/Timer";
 import ConfirmModal from "@/components/ConfirmModal";
 import {
   startTutorialSession,
+  startThreePuzzleSession,
   makeMove,
   checkBoard,
   resetBoard,
@@ -13,6 +14,12 @@ import {
 } from "@/services/api";
 
 const DEFAULT_HINT_LIMIT = 5;
+const getHintAllowance = (elapsedSeconds) => {
+  if (elapsedSeconds <= 0) return 0;
+  if (elapsedSeconds < 240) return Math.floor(elapsedSeconds / 120);
+  if (elapsedSeconds < 480) return 2 + Math.floor((elapsedSeconds - 240) / 60);
+  return 6 + Math.floor((elapsedSeconds - 480) / 30);
+};
 
 export default function Tutorial() {
   const [sessionId, setSessionId] = useState(null);
@@ -245,8 +252,8 @@ export default function Tutorial() {
   };
 
   useEffect(() => {
-    const accrued = Math.floor(elapsedTime / 60);
-    const available = Math.max(0, accrued - hintsUsed);
+    const allowance = getHintAllowance(elapsedTime);
+    const available = Math.max(0, allowance - hintsUsed);
     if (available !== hintsRemaining) {
       setHintsRemaining(available);
     }
@@ -286,6 +293,43 @@ export default function Tutorial() {
         setShowHintButton(true);
         setHighlightedCell(null);
         toast.success("Puzzle reset", { duration: 2000 });
+      },
+      onCancel: () => {
+        setConfirmModal({
+          isOpen: false,
+          message: "",
+          onConfirm: null,
+          onCancel: null
+        });
+      }
+    });
+  };
+
+  const startExperiment = async () => {
+    try {
+      const session = await startThreePuzzleSession();
+      if (typeof window !== "undefined") {
+        window.sessionStorage.setItem("experimentSession", JSON.stringify(session));
+        window.location.href = `/experiment?session_id=${session.session_id}`;
+      }
+    } catch (error) {
+      console.error("Failed to start experiment:", error);
+      toast.error("Failed to start the experiment.");
+    }
+  };
+
+  const handleSkip = () => {
+    setConfirmModal({
+      isOpen: true,
+      message: "Are you sure you want to skip the tutorial and start the experiment?",
+      onConfirm: () => {
+        setConfirmModal({
+          isOpen: false,
+          message: "",
+          onConfirm: null,
+          onCancel: null
+        });
+        startExperiment();
       },
       onCancel: () => {
         setConfirmModal({
@@ -404,22 +448,40 @@ export default function Tutorial() {
           </div>
         </div>
 
-        <button
-          onClick={handleCheck}
-          disabled={solved}
-          style={{
-            padding: "0.75rem 2rem",
-            backgroundColor: solved ? "#ccc" : "#4169E1",
-            color: "white",
-            fontWeight: "bold",
-            borderRadius: "8px",
-            border: "none",
-            cursor: solved ? "not-allowed" : "pointer",
-            fontSize: "1rem"
-          }}
-        >
-          Submit
-        </button>
+        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <button
+            onClick={handleCheck}
+            disabled={solved}
+            style={{
+              padding: "0.75rem 2rem",
+              backgroundColor: solved ? "#ccc" : "#4169E1",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "8px",
+              border: "none",
+              cursor: solved ? "not-allowed" : "pointer",
+              fontSize: "1rem"
+            }}
+          >
+            Submit
+          </button>
+
+          <button
+            onClick={handleSkip}
+            style={{
+              padding: "0.75rem 2rem",
+              backgroundColor: "#E3963E",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "8px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "1rem"
+            }}
+          >
+            Skip
+          </button>
+        </div>
       </div>
 
       {solved && (

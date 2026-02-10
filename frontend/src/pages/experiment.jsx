@@ -29,6 +29,12 @@ const STAGES = {
 };
 
 const DEFAULT_HINT_LIMIT = 5;
+const getHintAllowance = (elapsedSeconds) => {
+  if (elapsedSeconds <= 0) return 0;
+  if (elapsedSeconds < 240) return Math.floor(elapsedSeconds / 120);
+  if (elapsedSeconds < 480) return 2 + Math.floor((elapsedSeconds - 240) / 60);
+  return 6 + Math.floor((elapsedSeconds - 480) / 30);
+};
 
 export default function Home() {
   const [stage, setStage] = useState(STAGES.PRE_SURVEY);
@@ -357,8 +363,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const accrued = Math.floor(elapsedTime / 60);
-    const available = Math.max(0, accrued - hintsUsed);
+    const allowance = getHintAllowance(elapsedTime);
+    const available = Math.max(0, allowance - hintsUsed);
     if (available !== hintsRemaining) {
       setHintsRemaining(available);
     }
