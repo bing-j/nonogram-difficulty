@@ -207,7 +207,7 @@ def save_puzzle_rating_figures(ratings_df: pd.DataFrame, out_dir: str, puzzle_id
 
     # ----- Initial ratings -----
     ax1 = fig.add_subplot(2, 1, 1)
-    bp1 = ax1.boxplot(init_lists, labels=labels, showmeans=True)
+    bp1 = ax1.boxplot(init_lists, tick_labels=labels, showmeans=True)
     ax1.set_title("Initial difficulty ratings by puzzle ID")
     ax1.set_xlabel("Puzzle ID")
     ax1.set_ylabel("Initial rating")
@@ -215,7 +215,7 @@ def save_puzzle_rating_figures(ratings_df: pd.DataFrame, out_dir: str, puzzle_id
 
     # ----- Final ratings -----
     ax2 = fig.add_subplot(2, 1, 2)
-    bp2 = ax2.boxplot(fin_lists, labels=labels, showmeans=True)
+    bp2 = ax2.boxplot(fin_lists, tick_labels=labels, showmeans=True)
     ax2.set_title("Final difficulty ratings by puzzle ID")
     ax2.set_xlabel("Puzzle ID")
     ax2.set_ylabel("Final rating")
@@ -443,10 +443,10 @@ def main():
 
     os.makedirs(args.out_dir, exist_ok=True)
 
-    # 1) Per-participant summary CSV
-    rows = [flatten_for_csv(ps) for ps in participants]
-    df_participants = pd.DataFrame(rows)
-    df_participants.to_csv(os.path.join(args.out_dir, "participants_summary.csv"), index=False)
+    # # 1) Per-participant summary CSV
+    # rows = [flatten_for_csv(ps) for ps in participants]
+    # df_participants = pd.DataFrame(rows)
+    # df_participants.to_csv(os.path.join(args.out_dir, "participants_summary.csv"), index=False)
 
     # 2) Visualizations for puzzle ratings (instead of per-puzzle CSVs)
     ratings_df = build_ratings_table(participants)
@@ -459,7 +459,7 @@ def main():
         write_survey_dump(survey_dir, ps)
 
     print(f"Wrote outputs to: {args.out_dir}")
-    print(" - participants_summary.csv")
+    # print(" - participants_summary.csv")
     print(" - survey_dumps/*.json")
     print(" - figures/puzzle_<id>_ratings.png")
     print(" - figures/ratings_overview_all_puzzles.png")
