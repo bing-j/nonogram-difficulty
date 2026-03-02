@@ -211,7 +211,7 @@ def save_puzzle_rating_figures(ratings_df: pd.DataFrame, out_dir: str, puzzle_id
     ax1.set_title("Initial difficulty ratings by puzzle ID")
     ax1.set_xlabel("Puzzle ID")
     ax1.set_ylabel("Initial rating")
-    ax1.set_ylim(0.5, 7.5)
+    ax1.set_ylim(0.5, 5.5)
 
     # ----- Final ratings -----
     ax2 = fig.add_subplot(2, 1, 2)
@@ -219,7 +219,7 @@ def save_puzzle_rating_figures(ratings_df: pd.DataFrame, out_dir: str, puzzle_id
     ax2.set_title("Final difficulty ratings by puzzle ID")
     ax2.set_xlabel("Puzzle ID")
     ax2.set_ylabel("Final rating")
-    ax2.set_ylim(0.5, 7.5)
+    ax2.set_ylim(0.5, 5.5)
 
     # ----- Legend (shared) -----
     legend_elements = [
