@@ -39,7 +39,7 @@ SURVEY_SPEC = {
         },
         {
             "id": "nonogram_size_experience",
-            "prompt": "If you have played Nonogram before, what are the sizes you have solved? (select all that apply)",
+            "prompt": "If you have played Nonogram before, what are the sizes you have solved (select all that apply)?",
             "type": "multi",  # multiple choices allowed
             "options": [
                 {"value": "<=10*10", "label": "≤ 10 by 10"},
@@ -52,7 +52,7 @@ SURVEY_SPEC = {
         },
         {
             "id": "logic_experience",
-            "prompt": "Have you played any other logic puzzles before (select all that apply)?",
+            "prompt": "Which other logic puzzles have you played before (select all that apply)?",
             "type": "multi",  # multiple choices allowed
             "options": [
                 {"value": "sudoku", "label": "Sudoku"},
@@ -65,7 +65,7 @@ SURVEY_SPEC = {
         },
         {
             "id": "puzzle_played_frequency",
-            "prompt": "Have you played any other logic puzzles before? (select all that apply)",
+            "prompt": "Have you played any other logic puzzles before?",
             "type": "single",  # one choice only
             "options": [
                 {"value": "never", "label": "Never"},
@@ -85,7 +85,7 @@ SURVEY_SPEC = {
     "puzzle_1": [
         {
             "id": "difficulty",
-            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 10 indicates hardest), how would you rate the difficulty of this puzzle?",
+            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 5 indicates hardest), how would you rate the difficulty of this puzzle?",
             "type": "scale",
             "min": 1,
             "max": 5,
@@ -107,7 +107,7 @@ SURVEY_SPEC = {
     "puzzle_2": [
         {
             "id": "difficulty",
-            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 10 indicates hardest), how would you rate the difficulty of this puzzle?",
+            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 5 indicates hardest), how would you rate the difficulty of this puzzle?",
             "type": "scale",
             "min": 1,
             "max": 5,
@@ -129,7 +129,7 @@ SURVEY_SPEC = {
     "puzzle_3": [
         {
             "id": "difficulty",
-            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 10 indicates hardest), how would you rate the difficulty of this puzzle?",
+            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 5 indicates hardest), how would you rate the difficulty of this puzzle?",
             "type": "scale",
             "min": 1,
             "max": 5,
