@@ -400,7 +400,7 @@ class Coord(BaseModel):
 class DragMove(BaseModel):
     start: Coord
     end: Coord
-    mode: str  # "flip" or "cross"
+    mode: str  # "flip", "cross", or "cross_toggle"
 
 # --- In-memory stores ---
 PUZZLES: Dict[str, PuzzleInfo] = {}
@@ -805,7 +805,7 @@ def drag_move(session_id: str, drag: DragMove):
     board = s["board"]
     rows, cols = len(board), len(board[0])
 
-    if drag.mode not in ("flip", "cross"):
+    if drag.mode not in ("flip", "cross", "cross_toggle"):
         raise HTTPException(400, "Invalid mode")
 
     r1, c1 = drag.start.r, drag.start.c
@@ -830,9 +830,12 @@ def drag_move(session_id: str, drag: DragMove):
             if drag.mode == "flip":
                 # 0 -> 1, -1 -> 1, 1 -> 0
                 nxt = 0 if prev == 1 else 1
-            else:  # drag.mode == "cross"
+            elif drag.mode == "cross":
                 # always mark as crossed
                 nxt = -1
+            else:  # drag.mode == "cross_toggle"
+                # toggle cross mark for drag-undo behavior
+                nxt = 0 if prev == -1 else -1
 
             if prev == nxt:
                 continue

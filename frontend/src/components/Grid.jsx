@@ -106,6 +106,7 @@ export default function Grid({
       onDragStart(r, c, false);
     } else if (e.button === 2) {
       e.preventDefault();
+      onDragStart(r, c, true);
     }
   };
 

@@ -30,7 +30,7 @@ This endpoint applies an action to **all cells inside a rectangular region**.
 | ------- | ------- | ---------------------------------- |
 | `start` | `{r,c}` | starting cell where the drag began |
 | `end`   | `{r,c}` | cell where the drag ended          |
-| `mode`  | string  | `"flip"` or `"cross"`              |
+| `mode`  | string  | `"flip"`, `"cross"`, or `"cross_toggle"` |
 
 Coordinates are **0-indexed**.
 
@@ -81,6 +81,16 @@ Cell transitions:
 any -> -1
 ```
 
+## cross_toggle (right mouse drag with drag-undo)
+
+Cell transitions:
+
+```
+-1 -> 0
+0  -> -1
+1  -> -1
+```
+
 ---
 
 # Response
@@ -108,7 +118,7 @@ mode = "flip"
 ### Right Mouse Drag
 
 ```
-mode = "cross"
+mode = "cross_toggle"
 ```
 
 Disable the browser context menu so right-drag works:

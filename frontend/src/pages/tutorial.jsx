@@ -3,10 +3,12 @@ import toast from "react-hot-toast";
 import Grid from "@/components/Grid";
 import Timer from "@/components/Timer";
 import ConfirmModal from "@/components/ConfirmModal";
+import usePreventAccidentalExit from "@/hooks/usePreventAccidentalExit";
 import {
   startTutorialSession,
   startThreePuzzleSession,
   makeMove,
+  dragMove,
   checkBoard,
   resetBoard,
   getHint,
@@ -54,6 +56,7 @@ export default function Tutorial() {
   // Track if we actually moved during drag (to distinguish click from drag)
   const dragMovedRef = useRef(false);
   const isProcessingDragRef = useRef(false);
+  const { allowNextNavigation } = usePreventAccidentalExit(Boolean(sessionId) && timerRunning);
 
   useEffect(() => {
     async function init() {
@@ -135,40 +138,25 @@ export default function Tutorial() {
     });
 
     if (!wasDrag) {
+      if (isRightClick) {
+        const current = board[startRow][startCol];
+        const newValue = current === -1 ? 0 : -1;
+        const res = await makeMove(sessionId, startRow, startCol, newValue);
+        setBoard(res.board);
+      }
       dragMovedRef.current = false;
       isProcessingDragRef.current = false;
       return;
     }
 
-    const minRow = Math.min(startRow, endRow);
-    const maxRow = Math.max(startRow, endRow);
-    const minCol = Math.min(startCol, endCol);
-    const maxCol = Math.max(startCol, endCol);
-
-    const cellsToUpdate = [];
-    for (let r = minRow; r <= maxRow; r++) {
-      for (let c = minCol; c <= maxCol; c++) {
-        cellsToUpdate.push({ r, c });
-      }
-    }
-
-    if (isRightClick) {
-      const startValue = board[startRow][startCol];
-      const newValue = startValue === -1 ? 0 : -1;
-
-      for (const { r, c } of cellsToUpdate) {
-        const res = await makeMove(sessionId, r, c, newValue);
-        setBoard(res.board);
-      }
-    } else {
-      const startValue = board[startRow][startCol];
-      const newValue = startValue === 1 ? 0 : 1;
-
-      for (const { r, c } of cellsToUpdate) {
-        const res = await makeMove(sessionId, r, c, newValue);
-        setBoard(res.board);
-      }
-    }
+    const mode = isRightClick ? "cross_toggle" : "flip";
+    const res = await dragMove(
+      sessionId,
+      { r: startRow, c: startCol },
+      { r: endRow, c: endCol },
+      mode
+    );
+    setBoard(res.board);
 
     dragMovedRef.current = false;
     setTimeout(() => {
@@ -309,6 +297,7 @@ export default function Tutorial() {
     try {
       const session = await startThreePuzzleSession();
       if (typeof window !== "undefined") {
+        allowNextNavigation();
         window.sessionStorage.setItem("experimentSession", JSON.stringify(session));
         window.location.href = `/experiment?session_id=${session.session_id}`;
       }

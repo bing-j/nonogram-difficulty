@@ -5,9 +5,11 @@ import Timer from "@/components/Timer";
 import Survey from "@/components/Survey";
 import ConfirmModal from "@/components/ConfirmModal";
 import HintModal from "@/components/HintModal";
+import usePreventAccidentalExit from "@/hooks/usePreventAccidentalExit";
 import {
   startThreePuzzleSession,
   makeMove,
+  dragMove,
   checkBoard,
   resetBoard,
   getSurvey,
@@ -95,6 +97,7 @@ export default function Home() {
     endCol: null,
     isRightClick: false
   });
+  usePreventAccidentalExit(Boolean(sessionId) && stage !== STAGES.COMPLETED);
 
   // Initialize session and get pre-survey
   useEffect(() => {
@@ -222,48 +225,25 @@ export default function Home() {
     
     // If it was just a click (no movement), let the normal click handler deal with it
     if (!wasDrag) {
+      if (isRightClick) {
+        const current = board[startRow][startCol];
+        const newValue = current === -1 ? 0 : -1;
+        const res = await makeMove(sessionId, startRow, startCol, newValue);
+        setBoard(res.board);
+      }
       dragMovedRef.current = false;
       isProcessingDragRef.current = false;
       return;
     }
     
-    // Calculate the range of cells to update
-    const minRow = Math.min(startRow, endRow);
-    const maxRow = Math.max(startRow, endRow);
-    const minCol = Math.min(startCol, endCol);
-    const maxCol = Math.max(startCol, endCol);
-    
-    // Collect all cells in the selection
-    const cellsToUpdate = [];
-    for (let r = minRow; r <= maxRow; r++) {
-      for (let c = minCol; c <= maxCol; c++) {
-        cellsToUpdate.push({ r, c });
-      }
-    }
-    
-    // Determine the action based on click type
-    if (isRightClick) {
-      // Right click drag: toggle cross (-1)
-      // Use the state of the starting cell to determine action
-      const startValue = board[startRow][startCol];
-      const newValue = startValue === -1 ? 0 : -1;
-      
-      // Apply to all cells in selection
-      for (const { r, c } of cellsToUpdate) {
-        const res = await makeMove(sessionId, r, c, newValue);
-        setBoard(res.board);
-      }
-    } else {
-      // Left click drag: toggle based on the starting cell (match click behavior)
-      const startValue = board[startRow][startCol];
-      const newValue = startValue === 1 ? 0 : 1;
-      
-      // Apply to all cells in selection
-      for (const { r, c } of cellsToUpdate) {
-        const res = await makeMove(sessionId, r, c, newValue);
-        setBoard(res.board);
-      }
-    }
+    const mode = isRightClick ? "cross_toggle" : "flip";
+    const res = await dragMove(
+      sessionId,
+      { r: startRow, c: startCol },
+      { r: endRow, c: endCol },
+      mode
+    );
+    setBoard(res.board);
     
     // Reset refs after processing
     dragMovedRef.current = false;
