@@ -17,5 +17,4 @@ venv/
 
 # --- FastAPI logs ---
 backend/logs/
-*.ndjson
 *.json
