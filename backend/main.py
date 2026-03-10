@@ -831,8 +831,8 @@ def drag_move(session_id: str, drag: DragMove):
                 # 0 -> 1, -1 -> 1, 1 -> 0
                 nxt = 0 if prev == 1 else 1
             elif drag.mode == "cross":
-                # always mark as crossed
-                nxt = -1
+                # turn to white if crossed, otherwise cross
+                nxt = 0 if prev == -1 else nxt = -1
             else:  # drag.mode == "cross_toggle"
                 # toggle cross mark for drag-undo behavior
                 nxt = 0 if prev == -1 else -1
