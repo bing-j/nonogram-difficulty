@@ -23,6 +23,15 @@ export async function makeMove(sessionId, r, c, value) {
   return await res.json();
 }
 
+export async function dragMove(sessionId, start, end, mode) {
+  const res = await fetch(`${BASE_URL}/sessions/${sessionId}/drag`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ start, end, mode })
+  });
+  return await res.json();
+}
+
 export async function checkBoard(sessionId) {
   const res = await fetch(`${BASE_URL}/sessions/${sessionId}/check`, { method: "POST" });
   return await res.json();

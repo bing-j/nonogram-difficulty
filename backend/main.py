@@ -39,7 +39,7 @@ SURVEY_SPEC = {
         },
         {
             "id": "nonogram_size_experience",
-            "prompt": "If you have played Nonogram before, what are the sizes you have solved? (select all that apply)",
+            "prompt": "If you have played Nonogram before, what are the sizes you have solved (select all that apply)?",
             "type": "multi",  # multiple choices allowed
             "options": [
                 {"value": "<=10*10", "label": "≤ 10 by 10"},
@@ -52,7 +52,7 @@ SURVEY_SPEC = {
         },
         {
             "id": "logic_experience",
-            "prompt": "Have you played any other logic puzzles before (select all that apply)?",
+            "prompt": "Which other logic puzzles have you played before (select all that apply)?",
             "type": "multi",  # multiple choices allowed
             "options": [
                 {"value": "sudoku", "label": "Sudoku"},
@@ -65,7 +65,7 @@ SURVEY_SPEC = {
         },
         {
             "id": "puzzle_played_frequency",
-            "prompt": "Have you played any other logic puzzles before? (select all that apply)",
+            "prompt": "Have you played any other logic puzzles before?",
             "type": "single",  # one choice only
             "options": [
                 {"value": "never", "label": "Never"},
@@ -85,7 +85,7 @@ SURVEY_SPEC = {
     "puzzle_1": [
         {
             "id": "difficulty",
-            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 10 indicates hardest), how would you rate the difficulty of this puzzle?",
+            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 5 indicates hardest), how would you rate the difficulty of this puzzle?",
             "type": "scale",
             "min": 1,
             "max": 5,
@@ -107,7 +107,7 @@ SURVEY_SPEC = {
     "puzzle_2": [
         {
             "id": "difficulty",
-            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 10 indicates hardest), how would you rate the difficulty of this puzzle?",
+            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 5 indicates hardest), how would you rate the difficulty of this puzzle?",
             "type": "scale",
             "min": 1,
             "max": 5,
@@ -129,7 +129,7 @@ SURVEY_SPEC = {
     "puzzle_3": [
         {
             "id": "difficulty",
-            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 10 indicates hardest), how would you rate the difficulty of this puzzle?",
+            "prompt": "On a scale of 1 to 5 (1 indicates easiest, 5 indicates hardest), how would you rate the difficulty of this puzzle?",
             "type": "scale",
             "min": 1,
             "max": 5,
@@ -392,6 +392,15 @@ class Board(BaseModel):
 class CheckResult(BaseModel):
     solved: bool
     mismatches: List[Tuple[int, int]] = []
+
+class Coord(BaseModel):
+    r: int
+    c: int
+
+class DragMove(BaseModel):
+    start: Coord
+    end: Coord
+    mode: str  # "flip", "cross", or "cross_toggle"
 
 # --- In-memory stores ---
 PUZZLES: Dict[str, PuzzleInfo] = {}
@@ -789,6 +798,84 @@ def move(session_id: str, move: Move):
             "t": now_iso()
         })
     return Board(board=s["board"])
+
+@app.post("/sessions/{session_id}/drag", response_model=Board)
+def drag_move(session_id: str, drag: DragMove):
+    s = ensure_session(session_id)
+    board = s["board"]
+    rows, cols = len(board), len(board[0])
+
+    if drag.mode not in ("flip", "cross", "cross_toggle"):
+        raise HTTPException(400, "Invalid mode")
+
+    r1, c1 = drag.start.r, drag.start.c
+    r2, c2 = drag.end.r, drag.end.c
+
+    # validate both endpoints
+    for r, c in [(r1, c1), (r2, c2)]:
+        if not (0 <= r < rows and 0 <= c < cols):
+            raise HTTPException(400, "Invalid coordinates")
+
+    # normalize rectangle so dragging works in any direction
+    r_lo, r_hi = sorted((r1, r2))
+    c_lo, c_hi = sorted((c1, c2))
+
+    diffs = []
+    t = now_iso()
+
+    for r in range(r_lo, r_hi + 1):
+        for c in range(c_lo, c_hi + 1):
+            prev = board[r][c]
+
+            if drag.mode == "flip":
+                # 0 -> 1, -1 -> 1, 1 -> 0
+                nxt = 0 if prev == 1 else 1
+            elif drag.mode == "cross":
+                # always mark as crossed
+                nxt = -1
+            else:  # drag.mode == "cross_toggle"
+                # toggle cross mark for drag-undo behavior
+                nxt = 0 if prev == -1 else -1
+
+            if prev == nxt:
+                continue
+
+            board[r][c] = nxt
+            diffs.append({
+                "r": r,
+                "c": c,
+                "from": prev,
+                "to": nxt
+            })
+
+    # one undo step for the whole drag
+    _push_undo(s, diffs, label="drag")
+
+    if s.get("mode") != "warmup" and diffs:
+        # log individual changed cells in memory, same style as /move
+        for d in diffs:
+            s["log"]["moves"].append({
+                "r": d["r"],
+                "c": d["c"],
+                "value": d["to"],
+                "t": t,
+                "source": "drag",
+                "drag_mode": drag.mode,
+            })
+
+        # log one aggregate disk event for the drag
+        append_event(session_id, {
+            "type": "drag",
+            "mode": drag.mode,
+            "start": {"r": r1, "c": c1},
+            "end": {"r": r2, "c": c2},
+            "normalized_start": {"r": r_lo, "c": c_lo},
+            "normalized_end": {"r": r_hi, "c": c_hi},
+            "changed_cells": len(diffs),
+            "t": t,
+        })
+
+    return Board(board=board)
 
 @app.post("/sessions/{session_id}/check")
 def check_session(session_id: str):
