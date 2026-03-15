@@ -17,3 +17,5 @@ venv/
 
 # --- FastAPI logs ---
 *.json
+
+.idea
