@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     # Plot the distribution of conflicts
     plt.figure(figsize=(10, 6))
-    sns.histplot(df['conflicts'], bins=30, kde=True)
+    sns.histplot(df['conflicts'], discrete=True, kde=True)
     plt.title('Distribution of Conflicts')
     plt.xlabel('Number of Conflicts')
     plt.ylabel('Frequency')
