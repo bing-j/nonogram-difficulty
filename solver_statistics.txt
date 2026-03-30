@@ -1,0 +1,65 @@
+puzzle id: 0
+Solver: MiniSat22
+{'restarts': 1, 'conflicts': 0, 'decisions': 4, 'propagations': 313, 'nvars_input': 312, 'nclauses_input': 1265, 'nvars_solver': 312, 'nclauses_solver': 678, 'backend': 'Minisat22', 'time_ms': 0.063}
+
+Solver: CaDiCaL195
+{'restarts': 0, 'conflicts': 0, 'decisions': 0, 'propagations': 135, 'nvars_input': 312, 'nclauses_input': 1265, 'nvars_solver': 312, 'nclauses_solver': 1194, 'backend': 'Cadical195', 'time_ms': 0.153}
+
+Solver: Glucose42
+{'restarts': 1, 'conflicts': 0, 'decisions': 4, 'propagations': 313, 'nvars_input': 312, 'nclauses_input': 1265, 'nvars_solver': 312, 'nclauses_solver': 678, 'backend': 'Glucose42', 'time_ms': 0.225}
+
+
+puzzle id: 1
+Solver: MiniSat22
+{'restarts': 1, 'conflicts': 0, 'decisions': 2, 'propagations': 307, 'nvars_input': 306, 'nclauses_input': 1180, 'nvars_solver': 306, 'nclauses_solver': 0, 'backend': 'Minisat22', 'time_ms': 0.022}
+
+Solver: CaDiCaL195
+{'restarts': 0, 'conflicts': 0, 'decisions': 0, 'propagations': 306, 'nvars_input': 306, 'nclauses_input': 1180, 'nvars_solver': 306, 'nclauses_solver': 1022, 'backend': 'Cadical195', 'time_ms': 0.005}
+
+Solver: Glucose42
+{'restarts': 1, 'conflicts': 0, 'decisions': 2, 'propagations': 307, 'nvars_input': 306, 'nclauses_input': 1180, 'nvars_solver': 306, 'nclauses_solver': 0, 'backend': 'Glucose42', 'time_ms': 0.031}
+
+
+puzzle id: 2
+Solver: MiniSat22
+{'restarts': 1, 'conflicts': 4, 'decisions': 8, 'propagations': 417, 'nvars_input': 333, 'nclauses_input': 1314, 'nvars_solver': 333, 'nclauses_solver': 167, 'backend': 'Minisat22', 'time_ms': 0.035}
+
+Solver: CaDiCaL195
+{'restarts': 0, 'conflicts': 1, 'decisions': 3, 'propagations': 352, 'nvars_input': 333, 'nclauses_input': 1314, 'nvars_solver': 333, 'nclauses_solver': 1197, 'backend': 'Cadical195', 'time_ms': 0.017}
+
+Solver: Glucose42
+{'restarts': 1, 'conflicts': 4, 'decisions': 8, 'propagations': 396, 'nvars_input': 333, 'nclauses_input': 1314, 'nvars_solver': 333, 'nclauses_solver': 167, 'backend': 'Glucose42', 'time_ms': 0.044}
+
+
+puzzle id: 3
+Solver: MiniSat22
+{'restarts': 1, 'conflicts': 15, 'decisions': 31, 'propagations': 1063, 'nvars_input': 319, 'nclauses_input': 1256, 'nvars_solver': 319, 'nclauses_solver': 1174, 'backend': 'Minisat22', 'time_ms': 0.052}
+
+Solver: CaDiCaL195
+{'restarts': 0, 'conflicts': 1, 'decisions': 8, 'propagations': 391, 'nvars_input': 319, 'nclauses_input': 1256, 'nvars_solver': 319, 'nclauses_solver': 1236, 'backend': 'Cadical195', 'time_ms': 0.041}
+
+Solver: Glucose42
+{'restarts': 1, 'conflicts': 16, 'decisions': 33, 'propagations': 1031, 'nvars_input': 319, 'nclauses_input': 1256, 'nvars_solver': 319, 'nclauses_solver': 1174, 'backend': 'Glucose42', 'time_ms': 0.062}
+
+
+puzzle id: 4
+Solver: MiniSat22
+{'restarts': 1, 'conflicts': 15, 'decisions': 40, 'propagations': 1133, 'nvars_input': 333, 'nclauses_input': 1294, 'nvars_solver': 333, 'nclauses_solver': 1228, 'backend': 'Minisat22', 'time_ms': 0.071}
+
+Solver: CaDiCaL195
+{'restarts': 1, 'conflicts': 11, 'decisions': 33, 'propagations': 773, 'nvars_input': 333, 'nclauses_input': 1294, 'nvars_solver': 333, 'nclauses_solver': 1278, 'backend': 'Cadical195', 'time_ms': 0.058}
+
+Solver: Glucose42
+{'restarts': 1, 'conflicts': 33, 'decisions': 65, 'propagations': 2096, 'nvars_input': 333, 'nclauses_input': 1294, 'nvars_solver': 333, 'nclauses_solver': 1228, 'backend': 'Glucose42', 'time_ms': 0.124}
+
+
+puzzle id: 5
+Solver: MiniSat22
+{'restarts': 1, 'conflicts': 4, 'decisions': 13, 'propagations': 453, 'nvars_input': 305, 'nclauses_input': 1208, 'nvars_solver': 305, 'nclauses_solver': 756, 'backend': 'Minisat22', 'time_ms': 0.076}
+
+Solver: CaDiCaL195
+{'restarts': 0, 'conflicts': 0, 'decisions': 0, 'propagations': 93, 'nvars_input': 305, 'nclauses_input': 1208, 'nvars_solver': 305, 'nclauses_solver': 1115, 'backend': 'Cadical195', 'time_ms': 0.014}
+
+Solver: Glucose42
+{'restarts': 1, 'conflicts': 4, 'decisions': 13, 'propagations': 451, 'nvars_input': 305, 'nclauses_input': 1208, 'nvars_solver': 305, 'nclauses_solver': 756, 'backend': 'Glucose42', 'time_ms': 0.063}
+

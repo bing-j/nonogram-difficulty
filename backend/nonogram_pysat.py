@@ -3,6 +3,8 @@ from itertools import combinations
 import time
 # from pysat.solvers import Solver  # uses Glucose by default
 from pysat.solvers import Minisat22 as Solver
+from pysat.solvers import Cadical195 as Solver2
+from pysat.solvers import Glucose42 as Solver3
 import csv
 
 
@@ -126,28 +128,77 @@ def nonogram_to_cnf(puzzle: Dict[str, List[List[int]]]) -> Tuple[List[List[int]]
     return clauses, num_vars, rlen, clen
 
 
-def solve_with_pysat(clauses: List[List[int]], print_stats: bool = True) -> Optional[List[int]]:
+def solve_with_pysat(solver: int, clauses: List[List[int]], print_stats: bool = True) -> Optional[List[int]]:
     nvars_input = max(abs(lit) for cl in clauses for lit in cl)
     nclauses_input = len(clauses)
-    with Solver(bootstrap_with=clauses) as s:
-        t0 = time.perf_counter()
-        sat = s.solve()
-        t1 = time.perf_counter()
-        elapsed = t1 - t0
-        stats = s.accum_stats().copy()
-        stats.update({
-            "nvars_input": nvars_input,
-            "nclauses_input": nclauses_input,
-            "nvars_solver": s.nof_vars(),
-            "nclauses_solver": s.nof_clauses(),
-            "backend": type(s).__name__,
-            "time_ms": round(elapsed * 1000, 3),
-        })
-        if print_stats:
-            print(stats)
-        if not sat:
-            return None
-        return s.get_model()  # list of signed ints
+    if solver == 1:
+        with Solver(bootstrap_with=clauses) as s:
+            t0 = time.perf_counter()
+            sat = s.solve()
+            t1 = time.perf_counter()
+            elapsed = t1 - t0
+            stats = s.accum_stats().copy()
+            stats.update({
+                "nvars_input": nvars_input,
+                "nclauses_input": nclauses_input,
+                "nvars_solver": s.nof_vars(),
+                "nclauses_solver": s.nof_clauses(),
+                "backend": type(s).__name__,
+                "time_ms": round(elapsed * 1000, 3),
+            })
+            if print_stats:
+                print("Solver: MiniSat22")
+                print(stats)
+            if not sat:
+                return None
+            return s.get_model()  # list of signed ints
+
+    elif solver == 2:
+        with Solver2(bootstrap_with=clauses) as s:
+            t0 = time.perf_counter()
+            sat = s.solve()
+            t1 = time.perf_counter()
+            elapsed = t1 - t0
+            stats = s.accum_stats().copy()
+            stats.update({
+                "nvars_input": nvars_input,
+                "nclauses_input": nclauses_input,
+                "nvars_solver": s.nof_vars(),
+                "nclauses_solver": s.nof_clauses(),
+                "backend": type(s).__name__,
+                "time_ms": round(elapsed * 1000, 3),
+            })
+            if print_stats:
+                print("Solver: CaDiCaL195")
+                print(stats)
+            if not sat:
+                return None
+            return s.get_model()  # list of signed ints
+
+    elif solver == 3:
+        with Solver3(bootstrap_with=clauses) as s:
+            t0 = time.perf_counter()
+            sat = s.solve()
+            t1 = time.perf_counter()
+            elapsed = t1 - t0
+            stats = s.accum_stats().copy()
+            stats.update({
+                "nvars_input": nvars_input,
+                "nclauses_input": nclauses_input,
+                "nvars_solver": s.nof_vars(),
+                "nclauses_solver": s.nof_clauses(),
+                "backend": type(s).__name__,
+                "time_ms": round(elapsed * 1000, 3),
+            })
+            if print_stats:
+                print("Solver: Glucose42")
+                print(stats)
+            if not sat:
+                return None
+            return s.get_model()  # list of signed ints
+
+    else:
+        raise NotImplementedError
 
 
 def check_model(clauses, model):
@@ -174,13 +225,13 @@ def save_nonogram_csv(grid, puzzle_id):
         writer.writerows(grid)
     print(f"Raw grid saved to '{filename}'")
 
-def solve_nonogram(puzzle: Dict[str, List[List[int]]], print_stats = True) -> List[List[List[int]]]:
+def solve_nonogram(puzzle: Dict[str, List[List[int]]], solver_choice: int, print_stats = True) -> List[List[List[int]]]:
     clauses, num_vars, rlen, clen = nonogram_to_cnf(puzzle)
     grids = []
     unsolvable = False
     num_solutions = 0
     while not unsolvable:
-        model = solve_with_pysat(clauses, print_stats=print_stats)
+        model = solve_with_pysat(solver_choice, clauses, print_stats=print_stats)
         if model is None:
             unsolvable = True
             break
@@ -203,9 +254,17 @@ if __name__ == "__main__":
     import json
 
     # verify unique solution nonograms are indeed unique and solution matches original
-    unique_solution_nonograms = json.load(open('tutorial_nonograms.json'))
+    unique_solution_nonograms = json.load(open('../nonograms_6.json'))
     for nonogram in unique_solution_nonograms:
-        grids = solve_nonogram(nonogram['clues'], True)
+        print("puzzle id:", nonogram['id'])
+        grids = solve_nonogram(nonogram['clues'], 1, True)
         assert len(grids) == 1 and grids[0] == nonogram['solution']
-        print(f"Verified puzzle {nonogram['id']} with density {nonogram['density']:.2f} has a unique solution.")
-        pretty_print(grids[0])
+        print()
+        # print(f"Verified puzzle {nonogram['id']} with density {nonogram['density']:.2f} has a unique solution.")
+        # pretty_print(grids[0])
+        grids = solve_nonogram(nonogram['clues'], 2, True)
+        assert len(grids) == 1 and grids[0] == nonogram['solution']
+        print()
+        grids = solve_nonogram(nonogram['clues'], 3, True)
+        assert len(grids) == 1 and grids[0] == nonogram['solution']
+        print()

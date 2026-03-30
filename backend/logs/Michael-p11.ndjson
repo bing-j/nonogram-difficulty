@@ -1,0 +1,344 @@
+{"type": "session_start_three", "queue": [1, 5, 4], "schedule_idx": 13, "t": "2026-03-16T19:22:11.788932+00:00"}
+{"type": "survey_submit", "survey_type": "pre", "puzzle_idx": null, "answers": {"played_before": "never", "skill_nonogram": 2, "nonogram_size_experience": ["N/A"], "logic_experience": ["sudoku"], "puzzle_played_frequency": "few", "skill_puzzles": 3}, "t": "2026-03-16T19:22:30.745715+00:00"}
+{"type": "move", "r": 9, "c": 9, "value": 1, "t": "2026-03-16T19:22:59.254175+00:00"}
+{"type": "move", "r": 7, "c": 9, "value": 1, "t": "2026-03-16T19:23:01.226296+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 5, "c": 9}, "end": {"r": 3, "c": 9}, "normalized_start": {"r": 3, "c": 9}, "normalized_end": {"r": 5, "c": 9}, "changed_cells": 3, "t": "2026-03-16T19:23:05.715980+00:00"}
+{"type": "move", "r": 1, "c": 9, "value": 1, "t": "2026-03-16T19:23:06.987659+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 8}, "end": {"r": 2, "c": 8}, "normalized_start": {"r": 0, "c": 8}, "normalized_end": {"r": 2, "c": 8}, "changed_cells": 3, "t": "2026-03-16T19:23:20.889192+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 8}, "end": {"r": 5, "c": 8}, "normalized_start": {"r": 4, "c": 8}, "normalized_end": {"r": 5, "c": 8}, "changed_cells": 2, "t": "2026-03-16T19:23:30.209256+00:00"}
+{"type": "move", "r": 7, "c": 8, "value": -1, "t": "2026-03-16T19:23:42.363771+00:00"}
+{"type": "move", "r": 9, "c": 0, "value": 1, "t": "2026-03-16T19:23:45.475917+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 9, "c": 2}, "end": {"r": 9, "c": 3}, "normalized_start": {"r": 9, "c": 2}, "normalized_end": {"r": 9, "c": 3}, "changed_cells": 2, "t": "2026-03-16T19:23:47.196444+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 9, "c": 5}, "end": {"r": 9, "c": 6}, "normalized_start": {"r": 9, "c": 5}, "normalized_end": {"r": 9, "c": 6}, "changed_cells": 2, "t": "2026-03-16T19:23:49.310517+00:00"}
+{"type": "move", "r": 3, "c": 7, "value": 1, "t": "2026-03-16T19:24:08.178304+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 5, "c": 7}, "end": {"r": 6, "c": 7}, "normalized_start": {"r": 5, "c": 7}, "normalized_end": {"r": 6, "c": 7}, "changed_cells": 2, "t": "2026-03-16T19:24:16.216765+00:00"}
+{"type": "move", "r": 8, "c": 7, "value": 1, "t": "2026-03-16T19:24:20.653338+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-03-16T19:24:22.395464+00:00"}
+{"type": "undo", "label": "drag", "diffs_len": 2, "t": "2026-03-16T19:24:22.760024+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-03-16T19:24:23.018322+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 7}, "end": {"r": 0, "c": 5}, "normalized_start": {"r": 0, "c": 5}, "normalized_end": {"r": 0, "c": 7}, "changed_cells": 3, "t": "2026-03-16T19:24:29.894561+00:00"}
+{"type": "move", "r": 0, "c": 3, "value": 1, "t": "2026-03-16T19:24:31.109123+00:00"}
+{"type": "move", "r": 0, "c": 1, "value": 1, "t": "2026-03-16T19:24:32.100690+00:00"}
+{"type": "move", "r": 2, "c": 1, "value": 1, "t": "2026-03-16T19:24:47.131518+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 1}, "end": {"r": 5, "c": 1}, "normalized_start": {"r": 4, "c": 1}, "normalized_end": {"r": 5, "c": 1}, "changed_cells": 2, "t": "2026-03-16T19:24:49.740212+00:00"}
+{"type": "move", "r": 7, "c": 1, "value": 1, "t": "2026-03-16T19:24:51.601480+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 2}, "end": {"r": 1, "c": 2}, "normalized_start": {"r": 0, "c": 2}, "normalized_end": {"r": 1, "c": 2}, "changed_cells": 2, "t": "2026-03-16T19:25:02.811386+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 2}, "end": {"r": 5, "c": 2}, "normalized_start": {"r": 3, "c": 2}, "normalized_end": {"r": 5, "c": 2}, "changed_cells": 3, "t": "2026-03-16T19:25:05.939390+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 8, "c": 3}, "end": {"r": 8, "c": 3}, "normalized_start": {"r": 8, "c": 3}, "normalized_end": {"r": 8, "c": 3}, "changed_cells": 1, "t": "2026-03-16T19:25:37.757933+00:00"}
+{"type": "move", "r": 8, "c": 3, "value": 0, "t": "2026-03-16T19:25:38.432776+00:00"}
+{"type": "move", "r": 7, "c": 0, "value": 1, "t": "2026-03-16T19:25:48.886915+00:00"}
+{"type": "move", "r": 6, "c": 0, "value": 1, "t": "2026-03-16T19:25:49.796885+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 3}, "end": {"r": 2, "c": 3}, "normalized_start": {"r": 1, "c": 3}, "normalized_end": {"r": 2, "c": 3}, "changed_cells": 2, "t": "2026-03-16T19:26:17.521588+00:00"}
+{"type": "undo", "label": "drag", "diffs_len": 2, "t": "2026-03-16T19:26:28.784696+00:00"}
+{"type": "reset", "t": "2026-03-16T19:26:33.011457+00:00"}
+{"type": "move", "r": 0, "c": 1, "value": 1, "t": "2026-03-16T19:26:39.335223+00:00"}
+{"type": "move", "r": 2, "c": 1, "value": 1, "t": "2026-03-16T19:26:41.027626+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 1}, "end": {"r": 5, "c": 1}, "normalized_start": {"r": 4, "c": 1}, "normalized_end": {"r": 5, "c": 1}, "changed_cells": 2, "t": "2026-03-16T19:26:43.216432+00:00"}
+{"type": "move", "r": 7, "c": 1, "value": 1, "t": "2026-03-16T19:26:44.245167+00:00"}
+{"type": "move", "r": 9, "c": 0, "value": 1, "t": "2026-03-16T19:26:59.031358+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 9, "c": 2}, "end": {"r": 9, "c": 3}, "normalized_start": {"r": 9, "c": 2}, "normalized_end": {"r": 9, "c": 3}, "changed_cells": 2, "t": "2026-03-16T19:27:01.120553+00:00"}
+{"type": "move", "r": 9, "c": 5, "value": 1, "t": "2026-03-16T19:27:02.554245+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 9, "c": 7}, "end": {"r": 9, "c": 8}, "normalized_start": {"r": 9, "c": 7}, "normalized_end": {"r": 9, "c": 8}, "changed_cells": 2, "t": "2026-03-16T19:27:04.388766+00:00"}
+{"type": "move", "r": 8, "c": 9, "value": 1, "t": "2026-03-16T19:27:14.327956+00:00"}
+{"type": "move", "r": 6, "c": 9, "value": 1, "t": "2026-03-16T19:27:16.107812+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 9}, "end": {"r": 2, "c": 9}, "normalized_start": {"r": 2, "c": 9}, "normalized_end": {"r": 4, "c": 9}, "changed_cells": 3, "t": "2026-03-16T19:27:19.082012+00:00"}
+{"type": "move", "r": 0, "c": 9, "value": 1, "t": "2026-03-16T19:27:21.027917+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 7}, "end": {"r": 0, "c": 4}, "normalized_start": {"r": 0, "c": 4}, "normalized_end": {"r": 0, "c": 7}, "changed_cells": 4, "t": "2026-03-16T19:27:25.548645+00:00"}
+{"type": "undo", "label": "drag", "diffs_len": 4, "t": "2026-03-16T19:27:27.930089+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 4}, "end": {"r": 1, "c": 4}, "normalized_start": {"r": 0, "c": 4}, "normalized_end": {"r": 1, "c": 4}, "changed_cells": 2, "t": "2026-03-16T19:27:44.683151+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 4}, "end": {"r": 4, "c": 4}, "normalized_start": {"r": 3, "c": 4}, "normalized_end": {"r": 4, "c": 4}, "changed_cells": 2, "t": "2026-03-16T19:27:47.364416+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 4}, "end": {"r": 6, "c": 4}, "normalized_start": {"r": 6, "c": 4}, "normalized_end": {"r": 6, "c": 4}, "changed_cells": 1, "t": "2026-03-16T19:27:54.989419+00:00"}
+{"type": "move", "r": 6, "c": 4, "value": 0, "t": "2026-03-16T19:27:55.325775+00:00"}
+{"type": "move", "r": 7, "c": 4, "value": 1, "t": "2026-03-16T19:27:56.339460+00:00"}
+{"type": "move", "r": 7, "c": 4, "value": 0, "t": "2026-03-16T19:27:58.834470+00:00"}
+{"type": "move", "r": 4, "c": 4, "value": 0, "t": "2026-03-16T19:28:01.702961+00:00"}
+{"type": "move", "r": 3, "c": 4, "value": 0, "t": "2026-03-16T19:28:08.316618+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 4}, "end": {"r": 5, "c": 4}, "normalized_start": {"r": 4, "c": 4}, "normalized_end": {"r": 5, "c": 4}, "changed_cells": 2, "t": "2026-03-16T19:28:09.732321+00:00"}
+{"type": "move", "r": 4, "c": 4, "value": 0, "t": "2026-03-16T19:28:11.862814+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": 0, "t": "2026-03-16T19:28:12.198249+00:00"}
+{"type": "move", "r": 9, "c": 5, "value": 0, "t": "2026-03-16T19:28:19.631411+00:00"}
+{"type": "move", "r": 9, "c": 7, "value": 0, "t": "2026-03-16T19:28:20.992796+00:00"}
+{"type": "move", "r": 9, "c": 8, "value": 0, "t": "2026-03-16T19:28:21.470452+00:00"}
+{"type": "move", "r": 8, "c": 9, "value": 0, "t": "2026-03-16T19:28:21.868532+00:00"}
+{"type": "reset", "t": "2026-03-16T19:28:24.092778+00:00"}
+{"type": "hint", "r": 4, "c": 8, "t": "2026-03-16T19:28:24.976125+00:00"}
+{"type": "move", "r": 4, "c": 8, "value": 1, "t": "2026-03-16T19:28:28.609748+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 9, "c": 0}, "end": {"r": 8, "c": 0}, "normalized_start": {"r": 8, "c": 0}, "normalized_end": {"r": 9, "c": 0}, "changed_cells": 2, "t": "2026-03-16T19:28:42.692957+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 9, "c": 2}, "end": {"r": 9, "c": 3}, "normalized_start": {"r": 9, "c": 2}, "normalized_end": {"r": 9, "c": 3}, "changed_cells": 2, "t": "2026-03-16T19:28:48.403563+00:00"}
+{"type": "move", "r": 9, "c": 9, "value": 1, "t": "2026-03-16T19:28:53.507776+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 9, "c": 7}, "end": {"r": 9, "c": 6}, "normalized_start": {"r": 9, "c": 6}, "normalized_end": {"r": 9, "c": 7}, "changed_cells": 2, "t": "2026-03-16T19:28:54.656024+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 8, "c": 4}, "end": {"r": 8, "c": 6}, "normalized_start": {"r": 8, "c": 4}, "normalized_end": {"r": 8, "c": 6}, "changed_cells": 3, "t": "2026-03-16T19:29:08.869807+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 7, "c": 1}, "end": {"r": 7, "c": 4}, "normalized_start": {"r": 7, "c": 1}, "normalized_end": {"r": 7, "c": 4}, "changed_cells": 4, "t": "2026-03-16T19:29:20.116848+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 7, "c": 7}, "end": {"r": 7, "c": 9}, "normalized_start": {"r": 7, "c": 7}, "normalized_end": {"r": 7, "c": 9}, "changed_cells": 3, "t": "2026-03-16T19:29:26.235875+00:00"}
+{"type": "hint", "r": 7, "c": 1, "t": "2026-03-16T19:29:29.103853+00:00"}
+{"type": "move", "r": 7, "c": 1, "value": 0, "t": "2026-03-16T19:29:38.645244+00:00"}
+{"type": "move", "r": 7, "c": 6, "value": 1, "t": "2026-03-16T19:29:44.150786+00:00"}
+{"type": "move", "r": 8, "c": 6, "value": 0, "t": "2026-03-16T19:29:46.836191+00:00"}
+{"type": "move", "r": 8, "c": 3, "value": 1, "t": "2026-03-16T19:29:49.856640+00:00"}
+{"type": "hint", "r": 8, "c": 0, "t": "2026-03-16T19:29:51.778356+00:00"}
+{"type": "move", "r": 8, "c": 0, "value": 0, "t": "2026-03-16T19:29:56.346406+00:00"}
+{"type": "hint", "r": 9, "c": 2, "t": "2026-03-16T19:30:01.255186+00:00"}
+{"type": "move", "r": 9, "c": 2, "value": 0, "t": "2026-03-16T19:30:03.791974+00:00"}
+{"type": "move", "r": 9, "c": 5, "value": 1, "t": "2026-03-16T19:30:16.131227+00:00"}
+{"type": "move", "r": 9, "c": 7, "value": 0, "t": "2026-03-16T19:30:17.286069+00:00"}
+{"type": "move", "r": 9, "c": 8, "value": 1, "t": "2026-03-16T19:30:18.646099+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 5, "c": 4}, "end": {"r": 4, "c": 4}, "normalized_start": {"r": 4, "c": 4}, "normalized_end": {"r": 5, "c": 4}, "changed_cells": 2, "t": "2026-03-16T19:30:30.926096+00:00"}
+{"type": "move", "r": 2, "c": 4, "value": 1, "t": "2026-03-16T19:30:31.731862+00:00"}
+{"type": "move", "r": 0, "c": 4, "value": 1, "t": "2026-03-16T19:30:32.410962+00:00"}
+{"type": "move", "r": 0, "c": 4, "value": 0, "t": "2026-03-16T19:30:32.701452+00:00"}
+{"type": "move", "r": 0, "c": 4, "value": 1, "t": "2026-03-16T19:30:33.248921+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 9}, "end": {"r": 2, "c": 9}, "normalized_start": {"r": 0, "c": 9}, "normalized_end": {"r": 2, "c": 9}, "changed_cells": 3, "t": "2026-03-16T19:30:56.146191+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 8}, "end": {"r": 0, "c": 6}, "normalized_start": {"r": 0, "c": 6}, "normalized_end": {"r": 0, "c": 8}, "changed_cells": 3, "t": "2026-03-16T19:31:03.014803+00:00"}
+{"type": "move", "r": 0, "c": 2, "value": 1, "t": "2026-03-16T19:31:19.758856+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 3}, "end": {"r": 0, "c": 3}, "normalized_start": {"r": 0, "c": 3}, "normalized_end": {"r": 0, "c": 3}, "changed_cells": 1, "t": "2026-03-16T19:31:32.724005+00:00"}
+{"type": "move", "r": 0, "c": 3, "value": 0, "t": "2026-03-16T19:31:33.312942+00:00"}
+{"type": "move", "r": 2, "c": 4, "value": 0, "t": "2026-03-16T19:31:38.438241+00:00"}
+{"type": "move", "r": 4, "c": 4, "value": 0, "t": "2026-03-16T19:31:39.519509+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": 0, "t": "2026-03-16T19:31:39.892090+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 4}, "end": {"r": 3, "c": 4}, "normalized_start": {"r": 2, "c": 4}, "normalized_end": {"r": 3, "c": 4}, "changed_cells": 2, "t": "2026-03-16T19:31:41.915776+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": 1, "t": "2026-03-16T19:31:46.672859+00:00"}
+{"type": "hint", "r": 8, "c": 4, "t": "2026-03-16T19:31:57.398720+00:00"}
+{"type": "move", "r": 8, "c": 4, "value": 0, "t": "2026-03-16T19:31:59.473424+00:00"}
+{"type": "move", "r": 6, "c": 4, "value": 1, "t": "2026-03-16T19:32:12.736394+00:00"}
+{"type": "move", "r": 7, "c": 4, "value": 0, "t": "2026-03-16T19:32:16.250583+00:00"}
+{"type": "move", "r": 7, "c": 1, "value": 1, "t": "2026-03-16T19:32:17.121640+00:00"}
+{"type": "hint", "r": 1, "c": 9, "t": "2026-03-16T19:32:35.872791+00:00"}
+{"type": "move", "r": 1, "c": 9, "value": 0, "t": "2026-03-16T19:32:38.253710+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 9}, "end": {"r": 4, "c": 9}, "normalized_start": {"r": 4, "c": 9}, "normalized_end": {"r": 4, "c": 9}, "changed_cells": 1, "t": "2026-03-16T19:32:53.845286+00:00"}
+{"type": "move", "r": 4, "c": 9, "value": 0, "t": "2026-03-16T19:32:54.233890+00:00"}
+{"type": "move", "r": 5, "c": 9, "value": 1, "t": "2026-03-16T19:33:02.938511+00:00"}
+{"type": "move", "r": 4, "c": 9, "value": 1, "t": "2026-03-16T19:33:04.586269+00:00"}
+{"type": "move", "r": 3, "c": 9, "value": 1, "t": "2026-03-16T19:33:05.698750+00:00"}
+{"type": "move", "r": 3, "c": 9, "value": 0, "t": "2026-03-16T19:33:06.350801+00:00"}
+{"type": "move", "r": 4, "c": 9, "value": 0, "t": "2026-03-16T19:33:06.796416+00:00"}
+{"type": "move", "r": 5, "c": 9, "value": 0, "t": "2026-03-16T19:33:07.245620+00:00"}
+{"type": "move", "r": 8, "c": 9, "value": 1, "t": "2026-03-16T19:33:11.191042+00:00"}
+{"type": "hint", "r": 9, "c": 0, "t": "2026-03-16T19:33:12.276331+00:00"}
+{"type": "move", "r": 9, "c": 0, "value": 0, "t": "2026-03-16T19:33:16.181708+00:00"}
+{"type": "move", "r": 9, "c": 1, "value": 1, "t": "2026-03-16T19:33:17.721667+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 5, "c": 1}, "end": {"r": 4, "c": 1}, "normalized_start": {"r": 4, "c": 1}, "normalized_end": {"r": 5, "c": 1}, "changed_cells": 2, "t": "2026-03-16T19:33:25.960157+00:00"}
+{"type": "move", "r": 2, "c": 1, "value": 1, "t": "2026-03-16T19:33:33.323879+00:00"}
+{"type": "hint", "r": 9, "c": 8, "t": "2026-03-16T19:33:46.880456+00:00"}
+{"type": "move", "r": 9, "c": 8, "value": 0, "t": "2026-03-16T19:33:49.777299+00:00"}
+{"type": "move", "r": 9, "c": 7, "value": 1, "t": "2026-03-16T19:34:01.727785+00:00"}
+{"type": "move", "r": 9, "c": 5, "value": 0, "t": "2026-03-16T19:34:07.828631+00:00"}
+{"type": "move", "r": 9, "c": 4, "value": 1, "t": "2026-03-16T19:34:09.599256+00:00"}
+{"type": "hint", "r": 6, "c": 4, "t": "2026-03-16T19:34:22.681962+00:00"}
+{"type": "move", "r": 6, "c": 4, "value": 0, "t": "2026-03-16T19:34:28.592249+00:00"}
+{"type": "move", "r": 8, "c": 4, "value": 1, "t": "2026-03-16T19:34:36.937195+00:00"}
+{"type": "move", "r": 8, "c": 9, "value": 0, "t": "2026-03-16T19:34:38.878269+00:00"}
+{"type": "hint", "r": 4, "c": 1, "t": "2026-03-16T19:34:57.037229+00:00"}
+{"type": "move", "r": 4, "c": 1, "value": 0, "t": "2026-03-16T19:35:03.926238+00:00"}
+{"type": "move", "r": 6, "c": 1, "value": 1, "t": "2026-03-16T19:35:07.303805+00:00"}
+{"type": "move", "r": 5, "c": 1, "value": 0, "t": "2026-03-16T19:35:09.068972+00:00"}
+{"type": "move", "r": 4, "c": 1, "value": 1, "t": "2026-03-16T19:35:14.062827+00:00"}
+{"type": "hint", "r": 7, "c": 1, "t": "2026-03-16T19:35:32.736083+00:00"}
+{"type": "move", "r": 7, "c": 1, "value": 0, "t": "2026-03-16T19:35:35.794793+00:00"}
+{"type": "move", "r": 8, "c": 1, "value": 1, "t": "2026-03-16T19:35:44.458433+00:00"}
+{"type": "move", "r": 1, "c": 9, "value": 1, "t": "2026-03-16T19:35:58.895114+00:00"}
+{"type": "move", "r": 5, "c": 9, "value": 1, "t": "2026-03-16T19:36:04.490835+00:00"}
+{"type": "move", "r": 5, "c": 8, "value": 1, "t": "2026-03-16T19:36:07.633334+00:00"}
+{"type": "move", "r": 5, "c": 8, "value": 0, "t": "2026-03-16T19:36:07.911055+00:00"}
+{"type": "hint", "r": 2, "c": 4, "t": "2026-03-16T19:36:08.663290+00:00"}
+{"type": "move", "r": 2, "c": 4, "value": 0, "t": "2026-03-16T19:36:12.158550+00:00"}
+{"type": "move", "r": 1, "c": 4, "value": 1, "t": "2026-03-16T19:36:13.386291+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 8}, "end": {"r": 1, "c": 8}, "normalized_start": {"r": 1, "c": 8}, "normalized_end": {"r": 1, "c": 8}, "changed_cells": 1, "t": "2026-03-16T19:36:38.274274+00:00"}
+{"type": "move", "r": 1, "c": 8, "value": 0, "t": "2026-03-16T19:36:38.619218+00:00"}
+{"type": "hint", "r": 8, "c": 4, "t": "2026-03-16T19:36:42.842146+00:00"}
+{"type": "move", "r": 8, "c": 4, "value": 0, "t": "2026-03-16T19:36:48.359096+00:00"}
+{"type": "move", "r": 4, "c": 4, "value": 1, "t": "2026-03-16T19:36:55.157497+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": 0, "t": "2026-03-16T19:36:57.199884+00:00"}
+{"type": "move", "r": 7, "c": 4, "value": 1, "t": "2026-03-16T19:37:00.866024+00:00"}
+{"type": "hint", "r": 4, "c": 1, "t": "2026-03-16T19:37:17.351973+00:00"}
+{"type": "move", "r": 4, "c": 1, "value": 0, "t": "2026-03-16T19:37:24.791749+00:00"}
+{"type": "move", "r": 3, "c": 1, "value": 1, "t": "2026-03-16T19:37:39.570778+00:00"}
+{"type": "move", "r": 2, "c": 1, "value": 0, "t": "2026-03-16T19:37:40.196013+00:00"}
+{"type": "move", "r": 1, "c": 1, "value": 1, "t": "2026-03-16T19:37:40.857036+00:00"}
+{"type": "hint", "r": 7, "c": 6, "t": "2026-03-16T19:37:51.152376+00:00"}
+{"type": "move", "r": 7, "c": 6, "value": 0, "t": "2026-03-16T19:37:59.514875+00:00"}
+{"type": "move", "r": 7, "c": 5, "value": 1, "t": "2026-03-16T19:38:08.315136+00:00"}
+{"type": "hint", "r": 1, "c": 9, "t": "2026-03-16T19:38:23.750600+00:00"}
+{"type": "move", "r": 1, "c": 9, "value": 0, "t": "2026-03-16T19:38:28.915628+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 9}, "end": {"r": 4, "c": 9}, "normalized_start": {"r": 3, "c": 9}, "normalized_end": {"r": 4, "c": 9}, "changed_cells": 2, "t": "2026-03-16T19:38:37.964414+00:00"}
+{"type": "move", "r": 5, "c": 9, "value": 0, "t": "2026-03-16T19:38:38.946318+00:00"}
+{"type": "move", "r": 4, "c": 5, "value": 1, "t": "2026-03-16T19:38:49.637369+00:00"}
+{"type": "hint", "r": 8, "c": 1, "t": "2026-03-16T19:38:59.222122+00:00"}
+{"type": "move", "r": 8, "c": 1, "value": 0, "t": "2026-03-16T19:39:01.499790+00:00"}
+{"type": "move", "r": 2, "c": 1, "value": 1, "t": "2026-03-16T19:39:12.804280+00:00"}
+{"type": "move", "r": 3, "c": 1, "value": 0, "t": "2026-03-16T19:39:15.973078+00:00"}
+{"type": "move", "r": 4, "c": 1, "value": 1, "t": "2026-03-16T19:39:19.015692+00:00"}
+{"type": "hint", "r": 2, "c": 1, "t": "2026-03-16T19:39:34.612182+00:00"}
+{"type": "move", "r": 2, "c": 1, "value": 0, "t": "2026-03-16T19:39:39.833690+00:00"}
+{"type": "check_bank", "puzzle_id": 1, "solved": false, "mismatches": [[1, 2], [1, 8], [2, 0], [2, 7], [3, 0], [3, 1], [3, 2], [3, 6], [3, 7], [3, 8], [4, 1], [4, 2], [5, 0], [5, 1], [5, 2], [5, 3], [5, 7], [5, 8], [8, 6], [8, 7]], "t": "2026-03-16T19:39:44.044589+00:00"}
+{"type": "survey_submit", "survey_type": "puzzle_1", "puzzle_idx": 0, "answers": {"difficulty": 4, "puzzle_1_guesses": "all"}, "t": "2026-03-16T19:39:56.295579+00:00"}
+{"type": "skip_puzzle", "idx": 0, "puzzle_id": 1, "t": "2026-03-16T19:39:56.302471+00:00"}
+{"type": "puzzle_advanced", "from_idx": 0, "to_idx": 1, "puzzle_id": 5, "t": "2026-03-16T19:39:56.303230+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 0}, "end": {"r": 3, "c": 0}, "normalized_start": {"r": 0, "c": 0}, "normalized_end": {"r": 3, "c": 0}, "changed_cells": 4, "t": "2026-03-16T19:40:07.890341+00:00"}
+{"type": "move", "r": 5, "c": 0, "value": 1, "t": "2026-03-16T19:40:09.016344+00:00"}
+{"type": "move", "r": 7, "c": 0, "value": 1, "t": "2026-03-16T19:40:09.882671+00:00"}
+{"type": "move", "r": 0, "c": 8, "value": 1, "t": "2026-03-16T19:40:23.785344+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 8}, "end": {"r": 3, "c": 8}, "normalized_start": {"r": 2, "c": 8}, "normalized_end": {"r": 3, "c": 8}, "changed_cells": 2, "t": "2026-03-16T19:40:25.744274+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 5, "c": 8}, "end": {"r": 6, "c": 8}, "normalized_start": {"r": 5, "c": 8}, "normalized_end": {"r": 6, "c": 8}, "changed_cells": 2, "t": "2026-03-16T19:40:26.893267+00:00"}
+{"type": "move", "r": 8, "c": 8, "value": 1, "t": "2026-03-16T19:40:27.798740+00:00"}
+{"type": "move", "r": 8, "c": 8, "value": 0, "t": "2026-03-16T19:40:29.463277+00:00"}
+{"type": "move", "r": 6, "c": 8, "value": 0, "t": "2026-03-16T19:40:30.008959+00:00"}
+{"type": "reset", "t": "2026-03-16T19:40:32.537553+00:00"}
+{"type": "move", "r": 0, "c": 0, "value": 1, "t": "2026-03-16T19:40:38.537642+00:00"}
+{"type": "move", "r": 2, "c": 0, "value": 1, "t": "2026-03-16T19:40:41.351018+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 0}, "end": {"r": 6, "c": 0}, "normalized_start": {"r": 4, "c": 0}, "normalized_end": {"r": 6, "c": 0}, "changed_cells": 3, "t": "2026-03-16T19:40:45.546930+00:00"}
+{"type": "move", "r": 7, "c": 0, "value": 1, "t": "2026-03-16T19:40:46.815349+00:00"}
+{"type": "move", "r": 0, "c": 1, "value": 1, "t": "2026-03-16T19:40:52.670952+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 1}, "end": {"r": 4, "c": 1}, "normalized_start": {"r": 2, "c": 1}, "normalized_end": {"r": 4, "c": 1}, "changed_cells": 3, "t": "2026-03-16T19:40:57.357488+00:00"}
+{"type": "move", "r": 0, "c": 2, "value": 1, "t": "2026-03-16T19:41:03.022384+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 2}, "end": {"r": 1, "c": 2}, "normalized_start": {"r": 1, "c": 2}, "normalized_end": {"r": 1, "c": 2}, "changed_cells": 1, "t": "2026-03-16T19:41:10.377760+00:00"}
+{"type": "move", "r": 1, "c": 2, "value": 0, "t": "2026-03-16T19:41:10.636396+00:00"}
+{"type": "move", "r": 5, "c": 2, "value": 1, "t": "2026-03-16T19:41:14.820633+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 7, "c": 2}, "end": {"r": 9, "c": 2}, "normalized_start": {"r": 7, "c": 2}, "normalized_end": {"r": 9, "c": 2}, "changed_cells": 3, "t": "2026-03-16T19:41:18.649783+00:00"}
+{"type": "move", "r": 5, "c": 3, "value": 1, "t": "2026-03-16T19:41:19.799424+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 3}, "end": {"r": 3, "c": 3}, "normalized_start": {"r": 0, "c": 3}, "normalized_end": {"r": 3, "c": 3}, "changed_cells": 4, "t": "2026-03-16T19:41:26.347344+00:00"}
+{"type": "move", "r": 7, "c": 3, "value": 1, "t": "2026-03-16T19:41:30.186819+00:00"}
+{"type": "move", "r": 9, "c": 3, "value": 1, "t": "2026-03-16T19:41:31.054839+00:00"}
+{"type": "move", "r": 7, "c": 4, "value": 1, "t": "2026-03-16T19:41:32.893834+00:00"}
+{"type": "move", "r": 4, "c": 1, "value": 0, "t": "2026-03-16T19:42:08.878062+00:00"}
+{"type": "move", "r": 3, "c": 1, "value": 0, "t": "2026-03-16T19:42:09.723228+00:00"}
+{"type": "move", "r": 2, "c": 1, "value": 0, "t": "2026-03-16T19:42:10.278877+00:00"}
+{"type": "move", "r": 1, "c": 1, "value": 1, "t": "2026-03-16T19:42:11.215365+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 1}, "end": {"r": 3, "c": 1}, "normalized_start": {"r": 3, "c": 1}, "normalized_end": {"r": 3, "c": 1}, "changed_cells": 1, "t": "2026-03-16T19:42:19.336916+00:00"}
+{"type": "move", "r": 3, "c": 1, "value": 0, "t": "2026-03-16T19:42:19.724000+00:00"}
+{"type": "reset", "t": "2026-03-16T19:42:25.726499+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 0}, "end": {"r": 0, "c": 3}, "normalized_start": {"r": 0, "c": 0}, "normalized_end": {"r": 0, "c": 3}, "changed_cells": 4, "t": "2026-03-16T19:42:30.726491+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 5}, "end": {"r": 0, "c": 6}, "normalized_start": {"r": 0, "c": 5}, "normalized_end": {"r": 0, "c": 6}, "changed_cells": 2, "t": "2026-03-16T19:42:32.241408+00:00"}
+{"type": "move", "r": 0, "c": 8, "value": 1, "t": "2026-03-16T19:42:32.935198+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 9, "c": 0}, "end": {"r": 9, "c": 1}, "normalized_start": {"r": 9, "c": 0}, "normalized_end": {"r": 9, "c": 1}, "changed_cells": 2, "t": "2026-03-16T19:42:41.344721+00:00"}
+{"type": "move", "r": 9, "c": 3, "value": 1, "t": "2026-03-16T19:42:43.108069+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 9, "c": 5}, "end": {"r": 9, "c": 5}, "normalized_start": {"r": 9, "c": 5}, "normalized_end": {"r": 9, "c": 5}, "changed_cells": 1, "t": "2026-03-16T19:42:51.927871+00:00"}
+{"type": "move", "r": 9, "c": 5, "value": 0, "t": "2026-03-16T19:42:53.056756+00:00"}
+{"type": "hint", "r": 0, "c": 6, "t": "2026-03-16T19:42:56.478452+00:00"}
+{"type": "move", "r": 0, "c": 6, "value": 0, "t": "2026-03-16T19:43:00.149543+00:00"}
+{"type": "move", "r": 0, "c": 9, "value": 1, "t": "2026-03-16T19:43:02.394939+00:00"}
+{"type": "move", "r": 8, "c": 0, "value": 1, "t": "2026-03-16T19:43:09.973739+00:00"}
+{"type": "move", "r": 6, "c": 0, "value": 1, "t": "2026-03-16T19:43:13.783002+00:00"}
+{"type": "move", "r": 4, "c": 0, "value": 1, "t": "2026-03-16T19:43:17.859628+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 8, "c": 1}, "end": {"r": 7, "c": 1}, "normalized_start": {"r": 7, "c": 1}, "normalized_end": {"r": 8, "c": 1}, "changed_cells": 2, "t": "2026-03-16T19:43:27.581512+00:00"}
+{"type": "move", "r": 8, "c": 2, "value": 1, "t": "2026-03-16T19:43:29.064903+00:00"}
+{"type": "move", "r": 8, "c": 4, "value": 1, "t": "2026-03-16T19:43:35.003155+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 2}, "end": {"r": 6, "c": 3}, "normalized_start": {"r": 6, "c": 2}, "normalized_end": {"r": 6, "c": 3}, "changed_cells": 2, "t": "2026-03-16T19:43:43.949268+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 5}, "end": {"r": 6, "c": 6}, "normalized_start": {"r": 6, "c": 5}, "normalized_end": {"r": 6, "c": 6}, "changed_cells": 2, "t": "2026-03-16T19:43:47.020982+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 8}, "end": {"r": 6, "c": 9}, "normalized_start": {"r": 6, "c": 8}, "normalized_end": {"r": 6, "c": 9}, "changed_cells": 2, "t": "2026-03-16T19:43:47.881707+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 2}, "end": {"r": 2, "c": 2}, "normalized_start": {"r": 1, "c": 2}, "normalized_end": {"r": 2, "c": 2}, "changed_cells": 2, "t": "2026-03-16T19:43:59.047090+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 3}, "end": {"r": 3, "c": 3}, "normalized_start": {"r": 1, "c": 3}, "normalized_end": {"r": 3, "c": 3}, "changed_cells": 3, "t": "2026-03-16T19:44:07.658044+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 1}, "end": {"r": 3, "c": 0}, "normalized_start": {"r": 3, "c": 0}, "normalized_end": {"r": 3, "c": 1}, "changed_cells": 2, "t": "2026-03-16T19:44:22.331659+00:00"}
+{"type": "move", "r": 4, "c": 0, "value": 0, "t": "2026-03-16T19:44:23.074105+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 4}, "end": {"r": 3, "c": 5}, "normalized_start": {"r": 3, "c": 4}, "normalized_end": {"r": 3, "c": 5}, "changed_cells": 2, "t": "2026-03-16T19:44:38.569312+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 8}, "end": {"r": 3, "c": 7}, "normalized_start": {"r": 3, "c": 7}, "normalized_end": {"r": 3, "c": 8}, "changed_cells": 2, "t": "2026-03-16T19:44:51.171333+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 5, "c": 9}, "end": {"r": 7, "c": 9}, "normalized_start": {"r": 5, "c": 9}, "normalized_end": {"r": 7, "c": 9}, "changed_cells": 3, "t": "2026-03-16T19:45:02.603037+00:00"}
+{"type": "move", "r": 6, "c": 9, "value": 1, "t": "2026-03-16T19:45:03.880507+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 7, "c": 8}, "end": {"r": 7, "c": 7}, "normalized_start": {"r": 7, "c": 7}, "normalized_end": {"r": 7, "c": 8}, "changed_cells": 2, "t": "2026-03-16T19:45:07.327795+00:00"}
+{"type": "move", "r": 9, "c": 6, "value": 1, "t": "2026-03-16T19:45:18.937218+00:00"}
+{"type": "hint", "r": 7, "c": 8, "t": "2026-03-16T19:45:19.937746+00:00"}
+{"type": "move", "r": 7, "c": 8, "value": 0, "t": "2026-03-16T19:45:26.278093+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 7, "c": 6}, "end": {"r": 7, "c": 5}, "normalized_start": {"r": 7, "c": 5}, "normalized_end": {"r": 7, "c": 6}, "changed_cells": 2, "t": "2026-03-16T19:45:31.735636+00:00"}
+{"type": "move", "r": 7, "c": 1, "value": 0, "t": "2026-03-16T19:45:44.993748+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 1}, "end": {"r": 5, "c": 1}, "normalized_start": {"r": 4, "c": 1}, "normalized_end": {"r": 5, "c": 1}, "changed_cells": 2, "t": "2026-03-16T19:45:56.709864+00:00"}
+{"type": "move", "r": 0, "c": 1, "value": 0, "t": "2026-03-16T19:45:57.997772+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 5}, "end": {"r": 2, "c": 5}, "normalized_start": {"r": 1, "c": 5}, "normalized_end": {"r": 2, "c": 5}, "changed_cells": 2, "t": "2026-03-16T19:46:08.514354+00:00"}
+{"type": "undo", "label": "drag", "diffs_len": 2, "t": "2026-03-16T19:46:16.219406+00:00"}
+{"type": "move", "r": 5, "c": 5, "value": 1, "t": "2026-03-16T19:46:20.832727+00:00"}
+{"type": "move", "r": 4, "c": 5, "value": 1, "t": "2026-03-16T19:46:23.216411+00:00"}
+{"type": "move", "r": 3, "c": 5, "value": 0, "t": "2026-03-16T19:46:24.639418+00:00"}
+{"type": "hint", "r": 5, "c": 5, "t": "2026-03-16T19:46:33.964213+00:00"}
+{"type": "move", "r": 5, "c": 5, "value": 0, "t": "2026-03-16T19:46:37.161771+00:00"}
+{"type": "reset", "t": "2026-03-16T19:46:41.493759+00:00"}
+{"type": "move", "r": 0, "c": 0, "value": 1, "t": "2026-03-16T19:46:46.011270+00:00"}
+{"type": "move", "r": 2, "c": 0, "value": 1, "t": "2026-03-16T19:46:47.017192+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 0}, "end": {"r": 7, "c": 0}, "normalized_start": {"r": 4, "c": 0}, "normalized_end": {"r": 7, "c": 0}, "changed_cells": 4, "t": "2026-03-16T19:46:49.516086+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 2}, "end": {"r": 0, "c": 3}, "normalized_start": {"r": 0, "c": 2}, "normalized_end": {"r": 0, "c": 3}, "changed_cells": 2, "t": "2026-03-16T19:47:03.912792+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 5}, "end": {"r": 0, "c": 8}, "normalized_start": {"r": 0, "c": 5}, "normalized_end": {"r": 0, "c": 8}, "changed_cells": 4, "t": "2026-03-16T19:47:06.886561+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 5}, "end": {"r": 3, "c": 5}, "normalized_start": {"r": 1, "c": 5}, "normalized_end": {"r": 3, "c": 5}, "changed_cells": 3, "t": "2026-03-16T19:47:09.051532+00:00"}
+{"type": "move", "r": 2, "c": 3, "value": 1, "t": "2026-03-16T19:47:12.443431+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 3}, "end": {"r": 7, "c": 3}, "normalized_start": {"r": 4, "c": 3}, "normalized_end": {"r": 7, "c": 3}, "changed_cells": 4, "t": "2026-03-16T19:47:14.888412+00:00"}
+{"type": "move", "r": 9, "c": 3, "value": 1, "t": "2026-03-16T19:47:15.752667+00:00"}
+{"type": "move", "r": 9, "c": 2, "value": 1, "t": "2026-03-16T19:47:21.924103+00:00"}
+{"type": "move", "r": 7, "c": 2, "value": 1, "t": "2026-03-16T19:47:25.987720+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 5, "c": 2}, "end": {"r": 4, "c": 2}, "normalized_start": {"r": 4, "c": 2}, "normalized_end": {"r": 5, "c": 2}, "changed_cells": 2, "t": "2026-03-16T19:47:29.713851+00:00"}
+{"type": "move", "r": 4, "c": 2, "value": 0, "t": "2026-03-16T19:47:30.024601+00:00"}
+{"type": "move", "r": 4, "c": 2, "value": 1, "t": "2026-03-16T19:47:31.030460+00:00"}
+{"type": "move", "r": 3, "c": 2, "value": 1, "t": "2026-03-16T19:47:32.472215+00:00"}
+{"type": "move", "r": 3, "c": 1, "value": 1, "t": "2026-03-16T19:47:37.762925+00:00"}
+{"type": "move", "r": 3, "c": 6, "value": 1, "t": "2026-03-16T19:47:38.952584+00:00"}
+{"type": "move", "r": 3, "c": 7, "value": 1, "t": "2026-03-16T19:47:40.769252+00:00"}
+{"type": "move", "r": 3, "c": 7, "value": 0, "t": "2026-03-16T19:47:42.772926+00:00"}
+{"type": "move", "r": 3, "c": 4, "value": 1, "t": "2026-03-16T19:47:44.339059+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 8}, "end": {"r": 3, "c": 9}, "normalized_start": {"r": 3, "c": 8}, "normalized_end": {"r": 3, "c": 9}, "changed_cells": 2, "t": "2026-03-16T19:47:45.708269+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 9}, "end": {"r": 8, "c": 9}, "normalized_start": {"r": 6, "c": 9}, "normalized_end": {"r": 8, "c": 9}, "changed_cells": 3, "t": "2026-03-16T19:47:54.435613+00:00"}
+{"type": "hint", "r": 5, "c": 0, "t": "2026-03-16T19:48:02.864143+00:00"}
+{"type": "move", "r": 5, "c": 0, "value": 0, "t": "2026-03-16T19:48:10.433481+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 8, "c": 0}, "end": {"r": 9, "c": 0}, "normalized_start": {"r": 8, "c": 0}, "normalized_end": {"r": 9, "c": 0}, "changed_cells": 2, "t": "2026-03-16T19:48:12.579345+00:00"}
+{"type": "move", "r": 4, "c": 0, "value": 0, "t": "2026-03-16T19:48:31.951544+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 1}, "end": {"r": 1, "c": 1}, "normalized_start": {"r": 1, "c": 1}, "normalized_end": {"r": 1, "c": 1}, "changed_cells": 1, "t": "2026-03-16T19:48:53.063882+00:00"}
+{"type": "move", "r": 1, "c": 1, "value": 0, "t": "2026-03-16T19:48:53.372380+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 1}, "end": {"r": 6, "c": 1}, "normalized_start": {"r": 6, "c": 1}, "normalized_end": {"r": 6, "c": 1}, "changed_cells": 1, "t": "2026-03-16T19:49:03.413052+00:00"}
+{"type": "move", "r": 6, "c": 1, "value": 0, "t": "2026-03-16T19:49:03.711475+00:00"}
+{"type": "reset", "t": "2026-03-16T19:49:07.052969+00:00"}
+{"type": "move", "r": 0, "c": 9, "value": 1, "t": "2026-03-16T19:49:11.382247+00:00"}
+{"type": "move", "r": 0, "c": 9, "value": 0, "t": "2026-03-16T19:49:11.668538+00:00"}
+{"type": "move", "r": 9, "c": 0, "value": 1, "t": "2026-03-16T19:49:20.703955+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 7, "c": 0}, "end": {"r": 4, "c": 0}, "normalized_start": {"r": 4, "c": 0}, "normalized_end": {"r": 7, "c": 0}, "changed_cells": 4, "t": "2026-03-16T19:49:24.967681+00:00"}
+{"type": "move", "r": 1, "c": 0, "value": 1, "t": "2026-03-16T19:49:29.391588+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 5}, "end": {"r": 1, "c": 5}, "normalized_start": {"r": 1, "c": 5}, "normalized_end": {"r": 1, "c": 5}, "changed_cells": 1, "t": "2026-03-16T19:49:33.676607+00:00"}
+{"type": "move", "r": 1, "c": 5, "value": 0, "t": "2026-03-16T19:49:33.897834+00:00"}
+{"type": "hint", "r": 4, "c": 0, "t": "2026-03-16T19:49:35.142682+00:00"}
+{"type": "move", "r": 4, "c": 0, "value": 0, "t": "2026-03-16T19:49:39.699507+00:00"}
+{"type": "move", "r": 3, "c": 0, "value": 1, "t": "2026-03-16T19:49:42.481783+00:00"}
+{"type": "survey_submit", "survey_type": "puzzle_2", "puzzle_idx": 1, "answers": {"difficulty": 4, "puzzle_2_guesses": "all"}, "t": "2026-03-16T19:49:48.831823+00:00"}
+{"type": "skip_puzzle", "idx": 1, "puzzle_id": 5, "t": "2026-03-16T19:49:48.835548+00:00"}
+{"type": "puzzle_advanced", "from_idx": 1, "to_idx": 2, "puzzle_id": 4, "t": "2026-03-16T19:49:48.835770+00:00"}
+{"type": "move", "r": 0, "c": 0, "value": 1, "t": "2026-03-16T19:49:52.195653+00:00"}
+{"type": "move", "r": 2, "c": 0, "value": 1, "t": "2026-03-16T19:49:53.010964+00:00"}
+{"type": "move", "r": 4, "c": 0, "value": 1, "t": "2026-03-16T19:49:53.744563+00:00"}
+{"type": "move", "r": 6, "c": 0, "value": 1, "t": "2026-03-16T19:49:54.461789+00:00"}
+{"type": "move", "r": 6, "c": 0, "value": 0, "t": "2026-03-16T19:49:55.667914+00:00"}
+{"type": "move", "r": 4, "c": 0, "value": 0, "t": "2026-03-16T19:49:56.333828+00:00"}
+{"type": "move", "r": 2, "c": 0, "value": 0, "t": "2026-03-16T19:49:56.728843+00:00"}
+{"type": "move", "r": 0, "c": 0, "value": 0, "t": "2026-03-16T19:49:57.086027+00:00"}
+{"type": "move", "r": 2, "c": 0, "value": 1, "t": "2026-03-16T19:50:00.181541+00:00"}
+{"type": "move", "r": 2, "c": 2, "value": 1, "t": "2026-03-16T19:50:04.961997+00:00"}
+{"type": "move", "r": 2, "c": 5, "value": 1, "t": "2026-03-16T19:50:09.532886+00:00"}
+{"type": "move", "r": 0, "c": 4, "value": 1, "t": "2026-03-16T19:50:18.811129+00:00"}
+{"type": "move", "r": 0, "c": 4, "value": 0, "t": "2026-03-16T19:50:19.130039+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 4}, "end": {"r": 3, "c": 4}, "normalized_start": {"r": 3, "c": 4}, "normalized_end": {"r": 3, "c": 4}, "changed_cells": 1, "t": "2026-03-16T19:50:25.386843+00:00"}
+{"type": "move", "r": 3, "c": 4, "value": 0, "t": "2026-03-16T19:50:25.954910+00:00"}
+{"type": "move", "r": 2, "c": 5, "value": 0, "t": "2026-03-16T19:50:26.663458+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 4}, "end": {"r": 2, "c": 4}, "normalized_start": {"r": 0, "c": 4}, "normalized_end": {"r": 2, "c": 4}, "changed_cells": 3, "t": "2026-03-16T19:50:32.548506+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 4}, "end": {"r": 7, "c": 4}, "normalized_start": {"r": 4, "c": 4}, "normalized_end": {"r": 7, "c": 4}, "changed_cells": 4, "t": "2026-03-16T19:50:35.964368+00:00"}
+{"type": "move", "r": 0, "c": 5, "value": 1, "t": "2026-03-16T19:50:45.097882+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 5}, "end": {"r": 4, "c": 5}, "normalized_start": {"r": 3, "c": 5}, "normalized_end": {"r": 4, "c": 5}, "changed_cells": 2, "t": "2026-03-16T19:50:57.166595+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 5}, "end": {"r": 7, "c": 5}, "normalized_start": {"r": 6, "c": 5}, "normalized_end": {"r": 7, "c": 5}, "changed_cells": 2, "t": "2026-03-16T19:51:01.214687+00:00"}
+{"type": "move", "r": 6, "c": 3, "value": 1, "t": "2026-03-16T19:51:11.912192+00:00"}
+{"type": "move", "r": 6, "c": 1, "value": 1, "t": "2026-03-16T19:51:16.527654+00:00"}
+{"type": "move", "r": 6, "c": 8, "value": 1, "t": "2026-03-16T19:51:19.730636+00:00"}
+{"type": "move", "r": 0, "c": 9, "value": 1, "t": "2026-03-16T19:51:23.607465+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 9}, "end": {"r": 2, "c": 9}, "normalized_start": {"r": 2, "c": 9}, "normalized_end": {"r": 2, "c": 9}, "changed_cells": 1, "t": "2026-03-16T19:51:26.238375+00:00"}
+{"type": "move", "r": 2, "c": 9, "value": 0, "t": "2026-03-16T19:51:26.522933+00:00"}
+{"type": "move", "r": 3, "c": 9, "value": 1, "t": "2026-03-16T19:51:28.737568+00:00"}
+{"type": "move", "r": 3, "c": 9, "value": 0, "t": "2026-03-16T19:51:31.433036+00:00"}
+{"type": "move", "r": 3, "c": 9, "value": 1, "t": "2026-03-16T19:51:32.528153+00:00"}
+{"type": "move", "r": 4, "c": 9, "value": 1, "t": "2026-03-16T19:51:32.946970+00:00"}
+{"type": "move", "r": 7, "c": 9, "value": 1, "t": "2026-03-16T19:51:35.581886+00:00"}
+{"type": "move", "r": 9, "c": 9, "value": 1, "t": "2026-03-16T19:51:37.057439+00:00"}
+{"type": "move", "r": 6, "c": 8, "value": 0, "t": "2026-03-16T19:52:04.665358+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-03-16T19:52:08.195351+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 8}, "end": {"r": 0, "c": 8}, "normalized_start": {"r": 0, "c": 8}, "normalized_end": {"r": 0, "c": 8}, "changed_cells": 1, "t": "2026-03-16T19:52:12.301094+00:00"}
+{"type": "move", "r": 0, "c": 8, "value": 0, "t": "2026-03-16T19:52:12.651920+00:00"}
+{"type": "move", "r": 6, "c": 8, "value": 0, "t": "2026-03-16T19:52:14.195562+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 8}, "end": {"r": 5, "c": 8}, "normalized_start": {"r": 3, "c": 8}, "normalized_end": {"r": 5, "c": 8}, "changed_cells": 3, "t": "2026-03-16T19:52:22.054492+00:00"}
+{"type": "move", "r": 7, "c": 3, "value": 1, "t": "2026-03-16T19:52:32.974544+00:00"}
+{"type": "hint", "r": 5, "c": 4, "t": "2026-03-16T19:52:35.769633+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": 0, "t": "2026-03-16T19:52:41.804719+00:00"}
+{"type": "move", "r": 8, "c": 4, "value": 1, "t": "2026-03-16T19:52:45.633042+00:00"}
+{"type": "move", "r": 8, "c": 4, "value": 0, "t": "2026-03-16T19:52:49.025555+00:00"}
+{"type": "survey_submit", "survey_type": "puzzle_3", "puzzle_idx": 2, "answers": {"difficulty": 5, "puzzle_3_guesses": "all"}, "t": "2026-03-16T19:53:06.498122+00:00"}
+{"type": "skip_puzzle", "idx": 2, "puzzle_id": 4, "t": "2026-03-16T19:53:06.504611+00:00"}
+{"type": "ended_without_full_completion", "solved_flags": [false, false, false], "skipped_flags": [true, true, true], "t": "2026-03-16T19:53:06.505319+00:00"}
+{"type": "survey_submit", "survey_type": "post", "puzzle_idx": null, "answers": {"strategy": "Trying to compare values across rows and columns to see where the hints matched.", "comments": "Not applicable."}, "t": "2026-03-16T19:53:38.850901+00:00"}
+{"type": "session_end", "t": "2026-03-16T19:53:06.505319+00:00"}

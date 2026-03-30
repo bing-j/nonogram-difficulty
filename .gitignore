@@ -16,5 +16,6 @@ env/
 venv/
 
 # --- FastAPI logs ---
-backend/logs/
 *.json
+
+.idea
