@@ -1,0 +1,285 @@
+{"type": "session_start_three", "queue": [2, 5, 0], "schedule_idx": 44, "t": "2026-06-03T16:11:45.656341+00:00"}
+{"type": "survey_submit", "survey_type": "pre", "puzzle_idx": null, "answers": {"played_before": "many", "skill_nonogram": 9, "nonogram_size_experience": [">=10*10", "10*10", "<=10*10"], "logic_experience": ["sudoku", "minesweeper", "battleships"], "puzzle_played_frequency": "many", "skill_puzzles": 8}, "t": "2026-06-03T16:12:41.461670+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 0}, "end": {"r": 0, "c": 3}, "normalized_start": {"r": 0, "c": 0}, "normalized_end": {"r": 0, "c": 3}, "changed_cells": 4, "t": "2026-06-03T16:12:54.954000+00:00"}
+{"type": "move", "r": 0, "c": 5, "value": 1, "t": "2026-06-03T16:12:55.587353+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 7}, "end": {"r": 0, "c": 9}, "normalized_start": {"r": 0, "c": 7}, "normalized_end": {"r": 0, "c": 9}, "changed_cells": 3, "t": "2026-06-03T16:12:56.494076+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 9}, "end": {"r": 3, "c": 9}, "normalized_start": {"r": 1, "c": 9}, "normalized_end": {"r": 3, "c": 9}, "changed_cells": 3, "t": "2026-06-03T16:12:57.673025+00:00"}
+{"type": "move", "r": 5, "c": 9, "value": 1, "t": "2026-06-03T16:12:58.294804+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 7, "c": 9}, "end": {"r": 9, "c": 9}, "normalized_start": {"r": 7, "c": 9}, "normalized_end": {"r": 9, "c": 9}, "changed_cells": 3, "t": "2026-06-03T16:12:59.381635+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 8, "c": 8}, "end": {"r": 8, "c": 7}, "normalized_start": {"r": 8, "c": 7}, "normalized_end": {"r": 8, "c": 8}, "changed_cells": 2, "t": "2026-06-03T16:13:00.751502+00:00"}
+{"type": "move", "r": 5, "c": 8, "value": -1, "t": "2026-06-03T16:13:02.195165+00:00"}
+{"type": "move", "r": 7, "c": 8, "value": -1, "t": "2026-06-03T16:13:02.767682+00:00"}
+{"type": "move", "r": 9, "c": 8, "value": -1, "t": "2026-06-03T16:13:03.552116+00:00"}
+{"type": "move", "r": 8, "c": 6, "value": -1, "t": "2026-06-03T16:13:04.425099+00:00"}
+{"type": "move", "r": 1, "c": 8, "value": -1, "t": "2026-06-03T16:13:05.975994+00:00"}
+{"type": "move", "r": 2, "c": 9, "value": 0, "t": "2026-06-03T16:13:06.697729+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 8}, "end": {"r": 2, "c": 9}, "normalized_start": {"r": 2, "c": 8}, "normalized_end": {"r": 2, "c": 9}, "changed_cells": 2, "t": "2026-06-03T16:13:07.778898+00:00"}
+{"type": "move", "r": 2, "c": 7, "value": -1, "t": "2026-06-03T16:13:08.267247+00:00"}
+{"type": "move", "r": 3, "c": 8, "value": -1, "t": "2026-06-03T16:13:08.759183+00:00"}
+{"type": "move", "r": 4, "c": 9, "value": -1, "t": "2026-06-03T16:13:10.413687+00:00"}
+{"type": "move", "r": 6, "c": 9, "value": -1, "t": "2026-06-03T16:13:10.897097+00:00"}
+{"type": "move", "r": 1, "c": 1, "value": 1, "t": "2026-06-03T16:13:14.997551+00:00"}
+{"type": "move", "r": 1, "c": 2, "value": 1, "t": "2026-06-03T16:13:15.326410+00:00"}
+{"type": "move", "r": 1, "c": 0, "value": -1, "t": "2026-06-03T16:13:15.830030+00:00"}
+{"type": "move", "r": 2, "c": 1, "value": -1, "t": "2026-06-03T16:13:16.252666+00:00"}
+{"type": "move", "r": 2, "c": 2, "value": -1, "t": "2026-06-03T16:13:16.618973+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 3}, "end": {"r": 2, "c": 3}, "normalized_start": {"r": 1, "c": 3}, "normalized_end": {"r": 2, "c": 3}, "changed_cells": 2, "t": "2026-06-03T16:13:17.465882+00:00"}
+{"type": "move", "r": 3, "c": 3, "value": -1, "t": "2026-06-03T16:13:17.931885+00:00"}
+{"type": "move", "r": 1, "c": 5, "value": -1, "t": "2026-06-03T16:13:20.050086+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 4}, "end": {"r": 2, "c": 5}, "normalized_start": {"r": 2, "c": 4}, "normalized_end": {"r": 2, "c": 5}, "changed_cells": 2, "t": "2026-06-03T16:13:24.647479+00:00"}
+{"type": "move", "r": 2, "c": 6, "value": -1, "t": "2026-06-03T16:13:25.112021+00:00"}
+{"type": "move", "r": 2, "c": 0, "value": -1, "t": "2026-06-03T16:13:25.887744+00:00"}
+{"type": "move", "r": 5, "c": 6, "value": 1, "t": "2026-06-03T16:13:34.873058+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 5, "c": 1}, "end": {"r": 5, "c": 3}, "normalized_start": {"r": 5, "c": 1}, "normalized_end": {"r": 5, "c": 3}, "changed_cells": 3, "t": "2026-06-03T16:13:36.898299+00:00"}
+{"type": "move", "r": 3, "c": 2, "value": -1, "t": "2026-06-03T16:13:44.793559+00:00"}
+{"type": "move", "r": 8, "c": 2, "value": 1, "t": "2026-06-03T16:13:57.090492+00:00"}
+{"type": "move", "r": 1, "c": 7, "value": -1, "t": "2026-06-03T16:14:01.912228+00:00"}
+{"type": "move", "r": 1, "c": 4, "value": 1, "t": "2026-06-03T16:14:03.929201+00:00"}
+{"type": "move", "r": 1, "c": 6, "value": -1, "t": "2026-06-03T16:14:04.524119+00:00"}
+{"type": "move", "r": 0, "c": 4, "value": -1, "t": "2026-06-03T16:14:06.552710+00:00"}
+{"type": "move", "r": 3, "c": 4, "value": -1, "t": "2026-06-03T16:14:07.233449+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 5}, "end": {"r": 0, "c": 9}, "normalized_start": {"r": 0, "c": 5}, "normalized_end": {"r": 0, "c": 9}, "changed_cells": 5, "t": "2026-06-03T16:14:15.832065+00:00"}
+{"type": "move", "r": 0, "c": 6, "value": 0, "t": "2026-06-03T16:14:16.849136+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 9}, "end": {"r": 3, "c": 9}, "normalized_start": {"r": 1, "c": 9}, "normalized_end": {"r": 3, "c": 9}, "changed_cells": 3, "t": "2026-06-03T16:14:18.058363+00:00"}
+{"type": "move", "r": 2, "c": 8, "value": 0, "t": "2026-06-03T16:14:18.659124+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 5}, "end": {"r": 0, "c": 7}, "normalized_start": {"r": 0, "c": 5}, "normalized_end": {"r": 0, "c": 7}, "changed_cells": 3, "t": "2026-06-03T16:14:20.601785+00:00"}
+{"type": "move", "r": 0, "c": 9, "value": 1, "t": "2026-06-03T16:14:21.267289+00:00"}
+{"type": "move", "r": 1, "c": 8, "value": 0, "t": "2026-06-03T16:14:23.515450+00:00"}
+{"type": "move", "r": 2, "c": 6, "value": 0, "t": "2026-06-03T16:14:25.454850+00:00"}
+{"type": "move", "r": 2, "c": 6, "value": -1, "t": "2026-06-03T16:14:26.551034+00:00"}
+{"type": "move", "r": 2, "c": 6, "value": 0, "t": "2026-06-03T16:14:27.232072+00:00"}
+{"type": "move", "r": 2, "c": 7, "value": 0, "t": "2026-06-03T16:14:27.664082+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 9}, "end": {"r": 3, "c": 9}, "normalized_start": {"r": 1, "c": 9}, "normalized_end": {"r": 3, "c": 9}, "changed_cells": 3, "t": "2026-06-03T16:14:29.096556+00:00"}
+{"type": "move", "r": 0, "c": 8, "value": -1, "t": "2026-06-03T16:14:32.279488+00:00"}
+{"type": "move", "r": 1, "c": 8, "value": -1, "t": "2026-06-03T16:14:33.899778+00:00"}
+{"type": "move", "r": 2, "c": 8, "value": 1, "t": "2026-06-03T16:14:37.552739+00:00"}
+{"type": "move", "r": 6, "c": 8, "value": 1, "t": "2026-06-03T16:14:40.220055+00:00"}
+{"type": "move", "r": 4, "c": 8, "value": 1, "t": "2026-06-03T16:14:40.858511+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 2, "c": 7}, "end": {"r": 2, "c": 6}, "normalized_start": {"r": 2, "c": 6}, "normalized_end": {"r": 2, "c": 7}, "changed_cells": 2, "t": "2026-06-03T16:14:43.197002+00:00"}
+{"type": "move", "r": 4, "c": 7, "value": -1, "t": "2026-06-03T16:14:48.383884+00:00"}
+{"type": "move", "r": 5, "c": 7, "value": -1, "t": "2026-06-03T16:14:51.097961+00:00"}
+{"type": "move", "r": 5, "c": 7, "value": 0, "t": "2026-06-03T16:14:52.237396+00:00"}
+{"type": "move", "r": 3, "c": 6, "value": 1, "t": "2026-06-03T16:15:09.045580+00:00"}
+{"type": "move", "r": 4, "c": 6, "value": -1, "t": "2026-06-03T16:15:10.615499+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 6}, "end": {"r": 7, "c": 6}, "normalized_start": {"r": 6, "c": 6}, "normalized_end": {"r": 7, "c": 6}, "changed_cells": 2, "t": "2026-06-03T16:15:11.650008+00:00"}
+{"type": "move", "r": 9, "c": 6, "value": 1, "t": "2026-06-03T16:15:12.085114+00:00"}
+{"type": "move", "r": 6, "c": 7, "value": -1, "t": "2026-06-03T16:15:13.515077+00:00"}
+{"type": "move", "r": 6, "c": 5, "value": -1, "t": "2026-06-03T16:15:14.274006+00:00"}
+{"type": "move", "r": 9, "c": 5, "value": 1, "t": "2026-06-03T16:15:24.032742+00:00"}
+{"type": "move", "r": 9, "c": 4, "value": 1, "t": "2026-06-03T16:15:24.474836+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 8, "c": 4}, "end": {"r": 7, "c": 4}, "normalized_start": {"r": 7, "c": 4}, "normalized_end": {"r": 8, "c": 4}, "changed_cells": 2, "t": "2026-06-03T16:15:30.646545+00:00"}
+{"type": "move", "r": 8, "c": 6, "value": 0, "t": "2026-06-03T16:15:31.035416+00:00"}
+{"type": "move", "r": 8, "c": 6, "value": -1, "t": "2026-06-03T16:15:31.817005+00:00"}
+{"type": "move", "r": 8, "c": 5, "value": -1, "t": "2026-06-03T16:15:32.264051+00:00"}
+{"type": "move", "r": 6, "c": 4, "value": -1, "t": "2026-06-03T16:15:32.745194+00:00"}
+{"type": "move", "r": 7, "c": 5, "value": -1, "t": "2026-06-03T16:15:37.291345+00:00"}
+{"type": "move", "r": 7, "c": 7, "value": -1, "t": "2026-06-03T16:15:37.825232+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 7, "c": 3}, "end": {"r": 7, "c": 0}, "normalized_start": {"r": 7, "c": 0}, "normalized_end": {"r": 7, "c": 3}, "changed_cells": 4, "t": "2026-06-03T16:15:38.914029+00:00"}
+{"type": "move", "r": 9, "c": 2, "value": 1, "t": "2026-06-03T16:15:40.660653+00:00"}
+{"type": "move", "r": 8, "c": 1, "value": 1, "t": "2026-06-03T16:15:44.616163+00:00"}
+{"type": "move", "r": 8, "c": 0, "value": -1, "t": "2026-06-03T16:15:45.639598+00:00"}
+{"type": "move", "r": 8, "c": 3, "value": -1, "t": "2026-06-03T16:15:46.451181+00:00"}
+{"type": "move", "r": 9, "c": 7, "value": 1, "t": "2026-06-03T16:15:49.999664+00:00"}
+{"type": "move", "r": 9, "c": 3, "value": -1, "t": "2026-06-03T16:15:50.744701+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 9, "c": 1}, "end": {"r": 9, "c": 0}, "normalized_start": {"r": 9, "c": 0}, "normalized_end": {"r": 9, "c": 1}, "changed_cells": 2, "t": "2026-06-03T16:15:51.500451+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 3, "c": 1}, "end": {"r": 4, "c": 1}, "normalized_start": {"r": 3, "c": 1}, "normalized_end": {"r": 4, "c": 1}, "changed_cells": 2, "t": "2026-06-03T16:15:55.270441+00:00"}
+{"type": "move", "r": 6, "c": 1, "value": -1, "t": "2026-06-03T16:15:55.953233+00:00"}
+{"type": "move", "r": 4, "c": 3, "value": -1, "t": "2026-06-03T16:16:01.527183+00:00"}
+{"type": "move", "r": 6, "c": 3, "value": -1, "t": "2026-06-03T16:16:02.047313+00:00"}
+{"type": "move", "r": 3, "c": 0, "value": 1, "t": "2026-06-03T16:16:13.653855+00:00"}
+{"type": "move", "r": 4, "c": 0, "value": -1, "t": "2026-06-03T16:16:14.358716+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 5}, "end": {"r": 4, "c": 5}, "normalized_start": {"r": 3, "c": 5}, "normalized_end": {"r": 4, "c": 5}, "changed_cells": 2, "t": "2026-06-03T16:16:22.072002+00:00"}
+{"type": "move", "r": 5, "c": 5, "value": -1, "t": "2026-06-03T16:16:22.512967+00:00"}
+{"type": "move", "r": 4, "c": 4, "value": -1, "t": "2026-06-03T16:16:23.710439+00:00"}
+{"type": "move", "r": 4, "c": 2, "value": 1, "t": "2026-06-03T16:16:25.226745+00:00"}
+{"type": "move", "r": 4, "c": 2, "value": -1, "t": "2026-06-03T16:16:26.331120+00:00"}
+{"type": "move", "r": 4, "c": 2, "value": 1, "t": "2026-06-03T16:16:29.516560+00:00"}
+{"type": "move", "r": 6, "c": 2, "value": -1, "t": "2026-06-03T16:16:30.826738+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-06-03T16:16:32.550347+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-06-03T16:16:32.759648+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-06-03T16:16:32.933318+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-06-03T16:16:33.362987+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-06-03T16:16:33.994772+00:00"}
+{"type": "move", "r": 4, "c": 4, "value": -1, "t": "2026-06-03T16:16:35.245238+00:00"}
+{"type": "move", "r": 4, "c": 2, "value": 1, "t": "2026-06-03T16:16:36.370227+00:00"}
+{"type": "move", "r": 6, "c": 2, "value": -1, "t": "2026-06-03T16:16:38.452712+00:00"}
+{"type": "move", "r": 6, "c": 0, "value": 1, "t": "2026-06-03T16:16:41.528055+00:00"}
+{"type": "move", "r": 5, "c": 0, "value": -1, "t": "2026-06-03T16:16:42.187257+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": 1, "t": "2026-06-03T16:16:42.902093+00:00"}
+{"type": "move", "r": 5, "c": 7, "value": 1, "t": "2026-06-03T16:16:44.540510+00:00"}
+{"type": "check_bank", "puzzle_id": 2, "solved": true, "mismatches": [], "t": "2026-06-03T16:16:45.334205+00:00"}
+{"type": "survey_submit", "survey_type": "puzzle_1", "puzzle_idx": 0, "answers": {"difficulty": 2, "puzzle_1_guesses": "never"}, "t": "2026-06-03T16:17:02.302796+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 8}, "end": {"r": 6, "c": 9}, "normalized_start": {"r": 6, "c": 8}, "normalized_end": {"r": 6, "c": 9}, "changed_cells": 2, "t": "2026-06-03T16:17:09.225942+00:00"}
+{"type": "move", "r": 6, "c": 6, "value": 1, "t": "2026-06-03T16:17:09.706863+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 4}, "end": {"r": 6, "c": 3}, "normalized_start": {"r": 6, "c": 3}, "normalized_end": {"r": 6, "c": 4}, "changed_cells": 2, "t": "2026-06-03T16:17:10.813761+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 1}, "end": {"r": 6, "c": 0}, "normalized_start": {"r": 6, "c": 0}, "normalized_end": {"r": 6, "c": 1}, "changed_cells": 2, "t": "2026-06-03T16:17:11.522016+00:00"}
+{"type": "move", "r": 0, "c": 3, "value": 1, "t": "2026-06-03T16:17:15.127472+00:00"}
+{"type": "move", "r": 2, "c": 3, "value": 1, "t": "2026-06-03T16:17:15.811045+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 4, "c": 3}, "end": {"r": 7, "c": 3}, "normalized_start": {"r": 4, "c": 3}, "normalized_end": {"r": 7, "c": 3}, "changed_cells": 4, "t": "2026-06-03T16:17:17.837661+00:00"}
+{"type": "move", "r": 9, "c": 3, "value": 1, "t": "2026-06-03T16:17:18.462666+00:00"}
+{"type": "move", "r": 6, "c": 3, "value": 1, "t": "2026-06-03T16:17:19.010268+00:00"}
+{"type": "move", "r": 1, "c": 3, "value": -1, "t": "2026-06-03T16:17:20.176215+00:00"}
+{"type": "move", "r": 3, "c": 3, "value": -1, "t": "2026-06-03T16:17:20.837125+00:00"}
+{"type": "move", "r": 8, "c": 3, "value": -1, "t": "2026-06-03T16:17:21.584245+00:00"}
+{"type": "move", "r": 6, "c": 2, "value": -1, "t": "2026-06-03T16:17:22.130739+00:00"}
+{"type": "move", "r": 6, "c": 5, "value": -1, "t": "2026-06-03T16:17:22.590089+00:00"}
+{"type": "move", "r": 6, "c": 7, "value": -1, "t": "2026-06-03T16:17:23.038054+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 3, "c": 2}, "end": {"r": 3, "c": 0}, "normalized_start": {"r": 3, "c": 0}, "normalized_end": {"r": 3, "c": 2}, "changed_cells": 3, "t": "2026-06-03T16:17:27.721653+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 1}, "end": {"r": 2, "c": 0}, "normalized_start": {"r": 2, "c": 0}, "normalized_end": {"r": 2, "c": 1}, "changed_cells": 2, "t": "2026-06-03T16:17:39.952220+00:00"}
+{"type": "move", "r": 2, "c": 2, "value": -1, "t": "2026-06-03T16:17:40.401245+00:00"}
+{"type": "move", "r": 2, "c": 4, "value": -1, "t": "2026-06-03T16:17:41.057623+00:00"}
+{"type": "move", "r": 0, "c": 8, "value": 1, "t": "2026-06-03T16:17:48.683781+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 0, "c": 4}, "end": {"r": 0, "c": 5}, "normalized_start": {"r": 0, "c": 4}, "normalized_end": {"r": 0, "c": 5}, "changed_cells": 2, "t": "2026-06-03T16:17:54.512206+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 5}, "end": {"r": 3, "c": 5}, "normalized_start": {"r": 1, "c": 5}, "normalized_end": {"r": 3, "c": 5}, "changed_cells": 3, "t": "2026-06-03T16:17:56.674144+00:00"}
+{"type": "move", "r": 4, "c": 5, "value": -1, "t": "2026-06-03T16:17:57.578129+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 5, "c": 5}, "end": {"r": 9, "c": 5}, "normalized_start": {"r": 5, "c": 5}, "normalized_end": {"r": 9, "c": 5}, "changed_cells": 5, "t": "2026-06-03T16:17:58.790088+00:00"}
+{"type": "move", "r": 6, "c": 5, "value": -1, "t": "2026-06-03T16:18:00.022321+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": -1, "t": "2026-06-03T16:18:01.418325+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": 0, "t": "2026-06-03T16:18:02.221295+00:00"}
+{"type": "move", "r": 1, "c": 4, "value": 1, "t": "2026-06-03T16:18:07.411771+00:00"}
+{"type": "move", "r": 1, "c": 6, "value": 1, "t": "2026-06-03T16:18:08.987282+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 1, "c": 7}, "end": {"r": 1, "c": 9}, "normalized_start": {"r": 1, "c": 7}, "normalized_end": {"r": 1, "c": 9}, "changed_cells": 3, "t": "2026-06-03T16:18:09.827138+00:00"}
+{"type": "move", "r": 0, "c": 7, "value": -1, "t": "2026-06-03T16:18:11.461135+00:00"}
+{"type": "move", "r": 0, "c": 6, "value": -1, "t": "2026-06-03T16:18:13.401027+00:00"}
+{"type": "move", "r": 2, "c": 6, "value": -1, "t": "2026-06-03T16:18:14.111214+00:00"}
+{"type": "move", "r": 0, "c": 2, "value": 1, "t": "2026-06-03T16:18:15.143147+00:00"}
+{"type": "move", "r": 0, "c": 9, "value": 1, "t": "2026-06-03T16:18:15.895147+00:00"}
+{"type": "move", "r": 0, "c": 1, "value": -1, "t": "2026-06-03T16:18:19.295003+00:00"}
+{"type": "move", "r": 0, "c": 0, "value": 1, "t": "2026-06-03T16:18:22.278773+00:00"}
+{"type": "move", "r": 1, "c": 0, "value": 1, "t": "2026-06-03T16:18:23.006612+00:00"}
+{"type": "move", "r": 4, "c": 0, "value": -1, "t": "2026-06-03T16:18:23.708769+00:00"}
+{"type": "move", "r": 5, "c": 0, "value": -1, "t": "2026-06-03T16:18:24.690169+00:00"}
+{"type": "move", "r": 7, "c": 0, "value": -1, "t": "2026-06-03T16:18:25.211992+00:00"}
+{"type": "move", "r": 1, "c": 1, "value": -1, "t": "2026-06-03T16:18:27.191901+00:00"}
+{"type": "move", "r": 1, "c": 2, "value": -1, "t": "2026-06-03T16:18:28.379848+00:00"}
+{"type": "move", "r": 4, "c": 1, "value": -1, "t": "2026-06-03T16:18:29.626251+00:00"}
+{"type": "move", "r": 7, "c": 1, "value": 1, "t": "2026-06-03T16:18:34.459971+00:00"}
+{"type": "move", "r": 7, "c": 2, "value": 1, "t": "2026-06-03T16:18:35.465743+00:00"}
+{"type": "move", "r": 7, "c": 4, "value": -1, "t": "2026-06-03T16:18:35.918042+00:00"}
+{"type": "move", "r": 9, "c": 1, "value": -1, "t": "2026-06-03T16:18:38.657537+00:00"}
+{"type": "move", "r": 9, "c": 0, "value": -1, "t": "2026-06-03T16:18:41.518160+00:00"}
+{"type": "move", "r": 8, "c": 0, "value": 1, "t": "2026-06-03T16:18:44.060513+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 8, "c": 1}, "end": {"r": 8, "c": 2}, "normalized_start": {"r": 8, "c": 1}, "normalized_end": {"r": 8, "c": 2}, "changed_cells": 2, "t": "2026-06-03T16:18:44.843272+00:00"}
+{"type": "move", "r": 5, "c": 1, "value": -1, "t": "2026-06-03T16:18:46.750827+00:00"}
+{"type": "move", "r": 9, "c": 2, "value": 1, "t": "2026-06-03T16:18:50.931376+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 5, "c": 2}, "end": {"r": 4, "c": 2}, "normalized_start": {"r": 4, "c": 2}, "normalized_end": {"r": 5, "c": 2}, "changed_cells": 2, "t": "2026-06-03T16:18:53.346567+00:00"}
+{"type": "move", "r": 4, "c": 4, "value": -1, "t": "2026-06-03T16:18:54.690249+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": -1, "t": "2026-06-03T16:18:55.592104+00:00"}
+{"type": "move", "r": 9, "c": 4, "value": -1, "t": "2026-06-03T16:18:59.071361+00:00"}
+{"type": "move", "r": 3, "c": 8, "value": 1, "t": "2026-06-03T16:19:07.667611+00:00"}
+{"type": "move", "r": 9, "c": 9, "value": -1, "t": "2026-06-03T16:19:14.673879+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 3, "c": 9}, "end": {"r": 2, "c": 9}, "normalized_start": {"r": 2, "c": 9}, "normalized_end": {"r": 3, "c": 9}, "changed_cells": 2, "t": "2026-06-03T16:19:16.242822+00:00"}
+{"type": "move", "r": 3, "c": 7, "value": 1, "t": "2026-06-03T16:19:19.018887+00:00"}
+{"type": "move", "r": 3, "c": 4, "value": 1, "t": "2026-06-03T16:19:19.768493+00:00"}
+{"type": "move", "r": 3, "c": 6, "value": -1, "t": "2026-06-03T16:19:20.239052+00:00"}
+{"type": "move", "r": 4, "c": 7, "value": 1, "t": "2026-06-03T16:19:22.420220+00:00"}
+{"type": "move", "r": 4, "c": 6, "value": 1, "t": "2026-06-03T16:19:27.272091+00:00"}
+{"type": "move", "r": 4, "c": 9, "value": 1, "t": "2026-06-03T16:19:27.678809+00:00"}
+{"type": "move", "r": 4, "c": 8, "value": -1, "t": "2026-06-03T16:19:28.315435+00:00"}
+{"type": "move", "r": 2, "c": 8, "value": 1, "t": "2026-06-03T16:19:29.211461+00:00"}
+{"type": "move", "r": 2, "c": 7, "value": 1, "t": "2026-06-03T16:19:32.466576+00:00"}
+{"type": "move", "r": 5, "c": 6, "value": -1, "t": "2026-06-03T16:19:37.298394+00:00"}
+{"type": "move", "r": 7, "c": 6, "value": 1, "t": "2026-06-03T16:19:37.857020+00:00"}
+{"type": "move", "r": 8, "c": 6, "value": 1, "t": "2026-06-03T16:19:38.689615+00:00"}
+{"type": "move", "r": 8, "c": 6, "value": 0, "t": "2026-06-03T16:19:39.290576+00:00"}
+{"type": "move", "r": 8, "c": 6, "value": -1, "t": "2026-06-03T16:19:39.710639+00:00"}
+{"type": "move", "r": 9, "c": 6, "value": 1, "t": "2026-06-03T16:19:40.282969+00:00"}
+{"type": "move", "r": 9, "c": 7, "value": -1, "t": "2026-06-03T16:19:43.282413+00:00"}
+{"type": "move", "r": 9, "c": 8, "value": 1, "t": "2026-06-03T16:19:43.742032+00:00"}
+{"type": "move", "r": 8, "c": 8, "value": -1, "t": "2026-06-03T16:19:45.378310+00:00"}
+{"type": "move", "r": 5, "c": 9, "value": 1, "t": "2026-06-03T16:19:51.054402+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 7, "c": 9}, "end": {"r": 9, "c": 9}, "normalized_start": {"r": 7, "c": 9}, "normalized_end": {"r": 9, "c": 9}, "changed_cells": 3, "t": "2026-06-03T16:19:52.158347+00:00"}
+{"type": "move", "r": 5, "c": 8, "value": 1, "t": "2026-06-03T16:19:53.359917+00:00"}
+{"type": "move", "r": 5, "c": 7, "value": -1, "t": "2026-06-03T16:19:53.831027+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 7, "c": 7}, "end": {"r": 7, "c": 8}, "normalized_start": {"r": 7, "c": 7}, "normalized_end": {"r": 7, "c": 8}, "changed_cells": 2, "t": "2026-06-03T16:19:58.467466+00:00"}
+{"type": "move", "r": 8, "c": 7, "value": 1, "t": "2026-06-03T16:20:00.132022+00:00"}
+{"type": "move", "r": 8, "c": 4, "value": -1, "t": "2026-06-03T16:20:01.577076+00:00"}
+{"type": "move", "r": 9, "c": 9, "value": -1, "t": "2026-06-03T16:20:03.828332+00:00"}
+{"type": "check_bank", "puzzle_id": 5, "solved": true, "mismatches": [], "t": "2026-06-03T16:20:05.546075+00:00"}
+{"type": "survey_submit", "survey_type": "puzzle_2", "puzzle_idx": 1, "answers": {"difficulty": 3, "puzzle_2_guesses": "never"}, "t": "2026-06-03T16:20:16.108170+00:00"}
+{"type": "move", "r": 0, "c": 0, "value": 1, "t": "2026-06-03T16:20:18.132158+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 0}, "end": {"r": 9, "c": 0}, "normalized_start": {"r": 2, "c": 0}, "normalized_end": {"r": 9, "c": 0}, "changed_cells": 8, "t": "2026-06-03T16:20:19.373261+00:00"}
+{"type": "move", "r": 9, "c": 1, "value": -1, "t": "2026-06-03T16:20:20.247068+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 8, "c": 1}, "end": {"r": 2, "c": 1}, "normalized_start": {"r": 2, "c": 1}, "normalized_end": {"r": 8, "c": 1}, "changed_cells": 7, "t": "2026-06-03T16:20:22.682363+00:00"}
+{"type": "move", "r": 0, "c": 1, "value": -1, "t": "2026-06-03T16:20:23.596595+00:00"}
+{"type": "move", "r": 0, "c": 8, "value": 1, "t": "2026-06-03T16:20:25.765240+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 8}, "end": {"r": 9, "c": 8}, "normalized_start": {"r": 2, "c": 8}, "normalized_end": {"r": 9, "c": 8}, "changed_cells": 8, "t": "2026-06-03T16:20:27.174486+00:00"}
+{"type": "move", "r": 7, "c": 7, "value": 1, "t": "2026-06-03T16:20:28.729119+00:00"}
+{"type": "move", "r": 4, "c": 7, "value": 1, "t": "2026-06-03T16:20:31.452641+00:00"}
+{"type": "move", "r": 5, "c": 4, "value": 1, "t": "2026-06-03T16:20:40.469162+00:00"}
+{"type": "move", "r": 4, "c": 4, "value": 1, "t": "2026-06-03T16:20:40.799476+00:00"}
+{"type": "move", "r": 3, "c": 4, "value": 1, "t": "2026-06-03T16:20:41.157126+00:00"}
+{"type": "move", "r": 2, "c": 4, "value": 1, "t": "2026-06-03T16:20:41.523236+00:00"}
+{"type": "move", "r": 4, "c": 3, "value": -1, "t": "2026-06-03T16:20:49.825548+00:00"}
+{"type": "move", "r": 4, "c": 5, "value": -1, "t": "2026-06-03T16:20:50.298261+00:00"}
+{"type": "move", "r": 4, "c": 2, "value": -1, "t": "2026-06-03T16:20:50.953962+00:00"}
+{"type": "move", "r": 5, "c": 3, "value": 1, "t": "2026-06-03T16:21:03.655441+00:00"}
+{"type": "move", "r": 6, "c": 3, "value": -1, "t": "2026-06-03T16:21:12.281749+00:00"}
+{"type": "move", "r": 5, "c": 5, "value": 1, "t": "2026-06-03T16:21:16.025397+00:00"}
+{"type": "move", "r": 6, "c": 5, "value": 1, "t": "2026-06-03T16:21:55.913274+00:00"}
+{"type": "move", "r": 7, "c": 5, "value": -1, "t": "2026-06-03T16:21:57.220448+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 8, "c": 5}, "end": {"r": 9, "c": 5}, "normalized_start": {"r": 8, "c": 5}, "normalized_end": {"r": 9, "c": 5}, "changed_cells": 2, "t": "2026-06-03T16:21:57.856071+00:00"}
+{"type": "move", "r": 8, "c": 7, "value": -1, "t": "2026-06-03T16:22:04.627257+00:00"}
+{"type": "move", "r": 8, "c": 9, "value": -1, "t": "2026-06-03T16:22:05.173622+00:00"}
+{"type": "move", "r": 9, "c": 3, "value": 1, "t": "2026-06-03T16:22:12.713030+00:00"}
+{"type": "move", "r": 8, "c": 3, "value": -1, "t": "2026-06-03T16:22:13.882591+00:00"}
+{"type": "move", "r": 9, "c": 6, "value": -1, "t": "2026-06-03T16:22:16.950008+00:00"}
+{"type": "move", "r": 1, "c": 0, "value": -1, "t": "2026-06-03T16:22:45.327348+00:00"}
+{"type": "move", "r": 1, "c": 1, "value": 1, "t": "2026-06-03T16:22:49.345399+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 1, "c": 2}, "end": {"r": 1, "c": 4}, "normalized_start": {"r": 1, "c": 2}, "normalized_end": {"r": 1, "c": 4}, "changed_cells": 3, "t": "2026-06-03T16:22:50.883957+00:00"}
+{"type": "move", "r": 1, "c": 5, "value": -1, "t": "2026-06-03T16:22:52.444185+00:00"}
+{"type": "move", "r": 3, "c": 2, "value": -1, "t": "2026-06-03T16:22:55.178834+00:00"}
+{"type": "move", "r": 3, "c": 3, "value": -1, "t": "2026-06-03T16:22:57.454957+00:00"}
+{"type": "move", "r": 3, "c": 5, "value": 1, "t": "2026-06-03T16:22:59.421637+00:00"}
+{"type": "move", "r": 3, "c": 6, "value": 1, "t": "2026-06-03T16:22:59.725824+00:00"}
+{"type": "move", "r": 3, "c": 9, "value": 1, "t": "2026-06-03T16:23:00.233010+00:00"}
+{"type": "move", "r": 3, "c": 7, "value": -1, "t": "2026-06-03T16:23:00.708149+00:00"}
+{"type": "move", "r": 2, "c": 5, "value": -1, "t": "2026-06-03T16:23:02.514829+00:00"}
+{"type": "move", "r": 0, "c": 5, "value": -1, "t": "2026-06-03T16:23:03.325599+00:00"}
+{"type": "move", "r": 2, "c": 6, "value": -1, "t": "2026-06-03T16:23:08.420087+00:00"}
+{"type": "move", "r": 4, "c": 6, "value": -1, "t": "2026-06-03T16:23:09.064269+00:00"}
+{"type": "move", "r": 1, "c": 8, "value": -1, "t": "2026-06-03T16:23:41.315635+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 2, "c": 3}, "end": {"r": 2, "c": 2}, "normalized_start": {"r": 2, "c": 2}, "normalized_end": {"r": 2, "c": 3}, "changed_cells": 2, "t": "2026-06-03T16:23:53.699310+00:00"}
+{"type": "move", "r": 0, "c": 2, "value": -1, "t": "2026-06-03T16:23:54.471804+00:00"}
+{"type": "move", "r": 0, "c": 3, "value": -1, "t": "2026-06-03T16:23:54.829745+00:00"}
+{"type": "move", "r": 7, "c": 3, "value": -1, "t": "2026-06-03T16:24:03.687762+00:00"}
+{"type": "move", "r": 0, "c": 6, "value": -1, "t": "2026-06-03T16:24:20.966127+00:00"}
+{"type": "move", "r": 0, "c": 4, "value": 1, "t": "2026-06-03T16:24:21.935487+00:00"}
+{"type": "move", "r": 0, "c": 6, "value": 0, "t": "2026-06-03T16:24:23.506833+00:00"}
+{"type": "move", "r": 0, "c": 4, "value": -1, "t": "2026-06-03T16:24:24.385106+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-06-03T16:24:25.607372+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-06-03T16:24:25.955002+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-06-03T16:24:26.358270+00:00"}
+{"type": "undo", "label": "cell", "diffs_len": 1, "t": "2026-06-03T16:24:26.776117+00:00"}
+{"type": "move", "r": 7, "c": 4, "value": -1, "t": "2026-06-03T16:24:54.024039+00:00"}
+{"type": "move", "r": 7, "c": 1, "value": 0, "t": "2026-06-03T16:24:55.215759+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 7, "c": 1}, "end": {"r": 7, "c": 2}, "normalized_start": {"r": 7, "c": 1}, "normalized_end": {"r": 7, "c": 2}, "changed_cells": 2, "t": "2026-06-03T16:24:56.434909+00:00"}
+{"type": "move", "r": 6, "c": 2, "value": 1, "t": "2026-06-03T16:25:17.613573+00:00"}
+{"type": "move", "r": 5, "c": 2, "value": 1, "t": "2026-06-03T16:25:20.087151+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 8, "c": 2}, "end": {"r": 9, "c": 2}, "normalized_start": {"r": 8, "c": 2}, "normalized_end": {"r": 9, "c": 2}, "changed_cells": 2, "t": "2026-06-03T16:25:21.155754+00:00"}
+{"type": "move", "r": 5, "c": 6, "value": -1, "t": "2026-06-03T16:25:23.991913+00:00"}
+{"type": "move", "r": 9, "c": 4, "value": 1, "t": "2026-06-03T16:25:27.215027+00:00"}
+{"type": "move", "r": 8, "c": 4, "value": -1, "t": "2026-06-03T16:25:28.985239+00:00"}
+{"type": "move", "r": 8, "c": 6, "value": -1, "t": "2026-06-03T16:25:38.693984+00:00"}
+{"type": "drag", "mode": "flip", "start": {"r": 6, "c": 6}, "end": {"r": 7, "c": 6}, "normalized_start": {"r": 6, "c": 6}, "normalized_end": {"r": 7, "c": 6}, "changed_cells": 2, "t": "2026-06-03T16:25:43.071276+00:00"}
+{"type": "move", "r": 7, "c": 9, "value": -1, "t": "2026-06-03T16:25:46.102055+00:00"}
+{"type": "move", "r": 6, "c": 4, "value": -1, "t": "2026-06-03T16:25:50.153162+00:00"}
+{"type": "move", "r": 6, "c": 7, "value": -1, "t": "2026-06-03T16:25:50.957858+00:00"}
+{"type": "move", "r": 6, "c": 9, "value": 1, "t": "2026-06-03T16:25:51.532452+00:00"}
+{"type": "move", "r": 5, "c": 9, "value": -1, "t": "2026-06-03T16:25:52.517652+00:00"}
+{"type": "move", "r": 9, "c": 9, "value": -1, "t": "2026-06-03T16:25:57.584560+00:00"}
+{"type": "move", "r": 9, "c": 7, "value": 1, "t": "2026-06-03T16:25:59.205206+00:00"}
+{"type": "move", "r": 5, "c": 7, "value": 1, "t": "2026-06-03T16:26:01.460267+00:00"}
+{"type": "drag", "mode": "cross_toggle", "start": {"r": 2, "c": 7}, "end": {"r": 0, "c": 7}, "normalized_start": {"r": 0, "c": 7}, "normalized_end": {"r": 2, "c": 7}, "changed_cells": 3, "t": "2026-06-03T16:26:05.175665+00:00"}
+{"type": "move", "r": 4, "c": 9, "value": 1, "t": "2026-06-03T16:26:06.421401+00:00"}
+{"type": "move", "r": 2, "c": 9, "value": 1, "t": "2026-06-03T16:26:08.060533+00:00"}
+{"type": "move", "r": 1, "c": 9, "value": -1, "t": "2026-06-03T16:26:09.576385+00:00"}
+{"type": "move", "r": 0, "c": 9, "value": 1, "t": "2026-06-03T16:26:09.975914+00:00"}
+{"type": "move", "r": 0, "c": 4, "value": 1, "t": "2026-06-03T16:26:18.783257+00:00"}
+{"type": "move", "r": 0, "c": 6, "value": -1, "t": "2026-06-03T16:26:19.467002+00:00"}
+{"type": "move", "r": 1, "c": 6, "value": 1, "t": "2026-06-03T16:26:19.935484+00:00"}
+{"type": "check_bank", "puzzle_id": 0, "solved": true, "mismatches": [], "t": "2026-06-03T16:26:20.827123+00:00"}
+{"type": "completed_all_three", "t": "2026-06-03T16:26:20.827518+00:00"}
+{"type": "survey_submit", "survey_type": "puzzle_3", "puzzle_idx": 2, "answers": {"difficulty": 4, "puzzle_3_guesses": "never"}, "t": "2026-06-03T16:26:30.921158+00:00"}
+{"type": "survey_submit", "survey_type": "post", "puzzle_idx": null, "answers": {"puzzle_1_rate_again": 2, "puzzle_1_guesses": "never", "puzzle_2_rate_again": 3, "puzzle_2_guesses": "never", "puzzle_3_rate_again": 4, "puzzle_3_guesses": "never", "puzzle_1_rating_reason": "If I remember correctly, there were many \"full\" columns near the sides that allowed me to build off of the first/last rows (or rows/columns switched). There were mostly just big chunks, too (not sparse) so it was fairly straightforward. I didn't give it a 1 because it wasn't the most straightforward that I have seen.", "puzzle_2_rating_reason": "This puzzle was slightly harder than the first one because it had a few non-obvious \"full\" columns/rows due to more \"sparser\" groupings (i.e. 1 4 2 is not obviously a full column but it is). The rest of the puzzle was straightforward to work through building off of these.", "puzzle_3_rating_reason": "This puzzle seemed easy at first with the two full 8 1 columns and rows, but the sparse and small chunks overall made it harder to keep track of where to look/check next. Many 1s and 2s kept a lot of uncertainty that couldn't be eliminated quickly, so I had to work through the puzzle with a lot of \"tolerance\" in mind. It was mostly an exercise of finding where to look next and keeping track of how one piece of information updates the other columns and rows, which is hard.", "strategy": "- Looking for full rows and columns first and marking all boxes I am sure are white\n- When filling end or near-end boxes, checking the corresponding row/column to fill their end boxes\n- For near-full rows, filling in the guaranteed boxes (e.g. for 4 4, the guaranteed boxes would be 2-4, 7-9)\n- For sparse columns, using X boxes to \"try\" fitting groups and seeing if I can eliminate other boxes from there (e.g. for something like 1 2 1 if a 2 can only fit the second half of the board, then that immediately tells me that the 1 after it must be int he second half too, usually can deduce more Xs from this)\n- When filling a row, immediately checking if that adds information to deduce for their columns (and vice versa).\n- Checking different rows and columns rapidly rather than fixating and trying to immediately solve a section or such", "comments": "These puzzles didn't have clear symmetry, which I suppose made them \"not easy\""}, "t": "2026-06-03T16:39:52.899462+00:00"}
+{"type": "session_end", "t": "2026-06-03T16:26:20.827518+00:00"}
