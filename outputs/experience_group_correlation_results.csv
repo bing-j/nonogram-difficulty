@@ -1,0 +1,25 @@
+experience_group,human_variable,sat_variable,method,correlation,p_value,n_puzzles,warning
+beginner,mean_final_rating,conflicts,spearman,0.5976143046671968,0.26666666666666666,6,Exploratory: only 4-6 puzzle-level observations in this group.
+beginner,mean_final_rating,decisions,spearman,0.6571428571428571,0.175,6,Exploratory: only 4-6 puzzle-level observations in this group.
+beginner,mean_final_rating,propagations,spearman,0.6571428571428571,0.175,6,Exploratory: only 4-6 puzzle-level observations in this group.
+beginner,mean_final_rating,sat_time_to_solve,spearman,0.42857142857142855,0.41944444444444445,6,Exploratory: only 4-6 puzzle-level observations in this group.
+beginner,mean_final_rating,log_conflicts,spearman,0.5976143046671968,0.26666666666666666,6,Exploratory: only 4-6 puzzle-level observations in this group.
+beginner,mean_final_rating,log_decisions,spearman,0.6571428571428571,0.175,6,Exploratory: only 4-6 puzzle-level observations in this group.
+beginner,mean_final_rating,log_propagations,spearman,0.6571428571428571,0.175,6,Exploratory: only 4-6 puzzle-level observations in this group.
+beginner,mean_final_rating,log_sat_time,spearman,0.42857142857142855,0.41944444444444445,6,Exploratory: only 4-6 puzzle-level observations in this group.
+experienced,mean_final_rating,conflicts,spearman,-0.11952286093343936,0.8444444444444444,6,Exploratory: only 4-6 puzzle-level observations in this group.
+experienced,mean_final_rating,decisions,spearman,-0.14285714285714285,0.8027777777777778,6,Exploratory: only 4-6 puzzle-level observations in this group.
+experienced,mean_final_rating,propagations,spearman,-0.14285714285714285,0.8027777777777778,6,Exploratory: only 4-6 puzzle-level observations in this group.
+experienced,mean_final_rating,sat_time_to_solve,spearman,-0.08571428571428572,0.9194444444444444,6,Exploratory: only 4-6 puzzle-level observations in this group.
+experienced,mean_final_rating,log_conflicts,spearman,-0.11952286093343936,0.8444444444444444,6,Exploratory: only 4-6 puzzle-level observations in this group.
+experienced,mean_final_rating,log_decisions,spearman,-0.14285714285714285,0.8027777777777778,6,Exploratory: only 4-6 puzzle-level observations in this group.
+experienced,mean_final_rating,log_propagations,spearman,-0.14285714285714285,0.8027777777777778,6,Exploratory: only 4-6 puzzle-level observations in this group.
+experienced,mean_final_rating,log_sat_time,spearman,-0.08571428571428572,0.9194444444444444,6,Exploratory: only 4-6 puzzle-level observations in this group.
+intermediate,mean_final_rating,conflicts,spearman,0.7171371656006361,0.17777777777777778,6,Exploratory: only 4-6 puzzle-level observations in this group.
+intermediate,mean_final_rating,decisions,spearman,0.7142857142857143,0.1361111111111111,6,Exploratory: only 4-6 puzzle-level observations in this group.
+intermediate,mean_final_rating,propagations,spearman,0.7142857142857143,0.1361111111111111,6,Exploratory: only 4-6 puzzle-level observations in this group.
+intermediate,mean_final_rating,sat_time_to_solve,spearman,0.37142857142857144,0.49722222222222223,6,Exploratory: only 4-6 puzzle-level observations in this group.
+intermediate,mean_final_rating,log_conflicts,spearman,0.7171371656006361,0.17777777777777778,6,Exploratory: only 4-6 puzzle-level observations in this group.
+intermediate,mean_final_rating,log_decisions,spearman,0.7142857142857143,0.1361111111111111,6,Exploratory: only 4-6 puzzle-level observations in this group.
+intermediate,mean_final_rating,log_propagations,spearman,0.7142857142857143,0.1361111111111111,6,Exploratory: only 4-6 puzzle-level observations in this group.
+intermediate,mean_final_rating,log_sat_time,spearman,0.37142857142857144,0.49722222222222223,6,Exploratory: only 4-6 puzzle-level observations in this group.
