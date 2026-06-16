@@ -51,8 +51,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import scipy.stats as stats
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import StandardScaler
+
+# BT fitting functions live in the same directory
+if str(Path(__file__).resolve().parent) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+from spearman_ranking import build_win_matrix, fit_bradley_terry  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -325,131 +328,101 @@ def print_summary_table(df: pd.DataFrame) -> None:
 # ---------------------------------------------------------------------------
 
 
-def single_variable_regressions(
-    df: pd.DataFrame,
+def compute_bt_ranks(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    """Fit Bradley-Terry model per rating type; return per-puzzle rank DataFrames.
+
+    Returns a dict keyed by rating type (e.g. "initial_difficulty") whose
+    values are DataFrames with columns:
+      puzzle_id, bt_score, bt_rank, raw_mean, raw_rank
+    """
+    bt_dfs: dict[str, pd.DataFrame] = {}
+    for rating_col in RATING_TYPES:
+        valid = df[["participant_id", "puzzle_id", rating_col]].copy()
+        valid[rating_col] = pd.to_numeric(valid[rating_col], errors="coerce")
+        valid = valid[valid[rating_col] >= 1]
+
+        W = build_win_matrix(valid, rating_col)
+        theta = fit_bradley_terry(W)
+
+        puzzle_ids = list(range(len(theta)))
+        raw_means = (
+            valid.groupby("puzzle_id")[rating_col]
+            .mean()
+            .reindex(puzzle_ids)
+        )
+        bt_df = pd.DataFrame({
+            "puzzle_id": puzzle_ids,
+            "bt_score": theta,
+            "raw_mean": raw_means.values,
+        })
+        bt_df["bt_rank"] = bt_df["bt_score"].rank(method="min").astype(int)
+        bt_df["raw_rank"] = bt_df["raw_mean"].rank(method="min").astype(int)
+        bt_dfs[rating_col] = bt_df
+    return bt_dfs
+
+
+def spearman_rank_correlations(
+    bt_dfs: dict[str, pd.DataFrame],
+    sat_df: pd.DataFrame,
 ) -> dict[tuple[str, str], dict]:
-    """Run simple linear regressions for each predictor × rating combination.
+    """Compute Spearman ρ between BT rank and each SAT metric rank (n=6 puzzles).
 
-    Uses scipy.stats.linregress.
-
-    Args:
-        df: Merged DataFrame.
-
-    Returns:
-        Dict keyed by (predictor, rating_type) → result dict with keys:
-          slope, intercept, r_value, r_squared, p_value, std_err,
-          x_vals (array), y_vals (array), fitted (array), residuals (array).
+    Returns a dict keyed by (predictor, rating_type) with keys:
+      rho, p_value, n, bt_ranks (array), sat_ranks (array)
     """
     results: dict[tuple[str, str], dict] = {}
-    for predictor in PREDICTORS:
-        for rating in RATING_TYPES:
-            sub = df[[predictor, rating]].dropna()
+    for rating_col, bt_df in bt_dfs.items():
+        merged = bt_df.merge(sat_df[["puzzle_id"] + PREDICTORS], on="puzzle_id")
+        for predictor in PREDICTORS:
+            sub = merged[["puzzle_id", "bt_rank", predictor]].dropna()
             if len(sub) < 3:
-                print(
-                    f"  WARNING: not enough data for {predictor} ~ {rating} "
-                    f"(n={len(sub)}); skipping.",
-                    file=sys.stderr,
-                )
                 continue
-            x = sub[predictor].values.astype(float)
-            y = sub[rating].values.astype(float)
-            slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
-            fitted = slope * x + intercept
-            residuals = y - fitted
-            results[(predictor, rating)] = {
-                "slope": slope,
-                "intercept": intercept,
-                "r_value": r_value,
-                "r_squared": r_value**2,
-                "p_value": p_value,
-                "std_err": std_err,
-                "x_vals": x,
-                "y_vals": y,
-                "fitted": fitted,
-                "residuals": residuals,
+            # Rank SAT metric explicitly so ties are handled consistently
+            sat_ranks = sub[predictor].rank(method="average")
+            rho, p = stats.spearmanr(sub["bt_rank"], sat_ranks)
+            results[(predictor, rating_col)] = {
+                "rho": rho,
+                "p_value": p,
                 "n": len(sub),
-                "predictor": predictor,
-                "rating_type": rating,
+                "bt_ranks": sub["bt_rank"].values,
+                "sat_ranks": sat_ranks.values,
+                "puzzle_ids": sub["puzzle_id"].values,
             }
     return results
 
 
-def print_regression_results(
+def print_spearman_results(
     results: dict[tuple[str, str], dict],
 ) -> tuple[str, str]:
-    """Print single-variable regression results and return key of best model.
-
-    Args:
-        results: Output of single_variable_regressions().
-
-    Returns:
-        Tuple (predictor, rating_type) for the regression with highest R².
-    """
+    """Print Spearman rank correlation table; return key with highest |ρ|."""
     print("\n" + "=" * 70)
-    print("SINGLE-VARIABLE LINEAR REGRESSIONS")
+    print("SPEARMAN RANK CORRELATION  (BT difficulty rank vs SAT metric rank, n=6)")
     print("=" * 70)
+    print(f"  {'Rating type':<22}  {'SAT metric':<14}  {'rho':>7}  {'p':>7}  {'sig'}")
+    print(f"  {'-'*22}  {'-'*14}  {'-'*7}  {'-'*7}  {'-'*3}")
+
     best_key: tuple[str, str] | None = None
-    best_r2 = -1.0
-    for (predictor, rating), res in sorted(results.keys().__iter__() if False else results.items()):
-        r2 = res["r_squared"]
+    best_abs_rho = -1.0
+    for (predictor, rating), res in sorted(results.items()):
+        rho = res["rho"]
         p = res["p_value"]
-        slope = res["slope"]
-        intercept = res["intercept"]
-        n = res["n"]
         sig = "***" if p < 0.001 else "**" if p < 0.01 else "*" if p < 0.05 else "ns"
-        print(
-            f"  {rating:20s} ~ {predictor:14s} | "
-            f"R²={r2:.4f}  p={p:.4f} {sig:3s}  "
-            f"slope={slope:.5f}  intercept={intercept:.4f}  n={n}"
-        )
-        if r2 > best_r2:
-            best_r2 = r2
+        print(f"  {rating:<22}  {predictor:<14}  {rho:>+7.3f}  {p:>7.4f}  {sig}")
+        if abs(rho) > best_abs_rho:
+            best_abs_rho = abs(rho)
             best_key = (predictor, rating)
+
     if best_key:
+        best_rho = results[best_key]["rho"]
+        best_p = results[best_key]["p_value"]
         print(
-            f"\n  Best model: {best_key[1]} ~ {best_key[0]} "
-            f"(R²={best_r2:.4f})"
+            f"\n  Strongest association: {best_key[1]} ~ {best_key[0]}"
+            f"  (ρ={best_rho:+.3f}, p={best_p:.4f})"
+        )
+        print(
+            "  Note: with n=6 puzzles, |ρ| ≥ 0.886 is required for p < 0.05."
         )
     return best_key  # type: ignore[return-value]
-
-
-def multiple_regression(df: pd.DataFrame) -> None:
-    """Fit and print multiple regression of initial_difficulty on all predictors.
-
-    Uses sklearn.linear_model.LinearRegression.
-
-    Args:
-        df: Merged DataFrame.
-    """
-    print("\n" + "=" * 70)
-    print("MULTIPLE REGRESSION: initial_difficulty ~ decisions + propagations + conflicts")
-    print("=" * 70)
-    sub = df[PREDICTORS + ["initial_difficulty"]].dropna()
-    if len(sub) < len(PREDICTORS) + 2:
-        print("  Not enough complete cases for multiple regression.")
-        return
-
-    X = sub[PREDICTORS].values.astype(float)
-    y = sub["initial_difficulty"].values.astype(float)
-
-    model = LinearRegression()
-    model.fit(X, y)
-    r2 = model.score(X, y)
-
-    print(f"  n = {len(sub)}")
-    print(f"  R² = {r2:.4f}")
-    print(f"  Intercept: {model.intercept_:.4f}")
-    for name, coef in zip(PREDICTORS, model.coef_):
-        print(f"  Coefficient [{name:14s}]: {coef:.6f}")
-
-    # Also report standardized coefficients for comparability
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-    model_std = LinearRegression()
-    model_std.fit(X_scaled, y)
-    print("\n  Standardized coefficients (comparable across predictors):")
-    for name, coef in zip(PREDICTORS, model_std.coef_):
-        print(f"  Beta [{name:14s}]: {coef:.4f}")
 
 
 # ---------------------------------------------------------------------------
@@ -457,42 +430,32 @@ def multiple_regression(df: pd.DataFrame) -> None:
 # ---------------------------------------------------------------------------
 
 
-def _regression_line(
-    ax: plt.Axes,
-    x: np.ndarray,
-    fitted: np.ndarray,
-) -> None:
-    """Draw the regression line on ax by connecting min/max fitted values.
-
-    Args:
-        ax: Target matplotlib Axes.
-        x: Predictor values.
-        fitted: Fitted (predicted) values from the regression.
-    """
-    sort_idx = np.argsort(x)
-    ax.plot(x[sort_idx], fitted[sort_idx], color="black", linewidth=1.5, zorder=3)
+def _sig_label(p: float) -> str:
+    return "***" if p < 0.001 else "**" if p < 0.01 else "*" if p < 0.05 else "ns"
 
 
-def plot_scatter_grid(
-    df: pd.DataFrame,
+def plot_rank_scatter(
+    bt_dfs: dict[str, pd.DataFrame],
+    sat_df: pd.DataFrame,
     results: dict[tuple[str, str], dict],
     output_path: Path,
 ) -> None:
-    """Create a 3×2 scatter grid (predictors × rating types) with regression lines.
+    """3×2 grid: BT difficulty rank vs SAT metric rank, one panel per combination.
 
     Rows: decisions, propagations, conflicts.
     Columns: initial_difficulty, final_difficulty.
-    Points are colored by puzzle_id. One subplot carries the puzzle legend.
+    Each panel has 6 labelled points and a Spearman ρ annotation.
 
     Args:
-        df: Merged DataFrame (used for per-point puzzle_id color lookup).
-        results: Output of single_variable_regressions().
+        bt_dfs: Output of compute_bt_ranks().
+        sat_df: SAT solver stats DataFrame.
+        results: Output of spearman_rank_correlations().
         output_path: File path to save the figure.
     """
-    fig, axes = plt.subplots(3, 2, figsize=(12, 13))
+    fig, axes = plt.subplots(3, 2, figsize=(10, 12))
     fig.suptitle(
-        "SAT Solver Metrics vs. Difficulty Ratings\n(Linear Regression)",
-        fontsize=14,
+        "SAT Solver Rank vs. Bradley-Terry Difficulty Rank\n(Spearman ρ, n=6 puzzles)",
+        fontsize=13,
         fontweight="bold",
         y=0.99,
     )
@@ -505,59 +468,56 @@ def plot_scatter_grid(
             if key not in results:
                 ax.text(0.5, 0.5, "Insufficient data", ha="center", va="center",
                         transform=ax.transAxes)
-                ax.set_xlabel(predictor)
-                ax.set_ylabel(rating)
                 continue
 
             res = results[key]
-            sub = df[[predictor, rating, "puzzle_id"]].dropna(subset=[predictor, rating])
+            bt_ranks = res["bt_ranks"]
+            sat_ranks = res["sat_ranks"]
+            puzzle_ids = res["puzzle_ids"]
 
-            # Scatter colored by puzzle_id
-            for pid in sorted(sub["puzzle_id"].unique()):
-                mask = sub["puzzle_id"] == pid
-                ax.scatter(
-                    sub.loc[mask, predictor],
-                    sub.loc[mask, rating],
-                    color=PUZZLE_COLORS[int(pid)],
-                    s=60,
-                    zorder=4,
-                    alpha=0.85,
-                    label=f"Puzzle {pid}",
+            for bt_r, sat_r, pid in zip(bt_ranks, sat_ranks, puzzle_ids):
+                ax.scatter(sat_r, bt_r, color=PUZZLE_COLORS[int(pid)], s=90, zorder=3)
+                ax.annotate(
+                    f"P{int(pid)}",
+                    (sat_r, bt_r),
+                    textcoords="offset points",
+                    xytext=(6, 4),
+                    fontsize=8,
                 )
 
-            # Regression line
-            _regression_line(ax, res["x_vals"], res["fitted"])
+            # Perfect-correlation reference line
+            ax.plot([1, 6], [1, 6], color="grey", linewidth=1, linestyle="--",
+                    alpha=0.5, zorder=1)
 
-            r2 = res["r_squared"]
+            rho = res["rho"]
             p = res["p_value"]
-            sig = "***" if p < 0.001 else "**" if p < 0.01 else "*" if p < 0.05 else "ns"
-            title = (
+            ax.set_title(
                 f"{rating.replace('_', ' ').title()} ~ {predictor}\n"
-                f"R²={r2:.3f}  p={p:.3f} {sig}"
+                f"ρ={rho:+.3f}  p={p:.3f}  {_sig_label(p)}",
+                fontsize=9,
             )
-            ax.set_title(title, fontsize=10)
-            ax.set_xlabel(predictor, fontsize=9)
-            ax.set_ylabel("Difficulty rating (1–5)", fontsize=9)
+            ax.set_xlabel(f"{predictor} rank", fontsize=9)
+            ax.set_ylabel("BT difficulty rank", fontsize=9)
+            ax.set_xticks(range(1, 7))
+            ax.set_yticks(range(1, 7))
+            ax.set_xlim(0.5, 6.5)
+            ax.set_ylim(0.5, 6.5)
             ax.tick_params(labelsize=8)
-            ax.set_ylim(0.5, 5.5)
-            ax.yaxis.set_major_locator(plt.MultipleLocator(1))
-            ax.grid(True, linestyle="--", alpha=0.4)
+            ax.grid(True, linestyle="--", alpha=0.3)
+            ax.set_aspect("equal")
 
-    # Puzzle legend in bottom-right subplot
-    legend_ax = axes[2][1]
+    # Shared puzzle legend in bottom-right subplot
     handles = [
         plt.Line2D(
             [0], [0],
-            marker="o",
-            color="w",
+            marker="o", color="w",
             markerfacecolor=PUZZLE_COLORS[i],
-            markersize=8,
-            label=f"Puzzle {i}",
+            markersize=8, label=f"Puzzle {i}",
         )
         for i in range(6)
     ]
-    legend_ax.legend(handles=handles, title="Puzzle ID", fontsize=8, title_fontsize=9,
-                     loc="lower right")
+    axes[2][1].legend(handles=handles, title="Puzzle ID", fontsize=8,
+                      title_fontsize=9, loc="upper left")
 
     fig.tight_layout(rect=[0, 0, 1, 0.97])
     fig.savefig(output_path, dpi=150, bbox_inches="tight")
@@ -649,224 +609,38 @@ def plot_per_puzzle_means(
     print(f"  Saved: {output_path}")
 
 
-def plot_residuals(
-    results: dict[tuple[str, str], dict],
-    best_key: tuple[str, str],
-    output_path: Path,
-) -> None:
-    """Plot residuals vs fitted values and a Q-Q plot for the best regression.
-
-    Args:
-        results: Output of single_variable_regressions().
-        best_key: (predictor, rating_type) key of the best-R² model.
-        output_path: File path to save the figure.
-    """
-    if best_key not in results:
-        print(
-            f"  WARNING: best_key {best_key} not in results; skipping residual plot.",
-            file=sys.stderr,
-        )
-        return
-
-    res = results[best_key]
-    fitted = res["fitted"]
-    residuals = res["residuals"]
-    predictor, rating = best_key
-
-    fig, (ax_resid, ax_qq) = plt.subplots(1, 2, figsize=(11, 5))
-    fig.suptitle(
-        f"Residual Diagnostics — Best Model: {rating} ~ {predictor}\n"
-        f"(R²={res['r_squared']:.4f}, n={res['n']})",
-        fontsize=12,
-        fontweight="bold",
-    )
-
-    # --- Residuals vs. fitted ---
-    ax_resid.scatter(fitted, residuals, color="#2ca02c", s=55, alpha=0.8, zorder=3)
-    ax_resid.axhline(0, color="black", linewidth=1.2, linestyle="--")
-    ax_resid.set_xlabel("Fitted values", fontsize=10)
-    ax_resid.set_ylabel("Residuals", fontsize=10)
-    ax_resid.set_title("Residuals vs. Fitted", fontsize=11)
-    ax_resid.grid(True, linestyle="--", alpha=0.4)
-
-    # --- Normal Q-Q plot ---
-    (osm, osr), (slope, intercept, r) = stats.probplot(residuals, dist="norm")
-    ax_qq.scatter(osm, osr, color="#9467bd", s=55, alpha=0.8, zorder=3)
-    # Reference line
-    x_line = np.array([osm[0], osm[-1]])
-    ax_qq.plot(x_line, slope * x_line + intercept, color="red",
-               linewidth=1.5, linestyle="--", label="Normal reference")
-    ax_qq.set_xlabel("Theoretical quantiles", fontsize=10)
-    ax_qq.set_ylabel("Sample quantiles", fontsize=10)
-    ax_qq.set_title("Normal Q-Q Plot of Residuals", fontsize=11)
-    ax_qq.legend(fontsize=9)
-    ax_qq.grid(True, linestyle="--", alpha=0.4)
-
-    fig.tight_layout()
-    fig.savefig(output_path, dpi=150, bbox_inches="tight")
-    plt.close(fig)
-    print(f"  Saved: {output_path}")
-
-
-# ---------------------------------------------------------------------------
-# Findings commentary
-# ---------------------------------------------------------------------------
-
-
-def print_findings(
-    results: dict[tuple[str, str], dict],
-    best_key: tuple[str, str],
-    df: pd.DataFrame,
-) -> None:
-    """Print analytic commentary on regression results and per-puzzle patterns.
-
-    Args:
-        results: Output of single_variable_regressions().
-        best_key: Key of the best single-variable model.
-        df: Merged DataFrame.
-    """
-    print("\n" + "=" * 70)
-    print("FINDINGS & OBSERVATIONS")
-    print("=" * 70)
-
-    # Best predictor
-    best_pred, best_rating = best_key
-    best_r2 = results[best_key]["r_squared"]
-    best_p = results[best_key]["p_value"]
-    print(
-        f"\n1. Best single predictor of difficulty:\n"
-        f"   '{best_pred}' predicting '{best_rating}' achieves the highest R²={best_r2:.4f} "
-        f"(p={best_p:.4f}).\n"
-        f"   This means ~{best_r2*100:.1f}% of variance in {best_rating} is "
-        f"explained by the {best_pred} count."
-    )
-
-    # Compare initial vs final across predictors
-    print("\n2. Initial vs. final difficulty ratings — predictability comparison:")
-    for pred in PREDICTORS:
-        r2_init = results.get((pred, "initial_difficulty"), {}).get("r_squared", float("nan"))
-        r2_fin = results.get((pred, "final_difficulty"), {}).get("r_squared", float("nan"))
-        better = (
-            "initial" if r2_init > r2_fin
-            else "final" if r2_fin > r2_init
-            else "equal"
-        )
-        print(
-            f"   {pred:14s}: initial R²={r2_init:.4f}  final R²={r2_fin:.4f}  "
-            f"→ {better} ratings better predicted"
-        )
-
-    # Overall comparison
-    init_r2s = [
-        v["r_squared"]
-        for (pred, rat), v in results.items()
-        if rat == "initial_difficulty"
-    ]
-    fin_r2s = [
-        v["r_squared"]
-        for (pred, rat), v in results.items()
-        if rat == "final_difficulty"
-    ]
-    avg_init = np.mean(init_r2s) if init_r2s else float("nan")
-    avg_fin = np.mean(fin_r2s) if fin_r2s else float("nan")
-    print(
-        f"\n   Average R² across predictors — initial: {avg_init:.4f}, "
-        f"final: {avg_fin:.4f}"
-    )
-    if avg_init > avg_fin:
-        print(
-            "   In-the-moment ratings are (slightly) better predicted by SAT metrics "
-            "than retrospective ratings."
-        )
-    elif avg_fin > avg_init:
-        print(
-            "   Retrospective (final) ratings are better predicted by SAT metrics "
-            "than in-the-moment ratings."
-        )
-    else:
-        print("   Both rating types are equally predicted by SAT metrics.")
-
-    # Per-puzzle patterns
-    print("\n3. Notable per-puzzle patterns:")
-    for pid in sorted(df["puzzle_id"].unique()):
-        sub = df[df["puzzle_id"] == pid]
-        init_vals = sub["initial_difficulty"].dropna().tolist()
-        fin_vals = sub["final_difficulty"].dropna().tolist()
-        dec = int(sub["decisions"].iloc[0])
-        prop = int(sub["propagations"].iloc[0])
-        conf = int(sub["conflicts"].iloc[0])
-        init_mean = np.mean(init_vals) if init_vals else float("nan")
-        fin_mean = np.mean(fin_vals) if fin_vals else float("nan")
-        shift = fin_mean - init_mean
-        direction = "harder" if shift > 0 else "easier" if shift < 0 else "unchanged"
-        print(
-            f"   Puzzle {pid} (decisions={dec}, propagations={prop}, conflicts={conf}): "
-            f"initial={init_mean:.2f}, final={fin_mean:.2f} "
-            f"(retrospective shift: {shift:+.2f} → {direction})"
-        )
-
-    # Significance summary
-    print("\n4. Statistical significance (α=0.05):")
-    for (pred, rating), res in sorted(results.items()):
-        sig = "SIGNIFICANT" if res["p_value"] < 0.05 else "not significant"
-        print(
-            f"   {rating:20s} ~ {pred:14s}: p={res['p_value']:.4f} → {sig}"
-        )
-
-    print(
-        "\n5. Caveats:\n"
-        "   - Sample size is small (n=7 participants, 21 puzzle-ratings).\n"
-        "   - Only 6 distinct SAT-metric values are available, so scatter plots\n"
-        "     show many ties on the x-axis. Results should be interpreted cautiously.\n"
-        "   - Ordinal difficulty ratings are treated as continuous; this is a\n"
-        "     common simplification but violates strict OLS assumptions."
-    )
-
-
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
 
 def main() -> None:
-    """Run the full regression analysis pipeline."""
+    """Run the full analysis pipeline."""
     print("=" * 70)
-    print("NONOGRAM DIFFICULTY — REGRESSION ANALYSIS")
+    print("NONOGRAM DIFFICULTY — SPEARMAN RANK CORRELATION ANALYSIS")
     print("=" * 70)
 
-    # Ensure output directory exists
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
 
-    # 1. Load data
-    print("\n[1/5] Loading participant ratings from logs...")
+    print("\n[1/4] Loading participant ratings from logs...")
     ratings_df = load_all_ratings(LOG_DIR)
 
-    print("\n[2/5] Loading SAT solver stats...")
+    print("\n[2/4] Loading SAT solver stats...")
     sat_df = load_sat_stats(STATS_CSV)
     print(sat_df[["puzzle_id"] + PREDICTORS].to_string(index=False))
 
-    # 3. Merge
     df = merge_data(ratings_df, sat_df)
-
-    # 4. Summary
     print_summary_table(df)
 
-    # 5. Regressions
-    print("\n[3/5] Running single-variable regressions...")
-    sv_results = single_variable_regressions(df)
-    best_key = print_regression_results(sv_results)
+    print("\n[3/4] Fitting Bradley-Terry model and running Spearman tests...")
+    bt_dfs = compute_bt_ranks(ratings_df)
+    spearman_results = spearman_rank_correlations(bt_dfs, sat_df)
+    print_spearman_results(spearman_results)
 
-    print("\n[4/5] Running multiple regression...")
-    multiple_regression(df)
-
-    # 6. Plots
-    print("\n[5/5] Generating figures...")
-    plot_scatter_grid(df, sv_results, FIGURE_DIR / "regression_scatter_grid.png")
+    print("\n[4/4] Generating figures...")
+    plot_rank_scatter(bt_dfs, sat_df, spearman_results,
+                      FIGURE_DIR / "spearman_rank_scatter.png")
     plot_per_puzzle_means(df, FIGURE_DIR / "regression_per_puzzle_means.png")
-    plot_residuals(sv_results, best_key, FIGURE_DIR / "regression_residuals.png")
-
-    # 7. Findings
-    print_findings(sv_results, best_key, df)
 
     print("\n" + "=" * 70)
     print("Analysis complete.")
