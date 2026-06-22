@@ -115,6 +115,7 @@ def extract_behavioral_row(
     initial_diff: Optional[Any],
     final_diff: Optional[Any],
     solved_flag: Optional[bool],
+    skill_nonogram: Optional[int] = None,
     pause_threshold: float = PAUSE_THRESHOLD_SEC,
 ) -> Dict[str, Any]:
     pause_count, pause_freq = detect_pauses(puzzle_events, threshold_sec=pause_threshold)
@@ -129,6 +130,7 @@ def extract_behavioral_row(
         "initial_difficulty": initial_diff,
         "final_difficulty": final_diff,
         "solved_flag": solved_flag,
+        "skill_nonogram": skill_nonogram,
     }
 
 
@@ -146,6 +148,10 @@ def process_file(
     queue = ss["queue"]
 
     solved_flags, _ = get_completion_flags(events)
+
+    pre = find_survey(events, "pre") or {}
+    pre_answers = safe_get(pre, "answers", {})
+    skill_nonogram = pre_answers.get("skill_nonogram")  # int 1–10, or None if missing
 
     puzzle_surveys = [find_survey(events, f"puzzle_{i}") or {} for i in (1, 2, 3)]
     initial_diffs = [
@@ -170,6 +176,7 @@ def process_file(
                 initial_diff=initial_diffs[idx],
                 final_diff=final_diffs[idx],
                 solved_flag=solved_flags[idx],
+                skill_nonogram=skill_nonogram,
                 pause_threshold=pause_threshold,
             )
         )

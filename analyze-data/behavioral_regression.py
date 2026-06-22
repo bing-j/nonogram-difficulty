@@ -37,6 +37,10 @@ MIN_OBS = 5  # skip per-puzzle regression if fewer observations
 
 PUZZLE_COLORS = plt.cm.tab10.colors[:6]
 
+# Experience groups based on pre-survey skill_nonogram (1–10 scale)
+EXPERIENCE_BINS   = [0, 3, 6, 10]   # right-inclusive: (0,3], (3,6], (6,10]
+EXPERIENCE_LABELS = ["beginner", "intermediate", "experienced"]
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -64,6 +68,24 @@ def load_solver_stats(path: str) -> pd.DataFrame:
     df = df.reset_index()
     df["puzzle_id"] = df["puzzle_id"].astype(int)
     return df[["puzzle_id", "decisions", "propagations"]]
+
+
+def assign_groups(df: pd.DataFrame) -> pd.DataFrame:
+    """Add an 'experience_group' column based on skill_nonogram (1–10 scale).
+
+    Groups:
+      beginner     — skill_nonogram 1–3
+      intermediate — skill_nonogram 4–6
+      experienced  — skill_nonogram 7–10
+    """
+    df = df.copy()
+    df["experience_group"] = pd.cut(
+        pd.to_numeric(df["skill_nonogram"], errors="coerce"),
+        bins=EXPERIENCE_BINS,
+        labels=EXPERIENCE_LABELS,
+        right=True,
+    )
+    return df
 
 
 def ols_fit(df: pd.DataFrame, dv: str) -> sm.regression.linear_model.RegressionResultsWrapper:
@@ -96,9 +118,12 @@ def print_model_table(result, label: str, n: int) -> None:
 # Regression 1: per puzzle, DV = difficulty
 # ---------------------------------------------------------------------------
 
-def run_regression1(df: pd.DataFrame, out_dir: str) -> None:
+def run_regression1(df: pd.DataFrame, out_dir: str, group_label: str = "") -> None:
+    header = "REGRESSION 1: behavioral features -> user difficulty"
+    if group_label:
+        header += f"  [{group_label}]"
     print("\n" + "=" * 60)
-    print("REGRESSION 1: behavioral features -> user difficulty")
+    print(header)
     print("=" * 60)
 
     puzzle_ids = sorted(df["puzzle_id"].dropna().unique().astype(int))
@@ -122,8 +147,8 @@ def run_regression1(df: pd.DataFrame, out_dir: str) -> None:
             print_model_table(result, label, n)
             coef_store[pid] = result.params[BEHAVIORAL_FEATURES].values
 
-    _save_coef_heatmap(coef_init, puzzle_ids, "initial_difficulty", out_dir)
-    _save_coef_heatmap(coef_final, puzzle_ids, "final_difficulty", out_dir)
+    _save_coef_heatmap(coef_init, puzzle_ids, "initial_difficulty", out_dir, group_label)
+    _save_coef_heatmap(coef_final, puzzle_ids, "final_difficulty", out_dir, group_label)
 
 
 def _save_coef_heatmap(
@@ -131,6 +156,7 @@ def _save_coef_heatmap(
     puzzle_ids: list,
     dv_label: str,
     out_dir: str,
+    group_label: str = "",
 ) -> None:
     pids_with_data = [p for p in puzzle_ids if p in coef_dict]
     if not pids_with_data:
@@ -144,10 +170,14 @@ def _save_coef_heatmap(
     ax.set_xticklabels(BEHAVIORAL_FEATURES, rotation=30, ha="right", fontsize=9)
     ax.set_yticks(range(len(pids_with_data)))
     ax.set_yticklabels([f"Puzzle {p}" for p in pids_with_data])
-    ax.set_title(f"Reg 1 B coefficients  - DV: {dv_label}")
+    title = f"Reg 1 B coefficients  - DV: {dv_label}"
+    if group_label:
+        title += f"  [{group_label}]"
+    ax.set_title(title)
     plt.colorbar(im, ax=ax, label="B")
     fig.tight_layout()
-    fname = f"behavioral_reg1_coef_heatmap_{dv_label}.png"
+    suffix = f"_{group_label}" if group_label else ""
+    fname = f"behavioral_reg1_coef_heatmap_{dv_label}{suffix}.png"
     fig.savefig(os.path.join(out_dir, fname), dpi=150)
     plt.close(fig)
     print(f"\nSaved: {fname}")
@@ -157,9 +187,12 @@ def _save_coef_heatmap(
 # Regression 1b: pooled across all puzzles, DV = user difficulty
 # ---------------------------------------------------------------------------
 
-def run_regression1_pooled(df: pd.DataFrame) -> None:
+def run_regression1_pooled(df: pd.DataFrame, group_label: str = "") -> None:
+    header = "REGRESSION 1 (pooled): behavioral features -> user difficulty"
+    if group_label:
+        header += f"  [{group_label}]"
     print("\n" + "=" * 60)
-    print("REGRESSION 1 (pooled): behavioral features -> user difficulty")
+    print(header)
     print("=" * 60)
 
     for dv in ["initial_difficulty", "final_difficulty"]:
@@ -169,16 +202,22 @@ def run_regression1_pooled(df: pd.DataFrame) -> None:
             print(f"\n  [{dv}] only {n} complete obs  - skipping.")
             continue
         result = ols_fit(complete, dv)
-        print_model_table(result, f"All puzzles pooled  - {dv}", n)
+        label = f"All puzzles pooled  - {dv}"
+        if group_label:
+            label += f"  [{group_label}]"
+        print_model_table(result, label, n)
 
 
 # ---------------------------------------------------------------------------
 # Regression 2: pooled, DV = decisions
 # ---------------------------------------------------------------------------
 
-def run_regression2(df: pd.DataFrame, solver_stats: pd.DataFrame, out_dir: str) -> None:
+def run_regression2(df: pd.DataFrame, solver_stats: pd.DataFrame, out_dir: str, group_label: str = "") -> None:
+    header = "REGRESSION 2: behavioral features -> SAT decisions (pooled)"
+    if group_label:
+        header += f"  [{group_label}]"
     print("\n" + "=" * 60)
-    print("REGRESSION 2: behavioral features -> SAT decisions (pooled)")
+    print(header)
     print("=" * 60)
 
     merged = df.merge(solver_stats[["puzzle_id", "decisions"]], on="puzzle_id", how="left")
@@ -190,12 +229,15 @@ def run_regression2(df: pd.DataFrame, solver_stats: pd.DataFrame, out_dir: str) 
         return
 
     result = ols_fit(complete, "decisions")
-    print_model_table(result, "All puzzles pooled  - decisions", n)
+    label = "All puzzles pooled  - decisions"
+    if group_label:
+        label += f"  [{group_label}]"
+    print_model_table(result, label, n)
 
-    _save_reg2_scatter(complete, out_dir)
+    _save_reg2_scatter(complete, out_dir, group_label)
 
 
-def _save_reg2_scatter(df: pd.DataFrame, out_dir: str) -> None:
+def _save_reg2_scatter(df: pd.DataFrame, out_dir: str, group_label: str = "") -> None:
     puzzle_ids = sorted(df["puzzle_id"].dropna().unique().astype(int))
     color_map = {pid: PUZZLE_COLORS[i % len(PUZZLE_COLORS)] for i, pid in enumerate(puzzle_ids)}
 
@@ -231,9 +273,13 @@ def _save_reg2_scatter(df: pd.DataFrame, out_dir: str) -> None:
         for p in puzzle_ids
     ]
     axes[-1].legend(handles=handles, loc="best", fontsize=8)
-    fig.suptitle("Reg 2: behavioral features vs. SAT decisions (pooled)", fontsize=11)
+    suptitle = "Reg 2: behavioral features vs. SAT decisions (pooled)"
+    if group_label:
+        suptitle += f"  [{group_label}]"
+    fig.suptitle(suptitle, fontsize=11)
     fig.tight_layout()
-    fname = "behavioral_reg2_scatter_grid_decisions.png"
+    suffix = f"_{group_label}" if group_label else ""
+    fname = f"behavioral_reg2_scatter_grid_decisions{suffix}.png"
     fig.savefig(os.path.join(out_dir, fname), dpi=150)
     plt.close(fig)
     print(f"Saved: {fname}")
@@ -271,9 +317,35 @@ def main() -> None:
     print(f"Loaded {len(df)} rows from {args.features_csv}")
     print(f"Puzzles: {sorted(df['puzzle_id'].dropna().unique().astype(int).tolist())}")
 
+    # ── Full-pooled regressions (all participants) ───────────────────────────
     run_regression1(df, args.out_dir)
     run_regression1_pooled(df)
     run_regression2(df, solver, args.out_dir)
+
+    # ── Per-experience-group regressions ────────────────────────────────────
+    if "skill_nonogram" not in df.columns:
+        print(
+            "\n[WARNING] 'skill_nonogram' column not found in features CSV. "
+            "Re-run extract_behavioral_features.py to add it, then re-run this script."
+        )
+    else:
+        df_grouped = assign_groups(df)
+        print("\n" + "=" * 60)
+        print("EXPERIENCE GROUP BREAKDOWN")
+        print("=" * 60)
+        for label in EXPERIENCE_LABELS:
+            group_df = df_grouped[df_grouped["experience_group"] == label]
+            n_participants = group_df["participant_id"].nunique()
+            print(f"  {label:<14}: {n_participants:>2} participants, {len(group_df):>3} rows")
+
+        for label in EXPERIENCE_LABELS:
+            group_df = df_grouped[df_grouped["experience_group"] == label].copy()
+            n_participants = group_df["participant_id"].nunique()
+            print(f"\n{'=' * 60}")
+            print(f"GROUP: {label.upper()}  ({n_participants} participants, {len(group_df)} rows)")
+            run_regression1(group_df, args.out_dir, group_label=label)
+            run_regression1_pooled(group_df, group_label=label)
+            run_regression2(group_df, solver, args.out_dir, group_label=label)
 
     print("\nDone.")
 
