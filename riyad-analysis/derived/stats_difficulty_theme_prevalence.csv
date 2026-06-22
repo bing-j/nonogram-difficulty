@@ -1,0 +1,14 @@
+code,theme,count,pct_of_coded
+FOOT,Starting footholds / forced lines,96,43.43891402714932
+LEARN,Learning / practice / fatigue,54,24.43438914027149
+CLUE,Clue magnitude,50,22.624434389140273
+GUESS,Guessing / certainty,32,14.479638009049774
+HINT,Hint usage,32,14.479638009049774
+AMBIG,Combinatorial ambiguity / overlap reasoning,29,13.122171945701357
+PROP,Constraint propagation / chaining,26,11.764705882352942
+VIS,Visual / spatial layout,22,9.95475113122172
+ERR,Mistakes / error recovery,13,5.882352941176471
+AFF,Confidence / affect,13,5.882352941176471
+LOAD,Cognitive load / tracking,10,4.524886877828054
+UI,Interface friction,6,2.7149321266968327
+TIME,Time pressure,3,1.3574660633484164

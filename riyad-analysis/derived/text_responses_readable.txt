@@ -1,0 +1,1291 @@
+====================================================================================================
+RESPONSE KIND: rating_reason   (n = 204)
+====================================================================================================
+[R0000] (P001; puzzle=1, order=1, final_diff=3, skill_nono=6)
+    Average difficulty, no 10's or 0's which would make it a lot easier to solve, but the rows/columns that could pretty much all be solved without any logical deduction unlike puzzle #3.
+
+[R0001] (P001; puzzle=2, order=2, final_diff=2, skill_nono=6)
+    Lots of rows/columns that could be filled out without any logical thinking (e.g., 4-1-3's) and them being placed at the ends of the puzzle make it easier to solve.
+
+[R0002] (P001; puzzle=4, order=3, final_diff=4, skill_nono=6)
+    Only one row/column that could be completely filled without any variation, and all others required you to logic out where the black squares should go.
+
+[R0003] (P002; puzzle=2, order=1, final_diff=3, skill_nono=7)
+    I dont have to intentionally wait for the hint. I did made some simple mistakes in the middle so I have to adjust some of the value I filled before. This makes me more conscious on how to proceed the next 2 puzzle. Compare to the other two, I did not wait for hint to refresh.
+
+[R0004] (P002; puzzle=3, order=2, final_diff=4, skill_nono=7)
+    I have to wait for 2-3 times during the game to wait for hint refresh because I am not too sure how to proceed. I did not rate it as 5 because I still solved it at the end. Yeay, I am the goat.
+
+[R0005] (P002; puzzle=5, order=3, final_diff=4, skill_nono=7)
+    I have to wait for 2-3 times during the game to wait for hint refresh because I am not too sure how to proceed. I did not rate it as 5 because I still solved it at the end. Yeay, I am the goat.
+
+[R0006] (P003; puzzle=3, order=1, final_diff=2, skill_nono=2)
+    I'm a chud and I solved it in 13 minutes so it can't be that bad??
+The experiment was meant to be 30 minutes for 3 puzzles and I solved it in 13 mintues so I thought I was probably on track; also discovered a lot of new techniques while playing
+
+[R0007] (P003; puzzle=0, order=2, final_diff=2, skill_nono=2)
+    Made 3 minute gap compared to first one which I can attribute to the techniques I learned.
+
+[R0008] (P003; puzzle=2, order=3, final_diff=1, skill_nono=2)
+    Almost solved it sub 5 first run but apparently at some point I couldn't read; after reset I solved it sub 4 for total of sub 9 minutes so if I grew a pair of functioning eyes it was probably a sub 5 which is drastically faster than the first 2.
+
+[R0009] (P004; puzzle=0, order=1, final_diff=4, skill_nono=1)
+    used hints multiple time
+
+[R0010] (P004; puzzle=2, order=2, final_diff=2, skill_nono=1)
+    easier to solve using elimination
+
+[R0011] (P004; puzzle=5, order=3, final_diff=-1, skill_nono=1)
+    nan
+
+[R0012] (P005; puzzle=0, order=1, final_diff=3, skill_nono=8)
+    There were a few bigger numbers (like the 10) that made it easier to colour squares in from the get go. This then helped me deduce which other squares should be coloured in as well. I did guess one square and luckily it was right lol
+
+[R0013] (P005; puzzle=2, order=2, final_diff=4, skill_nono=8)
+    It was harder than the first, mainly because all the numbers were relatively small. There were still enough rows where there is just one possible combination, making that a bit easier to fill in from the start.
+
+[R0014] (P005; puzzle=5, order=3, final_diff=5, skill_nono=8)
+    There were no rows that could be completely filled in from the start. All of the rows you could only at most fill in the squares that are always filled in regardless of the combination. It took the most thinking of the three, which is why I rated it the hardest.
+
+[R0015] (P006; puzzle=1, order=1, final_diff=5, skill_nono=6)
+    hardest, probably because still warming up
+
+[R0016] (P006; puzzle=2, order=2, final_diff=3, skill_nono=6)
+    easiest, probably because the fixed line is on the edge(?
+
+[R0017] (P006; puzzle=5, order=3, final_diff=4, skill_nono=6)
+    2nd hardest. I forgot... just feels like
+
+[R0018] (P007; puzzle=2, order=1, final_diff=4, skill_nono=1)
+    nan
+
+[R0019] (P007; puzzle=0, order=2, final_diff=4, skill_nono=1)
+    Solved it eventually but was somewhat hard. My previous assumptions were wrong which made is harder
+
+[R0020] (P007; puzzle=3, order=3, final_diff=4, skill_nono=1)
+    Same reasoning as puzzle 2, I used same method to solve
+
+[R0021] (P008; puzzle=2, order=1, final_diff=2, skill_nono=5)
+    never need to guess
+
+[R0022] (P008; puzzle=0, order=2, final_diff=3, skill_nono=5)
+    guess one time, but most info are certain
+
+[R0023] (P008; puzzle=3, order=3, final_diff=4, skill_nono=5)
+    guess two times, only one column is certain at beginning
+
+[R0024] (P009; puzzle=3, order=1, final_diff=5, skill_nono=8)
+    I was exploring the pattern of the game. So in puzzle 1, I spent more time learning.
+
+[R0025] (P009; puzzle=5, order=2, final_diff=4, skill_nono=8)
+    When I do puzzle 2, I already know some patterns. So it becomes easier.
+
+[R0026] (P009; puzzle=4, order=3, final_diff=3, skill_nono=8)
+    I think I have found the skills of doing this puzzle, puzzle 3 is the easiest for me.
+
+[R0027] (P010; puzzle=0, order=1, final_diff=2, skill_nono=6)
+    A lot of "free" lines that add up to 10 (including spaces)
+A lot of the free lines were also at the edges so the information was very easy to use I guess?
+Lots of big numbers I think
+
+[R0028] (P010; puzzle=1, order=2, final_diff=4, skill_nono=6)
+    Not a lot of easy lines at the start relatively?
+A lot of the first steps I did were in the middle as opposed to the edges which made things a bit harder to think about? 
+A lot more smaller numbers
+
+[R0029] (P010; puzzle=4, order=3, final_diff=3, skill_nono=6)
+    A lot of smaller numbers and few free lines but everything started on the left, so it kind of felt like solving a 5x10 and then the other half was really easy since I already had so much info
+
+[R0030] (P011; puzzle=1, order=1, final_diff=4, skill_nono=5)
+    I didn't guess for this puzzle at all and used the hints as a way to figure out a guaranteed correct spot rather than to correct a guess. There weren't a lot of definitive columns or rows to go off of as opposed to the previous trial one.
+
+[R0031] (P011; puzzle=4, order=2, final_diff=5, skill_nono=5)
+    I had to guess 2 squares since I didn't see a logical way to move forward otherwise, and tried one solution and used the hints to make sure I was guessing correctly.
+
+[R0032] (P011; puzzle=5, order=3, final_diff=4, skill_nono=5)
+    I didn't exactly run into a situation where I couldn't logically deduce the next step, I just started guessing because I figured I wouldn't need to use all the hints and I got impatient so I just used the hints as a way to eliminate decisions I didn't want to make later.
+
+[R0033] (P012; puzzle=2, order=1, final_diff=3, skill_nono=3)
+    For both puzzle one and two, I made a small mistake that then allowed me to make some incorrect deductions that were tricky to trace back to.
+
+[R0034] (P012; puzzle=5, order=2, final_diff=3, skill_nono=3)
+    Again, I made some small mistakes when I assumed that some boxes could be crossed out with an "x". This one I found a little trickier because it had more "1" boxes, which have more spaces that they can fit.
+
+[R0035] (P012; puzzle=1, order=3, final_diff=2, skill_nono=3)
+    I think this time I learned from the previous puzzles not to cross anything out too quickly which helped my boxes be more accurate and led to fewer mistakes that needed fixing.
+
+[R0036] (P013; puzzle=5, order=1, final_diff=2, skill_nono=9)
+    I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.
+
+[R0037] (P013; puzzle=4, order=2, final_diff=2, skill_nono=9)
+    I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.
+
+[R0038] (P013; puzzle=1, order=3, final_diff=2, skill_nono=9)
+    I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.
+
+[R0039] (P014; puzzle=0, order=1, final_diff=3, skill_nono=5)
+    A few fuller lines made it easier
+
+[R0040] (P014; puzzle=1, order=2, final_diff=4, skill_nono=5)
+    Lack of fuller lines made it harder
+
+[R0041] (P014; puzzle=3, order=3, final_diff=3, skill_nono=5)
+    A few fuller lines made it easier
+
+[R0042] (P015; puzzle=1, order=1)
+    nan
+
+[R0043] (P015; puzzle=2, order=2)
+    nan
+
+[R0044] (P015; puzzle=0, order=3)
+    nan
+
+[R0045] (P016; puzzle=2, order=1, final_diff=2, skill_nono=9)
+    If I remember correctly, there were many "full" columns near the sides that allowed me to build off of the first/last rows (or rows/columns switched). There were mostly just big chunks, too (not sparse) so it was fairly straightforward. I didn't give it a 1 because it wasn't the most straightforward that I have seen.
+
+[R0046] (P016; puzzle=5, order=2, final_diff=3, skill_nono=9)
+    This puzzle was slightly harder than the first one because it had a few non-obvious "full" columns/rows due to more "sparser" groupings (i.e. 1 4 2 is not obviously a full column but it is). The rest of the puzzle was straightforward to work through building off of these.
+
+[R0047] (P016; puzzle=0, order=3, final_diff=4, skill_nono=9)
+    This puzzle seemed easy at first with the two full 8 1 columns and rows, but the sparse and small chunks overall made it harder to keep track of where to look/check next. Many 1s and 2s kept a lot of uncertainty that couldn't be eliminated quickly, so I had to work through the puzzle with a lot of "tolerance" in mind. It was mostly an exercise of finding where to look next and keeping track of how one piece of information updates the other columns and rows, which is hard.
+
+[R0048] (P017; puzzle=3, order=1, final_diff=3, skill_nono=1)
+    First time solving it, trying some ways, making it harder, but after solving the other two, there should be a faster way in solving the first
+
+[R0049] (P017; puzzle=5, order=2, final_diff=3, skill_nono=1)
+    Need some trials and guessing.
+
+[R0050] (P017; puzzle=2, order=3, final_diff=2, skill_nono=1)
+    The 4 3 1 makes a only solution for the column/row.
+
+[R0051] (P018; puzzle=4, order=1, final_diff=4, skill_nono=3)
+    Hard. I found myself waiting to use the Hint button because I was struggling to determine whether or not a box was white/black without making any guesses. I tried to refrain from making guesses until the Hint button was available
+
+[R0052] (P018; puzzle=1, order=2, final_diff=4, skill_nono=3)
+    I found the difficulty just as hard as the first one, with a lot of guessing and checking (with the Hint button)
+
+[R0053] (P018; puzzle=0, order=3, final_diff=3, skill_nono=3)
+    I thought this puzzle was easier than the first 2 (took me less time) and the 2 columns with 1 and 8 easily ruled out 2 columns. The columns beside each other also made it easy to make an educated guess about what squares I thought should be black/white.
+
+[R0054] (P019; puzzle=5, order=1, final_diff=3, skill_nono=8)
+    The puzzles were all harder than the warm up one, mostly due to smaller numbers, and having few rows that are immediately locked in (e.g. 8 1 is immediately clear)
+
+[R0055] (P019; puzzle=1, order=2, final_diff=4, skill_nono=8)
+    Similar to the rest, there were very few rows that could be solved just by themselves so it required a lot of going back over the puzzle and checking positions of the numbers and x squares to fill in the tiles. Most hints consist of numbers <4 which meant there were many more possible arrangements that had to be ruled out first.
+
+[R0056] (P019; puzzle=4, order=3, final_diff=4, skill_nono=8)
+    I found it around the same difficulty as the one before it, it only had one or two lines that could be solved by themselves and both were in the middle of the square which made it more difficult fill squares quickly.
+
+[R0057] (P020; puzzle=0, order=1, final_diff=5, skill_nono=7)
+    Wasn't sure about some of them, so tried to guess, but then forgot which I was certain of and which I guessed
+
+[R0058] (P020; puzzle=3, order=2, final_diff=4, skill_nono=7)
+    There were larger numbers, so it was easier to deduce which cells for sure had to be black/white
+
+[R0059] (P020; puzzle=4, order=3, final_diff=3, skill_nono=7)
+    I got better at using the deductive reasoning, and also avoided guessing because it made everything more confusing
+
+[R0060] (P021; puzzle=1, order=1, final_diff=3, skill_nono=1)
+    nan
+
+[R0061] (P021; puzzle=0, order=2, final_diff=4, skill_nono=1)
+    nan
+
+[R0062] (P021; puzzle=2, order=3, skill_nono=1)
+    nan
+
+[R0063] (P022; puzzle=2, order=1, final_diff=2, skill_nono=6)
+    The puzzle was quite easy because the clues given on some lines were quite high and made it easy to identify the first step.
+
+[R0064] (P022; puzzle=4, order=2, final_diff=4, skill_nono=6)
+    The puzzle is quite hard because there are fewer clues than Puzzle 1 to decide the first steps. Additionally, I spent a lot of time solving it.
+
+[R0065] (P022; puzzle=5, order=3, final_diff=3, skill_nono=6)
+    The puzzle is not that hard and not that easy, the clues are enough for me to identify the first steps.
+
+[R0066] (P023; puzzle=3, order=1, final_diff=4, skill_nono=1)
+    I needed a few hints before I got it
+
+[R0067] (P023; puzzle=1, order=2, final_diff=3, skill_nono=1)
+    I was able to do it with no hints
+
+[R0068] (P023; puzzle=4, order=3, final_diff=5, skill_nono=1)
+    nan
+
+[R0069] (P024; puzzle=3, order=1, final_diff=3, skill_nono=1)
+    it was easier than the third puzzle. I found it easier because of the large number chunks that made it easier to fill things in at the start confidently. I think I took as long as this puzzle as I did because I was still figuring out how to solve them.
+
+[R0070] (P024; puzzle=1, order=2, final_diff=3, skill_nono=1)
+    the third puzzle was harder. I found it easier because of the large number chunks that made it easier to fill things in at the start confidently. This one felt easier than the first puzzle
+
+[R0071] (P024; puzzle=4, order=3, final_diff=5, skill_nono=1)
+    it was the hardest. There were not large chunks of numbers and lots of blank space to figure out. The groups of 1's made it tricky.
+
+[R0072] (P025; puzzle=5, order=1, final_diff=2, skill_nono=8)
+    quite a few low numbers, not many guaranteed rows
+not too much speculation nor significant interaction between rows/columns
+
+[R0073] (P025; puzzle=4, order=2, final_diff=3, skill_nono=8)
+    low numbers and few guaranteed rows
+still following a nice linear logical path
+
+[R0074] (P025; puzzle=2, order=3, final_diff=3, skill_nono=8)
+    quite a few larger numbers and guaranteed rows, the rows that were rich in 1's were a bit more difficult, but still just a linear logical path
+
+[R0075] (P026; puzzle=0, order=1, final_diff=4, skill_nono=1)
+    I found the puzzle hard because after filling in really obvious rows/columns (like 7 2) it was hard to find any more squares to fill in without guessing or using a hint.
+
+[R0076] (P026; puzzle=3, order=2, final_diff=5, skill_nono=1)
+    nan
+
+[R0077] (P026; puzzle=1, order=3, final_diff=4, skill_nono=1)
+    nan
+
+[R0078] (P027; puzzle=1, order=1, final_diff=4, skill_nono=6)
+    Many blocks were separated by multiple crosses so sometimes I had to take guesses to see which ones are correct.
+
+[R0079] (P027; puzzle=5, order=2, final_diff=2, skill_nono=6)
+    I think it felt easier relative to puzzle 1.
+
+[R0080] (P027; puzzle=4, order=3, final_diff=1, skill_nono=6)
+    I think the previous puzzles sort of helped me get into the mode of working out puzzles. There are also less blocks separated by multiple crosses in comparison.
+
+[R0081] (P028; puzzle=4, order=1, final_diff=3, skill_nono=1)
+    It's my first time playing this puzzle so I feel like if I can solve it that means the difficulty is ok sth?
+
+[R0082] (P028; puzzle=5, order=2, final_diff=-1, skill_nono=1)
+    nan
+
+[R0083] (P028; puzzle=1, order=3, final_diff=-1, skill_nono=1)
+    nan
+
+[R0084] (P029; puzzle=4, order=1, final_diff=4, skill_nono=8)
+    I got stuck at some points but maybe that's because I wasn't used to it
+
+[R0085] (P029; puzzle=5, order=2, final_diff=2, skill_nono=8)
+    I was always able to deduce the next value.
+
+[R0086] (P029; puzzle=1, order=3, final_diff=3, skill_nono=8)
+    I got a little stuck but maybe that's because I misread some of the numbers
+
+[R0087] (P030; puzzle=2, order=1, final_diff=4, skill_nono=3)
+    Because it is my first time doing 10x10 puzzle
+
+[R0088] (P030; puzzle=3, order=2, final_diff=5, skill_nono=3)
+    Lack of certainty, need to guess
+
+[R0089] (P030; puzzle=0, order=3, final_diff=2, skill_nono=3)
+    there were 2 "1 8", so it is easier than puzzle 2
+
+[R0090] (P031; puzzle=0, order=1, final_diff=5, skill_nono=1)
+    I rated it 5 because it was difficult for me to figure out a method that worked well for me to finish the puzzle. However, once I did, I was able to complete the puzzle with less difficulties then when I started it.
+
+[R0091] (P031; puzzle=5, order=2, final_diff=-1, skill_nono=1)
+    nan
+
+[R0092] (P031; puzzle=1, order=3, final_diff=-1, skill_nono=1)
+    nan
+
+[R0093] (P032; puzzle=0, order=1, final_diff=2, skill_nono=5)
+    There were rows/columns that gave me enough hints to fill the whole row/column correctly. Afterwards filling in the rest was easy.
+
+[R0094] (P032; puzzle=1, order=2, final_diff=3, skill_nono=5)
+    It was sightly harder than the first one. I had to think a bit more out of the box for this one.
+
+[R0095] (P032; puzzle=5, order=3, final_diff=4, skill_nono=5)
+    I feel like this one did not have as good as hints as the first two. I also had to restart my puzzle, as it became messy.
+
+[R0096] (P033; puzzle=1, order=1, final_diff=4, skill_nono=2)
+    didn't really know what i was doing, overestimated my abilities.
+
+[R0097] (P033; puzzle=5, order=2, final_diff=3, skill_nono=2)
+    started to understand strategy, more full line answers (added to 10)
+
+[R0098] (P033; puzzle=2, order=3, final_diff=2, skill_nono=2)
+    completely figured out strategy and how to play the game while making the fewest mistakes. a lot easier because the add to 10 row was on the top and right hand sides
+
+[R0099] (P034; puzzle=2, order=1, final_diff=2, skill_nono=7)
+    easy peasy lemon squeezy
+
+[R0100] (P034; puzzle=0, order=2, final_diff=4, skill_nono=7)
+    hell
+
+[R0101] (P034; puzzle=5, order=3, final_diff=2, skill_nono=7)
+    well even though i took longer i did use any hint so yea
+
+[R0102] (P035; puzzle=3, order=1, final_diff=3, skill_nono=5)
+    There were large numbers to start with so you can fill in an entire row that you are sure of
+
+[R0103] (P035; puzzle=0, order=2, final_diff=4, skill_nono=5)
+    The numbers given were smaller
+
+[R0104] (P035; puzzle=4, order=3, final_diff=4, skill_nono=5)
+    The numbers given were smaller
+
+[R0105] (P036; puzzle=4, order=1, final_diff=3, skill_nono=7)
+    i did puzzle with the short amount of time and used 1 hint
+
+[R0106] (P036; puzzle=5, order=2, final_diff=4, skill_nono=7)
+    2 hints used with slightly longer solving than puzzle 1 while took shorter than puzzle 3
+
+[R0107] (P036; puzzle=3, order=3, final_diff=4, skill_nono=7)
+    because i took it longer, used the most hints
+
+[R0108] (P037; puzzle=5, order=1, final_diff=4, skill_nono=9)
+    The biggest thing that determined the difficulty was how many rows could be solved from a glance (i.e rows where number of shaded cells and spacer rows added to ten by inspection). This nonogram, relative to other nonograms I have solved, had relatively few rows that could be filled by inspection making it difficult.
+
+[R0109] (P037; puzzle=1, order=2, final_diff=3, skill_nono=9)
+    Similar to the first, there were few rows that could be solved by inspection; however, I found it easier as my mind had warmed up to complete such hard nonograms after doing the first one.
+
+[R0110] (P037; puzzle=3, order=3, final_diff=4, skill_nono=9)
+    Once again, few rows solvable by inspection made this nonogram difficult. The difficulty spiked in comparison to number 2 because I began to get somewhat fatigued from puzzle solving.
+
+[R0111] (P038; puzzle=0, order=1, final_diff=3, skill_nono=3)
+    The beginning steps had some guaranteed patterns where I could fill out some entire line/rows. After that, there were some steps where I had to consider multiple different possible patterns to find guaranteed blocks among them. So I considered the difficulty moderate.
+
+[R0112] (P038; puzzle=1, order=2, final_diff=4, skill_nono=3)
+    This puzzle started with only one (if I didn't miss any) line with guaranteed pattern. For the rest line/rows, I had to consider some non-trivial guaranteed blocks. For example, I found out two guaranteed blocks from a line of "2 2 1 1", but I had to go over more possible patterns than a line with large numbers such as "4 1".
+
+[R0113] (P038; puzzle=2, order=3, final_diff=2, skill_nono=3)
+    This puzzle provided two guaranteed line&row on the edge, which thus gave more information about the blocks connected to them. But in general it is not considered very easy.
+
+[R0114] (P039; puzzle=2, order=1, final_diff=2, skill_nono=3)
+    It's relatively easy, since the deductions from one to another are relatively obvious and lead to the next ones.
+
+[R0115] (P039; puzzle=3, order=2, final_diff=4, skill_nono=3)
+    There are a few places where backtracking is needed after getting a hint. A few other places also requires either using contradiction or enumerating possibilities to find common coloured cells.
+
+[R0116] (P039; puzzle=5, order=3, final_diff=3, skill_nono=3)
+    Like puzzle 1, most clues lead from one to another. Solving puzzle 2 also helped prepare and refine search strategies.
+
+[R0117] (P040; puzzle=4, order=1, final_diff=1, skill_nono=3)
+    I have never attempted to solve a puzzle like this before, so I found it difficult to find a point where one column might be correct but the row is not.
+
+[R0118] (P040; puzzle=1, order=2, final_diff=3, skill_nono=3)
+    They were all challenging for the same reason, there is no reason I found one puzzle more challenging than the other
+
+[R0119] (P040; puzzle=2, order=3, final_diff=2, skill_nono=3)
+    nan
+
+[R0120] (P041; puzzle=4, order=1, final_diff=3, skill_nono=9)
+    There were some large numbers, it was easy enough to start and it didn't feel difficult to complete.
+
+[R0121] (P041; puzzle=1, order=2, final_diff=4, skill_nono=9)
+    I was stumped more often than on puzzle one. There were more smaller numbers, sometimes I need to take more time to find the next move.
+
+[R0122] (P041; puzzle=2, order=3, final_diff=2, skill_nono=9)
+    The borders were all straight forward, which gave a good basis to start. The deductions that followed were straight forward too.
+
+[R0123] (P042; puzzle=1, order=1, final_diff=4, skill_nono=2)
+    nan
+
+[R0124] (P042; puzzle=5, order=2, final_diff=4, skill_nono=2)
+    nan
+
+[R0125] (P042; puzzle=4, order=3, final_diff=5, skill_nono=2)
+    nan
+
+[R0126] (P043; puzzle=1, order=1, final_diff=2, skill_nono=5)
+    there were many columns which had definitive answers where logical deduction was easy to apply.
+
+[R0127] (P043; puzzle=5, order=2, final_diff=3, skill_nono=5)
+    the puzzle required a bit more thinking as logical deduction could not always be used.
+
+[R0128] (P043; puzzle=4, order=3, final_diff=4, skill_nono=5)
+    there was a lot more guessing and playing around with the blank/filled in boxes which took more time and trial and error.
+
+[R0129] (P044; puzzle=2, order=1, final_diff=3, skill_nono=3)
+    I didn't use any hint.
+
+[R0130] (P044; puzzle=5, order=2, final_diff=4, skill_nono=3)
+    I used a few hints.
+
+[R0131] (P044; puzzle=3, order=3, final_diff=5, skill_nono=3)
+    I use many hits.
+
+[R0132] (P045; puzzle=3, order=1, final_diff=5, skill_nono=4)
+    There wasn't much certain cells, I have to guess the most of them.
+
+[R0133] (P045; puzzle=1, order=2, final_diff=4, skill_nono=4)
+    There were two rows/columns that are certain, which make the puzzle a lot easier.
+
+[R0134] (P045; puzzle=5, order=3, final_diff=5, skill_nono=4)
+    A number of rows/columns are close to one cell to be exact, which make the puzzle somehow confusing, because I have to guess.
+
+[R0135] (P046; puzzle=5, order=1, final_diff=4, skill_nono=5)
+    This puzzle was difficult because I didn't know where to start. The tutorial puzzle and puzzle 2 had very obvious places to start (i.e. one row that could be entirely or nearly deduced right away). This made it easier to deduce the following rows.
+
+[R0136] (P046; puzzle=2, order=2, final_diff=3, skill_nono=5)
+    I rated this puzzle a bit easier than the others because I was able to deduce a row from the beginning. From there, I was able to quickly find connections and deduce many other rows.
+
+[R0137] (P046; puzzle=3, order=3, final_diff=4, skill_nono=5)
+    I rated this puzzle the same difficulty as puzzle 1 because it was hard to  get started. Mainly because there were many rows/columns that barely needed to be filled in, and so I had a hard time getting going (even if I could roughly deduce the first row).
+
+[R0138] (P047; puzzle=1, order=1, final_diff=4, skill_nono=4)
+    I thought it was difficult because of how sparse it was. It felt like there was a lot of blank space which made it hard to make progress.
+
+[R0139] (P047; puzzle=4, order=2, final_diff=5, skill_nono=4)
+    I'm not really sure what made this one so hard but I made a mistake at some point in the middle and it was hard to spot where/ what other labels I had were wrong as a result.
+
+[R0140] (P047; puzzle=2, order=3, final_diff=3, skill_nono=4)
+    Maybe it was that I had more practice with the first 2
+
+[R0141] (P048; puzzle=2, order=1, final_diff=3, skill_nono=5)
+    the total of the number on hint line is 9, so there's already a line that's fixed, thus it's easier to fill in the rest
+
+[R0142] (P048; puzzle=3, order=2, final_diff=5, skill_nono=5)
+    nan
+
+[R0143] (P048; puzzle=0, order=3, final_diff=4, skill_nono=5)
+    there isn't any "total 9 line", so i basically have to guess all of them and adjust them bit by bit
+
+[R0144] (P049; puzzle=3, order=1, final_diff=5, skill_nono=2)
+    This one was really hard, lack of info to make next moves made it difficult to progress with the puzzle
+
+[R0145] (P049; puzzle=2, order=2, final_diff=2, skill_nono=2)
+    Lots of opening moves at the beginning made it easy to complete the rest of the puzzle also I think I just got better after the first one
+
+[R0146] (P049; puzzle=1, order=3, final_diff=2, skill_nono=2)
+    Also lots of opening moves that made it easy to continue with the rest of the puzzle
+
+[R0147] (P050; puzzle=4, order=1, final_diff=4, skill_nono=6)
+    Clue number too small
+
+[R0148] (P050; puzzle=1, order=2, final_diff=3, skill_nono=6)
+    easier than first one
+
+[R0149] (P050; puzzle=5, order=3, final_diff=3, skill_nono=6)
+    similar to the second one
+
+[R0150] (P051; puzzle=0, order=1, final_diff=4, skill_nono=1)
+    Only two row/col was filled completely at first, and so it was hard in the beginning to try to see which boxes I can fill.
+
+[R0151] (P051; puzzle=5, order=2, final_diff=4, skill_nono=1)
+    Only two row/col was filled completely at first, and so it was hard in the beginning to try to see which boxes I can fill.
+
+[R0152] (P051; puzzle=1, order=3, final_diff=4, skill_nono=1)
+    Only two row/col was filled completely at first, and so it was hard in the beginning to try to see which boxes I can fill.
+
+[R0153] (P052; puzzle=5, order=1, final_diff=3, skill_nono=1)
+    Relatively easier to locate larger block.
+
+[R0154] (P052; puzzle=3, order=2, final_diff=4, skill_nono=1)
+    There are many 1 blocks in the puzzle that make them hard to locate.
+
+[R0155] (P052; puzzle=4, order=3, final_diff=4, skill_nono=1)
+    Same as puzzle 2.
+
+[R0156] (P053; puzzle=3, order=1, final_diff=3, skill_nono=8)
+    There were no / few easy groups of numbers that made the row/column pre-determined (only one solution). But it was not too difficult to get
+
+[R0157] (P053; puzzle=4, order=2, final_diff=2, skill_nono=8)
+    This was easier and the groups were often in a way that clear assumptions could be made.
+
+[R0158] (P053; puzzle=1, order=3, final_diff=3, skill_nono=8)
+    nan
+
+[R0159] (P054; puzzle=3, order=1, final_diff=4, skill_nono=1)
+    Did not have a strategy, was guessing a lot in the beginning
+
+[R0160] (P054; puzzle=4, order=2, final_diff=4, skill_nono=1)
+    Tried solving via the column/row that had a deterministic output. Got a bit easier. Guessed because of time constraints.
+
+[R0161] (P054; puzzle=1, order=3, final_diff=4, skill_nono=1)
+    nan
+
+[R0162] (P055; puzzle=3, order=1, final_diff=4, skill_nono=8)
+    Honestly, I was just not accustomed to Nonogram, it was probably a 4
+
+[R0163] (P055; puzzle=4, order=2, final_diff=3, skill_nono=8)
+    It seemed alright, there was a pattern and it worked
+
+[R0164] (P055; puzzle=1, order=3, final_diff=3, skill_nono=8)
+    It seemed alright, there was a pattern and it worked
+
+[R0165] (P056; puzzle=4, order=1, final_diff=4, skill_nono=1)
+    It was my first time so hard to gauge the difficulty
+
+[R0166] (P056; puzzle=5, order=2, final_diff=3, skill_nono=1)
+    It was slightly easier since I gained more experience
+
+[R0167] (P056; puzzle=0, order=3, final_diff=4, skill_nono=1)
+    There were a few new situations (8 blocks) with less free information
+
+[R0168] (P057; puzzle=5, order=1, final_diff=4, skill_nono=6)
+    There were not a lot of freebies (not a lot of columns where everything was in a fixed position)
+
+[R0169] (P057; puzzle=4, order=2, final_diff=5, skill_nono=6)
+    There were even fewer freebies (not a lot of columns where everything was in a fixed position)
+
+[R0170] (P057; puzzle=0, order=3, final_diff=5, skill_nono=6)
+    There were even fewer freebies (not a lot of columns where everything was in a fixed position). Some required mental deduction before putting anything down
+
+[R0171] (P058; puzzle=0, order=1, final_diff=4, skill_nono=4)
+    Doesn't feel like its solvable with "trivial" logic (i.e. freebees, using other solved rows/columns), had to consider multiple columns at once, or the effects of setting on square.
+
+[R0172] (P058; puzzle=3, order=2, final_diff=4, skill_nono=4)
+    Didn't have to guess at all, however the "early game" had less free squares to work with.
+
+[R0173] (P058; puzzle=5, order=3, final_diff=5, skill_nono=4)
+    Got stuck at two points and had to use a hint, due to earlier mistakes. It seems like there are times where you just have to guess or see what happens when making a move, you can't always use logical deduction to solve it.
+
+[R0174] (P059; puzzle=1, order=1, final_diff=4, skill_nono=8)
+    required a lot of checking conditions to see what was and wasn't correct
+
+[R0175] (P059; puzzle=3, order=2, final_diff=4, skill_nono=8)
+    even difficulty althroughout
+
+[R0176] (P059; puzzle=2, order=3, final_diff=4, skill_nono=8)
+    Had an easier start but harder finish, required me to due to many potential position overlaps in order to continue
+
+[R0177] (P060; puzzle=2, order=1, final_diff=3, skill_nono=1)
+    i thought i needed many hints but i didn't want to use it at first
+
+[R0178] (P060; puzzle=1, order=2, final_diff=4, skill_nono=1)
+    more difficult than puzzle 1
+
+[R0179] (P060; puzzle=5, order=3, final_diff=4, skill_nono=1)
+    more difficult than puzzle 2 but i also knew more about what i was doing
+
+[R0180] (P061; puzzle=3, order=1, final_diff=4, skill_nono=7)
+    First time doing this puzzle, ambiguity could be alot. One fixed arrangement to start solving the puzzle.
+
+[R0181] (P061; puzzle=0, order=2, final_diff=4, skill_nono=7)
+    nan
+
+[R0182] (P061; puzzle=5, order=3, final_diff=-1, skill_nono=7)
+    nan
+
+[R0183] (P062; puzzle=3, order=1, final_diff=4, skill_nono=5)
+    nan
+
+[R0184] (P062; puzzle=0, order=2, final_diff=4, skill_nono=5)
+    Easy Part: There were two "freebies" of (1, 8) in two columns. This made starting the puzzle a lot easier as I could "X" many adjacent squares
+
+Difficult: Endgame was hard.
+
+[R0185] (P062; puzzle=5, order=3, final_diff=4, skill_nono=5)
+    Hard: Less obvious freebies like (1, 8), harder to start game. Had to consider many rows/columns so I couldn't just right away fill out an entire row or column. 
+
+Easy: There was a column that was just "4". This gave the game away. There were a couple of rows that were like (1, 2, 1, 1) which gives you very limited options.
+
+[R0186] (P063; puzzle=3, order=1, final_diff=5, skill_nono=2)
+    Rated it hard because I was understanding the game and had less give aways for the first moves.
+
+[R0187] (P063; puzzle=0, order=2, final_diff=4, skill_nono=2)
+    nan
+
+[R0188] (P063; puzzle=5, order=3, final_diff=-1, skill_nono=2)
+    nan
+
+[R0189] (P064; puzzle=3, order=1, final_diff=4, skill_nono=3)
+    First time playing, had no strategies and made mistakes throughout. Very few fixed positions to start with.
+
+[R0190] (P064; puzzle=0, order=2, final_diff=2, skill_nono=3)
+    Got used to the game, had two fixed arrangements right away.
+
+[R0191] (P064; puzzle=5, order=3, final_diff=-1, skill_nono=3)
+    nan
+
+[R0192] (P065; puzzle=3, order=1, final_diff=4, skill_nono=7)
+    This one was pretty difficult because all the numbers were small and there weren't that many guaranteed placements.
+
+[R0193] (P065; puzzle=0, order=2, final_diff=4, skill_nono=7)
+    It seemed easier at first but then got harder once it was harder to deduce where the black squares go.
+
+[R0194] (P065; puzzle=5, order=3, final_diff=3, skill_nono=7)
+    Practice through the previous two puzzles definitely helped in making this one seem easier, especially the strategies to use to logically deduce the placements of the squares.
+
+[R0195] (P066; puzzle=4, order=1, final_diff=4, skill_nono=7)
+    Hard to start somewhere. So many possibilities to juggle. Hard to choose which one to focus on.
+
+[R0196] (P066; puzzle=1, order=2, final_diff=5, skill_nono=7)
+    Hard to start somewhere. So many possibilities to juggle. Hard to choose which one to focus on.
+
+[R0197] (P066; puzzle=3, order=3, final_diff=5, skill_nono=7)
+    Hard to start somewhere. So many possibilities to juggle. Hard to choose which one to focus on.
+
+[R0198] (P067; puzzle=5, order=1, final_diff=3, skill_nono=5)
+    It was hard because it was my first one.
+
+[R0199] (P067; puzzle=4, order=2, final_diff=3, skill_nono=5)
+    it was hard because I needed a hint.
+
+[R0200] (P067; puzzle=1, order=3, final_diff=-1, skill_nono=5)
+    nan
+
+[R0201] (P068; puzzle=3, order=1, final_diff=4, skill_nono=6)
+    playing for first time(did not have many strategies), maybe only one fixed arrangement at the start
+
+[R0202] (P068; puzzle=5, order=2, final_diff=3, skill_nono=6)
+    took less time than the first. had some experience and learned some strategies from previous puzzle, two fixed arrangements this time?
+
+[R0203] (P068; puzzle=2, order=3, final_diff=-1, skill_nono=6)
+    nan
+
+
+====================================================================================================
+RESPONSE KIND: strategy   (n = 68)
+====================================================================================================
+[R0204] (P001; skill_nono=6)
+    Solve the rows/columns that could be filled in without variation (e.g., 4-1-3) first, then look at all other columns/rows that required the most black spaces and find all possible variations of where the black squares could go. Cross off any white spaces as soon as possible, and solve the lines with the least amount of black squares last.
+
+[R0207] (P002; skill_nono=7)
+    Avoid guessing no matter what. Whenever I am not sure what is my next step, I will wait for the hint. This is because I dont want to adjust my previous steps. All of my next step is rely on previous steps are correct.
+
+[R0210] (P003; skill_nono=2)
+    Mostly check for forced moves; consider the amount of unclear blocks against the number of blocks a hint gives you info for. For example 5 2 1 is a forced config because you have 5 + 2 + 1 which is 8 solid blocks with 2 guaranteed gaps, which tells you this is a 10 block hint which is your forced move on an opener.
+
+If you click a block due to this forced move that is the edge of a row/column, you can then extend off of that block given those row/column's corresponding hints.
+
+When you have a 4 block guaranteed to be within a 7 block span, and you have 1 block placed already, you know that some neighbours of that block is guaranteed due to limited space.
+
+Right clicking guaranteed non-usable spaces helped.
+
+I also used the meta gaming of the hint button to my advantage as a "debugger" to check if I placed anything incorrectly so far; I would imagine someone can use it as a gamble check, but I didn't want to use it because of the disaster situation which happened to me in game 3.
+
+[R0213] (P004; skill_nono=1)
+    find if you can add any row or column number added up with gaps equal to 10 and fill it first
+
+[R0216] (P005; skill_nono=8)
+    First check for rows that only have one combination (ex. 10, 4 5, 3 6, etc.). These can be filled in automatically. Then, if any squares along the edges are filled in, that means any start/end numbers from the rows/columns can be automatically filled in as well (it's kinda hard to explain...). For some combinations, there are squares that will always be filled, so I filled those in (ex. if the row is just 6, then the 5th and 6th square in the row will always be filled no matter where the full 6 line is).
+
+[R0219] (P006; skill_nono=6)
+    determine the fixed lines first
+
+[R0222] (P007; skill_nono=1)
+    I fill all rows first with minimum separation between black boxes then try to fill columns. Unless there is a really big chunk I can use since there's only one possible layout
+
+[R0225] (P008; skill_nono=5)
+    first do certain things, then do uncertain things. make guess only if it's a binary option
+
+[R0228] (P009; skill_nono=8)
+    I would try to add numbers together. If the numbers and the spaces add up to 10, it becomes certain. I would put X on those grid which cannot be black. Since there is no penalty for using the hint, the best strategy is to use it as soon as possible.
+
+[R0231] (P010; skill_nono=6)
+    find the lines that add up to 10 (including spaces)
+Figuring out which of the numbers the cells are a part of helped so I could cross out a lot of nearby squares
+For big numbers, you can usually get the center squares for free
+
+[R0234] (P011; skill_nono=5)
+    I tried to figure out if there were any columns or rows where all the black and white spaces added up to 10. Once filling those in, tried to fill in any other deductions, crossed out all the blank spaces for places I knew had the right solution. Then for the rest, I tried to see if there were any overlaps between the leftmost/topmost and rightmost/bottommost solutions, and filled in black for the squares I thought had to be black. After that I repeated the process until I ran out of logical deductions and started guessing with assistance from the hints.
+
+[R0237] (P012; skill_nono=3)
+    First I would look for the rows with larger numbers or more number to fill out the rows. Once that was filled in, it made it a lot easier to place corresponding values for the perpendicular row/columns because I was able to determine roughly where some of the boxes should be filled in. I also made sure to cross out any boxes on either side of a "completed" section so that I wouldn't accidentally add more later.
+
+[R0240] (P013; skill_nono=9)
+    I would start with a row/column that had only one possible answer, or one that had a lot of overlap in possible answers. I would then look to the crossing column/rows and work from there. I never had to guess cells because there were always enough columns/rows with enough information to deduce some black squares.
+
+[R0243] (P014; skill_nono=5)
+    Fill the most restrictive conditions first, then test possibilities from most to least restrictive
+
+[R0246] (P015; )
+    nan
+
+[R0249] (P016; skill_nono=9)
+    - Looking for full rows and columns first and marking all boxes I am sure are white
+- When filling end or near-end boxes, checking the corresponding row/column to fill their end boxes
+- For near-full rows, filling in the guaranteed boxes (e.g. for 4 4, the guaranteed boxes would be 2-4, 7-9)
+- For sparse columns, using X boxes to "try" fitting groups and seeing if I can eliminate other boxes from there (e.g. for something like 1 2 1 if a 2 can only fit the second half of the board, then that immediately tells me that the 1 after it must be int he second half too, usually can deduce more Xs from this)
+- When filling a row, immediately checking if that adds information to deduce for their columns (and vice versa).
+- Checking different rows and columns rapidly rather than fixating and trying to immediately solve a section or such
+
+[R0252] (P017; skill_nono=1)
+    Pick the row/column with the largest sum and separate entries(2 2 2 1) and try to fix the only solution. Use the hint to check if black boxes are correct.
+
+[R0255] (P018; skill_nono=3)
+    Starting with the row/column with the largest sum or the largest # of #s (determining which squares MUST be black / MUST be white) and then making a few educated guesses until I encountered a contradiction
+
+[R0258] (P019; skill_nono=8)
+    Some strategies I used:
+- If there aren't any obvious rows/columns, starting off with the largest numbers/most numbers and checking the two opposing arrangements to see what squares are in common and must be filled (e.g. a 3 4 guarantees the third, seventh and eighth squares are filled)
+- if a row/column on the edge gets completed, its easy to get the first or last number in that row/column based on it
+
+[R0261] (P020; skill_nono=7)
+    Looking at where the big numbers were, for ex. 6 or 8, and seeing where the cells definitely have to be black because of the overlap of the large number. Or, cells that had a lot of numbers, such as 1, 1, 1, 1, 2 or something like that, where the white cells in between mean there is an easy way to figure out the only possible order.
+
+[R0264] (P021; skill_nono=1)
+    nan
+
+[R0267] (P022; skill_nono=6)
+    First, I find clues that sum up the most. Then I check if I can use that clue to fill in all the blocks with black or "x"; if yes, I'll fill them up; if not, I will then look for other clue.
+
+In the middle of the puzzle, I check all clues for each line and see if I can fill up any blocks or cross out any blocks.
+
+[R0270] (P023; skill_nono=1)
+    I went row by row
+
+[R0273] (P024; skill_nono=1)
+    I liked to make my best guess and then use the hint feature to tell me whether or not I was right, and then use that information to keep making educated guesses / deducing the next right thing I could fill in.
+
+[R0276] (P025; skill_nono=8)
+    fill out guaranteed rows, and just proceed logically from there
+
+[R0279] (P026; skill_nono=1)
+    I filled in the most obvious clues first, like two numbers adding to 9, and then tried to solve the others using that information.
+
+[R0282] (P027; skill_nono=6)
+    I would look at how many numbers there are on the side and how many black blocks they each correspond to. I'd use a formula of (# of Black blocks in the row) + (number hints - 1) = 10. This tells me whether each block is separated by only 1 cross block.
+
+[R0285] (P028; skill_nono=1)
+    I feel like it's better to use hints especially at the very beginning, but I had a lot left when finished. 
+So the time interval of giving hints seems meaningful for me cause it helps but it doesn't spoil the game.
+
+[R0288] (P029; skill_nono=8)
+    1. start with the rows & columns with only 1 possible solution
+2. see if there's any overlap between possible solutions (ex. 1 box is always black)
+- repeat these 2 steps
+
+[R0291] (P030; skill_nono=3)
+    Reasoning based on certain ones
+
+[R0294] (P031; skill_nono=1)
+    I started doing the vertical rows, then I would complete the horizontal rows, and then go through what I had selected and edit my selections to match the numbers for each row.
+
+[R0297] (P032; skill_nono=5)
+    Some hints provided that the whole row/column must be filled out a certain way. When blocks were on the edge, I knew exactly how much to increase them. If I had to fill a line somewhere, I could use the max/min of its length to know where some blocks must be.
+
+[R0300] (P033; skill_nono=2)
+    lines that added to 10 first, then figuring out what i could do from there. i used the X a lot to give me information about where black squares definitely could not go.
+
+[R0303] (P034; skill_nono=7)
+    i first filled the black ones with a lot of connective numbers(i.e. 7~10) and then focus on the smaller ones(i.e. 4~6).
+
+[R0306] (P035; skill_nono=5)
+    Make sure all the known cells are filled
+
+[R0309] (P036; skill_nono=7)
+    finding overlaps
+
+[R0312] (P037; skill_nono=9)
+    The first strategy was to solve as many rows and columns by inspection. For example, if the numbers were 5 and 4, I could immediately eliminate that line from consideration and focus on harder sections.
+
+The second strategy I utilized was to fill out a few rows in an almost nondeterministic fashion. For example, in rows where there was one less tile than needed to solve by inspection (i.e 4, 4) I would fill that line in such a way that all possible permutations of shaded tile that fit that pattern would be derivable. With these extra cells, I would then complete other lines. Finally, when I had more information, I would loop back to the nondeterministic line and complete it.
+
+[R0315] (P038; skill_nono=3)
+    I would first look for lines/rows with guaranteed solution and fill them up. Then, based on the filled blocks, I try to fill the blocks next to them. For example, if a block on the edge is filled with guaranteed solution, I expand it to the centre based on what its line says about the first/last number, and cross out the one next to it. Also, some pattern would have non-trivial guaranteed blocks, I actively check all possible solutions and find the common filled/crossed-out blocks. (e.g. "6 1" would have some guaranteed blocks filled out near the middle)
+
+[R0318] (P039; skill_nono=3)
+    Either enumerating possible solutions for a row/column, or use contradiction to "guess" a candidate cell's opposite colours and see if it would lead to contradictions.
+
+[R0321] (P040; skill_nono=3)
+    At first I tried to make educated guesses based on the hints but I then tried to take advantage of the "x" feature.
+
+[R0324] (P041; skill_nono=9)
+    I glance the grid to search for large numbers or a row with many numbers, those are easy start with, because you can find overlaps in the possible positions. I also try to start with the borders because having only one possible location to extend to makes the deductions easy.
+
+[R0327] (P042; skill_nono=2)
+    Trying to compare values across rows and columns to see where the hints matched.
+
+[R0330] (P043; skill_nono=5)
+    logical deduction, trial and error
+
+[R0333] (P044; skill_nono=3)
+    Start with row or column that I can fill out instantly. Don't just focus on squares to be filled, but also look at squares that are can be crossed-out.
+
+[R0336] (P045; skill_nono=4)
+    To fulfill the known lines first, and then along the guessing, I can cross some connected cells.
+
+[R0339] (P046; skill_nono=5)
+    For puzzles 2 and 3, I made heavy use of marking off white space. This made the puzzle easier as I didn't need to keep everything in my head. 
+
+My main strategy when solving the puzzles was to find the row/column with the largest number of blacked-out boxes then immediately fill in as much as possible. From there, I would work out from where I started to use the initial deduction.
+
+Not sure if this is what you are looking for in terms of strategy.
+
+[R0342] (P047; skill_nono=4)
+    trying to figure out what solutions were possible in each row/column and take the intersection of those solutions. Every time I learned a label on one of the cells, I would check the surrounding rows/columns to figure out if this could be used to figure something else out.
+
+[R0345] (P048; skill_nono=5)
+    - the "total 9 line" strategy (for 1, 8 line, 1, 4, 2, 2 line etc.)
+- a lot of guessing
+
+[R0348] (P049; skill_nono=2)
+    Every time I fill in a square, I look to the vertical and horizontal columns that square affects to see if I can fill in any of the other ones
+Blocking the moves to the side when they are invalid
+Check after every move if I can logically fill in the other squares to complete columns or rows based off of previously impossible / blocked  squares
+
+[R0351] (P050; skill_nono=6)
+    First find all the grid that must be black
+
+[R0354] (P051; skill_nono=1)
+    First I filled the rows that can be solved immediately (i.e, the rows or columns that has only one possible arragement of the black boxes), then I just try to use those solved boxes to solve whatever I could and make some guesses, and try to push until I find a contradiction and in that case I undo the guesses and try other guesses.
+
+[R0357] (P052; skill_nono=1)
+    Locate the largest number block first.
+
+[R0360] (P053; skill_nono=8)
+    I looked for groups where it was guaranteed to only have 1 possible solution for all the squares and gaps. When this was not possible, I considered both extremes regarding positioning of blocks, and marked the common ones in either case, which must be black. I also used the cross to mark incorrect blocks.
+
+[R0363] (P054; skill_nono=1)
+    Started filling out via the columns/rows that had a deterministic output, guessed from there. Some of grid easier to deduce, some not
+
+[R0366] (P055; skill_nono=8)
+    N = number of numbers in a line
+T = total sum of the numbers per-line
+
+if (N-1) + T = 10 = size of board -> fill this in
+
+Afterwards, just fill in what is possible and what is not, chip away, and see the rest
+
+and don't mess up :) (else hints)
+
+[R0369] (P056; skill_nono=1)
+    running counter-factuals, I think the added pressure made me perform better, but I had to guess more and didn't have time to overthink
+
+[R0372] (P057; skill_nono=6)
+    Finding fixed positions first (freebies), analyzing what space each number is guaranteed given the other numbers in the row/column
+
+[R0375] (P058; skill_nono=4)
+    Look for "free columns" (every piece is known given the numbers and gaps), If the general location of a line is known, filling in squares that have to be black/white based on that. Looking at remaining parts of columns to fill in white/X squares.
+
+[R0378] (P059; skill_nono=8)
+    seeing which squares are present in every combination for larger numbers. if a square was on an edge or next to an x, the number associated with it was guaranteed to trail in the other direction. cross checking rows and columns when there are those that are filled out. seeing if out of multiple combinations, there were cases where only one is actually possible, in which case its the only correct order.
+
+[R0381] (P060; skill_nono=1)
+    look for the ones that would sum up to 10, then work from there, use hint when stuck
+
+[R0384] (P061; skill_nono=7)
+    looking for common black square during ambiguous possibilities. Started solving the bigger numbers first. Started longer sequences.
+
+[R0387] (P062; skill_nono=5)
+    1. Fill out freebies and eliminate any adjacent cells that don't work 
+2. Look at the start and end of the sequences. This can often eliminate or fill out the start or end. 
+3. Overlap of potential positions. For example, (1, 4, 1), 4 itself was very limited to where it could have been placed. Look for where a piece of 4 is guaranteed to fill.
+
+[R0390] (P063; skill_nono=2)
+    Used hints, deductive reasoning, freebies first, used the overlap to reduce the possibilities, and also the x marks to keep track of the board.
+
+[R0393] (P064; skill_nono=3)
+    Looking at fixed arrangements first, then blacked out guaranteed spots by looking at potential arrangements, then every time I colored a square or crossed it out, I would look through the row and column it affected.
+
+[R0396] (P065; skill_nono=7)
+    Fixed arrangements first, then looked at overlap of potential positions. After that, I analyzed how much remaining space were left and if squares could fit there. Also, I crossed out all rows that were already completed so ensure that nothing was being overwritten.
+
+[R0399] (P066; skill_nono=7)
+    Go for freebies at the start. Find guaranteed squares in all possibilities. Mark the borders of the found numbers. Analyse all possibilities for the remaining space and find which order fits.
+
+[R0402] (P067; skill_nono=5)
+    Process of elimination: overlap of potential positions, fixed arrangements from start/end positions, see possible solutions with remaining white space, immediately X out cells
+
+[R0405] (P068; skill_nono=6)
+    try to cross out as many squares as possible based on logic. go for fixed arrangements to start. overlapping method to determine guaranteed black squares. trying to see if the numbers would be able to fit into remaining spaces of a partially filled row to find more black squares or crosses.
+
+
+====================================================================================================
+RESPONSE KIND: comments   (n = 68)
+====================================================================================================
+[R0205] (P001; skill_nono=6)
+    The nonograms not being pictures can make it feel harder since it's easier to guess black squares for those kinds of puzzles even if you don't rely on the numbers.
+
+[R0208] (P002; skill_nono=7)
+    the way I rate the difficulty is based on the time I need to wait for hint.
+
+[R0211] (P003; skill_nono=2)
+    Hints refreshed too fast.
+
+[R0214] (P004; skill_nono=1)
+    the last one is kinda hard for me cuz the numbers of each row and column is the multiple of previous
+
+[R0217] (P005; skill_nono=8)
+    Not being used to the UI made it kind of hard. Specifically how when you multi-select any area, it automatically swaps the colouring of the square. So for the last puzzle, I think that feature made me not realize some of my squares got swapped. This then made me realize near the end that I had to restart since the squares weren't selected properly.
+
+[R0220] (P006; skill_nono=6)
+    what makes it hard: the given numbers are small
+
+[R0223] (P007; skill_nono=1)
+    puzzle with 1 8 or 8 1 hints are significantly easier
+
+[R0226] (P008; skill_nono=5)
+    no
+
+[R0229] (P009; skill_nono=8)
+    Smaller numbers would increase the uncertainity.
+
+[R0232] (P010; skill_nono=6)
+    In a lot of other nonograms, they usually form a picture so you kind of get a free hint as to what the general shape should look like but these ones were more random
+
+[R0235] (P011; skill_nono=5)
+    Puzzle 3 probably felt less hard than 2 because I'd already had practice from doing the previous puzzles. I think I measure how easy or hard a puzzle is based on how much information is given that guarantees I can fill in something for a square at the start of a puzzle, and how many times I have to guess something and verify the answer via a hint. 2 felt the hardest for me because I had to actually wait for hints to arrive because I ran out of things to fill in for the puzzle that I knew were correct.
+
+[R0238] (P012; skill_nono=3)
+    I think generally puzzles with smaller numbers were harder to complete.
+
+[R0241] (P013; skill_nono=9)
+    These puzzles were pretty straightforward for me because I used to (~4 years ago) play nonogram a lot on my phone, so the strategy comes quite easily.
+
+[R0244] (P014; skill_nono=5)
+    Multiple intermediate steps seemed possible, but only one worked in the end
+
+[R0247] (P015; )
+    nan
+
+[R0250] (P016; skill_nono=9)
+    These puzzles didn't have clear symmetry, which I suppose made them "not easy"
+
+[R0253] (P017; skill_nono=1)
+    If the hint don't prioritize wrong black boxes and is just random, the puzzle would be harder(?)
+
+[R0256] (P018; skill_nono=3)
+    The puzzles felt easier when I was given hints, since it let me determine whether the previous guesses I made were correct or incorrect (more often incorrect ...) or maybe I made too many guesses
+
+[R0259] (P019; skill_nono=8)
+    The fact that it is a 10x10 inherently made the puzzles pretty simple but I'd say that they're still on the harder side of possible 10x10s
+
+[R0262] (P020; skill_nono=7)
+    Practice definitely made it easier, and the hints helped also build confidence and expadite the process
+
+[R0265] (P021; skill_nono=1)
+    nan
+
+[R0268] (P022; skill_nono=6)
+    For me, the key to the puzzle is that you need to find a line that you are able to fill the whole line with the given clue. It will be harder if this kind of clue is less, and easier if there are many of this kind of clue.
+
+[R0271] (P023; skill_nono=1)
+    no!
+
+[R0274] (P024; skill_nono=1)
+    No, I think I answered this in my other questions.
+
+[R0277] (P025; skill_nono=8)
+    the last one had a bit of difficulties dealing with all the 1's, since they blend together and look funny
+
+[R0280] (P026; skill_nono=1)
+    I didn't want to guess in case I got a square wrong, but that also made the puzzle harder because I didn't really have any more clues to help me.
+
+[R0283] (P027; skill_nono=6)
+    I think it still took me some time to get into the mode of working it.
+
+[R0286] (P028; skill_nono=1)
+    Maybe for beginner, it takes some time to think the strategies.
+
+[R0289] (P029; skill_nono=8)
+    It was a bit hard to do without additional annotations (like specific possibilities) as I had to remember them and that confused me sometimes as sometimes I would remember them wrong
+
+[R0292] (P030; skill_nono=3)
+    NA
+
+[R0295] (P031; skill_nono=1)
+    What made the puzzle harder for me was never having done nonograms, therefore, it took me a few tries to see what method would work best for me and the way that my mind understands logic games.
+
+[R0298] (P032; skill_nono=5)
+    Keeping track of what has been filled out made things overall harder.
+
+[R0301] (P033; skill_nono=2)
+    easy: more information (more lines that add to 10) and less options
+hard: not really knowing how to puzzle, figuring out initial strategies.
+
+[R0304] (P034; skill_nono=7)
+    like when there are a lot of smaller connective numbers such as "1 1 1 1 " and "1 2 1"
+
+[R0307] (P035; skill_nono=5)
+    No
+
+[R0310] (P036; skill_nono=7)
+    larger numbers in rows and columns provide more cues, more smaller numbers make it harder
+
+[R0313] (P037; skill_nono=9)
+    I will say there was a bit of initial shock from the spike in difficulty between the warmups and first nonogram. I think if someone had less experience doing nonograms they likely would have taken considerably longer.
+
+[R0316] (P038; skill_nono=3)
+    When there's more steps where you have to start consider different possibilities, it feels harder. When there's more straight-forward guaranteed blocks, it feels easier (e.g. cross out a block around guaranteed filled blocks, fill blocks near a filled edge block according to the number).
+
+[R0319] (P039; skill_nono=3)
+    The starting row may not be too obvious, and the solution space from any single move might be large to search through.
+
+[R0322] (P040; skill_nono=3)
+    n/a
+
+[R0325] (P041; skill_nono=9)
+    The easiest puzzles would have rows of 10's, 9's or 8's, the numbers in these puzzles are generally smaller so they weren't super easy. The grid size is small though so the puzzles aren't very difficult. A larger grid size would have more variation in possible patterns.
+
+[R0328] (P042; skill_nono=2)
+    Not applicable.
+
+[R0331] (P043; skill_nono=5)
+    n/a
+
+[R0334] (P044; skill_nono=3)
+    Small numbers (1 and 2) are harder than big numbers (3+).
+
+[R0337] (P045; skill_nono=4)
+    Nothing else.
+
+[R0340] (P046; skill_nono=5)
+    As stated above, a concrete starting area, as well as the amount that needed to be filled in per row/column (since not having much to fill in made the space of possible solutions to consider much larger).
+
+[R0343] (P047; skill_nono=4)
+    It made me a bit nervous near the end of the puzzles when I saw other participants leaving, it made me want to try to finish faster.
+
+[R0346] (P048; skill_nono=5)
+    a lack of "fixed" line makes it hard...
+
+[R0349] (P049; skill_nono=2)
+    No
+
+[R0352] (P050; skill_nono=6)
+    make it 15x15
+
+[R0355] (P051; skill_nono=1)
+    I think there are just some cases where the boxes to fill in is not possible to deterministically logically deduce, and those part of the solves were pretty frustrating and felt uncertain. However with some guessing it was okay.
+
+[R0358] (P052; skill_nono=1)
+    The hints make them feel easier.
+
+[R0361] (P053; skill_nono=8)
+    Puzzles with nice groups of numbers that allowed more assumptions to be made felt easier. This is when larger numbers or more numbers are used.
+
+[R0364] (P054; skill_nono=1)
+    Time constraints. I'm a beginner so I was really into the puzzle. I wasn't optimising for a result, I wanted to see the end goal quickly. With more time and puzzles I think it will be easier.
+
+[R0367] (P055; skill_nono=8)
+    practice (i.e. throughout the test) made it feel easier
+
+[R0370] (P056; skill_nono=1)
+    I think they would be easier on paper because I could annotate more instead of keeping it all in my head (minus the Xs)
+
+[R0373] (P057; skill_nono=6)
+    Not a lot of freebies
+
+[R0376] (P058; skill_nono=4)
+    Easier could generally be solved by only looking at one row/column at a time. Harder ones required you to look at multiple rows/columns at once in order to deduce information without guessing.
+
+[R0379] (P059; skill_nono=8)
+    not much, I had some prior practice so it was a pretty normal experience, and I like challenge
+
+[R0382] (P060; skill_nono=1)
+    undo button should not be the same color and right beside the reset button
+
+[R0385] (P061; skill_nono=7)
+    Puzzle 2 was easy start because of many fixed arrangements
+
+[R0388] (P062; skill_nono=5)
+    I liked it :D Best of luck with the research!
+
+[R0391] (P063; skill_nono=2)
+    N/A
+
+[R0394] (P064; skill_nono=3)
+    N/A
+
+[R0397] (P065; skill_nono=7)
+    Definitely the usefulness of the hints, depending on which cell it highlighted that was wrong.
+
+[R0400] (P066; skill_nono=7)
+    Less freebies given. Less total per row/column given.
+
+[R0403] (P067; skill_nono=5)
+    It was hard because its 10pm and I had a long day
+
+[R0406] (P068; skill_nono=6)
+    not knowing the strategies made it hard. but learning them immediately made it easier.
+
+
+====================================================================================================
+RESPONSE KIND: size_experience_other   (n = 68)
+====================================================================================================
+[R0206] (P001; skill_nono=6)
+    Pokemon Picross (many different sizes but has "abilities" to help solve squares
+
+[R0209] (P002; skill_nono=7)
+    nan
+
+[R0212] (P003; skill_nono=2)
+    nan
+
+[R0215] (P004; skill_nono=1)
+    nan
+
+[R0218] (P005; skill_nono=8)
+    nan
+
+[R0221] (P006; skill_nono=6)
+    nan
+
+[R0224] (P007; skill_nono=1)
+    nan
+
+[R0227] (P008; skill_nono=5)
+    nan
+
+[R0230] (P009; skill_nono=8)
+    nan
+
+[R0233] (P010; skill_nono=6)
+    nan
+
+[R0236] (P011; skill_nono=5)
+    nan
+
+[R0239] (P012; skill_nono=3)
+    nan
+
+[R0242] (P013; skill_nono=9)
+    nan
+
+[R0245] (P014; skill_nono=5)
+    nan
+
+[R0248] (P015; )
+    nan
+
+[R0251] (P016; skill_nono=9)
+    nan
+
+[R0254] (P017; skill_nono=1)
+    nan
+
+[R0257] (P018; skill_nono=3)
+    nan
+
+[R0260] (P019; skill_nono=8)
+    nan
+
+[R0263] (P020; skill_nono=7)
+    nan
+
+[R0266] (P021; skill_nono=1)
+    nan
+
+[R0269] (P022; skill_nono=6)
+    nan
+
+[R0272] (P023; skill_nono=1)
+    nan
+
+[R0275] (P024; skill_nono=1)
+    nan
+
+[R0278] (P025; skill_nono=8)
+    nan
+
+[R0281] (P026; skill_nono=1)
+    nan
+
+[R0284] (P027; skill_nono=6)
+    nan
+
+[R0287] (P028; skill_nono=1)
+    nan
+
+[R0290] (P029; skill_nono=8)
+    nan
+
+[R0293] (P030; skill_nono=3)
+    nan
+
+[R0296] (P031; skill_nono=1)
+    nan
+
+[R0299] (P032; skill_nono=5)
+    nan
+
+[R0302] (P033; skill_nono=2)
+    nan
+
+[R0305] (P034; skill_nono=7)
+    nan
+
+[R0308] (P035; skill_nono=5)
+    nan
+
+[R0311] (P036; skill_nono=7)
+    nan
+
+[R0314] (P037; skill_nono=9)
+    nan
+
+[R0317] (P038; skill_nono=3)
+    nan
+
+[R0320] (P039; skill_nono=3)
+    nan
+
+[R0323] (P040; skill_nono=3)
+    n/a
+
+[R0326] (P041; skill_nono=9)
+    nan
+
+[R0329] (P042; skill_nono=2)
+    nan
+
+[R0332] (P043; skill_nono=5)
+    nan
+
+[R0335] (P044; skill_nono=3)
+    nan
+
+[R0338] (P045; skill_nono=4)
+    nan
+
+[R0341] (P046; skill_nono=5)
+    nan
+
+[R0344] (P047; skill_nono=4)
+    nan
+
+[R0347] (P048; skill_nono=5)
+    nan
+
+[R0350] (P049; skill_nono=2)
+    nan
+
+[R0353] (P050; skill_nono=6)
+    nan
+
+[R0356] (P051; skill_nono=1)
+    nan
+
+[R0359] (P052; skill_nono=1)
+    nan
+
+[R0362] (P053; skill_nono=8)
+    nan
+
+[R0365] (P054; skill_nono=1)
+    nan
+
+[R0368] (P055; skill_nono=8)
+    nan
+
+[R0371] (P056; skill_nono=1)
+    nan
+
+[R0374] (P057; skill_nono=6)
+    nan
+
+[R0377] (P058; skill_nono=4)
+    nan
+
+[R0380] (P059; skill_nono=8)
+    nan
+
+[R0383] (P060; skill_nono=1)
+    nan
+
+[R0386] (P061; skill_nono=7)
+    nan
+
+[R0389] (P062; skill_nono=5)
+    nan
+
+[R0392] (P063; skill_nono=2)
+    nan
+
+[R0395] (P064; skill_nono=3)
+    nan
+
+[R0398] (P065; skill_nono=7)
+    nan
+
+[R0401] (P066; skill_nono=7)
+    nan
+
+[R0404] (P067; skill_nono=5)
+    nan
+
+[R0407] (P068; skill_nono=6)
+    nan
+
