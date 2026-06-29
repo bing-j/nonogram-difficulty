@@ -1,0 +1,106 @@
+# SAT Solver Statistics vs Human-Evaluated Nonogram Difficulty
+
+## 1. Research Question
+
+How do SAT solver statistics correlate with human-evaluated puzzle difficulty?
+
+## 2. Data Summary
+
+The cleaned participant-puzzle dataset contains:
+
+- Participants: 68
+- Puzzles: 6
+- Participant-puzzle attempts: 204
+- Completed attempts: 176
+- Incomplete attempts: 28
+- Missing initial ratings: 4
+- Missing final adjusted ratings: 30
+- Missing rating-change values: 30
+
+Puzzle assignment was not perfectly balanced. Puzzle assignment counts ranged from 29 to 42 attempts per puzzle. Order-position counts ranged from 7 to 18 within puzzle-by-order cells, and puzzle-pair counts ranged from 6 to 22. This is acceptable for exploratory analysis, but assignment imbalance should be kept in mind when interpreting human ratings.
+
+## 3. Human Difficulty Measure
+
+The primary human difficulty measure is `mean_final_rating`, based on participants' final adjusted difficulty ratings. This is preferred over the initial rating because participants rated each puzzle again after seeing all 3 puzzles in their session, giving them a chance to recalibrate difficulty judgments against the other puzzles they solved.
+
+## 4. Main Method
+
+The main analysis is puzzle-level. SAT solver statistics vary only by puzzle, not by participant-puzzle attempt, so the effective sample size for SAT-vs-human comparisons is 6 puzzles, not 204 participant-puzzle rows.
+
+For this reason, the main analysis compares each SAT statistic separately against `mean_final_rating` using Spearman rank correlation, Kendall tau, and Pearson correlation as a secondary descriptive check. A multiple regression using conflicts, decisions, propagations, and SAT time together is not appropriate here because there are only 6 puzzle-level observations and the SAT statistics are likely correlated.
+
+## 5. Main Results
+
+The strongest Spearman association with `mean_final_rating` was for `conflicts` with rho = 0.121. This is a very small association.
+
+The strongest Kendall association by absolute value was for `decisions` with tau = 0.138. This is also very small.
+
+Pearson correlations were somewhat larger descriptively, with `propagations` highest at r = 0.469, but Pearson is secondary here and unstable with only 6 observations.
+
+Overall, the main puzzle-level evidence does not show a strong monotonic relationship between MiniSat22 statistics and mean final human difficulty ratings.
+
+## 6. Ranking Comparison
+
+Human difficulty ranking used `mean_final_rating`, with rank 1 as easiest and rank 6 as hardest.
+
+Spearman correlations between the primary human ranking and SAT-based rankings were small:
+
+- conflicts_rank: rho = 0.121
+- decisions_rank: rho = 0.116
+- propagations_rank: rho = 0.116
+- sat_time_rank: rho = -0.029
+- log_conflicts_rank: rho = 0.121
+- log_decisions_rank: rho = 0.116
+- log_propagations_rank: rho = 0.116
+- log_sat_time_rank: rho = -0.029
+
+This suggests that the SAT statistics do not rank the 6 puzzles in a similar easiest-to-hardest order as the human final ratings.
+
+## 7. Sensitivity Checks
+
+Sensitivity checks gave mixed but still exploratory results:
+
+- completion_rate_harder_low: strongest Spearman with decisions, rho = -0.812
+- mean_centered_final_rating: strongest Spearman with conflicts, rho = 0.478
+- mean_final_rating_max_incomplete: strongest Spearman with sat_time_to_solve, rho = -0.257
+- mean_human_time_to_solve: strongest Spearman with decisions, rho = 0.429
+- mean_initial_rating: strongest Spearman with decisions, rho = 0.257
+
+Initial ratings, participant-centered final ratings, completion rate, and human solve time do not produce a stable conclusion that SAT statistics strongly reproduce human difficulty. Completion-rate sensitivity is especially inconsistent with the primary rating-based ordering.
+
+## 8. Incomplete Data
+
+The main rating analysis uses available final adjusted ratings. Incomplete attempts remain in assignment and completion-rate summaries, but they do not contribute a final rating when no final adjusted rating was submitted.
+
+As a sensitivity check, incomplete attempts without usable final ratings were treated as maximum difficulty. Under that approach, the SAT correlations did not become stronger in a way that changes the conclusion. The main finding remains that SAT statistics do not clearly align with human-evaluated difficulty in this 6-puzzle dataset.
+
+## 9. Robustness Model
+
+A secondary participant-level robustness check was also run. This is not the main analysis because SAT statistics vary only across 6 puzzles; expanding to participant-level rows does not increase the effective sample size for SAT statistics.
+
+Mixed-effects modeling was unavailable in the current environment, so the script used fallback OLS models with participant-clustered standard errors:
+
+`final_rating ~ SAT_stat + order + experience_level`
+
+Each SAT statistic was modeled separately. The largest standardized fallback-model coefficient was for `propagations` at beta = 0.205.
+
+- propagations: beta = 0.205, SE = 0.064, p = 0.001
+- log_propagations: beta = 0.187, SE = 0.064, p = 0.003
+- conflicts: beta = 0.184, SE = 0.063, p = 0.004
+- decisions: beta = 0.181, SE = 0.067, p = 0.007
+
+These participant-level models should be interpreted only as robustness checks. They partly support a positive association for some SAT statistics, but they do not override the weaker puzzle-level rank correlations.
+
+## 10. Conclusion
+
+Among the SAT solver statistics, `propagations` appears most aligned with human-evaluated difficulty in some secondary summaries. However, the primary rank-based puzzle-level analysis shows only very weak associations, with `conflicts` having the largest Spearman rho at only 0.121.
+
+The safest conclusion is that MiniSat22 statistics show at most weak exploratory alignment with human-evaluated difficulty in this dataset. No SAT statistic clearly reproduces the human easiest-to-hardest ordering.
+
+Key limitations:
+
+- There are only 6 puzzles, so puzzle-level analyses have an effective sample size of 6.
+- SAT time varies over a very small range, making it especially hard to interpret.
+- Human ratings may depend on participant experience, puzzle order, and which other puzzles were shown in the same session.
+- Puzzle assignment was not perfectly balanced.
+- Results should be treated as exploratory rather than confirmatory.

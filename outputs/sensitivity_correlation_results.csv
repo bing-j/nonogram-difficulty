@@ -1,0 +1,81 @@
+human_variable,sat_variable,method,correlation,p_value,n_puzzles,note
+mean_initial_rating,conflicts,spearman,0.23904572186687872,0.7111111111111111,6,Initial ratings before final adjustment
+mean_initial_rating,conflicts,kendall,0.14907119849998599,0.8444444444444444,6,Initial ratings before final adjustment
+mean_initial_rating,decisions,spearman,0.2571428571428571,0.6583333333333333,6,Initial ratings before final adjustment
+mean_initial_rating,decisions,kendall,0.2,0.7194444444444444,6,Initial ratings before final adjustment
+mean_initial_rating,propagations,spearman,0.2571428571428571,0.6583333333333333,6,Initial ratings before final adjustment
+mean_initial_rating,propagations,kendall,0.2,0.7194444444444444,6,Initial ratings before final adjustment
+mean_initial_rating,sat_time_to_solve,spearman,0.08571428571428572,0.9194444444444444,6,Initial ratings before final adjustment
+mean_initial_rating,sat_time_to_solve,kendall,-0.06666666666666667,1.0,6,Initial ratings before final adjustment
+mean_initial_rating,log_conflicts,spearman,0.23904572186687872,0.7111111111111111,6,Initial ratings before final adjustment
+mean_initial_rating,log_conflicts,kendall,0.14907119849998599,0.8444444444444444,6,Initial ratings before final adjustment
+mean_initial_rating,log_decisions,spearman,0.2571428571428571,0.6583333333333333,6,Initial ratings before final adjustment
+mean_initial_rating,log_decisions,kendall,0.2,0.7194444444444444,6,Initial ratings before final adjustment
+mean_initial_rating,log_propagations,spearman,0.2571428571428571,0.6583333333333333,6,Initial ratings before final adjustment
+mean_initial_rating,log_propagations,kendall,0.2,0.7194444444444444,6,Initial ratings before final adjustment
+mean_initial_rating,log_sat_time,spearman,0.08571428571428572,0.9194444444444444,6,Initial ratings before final adjustment
+mean_initial_rating,log_sat_time,kendall,-0.06666666666666667,1.0,6,Initial ratings before final adjustment
+mean_centered_final_rating,conflicts,spearman,0.47809144373375745,0.4,6,Participant-centered final ratings
+mean_centered_final_rating,conflicts,kendall,0.29814239699997197,0.5777777777777777,6,Participant-centered final ratings
+mean_centered_final_rating,decisions,spearman,0.42857142857142855,0.41944444444444445,6,Participant-centered final ratings
+mean_centered_final_rating,decisions,kendall,0.2,0.7194444444444444,6,Participant-centered final ratings
+mean_centered_final_rating,propagations,spearman,0.42857142857142855,0.41944444444444445,6,Participant-centered final ratings
+mean_centered_final_rating,propagations,kendall,0.2,0.7194444444444444,6,Participant-centered final ratings
+mean_centered_final_rating,sat_time_to_solve,spearman,-0.02857142857142857,1.0,6,Participant-centered final ratings
+mean_centered_final_rating,sat_time_to_solve,kendall,-0.06666666666666667,1.0,6,Participant-centered final ratings
+mean_centered_final_rating,log_conflicts,spearman,0.47809144373375745,0.4,6,Participant-centered final ratings
+mean_centered_final_rating,log_conflicts,kendall,0.29814239699997197,0.5777777777777777,6,Participant-centered final ratings
+mean_centered_final_rating,log_decisions,spearman,0.42857142857142855,0.41944444444444445,6,Participant-centered final ratings
+mean_centered_final_rating,log_decisions,kendall,0.2,0.7194444444444444,6,Participant-centered final ratings
+mean_centered_final_rating,log_propagations,spearman,0.42857142857142855,0.41944444444444445,6,Participant-centered final ratings
+mean_centered_final_rating,log_propagations,kendall,0.2,0.7194444444444444,6,Participant-centered final ratings
+mean_centered_final_rating,log_sat_time,spearman,-0.02857142857142857,1.0,6,Participant-centered final ratings
+mean_centered_final_rating,log_sat_time,kendall,-0.06666666666666667,1.0,6,Participant-centered final ratings
+completion_rate_harder_low,conflicts,spearman,-0.7276068751089989,0.13333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,conflicts,kendall,-0.6172133998483676,0.13333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,decisions,spearman,-0.8116794499134278,0.07222222222222222,6,Negative completion rate; larger means harder
+completion_rate_harder_low,decisions,kendall,-0.6900655593423543,0.08333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,propagations,spearman,-0.8116794499134278,0.07222222222222222,6,Negative completion rate; larger means harder
+completion_rate_harder_low,propagations,kendall,-0.6900655593423543,0.08333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,sat_time_to_solve,spearman,-0.49280538030458115,0.3333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,sat_time_to_solve,kendall,-0.41403933560541256,0.35555555555555557,6,Negative completion rate; larger means harder
+completion_rate_harder_low,log_conflicts,spearman,-0.7276068751089989,0.13333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,log_conflicts,kendall,-0.6172133998483676,0.13333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,log_decisions,spearman,-0.8116794499134278,0.07222222222222222,6,Negative completion rate; larger means harder
+completion_rate_harder_low,log_decisions,kendall,-0.6900655593423543,0.08333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,log_propagations,spearman,-0.8116794499134278,0.07222222222222222,6,Negative completion rate; larger means harder
+completion_rate_harder_low,log_propagations,kendall,-0.6900655593423543,0.08333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,log_sat_time,spearman,-0.49280538030458115,0.3333333333333333,6,Negative completion rate; larger means harder
+completion_rate_harder_low,log_sat_time,kendall,-0.41403933560541256,0.35555555555555557,6,Negative completion rate; larger means harder
+mean_human_time_to_solve,conflicts,spearman,0.35856858280031806,0.5333333333333333,6,Mean solve time among completed attempts
+mean_human_time_to_solve,conflicts,kendall,0.29814239699997197,0.5777777777777777,6,Mean solve time among completed attempts
+mean_human_time_to_solve,decisions,spearman,0.42857142857142855,0.41944444444444445,6,Mean solve time among completed attempts
+mean_human_time_to_solve,decisions,kendall,0.3333333333333333,0.46944444444444444,6,Mean solve time among completed attempts
+mean_human_time_to_solve,propagations,spearman,0.42857142857142855,0.41944444444444445,6,Mean solve time among completed attempts
+mean_human_time_to_solve,propagations,kendall,0.3333333333333333,0.46944444444444444,6,Mean solve time among completed attempts
+mean_human_time_to_solve,sat_time_to_solve,spearman,0.37142857142857144,0.49722222222222223,6,Mean solve time among completed attempts
+mean_human_time_to_solve,sat_time_to_solve,kendall,0.06666666666666667,1.0,6,Mean solve time among completed attempts
+mean_human_time_to_solve,log_conflicts,spearman,0.35856858280031806,0.5333333333333333,6,Mean solve time among completed attempts
+mean_human_time_to_solve,log_conflicts,kendall,0.29814239699997197,0.5777777777777777,6,Mean solve time among completed attempts
+mean_human_time_to_solve,log_decisions,spearman,0.42857142857142855,0.41944444444444445,6,Mean solve time among completed attempts
+mean_human_time_to_solve,log_decisions,kendall,0.3333333333333333,0.46944444444444444,6,Mean solve time among completed attempts
+mean_human_time_to_solve,log_propagations,spearman,0.42857142857142855,0.41944444444444445,6,Mean solve time among completed attempts
+mean_human_time_to_solve,log_propagations,kendall,0.3333333333333333,0.46944444444444444,6,Mean solve time among completed attempts
+mean_human_time_to_solve,log_sat_time,spearman,0.37142857142857144,0.49722222222222223,6,Mean solve time among completed attempts
+mean_human_time_to_solve,log_sat_time,kendall,0.06666666666666667,1.0,6,Mean solve time among completed attempts
+mean_final_rating_max_incomplete,conflicts,spearman,-0.11952286093343936,0.8444444444444444,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,conflicts,kendall,-0.14907119849998599,0.8444444444444444,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,decisions,spearman,-0.2,0.7138888888888889,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,decisions,kendall,-0.2,0.7194444444444444,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,propagations,spearman,-0.2,0.7138888888888889,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,propagations,kendall,-0.2,0.7194444444444444,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,sat_time_to_solve,spearman,-0.2571428571428571,0.6583333333333333,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,sat_time_to_solve,kendall,-0.2,0.7194444444444444,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,log_conflicts,spearman,-0.11952286093343936,0.8444444444444444,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,log_conflicts,kendall,-0.14907119849998599,0.8444444444444444,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,log_decisions,spearman,-0.2,0.7138888888888889,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,log_decisions,kendall,-0.2,0.7194444444444444,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,log_propagations,spearman,-0.2,0.7138888888888889,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,log_propagations,kendall,-0.2,0.7194444444444444,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,log_sat_time,spearman,-0.2571428571428571,0.6583333333333333,6,Incomplete attempts treated as maximum difficulty
+mean_final_rating_max_incomplete,log_sat_time,kendall,-0.2,0.7194444444444444,6,Incomplete attempts treated as maximum difficulty

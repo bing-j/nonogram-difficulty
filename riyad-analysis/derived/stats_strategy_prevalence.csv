@@ -1,0 +1,9 @@
+code,theme,count,pct_of_coded
+S_FORCED,Forced-line solving,42,64.61538461538461
+S_OVERLAP,Overlap analysis,30,46.15384615384615
+S_NEG,Negative marking (X-ing whites),22,33.84615384615385
+S_CROSS,Row/column cross-referencing,18,27.692307692307693
+S_CONSTR,Most-constrained-first ordering,13,20.0
+S_TRIAL,Trial-and-error / contradiction,12,18.46153846153846
+S_EDGE,Edge / anchor exploitation,11,16.923076923076923
+S_HINT,Hint-as-tool,11,16.923076923076923
