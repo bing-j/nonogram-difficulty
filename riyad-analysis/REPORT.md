@@ -16,7 +16,7 @@ We took 68 raw participant logs, rebuilt a clean table of 204 participant-puzzle
 
 ## 1. The data foundation
 
-Before any analysis, `nono_data.py` reads every log in `backend/logs` (both `.ndjson` and `.json` formats) and reconstructs, for each attempt:
+Before any analysis, `nono_data.py` reads every log in `backend/logs` (all `.ndjson` format following the Riyad-p1–p13 rename) and reconstructs, for each attempt:
 
 - **Behaviour** — solve time, number of moves/drags/cell-changes, hints used, incorrect submissions, and whether the puzzle was solved.
 - **Subjective ratings** — the immediate difficulty rating (1–5), the revised rating, the change between them, and self-reported guessing frequency.
@@ -125,7 +125,7 @@ Finally, we counted how many *distinct* strategies each participant described an
 
 **How to read it:** three scatterplots; x-axis is the number of distinct strategies a person described, with a Spearman correlation in each title.
 
-**What it tells us:** describing more strategies tracks **higher self-rated skill** (ρ = .33, p = .006), **faster solving** (ρ = −.22, trend, p = .073), and is essentially flat against the difficulty rating (ρ = −.09, n.s.). So a richer strategy vocabulary is a sign of genuine expertise and efficiency, not just confidence or talkativeness. (Separately, breadth correlates negatively with hints used, ρ ≈ −.33 — articulate solvers lean on hints less.)
+**What it tells us:** describing more strategies tracks **higher self-rated skill** (ρ = .36, p = .003), **faster solving** (ρ = −.22, trend, p = .070), and is essentially flat against the difficulty rating (ρ = −.09, n.s.). So a richer strategy vocabulary is a sign of genuine expertise and efficiency, not just confidence or talkativeness. (Separately, breadth correlates negatively with hints used, ρ = −.37, p = .002 — articulate solvers lean on hints less.)
 
 ## A.5 How to use Part A in the paper
 
@@ -177,7 +177,7 @@ Before choosing an adjustment method, we checked **which outcomes expertise actu
 | Mean solve time            | **−0.56**                 | yes (p < 1e-6)        |
 | Mean hints used            | **−0.60**                 | yes (p < 1e-7)        |
 | Solve rate                 | **+0.34**                 | yes (p = .004)        |
-| Mean actions               | −0.23                     | borderline (p = .058) |
+| Mean actions               | −0.19                     | no (p = .131)         |
 | **Mean difficulty rating** | **−0.08**                 | **no (p = .53)**      |
 | Mean incorrect submissions | −0.01                     | no                    |
 | Mean rating change         | −0.02                     | no                    |
@@ -204,11 +204,13 @@ Expertise **strongly shapes behaviour** — experts solve faster, use far fewer 
 
 **How to read it:** left = each puzzle's estimated difficulty under four methods (grouped bars); right = puzzle difficulty vs MiniSat conflicts, raw vs adjusted.
 
-**What it tells us:** because expertise barely touches the rating, the bars for **raw (M0), residualized (M2), and mixed-model (M3) are nearly identical** — and all give the *same* correlation with SAT conflicts (Spearman ρ = 0.48 across the 6 puzzles, exploratory). The mixed-model expertise coefficient on the rating is non-significant (β = 0.04, p = .68). Only **M1 within-participant centring** deviates and actually *weakens* the conflicts correlation (ρ = 0.24) — a concrete warning against blindly centring when puzzle assignment is unbalanced. The right panel makes the point visually: the raw and adjusted points sit almost on top of each other, and difficulty rises with conflicts (the two zero-conflict puzzles P0/P1 are rated very differently, but the high-conflict P3/P4 are clearly the hardest).
+**What it tells us:** **residualized (M2) and mixed-model (M3) difficulty estimates are nearly identical** and correlate with SAT conflicts at Spearman ρ = 0.48 (exploratory, n = 6). With the updated dataset, the **raw (M0) estimate now gives a weaker ρ = 0.24** — matching **M1 (within-participant centring)** rather than the adjusted methods. The mixed-model expertise coefficient on the rating remains non-significant (β = 0.03, p = .74). All four values are non-significant at n = 6 puzzles, so the numerical difference between unadjusted (ρ = 0.24) and adjusted (ρ = 0.48) methods is exploratory rather than inferential — but it is no longer the case that all methods agree. The right panel makes the point visually: expertise-adjusted estimates (M2/M3) track SAT conflicts more closely than the raw estimates, and difficulty rises with conflicts (the two zero-conflict puzzles P0/P1 are rated very differently, but the high-conflict P3/P4 are clearly the hardest).
+
+> **Change from prior dataset:** Raw M0 correlation with SAT conflicts dropped from ρ = 0.48 to ρ = 0.24. The adjusted methods (M2/M3) are stable at ρ = 0.48. The previous claim that "all methods agree" no longer holds; expertise adjustment now clearly separates the adjusted from unadjusted puzzle-level estimates.
 
 ### Behavioural difficulty: adjustment matters and *helps*
 
-This is the opposite story. Residualizing behaviour for expertise removes large, highly significant expertise effects (about **−154 s of solve time** and **−2.3 hints per expertise SD**, both p < 1e-9) and **strengthens** alignment with the SAT measure: the solve-time↔conflicts correlation across the 6 puzzles rises from **0.36 (raw) to 0.72 (expertise-adjusted)** (`derived/stats_behavioural_adjustment.csv`). In other words, once you strip out who was an expert, the time it takes to solve a puzzle tracks the solver's conflict count much more closely — strong support for using behaviour (properly adjusted) as a difficulty proxy.
+This is the opposite story. Residualizing behaviour for expertise removes large, highly significant expertise effects (about **−150 s of solve time** and **−2.2 hints per expertise SD**, both p < 1e-9) and **strengthens** alignment with the SAT measure: the solve-time↔conflicts correlation across the 6 puzzles rises from **0.36 (raw) to 0.72 (expertise-adjusted)** (`derived/stats_behavioural_adjustment.csv`). In other words, once you strip out who was an expert, the time it takes to solve a puzzle tracks the solver's conflict count much more closely — strong support for using behaviour (properly adjusted) as a difficulty proxy.
 
 ### Expertise moderates the SAT→difficulty link
 
@@ -224,7 +226,7 @@ Even though expertise doesn't shift the *average* rating, it changes *how sensit
 
 **How to read it:** difficulty vs MiniSat conflicts at the individual-attempt level, with a separate fitted line per tier.
 
-**What it tells us:** all three lines slope **upward** (more conflicts → higher difficulty), but the **novice line is steepest and the expert line is flattest** — they fan out as conflicts increase. Formally, in an attempt-level model with participant-clustered standard errors (n = 204), log-conflicts predict higher difficulty (β = 0.17, p = .006) **and** there is a **significant negative conflicts × expertise interaction** (β = −0.16, p = .014). Plainly: SAT-hard puzzles feel hard to everyone, but **less so the more expert you are**.
+**What it tells us:** all three lines slope **upward** (more conflicts → higher difficulty), but the **novice line is steepest and the expert line is flattest** — they fan out as conflicts increase. Formally, in an attempt-level model with participant-clustered standard errors (n = 204), log-conflicts predict higher difficulty (β = 0.16, p = .008) **and** there is a **significant negative conflicts × expertise interaction** (β = −0.15, p = .025). Plainly: SAT-hard puzzles feel hard to everyone, but **less so the more expert you are**.
 
 > Worth emphasising: this attempt-level model (n = 204) *detects* the conflicts→difficulty effect that the 6-puzzle aggregate correlation is too small to confirm on its own. That's a strong argument for doing the main inference at the attempt level with expertise in the model, and treating the 6-point puzzle correlations as exploratory.
 

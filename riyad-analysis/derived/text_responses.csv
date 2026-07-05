@@ -1,225 +1,225 @@
 response_id,participant_id,source_file,response_kind,text,char_len,word_len,order,puzzle_id,final_difficulty,immediate_difficulty,skill_nonogram
-R0000,P001,Bing-p1.ndjson,rating_reason,"Average difficulty, no 10's or 0's which would make it a lot easier to solve, but the rows/columns that could pretty much all be solved without any logical deduction unlike puzzle #3.",183,32,1.0,1.0,3.0,3.0,6.0
-R0001,P001,Bing-p1.ndjson,rating_reason,"Lots of rows/columns that could be filled out without any logical thinking (e.g., 4-1-3's) and them being placed at the ends of the puzzle make it easier to solve.",163,29,2.0,2.0,2.0,2.0,6.0
-R0002,P001,Bing-p1.ndjson,rating_reason,"Only one row/column that could be completely filled without any variation, and all others required you to logic out where the black squares should go.",150,25,3.0,4.0,4.0,4.0,6.0
-R0003,P002,Bing-p2.ndjson,rating_reason,"I dont have to intentionally wait for the hint. I did made some simple mistakes in the middle so I have to adjust some of the value I filled before. This makes me more conscious on how to proceed the next 2 puzzle. Compare to the other two, I did not wait for hint to refresh.",276,56,1.0,2.0,3.0,4.0,7.0
-R0004,P002,Bing-p2.ndjson,rating_reason,"I have to wait for 2-3 times during the game to wait for hint refresh because I am not too sure how to proceed. I did not rate it as 5 because I still solved it at the end. Yeay, I am the goat.",193,44,2.0,3.0,4.0,4.0,7.0
-R0005,P002,Bing-p2.ndjson,rating_reason,"I have to wait for 2-3 times during the game to wait for hint refresh because I am not too sure how to proceed. I did not rate it as 5 because I still solved it at the end. Yeay, I am the goat.",193,44,3.0,5.0,4.0,4.0,7.0
+R0000,P001,Bing-p1.ndjson,rating_reason,"Average difficulty, no 10's or 0's which would make it a lot easier to solve, but the rows/columns that could pretty much all be solved without any logical deduction unlike puzzle #3.",183,32,1.0,1.0,3.0,3.0,6
+R0001,P001,Bing-p1.ndjson,rating_reason,"Lots of rows/columns that could be filled out without any logical thinking (e.g., 4-1-3's) and them being placed at the ends of the puzzle make it easier to solve.",163,29,2.0,2.0,2.0,2.0,6
+R0002,P001,Bing-p1.ndjson,rating_reason,"Only one row/column that could be completely filled without any variation, and all others required you to logic out where the black squares should go.",150,25,3.0,4.0,4.0,4.0,6
+R0003,P002,Bing-p2.ndjson,rating_reason,"I dont have to intentionally wait for the hint. I did made some simple mistakes in the middle so I have to adjust some of the value I filled before. This makes me more conscious on how to proceed the next 2 puzzle. Compare to the other two, I did not wait for hint to refresh.",276,56,1.0,2.0,3.0,4.0,7
+R0004,P002,Bing-p2.ndjson,rating_reason,"I have to wait for 2-3 times during the game to wait for hint refresh because I am not too sure how to proceed. I did not rate it as 5 because I still solved it at the end. Yeay, I am the goat.",193,44,2.0,3.0,4.0,4.0,7
+R0005,P002,Bing-p2.ndjson,rating_reason,"I have to wait for 2-3 times during the game to wait for hint refresh because I am not too sure how to proceed. I did not rate it as 5 because I still solved it at the end. Yeay, I am the goat.",193,44,3.0,5.0,4.0,4.0,7
 R0006,P003,Bing-p3.ndjson,rating_reason,"I'm a chud and I solved it in 13 minutes so it can't be that bad??
-The experiment was meant to be 30 minutes for 3 puzzles and I solved it in 13 mintues so I thought I was probably on track; also discovered a lot of new techniques while playing",244,51,1.0,3.0,2.0,2.0,2.0
-R0007,P003,Bing-p3.ndjson,rating_reason,Made 3 minute gap compared to first one which I can attribute to the techniques I learned.,90,17,2.0,0.0,2.0,2.0,2.0
-R0008,P003,Bing-p3.ndjson,rating_reason,Almost solved it sub 5 first run but apparently at some point I couldn't read; after reset I solved it sub 4 for total of sub 9 minutes so if I grew a pair of functioning eyes it was probably a sub 5 which is drastically faster than the first 2.,245,51,3.0,2.0,1.0,1.0,2.0
-R0009,P004,Bing-p4.ndjson,rating_reason,used hints multiple time,24,4,1.0,0.0,4.0,4.0,1.0
-R0010,P004,Bing-p4.ndjson,rating_reason,easier to solve using elimination,33,5,2.0,2.0,2.0,2.0,1.0
-R0011,P004,Bing-p4.ndjson,rating_reason,nan,3,1,3.0,5.0,-1.0,-1.0,1.0
-R0012,P005,Bing-p5.ndjson,rating_reason,There were a few bigger numbers (like the 10) that made it easier to colour squares in from the get go. This then helped me deduce which other squares should be coloured in as well. I did guess one square and luckily it was right lol,233,46,1.0,0.0,3.0,3.0,8.0
-R0013,P005,Bing-p5.ndjson,rating_reason,"It was harder than the first, mainly because all the numbers were relatively small. There were still enough rows where there is just one possible combination, making that a bit easier to fill in from the start.",210,37,2.0,2.0,4.0,4.0,8.0
-R0014,P005,Bing-p5.ndjson,rating_reason,"There were no rows that could be completely filled in from the start. All of the rows you could only at most fill in the squares that are always filled in regardless of the combination. It took the most thinking of the three, which is why I rated it the hardest.",262,51,3.0,5.0,5.0,5.0,8.0
-R0015,P006,Bing-p6.ndjson,rating_reason,"hardest, probably because still warming up",42,6,1.0,1.0,5.0,5.0,6.0
-R0016,P006,Bing-p6.ndjson,rating_reason,"easiest, probably because the fixed line is on the edge(?",57,10,2.0,2.0,3.0,3.0,6.0
-R0017,P006,Bing-p6.ndjson,rating_reason,2nd hardest. I forgot... just feels like,40,7,3.0,5.0,4.0,4.0,6.0
-R0018,P007,Bing-p7.ndjson,rating_reason,nan,3,1,1.0,2.0,4.0,4.0,1.0
-R0019,P007,Bing-p7.ndjson,rating_reason,Solved it eventually but was somewhat hard. My previous assumptions were wrong which made is harder,99,16,2.0,0.0,4.0,4.0,1.0
-R0020,P007,Bing-p7.ndjson,rating_reason,"Same reasoning as puzzle 2, I used same method to solve",55,11,3.0,3.0,4.0,4.0,1.0
-R0021,P008,Bing-p8.ndjson,rating_reason,never need to guess,19,4,1.0,2.0,2.0,2.0,5.0
-R0022,P008,Bing-p8.ndjson,rating_reason,"guess one time, but most info are certain",41,8,2.0,0.0,3.0,3.0,5.0
-R0023,P008,Bing-p8.ndjson,rating_reason,"guess two times, only one column is certain at beginning",56,10,3.0,3.0,4.0,4.0,5.0
-R0024,P009,Bing-p9.ndjson,rating_reason,"I was exploring the pattern of the game. So in puzzle 1, I spent more time learning.",84,17,1.0,3.0,5.0,5.0,8.0
-R0025,P009,Bing-p9.ndjson,rating_reason,"When I do puzzle 2, I already know some patterns. So it becomes easier.",71,14,2.0,5.0,4.0,4.0,8.0
-R0026,P009,Bing-p9.ndjson,rating_reason,"I think I have found the skills of doing this puzzle, puzzle 3 is the easiest for me.",85,18,3.0,4.0,3.0,3.0,8.0
+The experiment was meant to be 30 minutes for 3 puzzles and I solved it in 13 mintues so I thought I was probably on track; also discovered a lot of new techniques while playing",244,51,1.0,3.0,2.0,2.0,2
+R0007,P003,Bing-p3.ndjson,rating_reason,Made 3 minute gap compared to first one which I can attribute to the techniques I learned.,90,17,2.0,0.0,2.0,2.0,2
+R0008,P003,Bing-p3.ndjson,rating_reason,Almost solved it sub 5 first run but apparently at some point I couldn't read; after reset I solved it sub 4 for total of sub 9 minutes so if I grew a pair of functioning eyes it was probably a sub 5 which is drastically faster than the first 2.,245,51,3.0,2.0,1.0,1.0,2
+R0009,P004,Bing-p4.ndjson,rating_reason,used hints multiple time,24,4,1.0,0.0,4.0,4.0,1
+R0010,P004,Bing-p4.ndjson,rating_reason,easier to solve using elimination,33,5,2.0,2.0,2.0,2.0,1
+R0011,P004,Bing-p4.ndjson,rating_reason,nan,3,1,3.0,5.0,-1.0,-1.0,1
+R0012,P005,Bing-p5.ndjson,rating_reason,There were a few bigger numbers (like the 10) that made it easier to colour squares in from the get go. This then helped me deduce which other squares should be coloured in as well. I did guess one square and luckily it was right lol,233,46,1.0,0.0,3.0,3.0,8
+R0013,P005,Bing-p5.ndjson,rating_reason,"It was harder than the first, mainly because all the numbers were relatively small. There were still enough rows where there is just one possible combination, making that a bit easier to fill in from the start.",210,37,2.0,2.0,4.0,4.0,8
+R0014,P005,Bing-p5.ndjson,rating_reason,"There were no rows that could be completely filled in from the start. All of the rows you could only at most fill in the squares that are always filled in regardless of the combination. It took the most thinking of the three, which is why I rated it the hardest.",262,51,3.0,5.0,5.0,5.0,8
+R0015,P006,Bing-p6.ndjson,rating_reason,"hardest, probably because still warming up",42,6,1.0,1.0,5.0,5.0,6
+R0016,P006,Bing-p6.ndjson,rating_reason,"easiest, probably because the fixed line is on the edge(?",57,10,2.0,2.0,3.0,3.0,6
+R0017,P006,Bing-p6.ndjson,rating_reason,2nd hardest. I forgot... just feels like,40,7,3.0,5.0,4.0,4.0,6
+R0018,P007,Bing-p7.ndjson,rating_reason,nan,3,1,1.0,2.0,4.0,4.0,1
+R0019,P007,Bing-p7.ndjson,rating_reason,Solved it eventually but was somewhat hard. My previous assumptions were wrong which made is harder,99,16,2.0,0.0,4.0,4.0,1
+R0020,P007,Bing-p7.ndjson,rating_reason,"Same reasoning as puzzle 2, I used same method to solve",55,11,3.0,3.0,4.0,4.0,1
+R0021,P008,Bing-p8.ndjson,rating_reason,never need to guess,19,4,1.0,2.0,2.0,2.0,5
+R0022,P008,Bing-p8.ndjson,rating_reason,"guess one time, but most info are certain",41,8,2.0,0.0,3.0,3.0,5
+R0023,P008,Bing-p8.ndjson,rating_reason,"guess two times, only one column is certain at beginning",56,10,3.0,3.0,4.0,4.0,5
+R0024,P009,Bing-p9.ndjson,rating_reason,"I was exploring the pattern of the game. So in puzzle 1, I spent more time learning.",84,17,1.0,3.0,5.0,5.0,8
+R0025,P009,Bing-p9.ndjson,rating_reason,"When I do puzzle 2, I already know some patterns. So it becomes easier.",71,14,2.0,5.0,4.0,4.0,8
+R0026,P009,Bing-p9.ndjson,rating_reason,"I think I have found the skills of doing this puzzle, puzzle 3 is the easiest for me.",85,18,3.0,4.0,3.0,3.0,8
 R0027,P010,Bing-p10.ndjson,rating_reason,"A lot of ""free"" lines that add up to 10 (including spaces)
 A lot of the free lines were also at the edges so the information was very easy to use I guess?
-Lots of big numbers I think",182,39,1.0,0.0,2.0,2.0,6.0
+Lots of big numbers I think",182,39,1.0,0.0,2.0,2.0,6
 R0028,P010,Bing-p10.ndjson,rating_reason,"Not a lot of easy lines at the start relatively?
 A lot of the first steps I did were in the middle as opposed to the edges which made things a bit harder to think about? 
-A lot more smaller numbers",197,41,2.0,1.0,4.0,4.0,6.0
-R0029,P010,Bing-p10.ndjson,rating_reason,"A lot of smaller numbers and few free lines but everything started on the left, so it kind of felt like solving a 5x10 and then the other half was really easy since I already had so much info",191,39,3.0,4.0,3.0,3.0,6.0
-R0030,P011,Bing-p11.ndjson,rating_reason,I didn't guess for this puzzle at all and used the hints as a way to figure out a guaranteed correct spot rather than to correct a guess. There weren't a lot of definitive columns or rows to go off of as opposed to the previous trial one.,238,48,1.0,1.0,4.0,4.0,5.0
-R0031,P011,Bing-p11.ndjson,rating_reason,"I had to guess 2 squares since I didn't see a logical way to move forward otherwise, and tried one solution and used the hints to make sure I was guessing correctly.",165,32,2.0,4.0,5.0,5.0,5.0
-R0032,P011,Bing-p11.ndjson,rating_reason,"I didn't exactly run into a situation where I couldn't logically deduce the next step, I just started guessing because I figured I wouldn't need to use all the hints and I got impatient so I just used the hints as a way to eliminate decisions I didn't want to make later.",271,52,3.0,5.0,4.0,4.0,5.0
-R0033,P012,Bing-p12.ndjson,rating_reason,"For both puzzle one and two, I made a small mistake that then allowed me to make some incorrect deductions that were tricky to trace back to.",141,27,1.0,2.0,3.0,3.0,3.0
-R0034,P012,Bing-p12.ndjson,rating_reason,"Again, I made some small mistakes when I assumed that some boxes could be crossed out with an ""x"". This one I found a little trickier because it had more ""1"" boxes, which have more spaces that they can fit.",206,40,2.0,5.0,3.0,3.0,3.0
-R0035,P012,Bing-p12.ndjson,rating_reason,I think this time I learned from the previous puzzles not to cross anything out too quickly which helped my boxes be more accurate and led to fewer mistakes that needed fixing.,176,32,3.0,1.0,2.0,2.0,3.0
-R0036,P013,Bing-p13.ndjson,rating_reason,"I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.",126,25,1.0,5.0,2.0,2.0,9.0
-R0037,P013,Bing-p13.ndjson,rating_reason,"I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.",126,25,2.0,4.0,2.0,2.0,9.0
-R0038,P013,Bing-p13.ndjson,rating_reason,"I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.",126,25,3.0,1.0,2.0,2.0,9.0
-R0039,P014,Bing-p14.ndjson,rating_reason,A few fuller lines made it easier,33,7,1.0,0.0,3.0,3.0,5.0
-R0040,P014,Bing-p14.ndjson,rating_reason,Lack of fuller lines made it harder,35,7,2.0,1.0,4.0,4.0,5.0
-R0041,P014,Bing-p14.ndjson,rating_reason,A few fuller lines made it easier,33,7,3.0,3.0,3.0,4.0,5.0
-R0042,P015,Bing-p15.ndjson,rating_reason,nan,3,1,1.0,1.0,,,
-R0043,P015,Bing-p15.ndjson,rating_reason,nan,3,1,2.0,2.0,,,
-R0044,P015,Bing-p15.ndjson,rating_reason,nan,3,1,3.0,0.0,,,
-R0045,P016,Bing-p16.ndjson,rating_reason,"If I remember correctly, there were many ""full"" columns near the sides that allowed me to build off of the first/last rows (or rows/columns switched). There were mostly just big chunks, too (not sparse) so it was fairly straightforward. I didn't give it a 1 because it wasn't the most straightforward that I have seen.",318,55,1.0,2.0,2.0,2.0,9.0
-R0046,P016,Bing-p16.ndjson,rating_reason,"This puzzle was slightly harder than the first one because it had a few non-obvious ""full"" columns/rows due to more ""sparser"" groupings (i.e. 1 4 2 is not obviously a full column but it is). The rest of the puzzle was straightforward to work through building off of these.",272,49,2.0,5.0,3.0,3.0,9.0
-R0047,P016,Bing-p16.ndjson,rating_reason,"This puzzle seemed easy at first with the two full 8 1 columns and rows, but the sparse and small chunks overall made it harder to keep track of where to look/check next. Many 1s and 2s kept a lot of uncertainty that couldn't be eliminated quickly, so I had to work through the puzzle with a lot of ""tolerance"" in mind. It was mostly an exercise of finding where to look next and keeping track of how one piece of information updates the other columns and rows, which is hard.",476,91,3.0,0.0,4.0,4.0,9.0
-R0048,P017,Bing-p17.ndjson,rating_reason,"First time solving it, trying some ways, making it harder, but after solving the other two, there should be a faster way in solving the first",141,26,1.0,3.0,3.0,4.0,1.0
-R0049,P017,Bing-p17.ndjson,rating_reason,Need some trials and guessing.,30,5,2.0,5.0,3.0,3.0,1.0
-R0050,P017,Bing-p17.ndjson,rating_reason,The 4 3 1 makes a only solution for the column/row.,51,11,3.0,2.0,2.0,2.0,1.0
-R0051,P018,Bing-p18.ndjson,rating_reason,Hard. I found myself waiting to use the Hint button because I was struggling to determine whether or not a box was white/black without making any guesses. I tried to refrain from making guesses until the Hint button was available,229,40,1.0,4.0,4.0,4.0,3.0
-R0052,P018,Bing-p18.ndjson,rating_reason,"I found the difficulty just as hard as the first one, with a lot of guessing and checking (with the Hint button)",112,22,2.0,1.0,4.0,4.0,3.0
-R0053,P018,Bing-p18.ndjson,rating_reason,I thought this puzzle was easier than the first 2 (took me less time) and the 2 columns with 1 and 8 easily ruled out 2 columns. The columns beside each other also made it easy to make an educated guess about what squares I thought should be black/white.,254,49,3.0,0.0,3.0,3.0,3.0
-R0054,P019,Bing-p19.ndjson,rating_reason,"The puzzles were all harder than the warm up one, mostly due to smaller numbers, and having few rows that are immediately locked in (e.g. 8 1 is immediately clear)",163,30,1.0,5.0,3.0,3.0,8.0
-R0055,P019,Bing-p19.ndjson,rating_reason,"Similar to the rest, there were very few rows that could be solved just by themselves so it required a lot of going back over the puzzle and checking positions of the numbers and x squares to fill in the tiles. Most hints consist of numbers <4 which meant there were many more possible arrangements that had to be ruled out first.",330,62,2.0,1.0,4.0,4.0,8.0
-R0056,P019,Bing-p19.ndjson,rating_reason,"I found it around the same difficulty as the one before it, it only had one or two lines that could be solved by themselves and both were in the middle of the square which made it more difficult fill squares quickly.",216,42,3.0,4.0,4.0,4.0,8.0
-R0057,P020,Bing-p20.ndjson,rating_reason,"Wasn't sure about some of them, so tried to guess, but then forgot which I was certain of and which I guessed",109,22,1.0,0.0,5.0,5.0,7.0
-R0058,P020,Bing-p20.ndjson,rating_reason,"There were larger numbers, so it was easier to deduce which cells for sure had to be black/white",96,18,2.0,3.0,4.0,4.0,7.0
-R0059,P020,Bing-p20.ndjson,rating_reason,"I got better at using the deductive reasoning, and also avoided guessing because it made everything more confusing",114,18,3.0,4.0,3.0,3.0,7.0
-R0060,P021,Bing-p21.ndjson,rating_reason,nan,3,1,1.0,1.0,3.0,3.0,1.0
-R0061,P021,Bing-p21.ndjson,rating_reason,nan,3,1,2.0,0.0,4.0,4.0,1.0
-R0062,P021,Bing-p21.ndjson,rating_reason,nan,3,1,3.0,2.0,,,1.0
-R0063,P022,Bing-p22.ndjson,rating_reason,The puzzle was quite easy because the clues given on some lines were quite high and made it easy to identify the first step.,124,24,1.0,2.0,2.0,3.0,6.0
-R0064,P022,Bing-p22.ndjson,rating_reason,"The puzzle is quite hard because there are fewer clues than Puzzle 1 to decide the first steps. Additionally, I spent a lot of time solving it.",143,27,2.0,4.0,4.0,4.0,6.0
-R0065,P022,Bing-p22.ndjson,rating_reason,"The puzzle is not that hard and not that easy, the clues are enough for me to identify the first steps.",103,21,3.0,5.0,3.0,3.0,6.0
-R0066,P023,Bing-p23.ndjson,rating_reason,I needed a few hints before I got it,36,9,1.0,3.0,4.0,4.0,1.0
-R0067,P023,Bing-p23.ndjson,rating_reason,I was able to do it with no hints,33,9,2.0,1.0,3.0,3.0,1.0
-R0068,P023,Bing-p23.ndjson,rating_reason,nan,3,1,3.0,4.0,5.0,5.0,1.0
-R0069,P024,Bing-p24.ndjson,rating_reason,it was easier than the third puzzle. I found it easier because of the large number chunks that made it easier to fill things in at the start confidently. I think I took as long as this puzzle as I did because I was still figuring out how to solve them.,252,51,1.0,3.0,3.0,5.0,1.0
-R0070,P024,Bing-p24.ndjson,rating_reason,the third puzzle was harder. I found it easier because of the large number chunks that made it easier to fill things in at the start confidently. This one felt easier than the first puzzle,188,35,2.0,1.0,3.0,3.0,1.0
-R0071,P024,Bing-p24.ndjson,rating_reason,it was the hardest. There were not large chunks of numbers and lots of blank space to figure out. The groups of 1's made it tricky.,131,26,3.0,4.0,5.0,5.0,1.0
+A lot more smaller numbers",197,41,2.0,1.0,4.0,4.0,6
+R0029,P010,Bing-p10.ndjson,rating_reason,"A lot of smaller numbers and few free lines but everything started on the left, so it kind of felt like solving a 5x10 and then the other half was really easy since I already had so much info",191,39,3.0,4.0,3.0,3.0,6
+R0030,P011,Bing-p11.ndjson,rating_reason,I didn't guess for this puzzle at all and used the hints as a way to figure out a guaranteed correct spot rather than to correct a guess. There weren't a lot of definitive columns or rows to go off of as opposed to the previous trial one.,238,48,1.0,1.0,4.0,4.0,5
+R0031,P011,Bing-p11.ndjson,rating_reason,"I had to guess 2 squares since I didn't see a logical way to move forward otherwise, and tried one solution and used the hints to make sure I was guessing correctly.",165,32,2.0,4.0,5.0,5.0,5
+R0032,P011,Bing-p11.ndjson,rating_reason,"I didn't exactly run into a situation where I couldn't logically deduce the next step, I just started guessing because I figured I wouldn't need to use all the hints and I got impatient so I just used the hints as a way to eliminate decisions I didn't want to make later.",271,52,3.0,5.0,4.0,4.0,5
+R0033,P012,Bing-p12.ndjson,rating_reason,"For both puzzle one and two, I made a small mistake that then allowed me to make some incorrect deductions that were tricky to trace back to.",141,27,1.0,2.0,3.0,3.0,3
+R0034,P012,Bing-p12.ndjson,rating_reason,"Again, I made some small mistakes when I assumed that some boxes could be crossed out with an ""x"". This one I found a little trickier because it had more ""1"" boxes, which have more spaces that they can fit.",206,40,2.0,5.0,3.0,3.0,3
+R0035,P012,Bing-p12.ndjson,rating_reason,I think this time I learned from the previous puzzles not to cross anything out too quickly which helped my boxes be more accurate and led to fewer mistakes that needed fixing.,176,32,3.0,1.0,2.0,2.0,3
+R0036,P013,Bing-p13.ndjson,rating_reason,"I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.",126,25,1.0,5.0,2.0,2.0,9
+R0037,P013,Bing-p13.ndjson,rating_reason,"I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.",126,25,2.0,4.0,2.0,2.0,9
+R0038,P013,Bing-p13.ndjson,rating_reason,"I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.",126,25,3.0,1.0,2.0,2.0,9
+R0039,P014,Bing-p14.ndjson,rating_reason,A few fuller lines made it easier,33,7,1.0,0.0,3.0,3.0,5
+R0040,P014,Bing-p14.ndjson,rating_reason,Lack of fuller lines made it harder,35,7,2.0,1.0,4.0,4.0,5
+R0041,P014,Bing-p14.ndjson,rating_reason,A few fuller lines made it easier,33,7,3.0,3.0,3.0,4.0,5
+R0042,P015,Bing-p15.ndjson,rating_reason,The flow of logic was easy and I didn't have to make many educated guesses.,75,15,1.0,2.0,2.0,2.0,1
+R0043,P015,Bing-p15.ndjson,rating_reason,Alot of the rows and columns were getting into each other way which made it harder to get the correct answer.,109,21,2.0,5.0,4.0,4.0,1
+R0044,P015,Bing-p15.ndjson,rating_reason,Alot of the rows and columns were getting into each other way which made it harder to get the correct answer.,109,21,3.0,0.0,4.0,4.0,1
+R0045,P016,Bing-p16.ndjson,rating_reason,"If I remember correctly, there were many ""full"" columns near the sides that allowed me to build off of the first/last rows (or rows/columns switched). There were mostly just big chunks, too (not sparse) so it was fairly straightforward. I didn't give it a 1 because it wasn't the most straightforward that I have seen.",318,55,1.0,2.0,2.0,2.0,9
+R0046,P016,Bing-p16.ndjson,rating_reason,"This puzzle was slightly harder than the first one because it had a few non-obvious ""full"" columns/rows due to more ""sparser"" groupings (i.e. 1 4 2 is not obviously a full column but it is). The rest of the puzzle was straightforward to work through building off of these.",272,49,2.0,5.0,3.0,3.0,9
+R0047,P016,Bing-p16.ndjson,rating_reason,"This puzzle seemed easy at first with the two full 8 1 columns and rows, but the sparse and small chunks overall made it harder to keep track of where to look/check next. Many 1s and 2s kept a lot of uncertainty that couldn't be eliminated quickly, so I had to work through the puzzle with a lot of ""tolerance"" in mind. It was mostly an exercise of finding where to look next and keeping track of how one piece of information updates the other columns and rows, which is hard.",476,91,3.0,0.0,4.0,4.0,9
+R0048,P017,Bing-p17.ndjson,rating_reason,"First time solving it, trying some ways, making it harder, but after solving the other two, there should be a faster way in solving the first",141,26,1.0,3.0,3.0,4.0,1
+R0049,P017,Bing-p17.ndjson,rating_reason,Need some trials and guessing.,30,5,2.0,5.0,3.0,3.0,1
+R0050,P017,Bing-p17.ndjson,rating_reason,The 4 3 1 makes a only solution for the column/row.,51,11,3.0,2.0,2.0,2.0,1
+R0051,P018,Bing-p18.ndjson,rating_reason,Hard. I found myself waiting to use the Hint button because I was struggling to determine whether or not a box was white/black without making any guesses. I tried to refrain from making guesses until the Hint button was available,229,40,1.0,4.0,4.0,4.0,3
+R0052,P018,Bing-p18.ndjson,rating_reason,"I found the difficulty just as hard as the first one, with a lot of guessing and checking (with the Hint button)",112,22,2.0,1.0,4.0,4.0,3
+R0053,P018,Bing-p18.ndjson,rating_reason,I thought this puzzle was easier than the first 2 (took me less time) and the 2 columns with 1 and 8 easily ruled out 2 columns. The columns beside each other also made it easy to make an educated guess about what squares I thought should be black/white.,254,49,3.0,0.0,3.0,3.0,3
+R0054,P019,Bing-p19.ndjson,rating_reason,"The puzzles were all harder than the warm up one, mostly due to smaller numbers, and having few rows that are immediately locked in (e.g. 8 1 is immediately clear)",163,30,1.0,5.0,3.0,3.0,8
+R0055,P019,Bing-p19.ndjson,rating_reason,"Similar to the rest, there were very few rows that could be solved just by themselves so it required a lot of going back over the puzzle and checking positions of the numbers and x squares to fill in the tiles. Most hints consist of numbers <4 which meant there were many more possible arrangements that had to be ruled out first.",330,62,2.0,1.0,4.0,4.0,8
+R0056,P019,Bing-p19.ndjson,rating_reason,"I found it around the same difficulty as the one before it, it only had one or two lines that could be solved by themselves and both were in the middle of the square which made it more difficult fill squares quickly.",216,42,3.0,4.0,4.0,4.0,8
+R0057,P020,Bing-p20.ndjson,rating_reason,"Wasn't sure about some of them, so tried to guess, but then forgot which I was certain of and which I guessed",109,22,1.0,0.0,5.0,5.0,7
+R0058,P020,Bing-p20.ndjson,rating_reason,"There were larger numbers, so it was easier to deduce which cells for sure had to be black/white",96,18,2.0,3.0,4.0,4.0,7
+R0059,P020,Bing-p20.ndjson,rating_reason,"I got better at using the deductive reasoning, and also avoided guessing because it made everything more confusing",114,18,3.0,4.0,3.0,3.0,7
+R0060,P021,Bing-p21.ndjson,rating_reason,nan,3,1,1.0,1.0,3.0,3.0,1
+R0061,P021,Bing-p21.ndjson,rating_reason,nan,3,1,2.0,0.0,4.0,4.0,1
+R0062,P021,Bing-p21.ndjson,rating_reason,nan,3,1,3.0,2.0,,,1
+R0063,P022,Bing-p22.ndjson,rating_reason,The puzzle was quite easy because the clues given on some lines were quite high and made it easy to identify the first step.,124,24,1.0,2.0,2.0,3.0,6
+R0064,P022,Bing-p22.ndjson,rating_reason,"The puzzle is quite hard because there are fewer clues than Puzzle 1 to decide the first steps. Additionally, I spent a lot of time solving it.",143,27,2.0,4.0,4.0,4.0,6
+R0065,P022,Bing-p22.ndjson,rating_reason,"The puzzle is not that hard and not that easy, the clues are enough for me to identify the first steps.",103,21,3.0,5.0,3.0,3.0,6
+R0066,P023,Bing-p23.ndjson,rating_reason,I needed a few hints before I got it,36,9,1.0,3.0,4.0,4.0,1
+R0067,P023,Bing-p23.ndjson,rating_reason,I was able to do it with no hints,33,9,2.0,1.0,3.0,3.0,1
+R0068,P023,Bing-p23.ndjson,rating_reason,nan,3,1,3.0,4.0,5.0,5.0,1
+R0069,P024,Bing-p24.ndjson,rating_reason,it was easier than the third puzzle. I found it easier because of the large number chunks that made it easier to fill things in at the start confidently. I think I took as long as this puzzle as I did because I was still figuring out how to solve them.,252,51,1.0,3.0,3.0,5.0,1
+R0070,P024,Bing-p24.ndjson,rating_reason,the third puzzle was harder. I found it easier because of the large number chunks that made it easier to fill things in at the start confidently. This one felt easier than the first puzzle,188,35,2.0,1.0,3.0,3.0,1
+R0071,P024,Bing-p24.ndjson,rating_reason,it was the hardest. There were not large chunks of numbers and lots of blank space to figure out. The groups of 1's made it tricky.,131,26,3.0,4.0,5.0,5.0,1
 R0072,P025,Juliana-p1.ndjson,rating_reason,"quite a few low numbers, not many guaranteed rows
-not too much speculation nor significant interaction between rows/columns",123,18,1.0,5.0,2.0,3.0,8.0
+not too much speculation nor significant interaction between rows/columns",123,18,1.0,5.0,2.0,3.0,8
 R0073,P025,Juliana-p1.ndjson,rating_reason,"low numbers and few guaranteed rows
-still following a nice linear logical path",78,13,2.0,4.0,3.0,3.0,8.0
-R0074,P025,Juliana-p1.ndjson,rating_reason,"quite a few larger numbers and guaranteed rows, the rows that were rich in 1's were a bit more difficult, but still just a linear logical path",142,27,3.0,2.0,3.0,2.0,8.0
-R0075,P026,Juliana-p2.ndjson,rating_reason,I found the puzzle hard because after filling in really obvious rows/columns (like 7 2) it was hard to find any more squares to fill in without guessing or using a hint.,169,32,1.0,0.0,4.0,4.0,1.0
-R0076,P026,Juliana-p2.ndjson,rating_reason,nan,3,1,2.0,3.0,5.0,5.0,1.0
-R0077,P026,Juliana-p2.ndjson,rating_reason,nan,3,1,3.0,1.0,4.0,4.0,1.0
-R0078,P027,Juliana-p3.ndjson,rating_reason,Many blocks were separated by multiple crosses so sometimes I had to take guesses to see which ones are correct.,112,20,1.0,1.0,4.0,4.0,6.0
-R0079,P027,Juliana-p3.ndjson,rating_reason,I think it felt easier relative to puzzle 1.,44,9,2.0,5.0,2.0,2.0,6.0
-R0080,P027,Juliana-p3.ndjson,rating_reason,I think the previous puzzles sort of helped me get into the mode of working out puzzles. There are also less blocks separated by multiple crosses in comparison.,160,28,3.0,4.0,1.0,1.0,6.0
-R0081,P028,Juliana-p4.ndjson,rating_reason,It's my first time playing this puzzle so I feel like if I can solve it that means the difficulty is ok sth?,108,23,1.0,4.0,3.0,3.0,1.0
-R0082,P028,Juliana-p4.ndjson,rating_reason,nan,3,1,2.0,5.0,-1.0,-1.0,1.0
-R0083,P028,Juliana-p4.ndjson,rating_reason,nan,3,1,3.0,1.0,-1.0,-1.0,1.0
-R0084,P029,Juliana-p5.ndjson,rating_reason,I got stuck at some points but maybe that's because I wasn't used to it,71,15,1.0,4.0,4.0,4.0,8.0
-R0085,P029,Juliana-p5.ndjson,rating_reason,I was always able to deduce the next value.,43,9,2.0,5.0,2.0,2.0,8.0
-R0086,P029,Juliana-p5.ndjson,rating_reason,I got a little stuck but maybe that's because I misread some of the numbers,75,15,3.0,1.0,3.0,3.0,8.0
-R0087,P030,Juliana-p6.ndjson,rating_reason,Because it is my first time doing 10x10 puzzle,46,9,1.0,2.0,4.0,4.0,3.0
-R0088,P030,Juliana-p6.ndjson,rating_reason,"Lack of certainty, need to guess",32,6,2.0,3.0,5.0,4.0,3.0
-R0089,P030,Juliana-p6.ndjson,rating_reason,"there were 2 ""1 8"", so it is easier than puzzle 2",49,12,3.0,0.0,2.0,2.0,3.0
-R0090,P031,Juliana-p7.ndjson,rating_reason,"I rated it 5 because it was difficult for me to figure out a method that worked well for me to finish the puzzle. However, once I did, I was able to complete the puzzle with less difficulties then when I started it.",215,43,1.0,0.0,5.0,5.0,1.0
-R0091,P031,Juliana-p7.ndjson,rating_reason,nan,3,1,2.0,5.0,-1.0,-1.0,1.0
-R0092,P031,Juliana-p7.ndjson,rating_reason,nan,3,1,3.0,1.0,-1.0,-1.0,1.0
-R0093,P032,Michael-p1.ndjson,rating_reason,There were rows/columns that gave me enough hints to fill the whole row/column correctly. Afterwards filling in the rest was easy.,130,21,1.0,0.0,2.0,3.0,5.0
-R0094,P032,Michael-p1.ndjson,rating_reason,It was sightly harder than the first one. I had to think a bit more out of the box for this one.,96,22,2.0,1.0,3.0,4.0,5.0
-R0095,P032,Michael-p1.ndjson,rating_reason,"I feel like this one did not have as good as hints as the first two. I also had to restart my puzzle, as it became messy.",121,27,3.0,5.0,4.0,4.0,5.0
-R0096,P033,Michael-p2.ndjson,rating_reason,"didn't really know what i was doing, overestimated my abilities.",64,10,1.0,1.0,4.0,3.0,2.0
-R0097,P033,Michael-p2.ndjson,rating_reason,"started to understand strategy, more full line answers (added to 10)",68,11,2.0,5.0,3.0,2.0,2.0
-R0098,P033,Michael-p2.ndjson,rating_reason,completely figured out strategy and how to play the game while making the fewest mistakes. a lot easier because the add to 10 row was on the top and right hand sides,165,32,3.0,2.0,2.0,2.0,2.0
-R0099,P034,Michael-p3.ndjson,rating_reason,easy peasy lemon squeezy,24,4,1.0,2.0,2.0,2.0,7.0
-R0100,P034,Michael-p3.ndjson,rating_reason,hell,4,1,2.0,0.0,4.0,4.0,7.0
-R0101,P034,Michael-p3.ndjson,rating_reason,well even though i took longer i did use any hint so yea,56,13,3.0,5.0,2.0,2.0,7.0
-R0102,P035,Michael-p4.ndjson,rating_reason,There were large numbers to start with so you can fill in an entire row that you are sure of,92,20,1.0,3.0,3.0,4.0,5.0
-R0103,P035,Michael-p4.ndjson,rating_reason,The numbers given were smaller,30,5,2.0,0.0,4.0,4.0,5.0
-R0104,P035,Michael-p4.ndjson,rating_reason,The numbers given were smaller,30,5,3.0,4.0,4.0,3.0,5.0
-R0105,P036,Michael-p5.ndjson,rating_reason,i did puzzle with the short amount of time and used 1 hint,58,13,1.0,4.0,3.0,4.0,7.0
-R0106,P036,Michael-p5.ndjson,rating_reason,2 hints used with slightly longer solving than puzzle 1 while took shorter than puzzle 3,88,16,2.0,5.0,4.0,4.0,7.0
-R0107,P036,Michael-p5.ndjson,rating_reason,"because i took it longer, used the most hints",45,9,3.0,3.0,4.0,4.0,7.0
-R0108,P037,Michael-p6.ndjson,rating_reason,"The biggest thing that determined the difficulty was how many rows could be solved from a glance (i.e rows where number of shaded cells and spacer rows added to ten by inspection). This nonogram, relative to other nonograms I have solved, had relatively few rows that could be filled by inspection making it difficult.",318,54,1.0,5.0,4.0,4.0,9.0
-R0109,P037,Michael-p6.ndjson,rating_reason,"Similar to the first, there were few rows that could be solved by inspection; however, I found it easier as my mind had warmed up to complete such hard nonograms after doing the first one.",188,35,2.0,1.0,3.0,3.0,9.0
-R0110,P037,Michael-p6.ndjson,rating_reason,"Once again, few rows solvable by inspection made this nonogram difficult. The difficulty spiked in comparison to number 2 because I began to get somewhat fatigued from puzzle solving.",183,29,3.0,3.0,4.0,4.0,9.0
-R0111,P038,Michael-p7.ndjson,rating_reason,"The beginning steps had some guaranteed patterns where I could fill out some entire line/rows. After that, there were some steps where I had to consider multiple different possible patterns to find guaranteed blocks among them. So I considered the difficulty moderate.",268,42,1.0,0.0,3.0,3.0,3.0
-R0112,P038,Michael-p7.ndjson,rating_reason,"This puzzle started with only one (if I didn't miss any) line with guaranteed pattern. For the rest line/rows, I had to consider some non-trivial guaranteed blocks. For example, I found out two guaranteed blocks from a line of ""2 2 1 1"", but I had to go over more possible patterns than a line with large numbers such as ""4 1"".",327,62,2.0,1.0,4.0,3.0,3.0
-R0113,P038,Michael-p7.ndjson,rating_reason,"This puzzle provided two guaranteed line&row on the edge, which thus gave more information about the blocks connected to them. But in general it is not considered very easy.",173,29,3.0,2.0,2.0,2.0,3.0
-R0114,P039,Michael-p8.ndjson,rating_reason,"It's relatively easy, since the deductions from one to another are relatively obvious and lead to the next ones.",112,19,1.0,2.0,2.0,3.0,3.0
-R0115,P039,Michael-p8.ndjson,rating_reason,There are a few places where backtracking is needed after getting a hint. A few other places also requires either using contradiction or enumerating possibilities to find common coloured cells.,193,30,2.0,3.0,4.0,4.0,3.0
-R0116,P039,Michael-p8.ndjson,rating_reason,"Like puzzle 1, most clues lead from one to another. Solving puzzle 2 also helped prepare and refine search strategies.",118,20,3.0,5.0,3.0,3.0,3.0
-R0117,P040,Michael-p9.ndjson,rating_reason,"I have never attempted to solve a puzzle like this before, so I found it difficult to find a point where one column might be correct but the row is not.",152,31,1.0,4.0,1.0,1.0,3.0
-R0118,P040,Michael-p9.ndjson,rating_reason,"They were all challenging for the same reason, there is no reason I found one puzzle more challenging than the other",116,21,2.0,1.0,3.0,3.0,3.0
-R0119,P040,Michael-p9.ndjson,rating_reason,nan,3,1,3.0,2.0,2.0,2.0,3.0
-R0120,P041,Michael-p10.ndjson,rating_reason,"There were some large numbers, it was easy enough to start and it didn't feel difficult to complete.",100,18,1.0,4.0,3.0,3.0,9.0
-R0121,P041,Michael-p10.ndjson,rating_reason,"I was stumped more often than on puzzle one. There were more smaller numbers, sometimes I need to take more time to find the next move.",135,26,2.0,1.0,4.0,4.0,9.0
-R0122,P041,Michael-p10.ndjson,rating_reason,"The borders were all straight forward, which gave a good basis to start. The deductions that followed were straight forward too.",128,21,3.0,2.0,2.0,2.0,9.0
-R0123,P042,Michael-p11.ndjson,rating_reason,nan,3,1,1.0,1.0,4.0,4.0,2.0
-R0124,P042,Michael-p11.ndjson,rating_reason,nan,3,1,2.0,5.0,4.0,4.0,2.0
-R0125,P042,Michael-p11.ndjson,rating_reason,nan,3,1,3.0,4.0,5.0,5.0,2.0
-R0126,P043,Michael-p12.ndjson,rating_reason,there were many columns which had definitive answers where logical deduction was easy to apply.,95,15,1.0,1.0,2.0,3.0,5.0
-R0127,P043,Michael-p12.ndjson,rating_reason,the puzzle required a bit more thinking as logical deduction could not always be used.,86,15,2.0,5.0,3.0,3.0,5.0
-R0128,P043,Michael-p12.ndjson,rating_reason,there was a lot more guessing and playing around with the blank/filled in boxes which took more time and trial and error.,121,22,3.0,4.0,4.0,4.0,5.0
-R0129,P044,Michael-p13.ndjson,rating_reason,I didn't use any hint.,22,5,1.0,2.0,3.0,3.0,3.0
-R0130,P044,Michael-p13.ndjson,rating_reason,I used a few hints.,19,5,2.0,5.0,4.0,4.0,3.0
-R0131,P044,Michael-p13.ndjson,rating_reason,I use many hits.,16,4,3.0,3.0,5.0,5.0,3.0
-R0132,P045,Michael-p14.ndjson,rating_reason,"There wasn't much certain cells, I have to guess the most of them.",66,13,1.0,3.0,5.0,4.0,4.0
-R0133,P045,Michael-p14.ndjson,rating_reason,"There were two rows/columns that are certain, which make the puzzle a lot easier.",81,14,2.0,1.0,4.0,4.0,4.0
-R0134,P045,Michael-p14.ndjson,rating_reason,"A number of rows/columns are close to one cell to be exact, which make the puzzle somehow confusing, because I have to guess.",125,23,3.0,5.0,5.0,5.0,4.0
-R0135,P046,Michael-p15.ndjson,rating_reason,This puzzle was difficult because I didn't know where to start. The tutorial puzzle and puzzle 2 had very obvious places to start (i.e. one row that could be entirely or nearly deduced right away). This made it easier to deduce the following rows.,247,44,1.0,5.0,4.0,4.0,5.0
-R0136,P046,Michael-p15.ndjson,rating_reason,"I rated this puzzle a bit easier than the others because I was able to deduce a row from the beginning. From there, I was able to quickly find connections and deduce many other rows.",182,35,2.0,2.0,3.0,3.0,5.0
-R0137,P046,Michael-p15.ndjson,rating_reason,"I rated this puzzle the same difficulty as puzzle 1 because it was hard to  get started. Mainly because there were many rows/columns that barely needed to be filled in, and so I had a hard time getting going (even if I could roughly deduce the first row).",255,48,3.0,3.0,4.0,4.0,5.0
-R0138,P047,Michael-p16.ndjson,rating_reason,I thought it was difficult because of how sparse it was. It felt like there was a lot of blank space which made it hard to make progress.,137,28,1.0,1.0,4.0,4.0,4.0
-R0139,P047,Michael-p16.ndjson,rating_reason,I'm not really sure what made this one so hard but I made a mistake at some point in the middle and it was hard to spot where/ what other labels I had were wrong as a result.,174,38,2.0,4.0,5.0,5.0,4.0
-R0140,P047,Michael-p16.ndjson,rating_reason,Maybe it was that I had more practice with the first 2,54,12,3.0,2.0,3.0,3.0,4.0
-R0141,P048,Michael-p17.ndjson,rating_reason,"the total of the number on hint line is 9, so there's already a line that's fixed, thus it's easier to fill in the rest",119,25,1.0,2.0,3.0,3.0,5.0
-R0142,P048,Michael-p17.ndjson,rating_reason,nan,3,1,2.0,3.0,5.0,5.0,5.0
-R0143,P048,Michael-p17.ndjson,rating_reason,"there isn't any ""total 9 line"", so i basically have to guess all of them and adjust them bit by bit",99,21,3.0,0.0,4.0,4.0,5.0
-R0144,P049,Michael-p18.ndjson,rating_reason,"This one was really hard, lack of info to make next moves made it difficult to progress with the puzzle",103,20,1.0,3.0,5.0,5.0,2.0
-R0145,P049,Michael-p18.ndjson,rating_reason,Lots of opening moves at the beginning made it easy to complete the rest of the puzzle also I think I just got better after the first one,137,28,2.0,2.0,2.0,2.0,2.0
-R0146,P049,Michael-p18.ndjson,rating_reason,Also lots of opening moves that made it easy to continue with the rest of the puzzle,84,17,3.0,1.0,2.0,2.0,2.0
-R0147,P050,Michael-p19.ndjson,rating_reason,Clue number too small,21,4,1.0,4.0,4.0,1.0,6.0
-R0148,P050,Michael-p19.ndjson,rating_reason,easier than first one,21,4,2.0,1.0,3.0,1.0,6.0
-R0149,P050,Michael-p19.ndjson,rating_reason,similar to the second one,25,5,3.0,5.0,3.0,1.0,6.0
-R0150,P051,Michael-p20.ndjson,rating_reason,"Only two row/col was filled completely at first, and so it was hard in the beginning to try to see which boxes I can fill.",122,25,1.0,0.0,4.0,4.0,1.0
-R0151,P051,Michael-p20.ndjson,rating_reason,"Only two row/col was filled completely at first, and so it was hard in the beginning to try to see which boxes I can fill.",122,25,2.0,5.0,4.0,4.0,1.0
-R0152,P051,Michael-p20.ndjson,rating_reason,"Only two row/col was filled completely at first, and so it was hard in the beginning to try to see which boxes I can fill.",122,25,3.0,1.0,4.0,4.0,1.0
-R0153,P052,Michael-p21.ndjson,rating_reason,Relatively easier to locate larger block.,41,6,1.0,5.0,3.0,3.0,1.0
-R0154,P052,Michael-p21.ndjson,rating_reason,There are many 1 blocks in the puzzle that make them hard to locate.,68,14,2.0,3.0,4.0,4.0,1.0
-R0155,P052,Michael-p21.ndjson,rating_reason,Same as puzzle 2.,17,4,3.0,4.0,4.0,4.0,1.0
-R0156,P053,Riyad-p1.json,rating_reason,There were no / few easy groups of numbers that made the row/column pre-determined (only one solution). But it was not too difficult to get,139,25,1.0,3.0,3.0,3.0,8.0
-R0157,P053,Riyad-p1.json,rating_reason,This was easier and the groups were often in a way that clear assumptions could be made.,88,17,2.0,4.0,2.0,2.0,8.0
-R0158,P053,Riyad-p1.json,rating_reason,nan,3,1,3.0,1.0,3.0,3.0,8.0
-R0159,P054,Riyad-p2.json,rating_reason,"Did not have a strategy, was guessing a lot in the beginning",60,12,1.0,3.0,4.0,4.0,1.0
-R0160,P054,Riyad-p2.json,rating_reason,Tried solving via the column/row that had a deterministic output. Got a bit easier. Guessed because of time constraints.,120,19,2.0,4.0,4.0,4.0,1.0
-R0161,P054,Riyad-p2.json,rating_reason,nan,3,1,3.0,1.0,4.0,4.0,1.0
-R0162,P055,Riyad-p3.json,rating_reason,"Honestly, I was just not accustomed to Nonogram, it was probably a 4",68,13,1.0,3.0,4.0,4.0,8.0
-R0163,P055,Riyad-p3.json,rating_reason,"It seemed alright, there was a pattern and it worked",52,10,2.0,4.0,3.0,3.0,8.0
-R0164,P055,Riyad-p3.json,rating_reason,"It seemed alright, there was a pattern and it worked",52,10,3.0,1.0,3.0,3.0,8.0
-R0165,P056,Riyad-p4.json,rating_reason,It was my first time so hard to gauge the difficulty,52,11,1.0,4.0,4.0,4.0,1.0
-R0166,P056,Riyad-p4.json,rating_reason,It was slightly easier since I gained more experience,53,9,2.0,5.0,3.0,4.0,1.0
-R0167,P056,Riyad-p4.json,rating_reason,There were a few new situations (8 blocks) with less free information,69,12,3.0,0.0,4.0,3.0,1.0
-R0168,P057,Riyad-p5.json,rating_reason,There were not a lot of freebies (not a lot of columns where everything was in a fixed position),96,19,1.0,5.0,4.0,4.0,6.0
-R0169,P057,Riyad-p5.json,rating_reason,There were even fewer freebies (not a lot of columns where everything was in a fixed position),94,17,2.0,4.0,5.0,5.0,6.0
-R0170,P057,Riyad-p5.json,rating_reason,There were even fewer freebies (not a lot of columns where everything was in a fixed position). Some required mental deduction before putting anything down,155,25,3.0,0.0,5.0,5.0,6.0
-R0171,P058,Riyad-p6.json,rating_reason,"Doesn't feel like its solvable with ""trivial"" logic (i.e. freebees, using other solved rows/columns), had to consider multiple columns at once, or the effects of setting on square.",180,28,1.0,0.0,4.0,4.0,4.0
-R0172,P058,Riyad-p6.json,rating_reason,"Didn't have to guess at all, however the ""early game"" had less free squares to work with.",89,17,2.0,3.0,4.0,4.0,4.0
-R0173,P058,Riyad-p6.json,rating_reason,"Got stuck at two points and had to use a hint, due to earlier mistakes. It seems like there are times where you just have to guess or see what happens when making a move, you can't always use logical deduction to solve it.",222,44,3.0,5.0,5.0,5.0,4.0
-R0174,P059,Riyad-p7.json,rating_reason,required a lot of checking conditions to see what was and wasn't correct,72,13,1.0,1.0,4.0,4.0,8.0
-R0175,P059,Riyad-p7.json,rating_reason,even difficulty althroughout,28,3,2.0,3.0,4.0,4.0,8.0
-R0176,P059,Riyad-p7.json,rating_reason,"Had an easier start but harder finish, required me to due to many potential position overlaps in order to continue",114,20,3.0,2.0,4.0,4.0,8.0
-R0177,P060,Riyad-p8.json,rating_reason,i thought i needed many hints but i didn't want to use it at first,66,15,1.0,2.0,3.0,3.0,1.0
-R0178,P060,Riyad-p8.json,rating_reason,more difficult than puzzle 1,28,5,2.0,1.0,4.0,4.0,1.0
-R0179,P060,Riyad-p8.json,rating_reason,more difficult than puzzle 2 but i also knew more about what i was doing,72,15,3.0,5.0,4.0,5.0,1.0
-R0180,P061,Riyad-p9.json,rating_reason,"First time doing this puzzle, ambiguity could be alot. One fixed arrangement to start solving the puzzle.",105,17,1.0,3.0,4.0,4.0,7.0
-R0181,P061,Riyad-p9.json,rating_reason,nan,3,1,2.0,0.0,4.0,4.0,7.0
-R0182,P061,Riyad-p9.json,rating_reason,nan,3,1,3.0,5.0,-1.0,-1.0,7.0
-R0183,P062,Riyad-p10.json,rating_reason,nan,3,1,1.0,3.0,4.0,4.0,5.0
-R0184,P062,Riyad-p10.json,rating_reason,"Easy Part: There were two ""freebies"" of (1, 8) in two columns. This made starting the puzzle a lot easier as I could ""X"" many adjacent squares
+still following a nice linear logical path",78,13,2.0,4.0,3.0,3.0,8
+R0074,P025,Juliana-p1.ndjson,rating_reason,"quite a few larger numbers and guaranteed rows, the rows that were rich in 1's were a bit more difficult, but still just a linear logical path",142,27,3.0,2.0,3.0,2.0,8
+R0075,P026,Juliana-p2.ndjson,rating_reason,I found the puzzle hard because after filling in really obvious rows/columns (like 7 2) it was hard to find any more squares to fill in without guessing or using a hint.,169,32,1.0,0.0,4.0,4.0,1
+R0076,P026,Juliana-p2.ndjson,rating_reason,nan,3,1,2.0,3.0,5.0,5.0,1
+R0077,P026,Juliana-p2.ndjson,rating_reason,nan,3,1,3.0,1.0,4.0,4.0,1
+R0078,P027,Juliana-p3.ndjson,rating_reason,Many blocks were separated by multiple crosses so sometimes I had to take guesses to see which ones are correct.,112,20,1.0,1.0,4.0,4.0,6
+R0079,P027,Juliana-p3.ndjson,rating_reason,I think it felt easier relative to puzzle 1.,44,9,2.0,5.0,2.0,2.0,6
+R0080,P027,Juliana-p3.ndjson,rating_reason,I think the previous puzzles sort of helped me get into the mode of working out puzzles. There are also less blocks separated by multiple crosses in comparison.,160,28,3.0,4.0,1.0,1.0,6
+R0081,P028,Juliana-p4.ndjson,rating_reason,It's my first time playing this puzzle so I feel like if I can solve it that means the difficulty is ok sth?,108,23,1.0,4.0,3.0,3.0,1
+R0082,P028,Juliana-p4.ndjson,rating_reason,nan,3,1,2.0,5.0,-1.0,-1.0,1
+R0083,P028,Juliana-p4.ndjson,rating_reason,nan,3,1,3.0,1.0,-1.0,-1.0,1
+R0084,P029,Juliana-p5.ndjson,rating_reason,I got stuck at some points but maybe that's because I wasn't used to it,71,15,1.0,4.0,4.0,4.0,8
+R0085,P029,Juliana-p5.ndjson,rating_reason,I was always able to deduce the next value.,43,9,2.0,5.0,2.0,2.0,8
+R0086,P029,Juliana-p5.ndjson,rating_reason,I got a little stuck but maybe that's because I misread some of the numbers,75,15,3.0,1.0,3.0,3.0,8
+R0087,P030,Juliana-p6.ndjson,rating_reason,Because it is my first time doing 10x10 puzzle,46,9,1.0,2.0,4.0,4.0,3
+R0088,P030,Juliana-p6.ndjson,rating_reason,"Lack of certainty, need to guess",32,6,2.0,3.0,5.0,4.0,3
+R0089,P030,Juliana-p6.ndjson,rating_reason,"there were 2 ""1 8"", so it is easier than puzzle 2",49,12,3.0,0.0,2.0,2.0,3
+R0090,P031,Juliana-p7.ndjson,rating_reason,"I rated it 5 because it was difficult for me to figure out a method that worked well for me to finish the puzzle. However, once I did, I was able to complete the puzzle with less difficulties then when I started it.",215,43,1.0,0.0,5.0,5.0,1
+R0091,P031,Juliana-p7.ndjson,rating_reason,nan,3,1,2.0,5.0,-1.0,-1.0,1
+R0092,P031,Juliana-p7.ndjson,rating_reason,nan,3,1,3.0,1.0,-1.0,-1.0,1
+R0093,P032,Michael-p1.ndjson,rating_reason,There were rows/columns that gave me enough hints to fill the whole row/column correctly. Afterwards filling in the rest was easy.,130,21,1.0,0.0,2.0,3.0,5
+R0094,P032,Michael-p1.ndjson,rating_reason,It was sightly harder than the first one. I had to think a bit more out of the box for this one.,96,22,2.0,1.0,3.0,4.0,5
+R0095,P032,Michael-p1.ndjson,rating_reason,"I feel like this one did not have as good as hints as the first two. I also had to restart my puzzle, as it became messy.",121,27,3.0,5.0,4.0,4.0,5
+R0096,P033,Michael-p2.ndjson,rating_reason,"didn't really know what i was doing, overestimated my abilities.",64,10,1.0,1.0,4.0,3.0,2
+R0097,P033,Michael-p2.ndjson,rating_reason,"started to understand strategy, more full line answers (added to 10)",68,11,2.0,5.0,3.0,2.0,2
+R0098,P033,Michael-p2.ndjson,rating_reason,completely figured out strategy and how to play the game while making the fewest mistakes. a lot easier because the add to 10 row was on the top and right hand sides,165,32,3.0,2.0,2.0,2.0,2
+R0099,P034,Michael-p3.ndjson,rating_reason,easy peasy lemon squeezy,24,4,1.0,2.0,2.0,2.0,7
+R0100,P034,Michael-p3.ndjson,rating_reason,hell,4,1,2.0,0.0,4.0,4.0,7
+R0101,P034,Michael-p3.ndjson,rating_reason,well even though i took longer i did use any hint so yea,56,13,3.0,5.0,2.0,2.0,7
+R0102,P035,Michael-p4.ndjson,rating_reason,There were large numbers to start with so you can fill in an entire row that you are sure of,92,20,1.0,3.0,3.0,4.0,5
+R0103,P035,Michael-p4.ndjson,rating_reason,The numbers given were smaller,30,5,2.0,0.0,4.0,4.0,5
+R0104,P035,Michael-p4.ndjson,rating_reason,The numbers given were smaller,30,5,3.0,4.0,4.0,3.0,5
+R0105,P036,Michael-p5.ndjson,rating_reason,i did puzzle with the short amount of time and used 1 hint,58,13,1.0,4.0,3.0,4.0,7
+R0106,P036,Michael-p5.ndjson,rating_reason,2 hints used with slightly longer solving than puzzle 1 while took shorter than puzzle 3,88,16,2.0,5.0,4.0,4.0,7
+R0107,P036,Michael-p5.ndjson,rating_reason,"because i took it longer, used the most hints",45,9,3.0,3.0,4.0,4.0,7
+R0108,P037,Michael-p6.ndjson,rating_reason,"The biggest thing that determined the difficulty was how many rows could be solved from a glance (i.e rows where number of shaded cells and spacer rows added to ten by inspection). This nonogram, relative to other nonograms I have solved, had relatively few rows that could be filled by inspection making it difficult.",318,54,1.0,5.0,4.0,4.0,9
+R0109,P037,Michael-p6.ndjson,rating_reason,"Similar to the first, there were few rows that could be solved by inspection; however, I found it easier as my mind had warmed up to complete such hard nonograms after doing the first one.",188,35,2.0,1.0,3.0,3.0,9
+R0110,P037,Michael-p6.ndjson,rating_reason,"Once again, few rows solvable by inspection made this nonogram difficult. The difficulty spiked in comparison to number 2 because I began to get somewhat fatigued from puzzle solving.",183,29,3.0,3.0,4.0,4.0,9
+R0111,P038,Michael-p7.ndjson,rating_reason,"The beginning steps had some guaranteed patterns where I could fill out some entire line/rows. After that, there were some steps where I had to consider multiple different possible patterns to find guaranteed blocks among them. So I considered the difficulty moderate.",268,42,1.0,0.0,3.0,3.0,3
+R0112,P038,Michael-p7.ndjson,rating_reason,"This puzzle started with only one (if I didn't miss any) line with guaranteed pattern. For the rest line/rows, I had to consider some non-trivial guaranteed blocks. For example, I found out two guaranteed blocks from a line of ""2 2 1 1"", but I had to go over more possible patterns than a line with large numbers such as ""4 1"".",327,62,2.0,1.0,4.0,3.0,3
+R0113,P038,Michael-p7.ndjson,rating_reason,"This puzzle provided two guaranteed line&row on the edge, which thus gave more information about the blocks connected to them. But in general it is not considered very easy.",173,29,3.0,2.0,2.0,2.0,3
+R0114,P039,Michael-p8.ndjson,rating_reason,"It's relatively easy, since the deductions from one to another are relatively obvious and lead to the next ones.",112,19,1.0,2.0,2.0,3.0,3
+R0115,P039,Michael-p8.ndjson,rating_reason,There are a few places where backtracking is needed after getting a hint. A few other places also requires either using contradiction or enumerating possibilities to find common coloured cells.,193,30,2.0,3.0,4.0,4.0,3
+R0116,P039,Michael-p8.ndjson,rating_reason,"Like puzzle 1, most clues lead from one to another. Solving puzzle 2 also helped prepare and refine search strategies.",118,20,3.0,5.0,3.0,3.0,3
+R0117,P040,Michael-p9.ndjson,rating_reason,"I have never attempted to solve a puzzle like this before, so I found it difficult to find a point where one column might be correct but the row is not.",152,31,1.0,4.0,1.0,1.0,3
+R0118,P040,Michael-p9.ndjson,rating_reason,"They were all challenging for the same reason, there is no reason I found one puzzle more challenging than the other",116,21,2.0,1.0,3.0,3.0,3
+R0119,P040,Michael-p9.ndjson,rating_reason,nan,3,1,3.0,2.0,2.0,2.0,3
+R0120,P041,Michael-p10.ndjson,rating_reason,"There were some large numbers, it was easy enough to start and it didn't feel difficult to complete.",100,18,1.0,4.0,3.0,3.0,9
+R0121,P041,Michael-p10.ndjson,rating_reason,"I was stumped more often than on puzzle one. There were more smaller numbers, sometimes I need to take more time to find the next move.",135,26,2.0,1.0,4.0,4.0,9
+R0122,P041,Michael-p10.ndjson,rating_reason,"The borders were all straight forward, which gave a good basis to start. The deductions that followed were straight forward too.",128,21,3.0,2.0,2.0,2.0,9
+R0123,P042,Michael-p11.ndjson,rating_reason,nan,3,1,1.0,1.0,4.0,4.0,2
+R0124,P042,Michael-p11.ndjson,rating_reason,nan,3,1,2.0,5.0,4.0,4.0,2
+R0125,P042,Michael-p11.ndjson,rating_reason,nan,3,1,3.0,4.0,5.0,5.0,2
+R0126,P043,Michael-p12.ndjson,rating_reason,there were many columns which had definitive answers where logical deduction was easy to apply.,95,15,1.0,1.0,2.0,3.0,5
+R0127,P043,Michael-p12.ndjson,rating_reason,the puzzle required a bit more thinking as logical deduction could not always be used.,86,15,2.0,5.0,3.0,3.0,5
+R0128,P043,Michael-p12.ndjson,rating_reason,there was a lot more guessing and playing around with the blank/filled in boxes which took more time and trial and error.,121,22,3.0,4.0,4.0,4.0,5
+R0129,P044,Michael-p13.ndjson,rating_reason,I didn't use any hint.,22,5,1.0,2.0,3.0,3.0,3
+R0130,P044,Michael-p13.ndjson,rating_reason,I used a few hints.,19,5,2.0,5.0,4.0,4.0,3
+R0131,P044,Michael-p13.ndjson,rating_reason,I use many hits.,16,4,3.0,3.0,5.0,5.0,3
+R0132,P045,Michael-p14.ndjson,rating_reason,"There wasn't much certain cells, I have to guess the most of them.",66,13,1.0,3.0,5.0,4.0,4
+R0133,P045,Michael-p14.ndjson,rating_reason,"There were two rows/columns that are certain, which make the puzzle a lot easier.",81,14,2.0,1.0,4.0,4.0,4
+R0134,P045,Michael-p14.ndjson,rating_reason,"A number of rows/columns are close to one cell to be exact, which make the puzzle somehow confusing, because I have to guess.",125,23,3.0,5.0,5.0,5.0,4
+R0135,P046,Michael-p15.ndjson,rating_reason,This puzzle was difficult because I didn't know where to start. The tutorial puzzle and puzzle 2 had very obvious places to start (i.e. one row that could be entirely or nearly deduced right away). This made it easier to deduce the following rows.,247,44,1.0,5.0,4.0,4.0,5
+R0136,P046,Michael-p15.ndjson,rating_reason,"I rated this puzzle a bit easier than the others because I was able to deduce a row from the beginning. From there, I was able to quickly find connections and deduce many other rows.",182,35,2.0,2.0,3.0,3.0,5
+R0137,P046,Michael-p15.ndjson,rating_reason,"I rated this puzzle the same difficulty as puzzle 1 because it was hard to  get started. Mainly because there were many rows/columns that barely needed to be filled in, and so I had a hard time getting going (even if I could roughly deduce the first row).",255,48,3.0,3.0,4.0,4.0,5
+R0138,P047,Michael-p16.ndjson,rating_reason,I thought it was difficult because of how sparse it was. It felt like there was a lot of blank space which made it hard to make progress.,137,28,1.0,1.0,4.0,4.0,4
+R0139,P047,Michael-p16.ndjson,rating_reason,I'm not really sure what made this one so hard but I made a mistake at some point in the middle and it was hard to spot where/ what other labels I had were wrong as a result.,174,38,2.0,4.0,5.0,5.0,4
+R0140,P047,Michael-p16.ndjson,rating_reason,Maybe it was that I had more practice with the first 2,54,12,3.0,2.0,3.0,3.0,4
+R0141,P048,Michael-p17.ndjson,rating_reason,"the total of the number on hint line is 9, so there's already a line that's fixed, thus it's easier to fill in the rest",119,25,1.0,2.0,3.0,3.0,5
+R0142,P048,Michael-p17.ndjson,rating_reason,nan,3,1,2.0,3.0,5.0,5.0,5
+R0143,P048,Michael-p17.ndjson,rating_reason,"there isn't any ""total 9 line"", so i basically have to guess all of them and adjust them bit by bit",99,21,3.0,0.0,4.0,4.0,5
+R0144,P049,Michael-p18.ndjson,rating_reason,"This one was really hard, lack of info to make next moves made it difficult to progress with the puzzle",103,20,1.0,3.0,5.0,5.0,2
+R0145,P049,Michael-p18.ndjson,rating_reason,Lots of opening moves at the beginning made it easy to complete the rest of the puzzle also I think I just got better after the first one,137,28,2.0,2.0,2.0,2.0,2
+R0146,P049,Michael-p18.ndjson,rating_reason,Also lots of opening moves that made it easy to continue with the rest of the puzzle,84,17,3.0,1.0,2.0,2.0,2
+R0147,P050,Michael-p19.ndjson,rating_reason,Clue number too small,21,4,1.0,4.0,4.0,1.0,6
+R0148,P050,Michael-p19.ndjson,rating_reason,easier than first one,21,4,2.0,1.0,3.0,1.0,6
+R0149,P050,Michael-p19.ndjson,rating_reason,similar to the second one,25,5,3.0,5.0,3.0,1.0,6
+R0150,P051,Michael-p20.ndjson,rating_reason,"Only two row/col was filled completely at first, and so it was hard in the beginning to try to see which boxes I can fill.",122,25,1.0,0.0,4.0,4.0,1
+R0151,P051,Michael-p20.ndjson,rating_reason,"Only two row/col was filled completely at first, and so it was hard in the beginning to try to see which boxes I can fill.",122,25,2.0,5.0,4.0,4.0,1
+R0152,P051,Michael-p20.ndjson,rating_reason,"Only two row/col was filled completely at first, and so it was hard in the beginning to try to see which boxes I can fill.",122,25,3.0,1.0,4.0,4.0,1
+R0153,P052,Michael-p21.ndjson,rating_reason,Relatively easier to locate larger block.,41,6,1.0,5.0,3.0,3.0,1
+R0154,P052,Michael-p21.ndjson,rating_reason,There are many 1 blocks in the puzzle that make them hard to locate.,68,14,2.0,3.0,4.0,4.0,1
+R0155,P052,Michael-p21.ndjson,rating_reason,Same as puzzle 2.,17,4,3.0,4.0,4.0,4.0,1
+R0156,P053,Riyad-p1.ndjson,rating_reason,There were no / few easy groups of numbers that made the row/column pre-determined (only one solution). But it was not too difficult to get,139,25,1.0,3.0,3.0,3.0,8
+R0157,P053,Riyad-p1.ndjson,rating_reason,This was easier and the groups were often in a way that clear assumptions could be made.,88,17,2.0,4.0,2.0,2.0,8
+R0158,P053,Riyad-p1.ndjson,rating_reason,nan,3,1,3.0,1.0,3.0,3.0,8
+R0159,P054,Riyad-p2.ndjson,rating_reason,"Did not have a strategy, was guessing a lot in the beginning",60,12,1.0,3.0,4.0,4.0,1
+R0160,P054,Riyad-p2.ndjson,rating_reason,Tried solving via the column/row that had a deterministic output. Got a bit easier. Guessed because of time constraints.,120,19,2.0,4.0,4.0,4.0,1
+R0161,P054,Riyad-p2.ndjson,rating_reason,nan,3,1,3.0,1.0,4.0,4.0,1
+R0162,P055,Riyad-p3.ndjson,rating_reason,"Honestly, I was just not accustomed to Nonogram, it was probably a 4",68,13,1.0,3.0,4.0,4.0,8
+R0163,P055,Riyad-p3.ndjson,rating_reason,"It seemed alright, there was a pattern and it worked",52,10,2.0,4.0,3.0,3.0,8
+R0164,P055,Riyad-p3.ndjson,rating_reason,"It seemed alright, there was a pattern and it worked",52,10,3.0,1.0,3.0,3.0,8
+R0165,P056,Riyad-p4.ndjson,rating_reason,It was my first time so hard to gauge the difficulty,52,11,1.0,4.0,4.0,4.0,1
+R0166,P056,Riyad-p4.ndjson,rating_reason,It was slightly easier since I gained more experience,53,9,2.0,5.0,3.0,4.0,1
+R0167,P056,Riyad-p4.ndjson,rating_reason,There were a few new situations (8 blocks) with less free information,69,12,3.0,0.0,4.0,3.0,1
+R0168,P057,Riyad-p5.ndjson,rating_reason,There were not a lot of freebies (not a lot of columns where everything was in a fixed position),96,19,1.0,5.0,4.0,4.0,6
+R0169,P057,Riyad-p5.ndjson,rating_reason,There were even fewer freebies (not a lot of columns where everything was in a fixed position),94,17,2.0,4.0,5.0,5.0,6
+R0170,P057,Riyad-p5.ndjson,rating_reason,There were even fewer freebies (not a lot of columns where everything was in a fixed position). Some required mental deduction before putting anything down,155,25,3.0,0.0,5.0,5.0,6
+R0171,P058,Riyad-p6.ndjson,rating_reason,"Doesn't feel like its solvable with ""trivial"" logic (i.e. freebees, using other solved rows/columns), had to consider multiple columns at once, or the effects of setting on square.",180,28,1.0,0.0,4.0,4.0,4
+R0172,P058,Riyad-p6.ndjson,rating_reason,"Didn't have to guess at all, however the ""early game"" had less free squares to work with.",89,17,2.0,3.0,4.0,4.0,4
+R0173,P058,Riyad-p6.ndjson,rating_reason,"Got stuck at two points and had to use a hint, due to earlier mistakes. It seems like there are times where you just have to guess or see what happens when making a move, you can't always use logical deduction to solve it.",222,44,3.0,5.0,5.0,5.0,4
+R0174,P059,Riyad-p7.ndjson,rating_reason,required a lot of checking conditions to see what was and wasn't correct,72,13,1.0,1.0,4.0,4.0,8
+R0175,P059,Riyad-p7.ndjson,rating_reason,even difficulty althroughout,28,3,2.0,3.0,4.0,4.0,8
+R0176,P059,Riyad-p7.ndjson,rating_reason,"Had an easier start but harder finish, required me to due to many potential position overlaps in order to continue",114,20,3.0,2.0,4.0,4.0,8
+R0177,P060,Riyad-p8.ndjson,rating_reason,i thought i needed many hints but i didn't want to use it at first,66,15,1.0,2.0,3.0,3.0,1
+R0178,P060,Riyad-p8.ndjson,rating_reason,more difficult than puzzle 1,28,5,2.0,1.0,4.0,4.0,1
+R0179,P060,Riyad-p8.ndjson,rating_reason,more difficult than puzzle 2 but i also knew more about what i was doing,72,15,3.0,5.0,4.0,5.0,1
+R0180,P061,Riyad-p9.ndjson,rating_reason,"First time doing this puzzle, ambiguity could be alot. One fixed arrangement to start solving the puzzle.",105,17,1.0,3.0,4.0,4.0,7
+R0181,P061,Riyad-p9.ndjson,rating_reason,nan,3,1,2.0,0.0,4.0,4.0,7
+R0182,P061,Riyad-p9.ndjson,rating_reason,nan,3,1,3.0,5.0,-1.0,-1.0,7
+R0183,P062,Riyad-p10.ndjson,rating_reason,nan,3,1,1.0,3.0,4.0,4.0,5
+R0184,P062,Riyad-p10.ndjson,rating_reason,"Easy Part: There were two ""freebies"" of (1, 8) in two columns. This made starting the puzzle a lot easier as I could ""X"" many adjacent squares
 
-Difficult: Endgame was hard.",172,31,2.0,0.0,4.0,3.0,5.0
-R0185,P062,Riyad-p10.json,rating_reason,"Hard: Less obvious freebies like (1, 8), harder to start game. Had to consider many rows/columns so I couldn't just right away fill out an entire row or column. 
+Difficult: Endgame was hard.",172,31,2.0,0.0,4.0,3.0,5
+R0185,P062,Riyad-p10.ndjson,rating_reason,"Hard: Less obvious freebies like (1, 8), harder to start game. Had to consider many rows/columns so I couldn't just right away fill out an entire row or column. 
 
-Easy: There was a column that was just ""4"". This gave the game away. There were a couple of rows that were like (1, 2, 1, 1) which gives you very limited options.",325,62,3.0,5.0,4.0,4.0,5.0
-R0186,P063,Riyad-p11.json,rating_reason,Rated it hard because I was understanding the game and had less give aways for the first moves.,95,18,1.0,3.0,5.0,5.0,2.0
-R0187,P063,Riyad-p11.json,rating_reason,nan,3,1,2.0,0.0,4.0,4.0,2.0
-R0188,P063,Riyad-p11.json,rating_reason,nan,3,1,3.0,5.0,-1.0,-1.0,2.0
-R0189,P064,Riyad-p12.json,rating_reason,"First time playing, had no strategies and made mistakes throughout. Very few fixed positions to start with.",107,17,1.0,3.0,4.0,4.0,3.0
-R0190,P064,Riyad-p12.json,rating_reason,"Got used to the game, had two fixed arrangements right away.",60,11,2.0,0.0,2.0,2.0,3.0
-R0191,P064,Riyad-p12.json,rating_reason,nan,3,1,3.0,5.0,-1.0,-1.0,3.0
-R0192,P065,Riyad-p13.json,rating_reason,This one was pretty difficult because all the numbers were small and there weren't that many guaranteed placements.,115,18,1.0,3.0,4.0,4.0,7.0
-R0193,P065,Riyad-p13.json,rating_reason,It seemed easier at first but then got harder once it was harder to deduce where the black squares go.,102,20,2.0,0.0,4.0,4.0,7.0
-R0194,P065,Riyad-p13.json,rating_reason,"Practice through the previous two puzzles definitely helped in making this one seem easier, especially the strategies to use to logically deduce the placements of the squares.",175,27,3.0,5.0,3.0,3.0,7.0
-R0195,P066,Riyad-p14.ndjson,rating_reason,Hard to start somewhere. So many possibilities to juggle. Hard to choose which one to focus on.,95,17,1.0,4.0,4.0,4.0,7.0
-R0196,P066,Riyad-p14.ndjson,rating_reason,Hard to start somewhere. So many possibilities to juggle. Hard to choose which one to focus on.,95,17,2.0,1.0,5.0,5.0,7.0
-R0197,P066,Riyad-p14.ndjson,rating_reason,Hard to start somewhere. So many possibilities to juggle. Hard to choose which one to focus on.,95,17,3.0,3.0,5.0,5.0,7.0
-R0198,P067,Riyad-p15.ndjson,rating_reason,It was hard because it was my first one.,40,9,1.0,5.0,3.0,3.0,5.0
-R0199,P067,Riyad-p15.ndjson,rating_reason,it was hard because I needed a hint.,36,8,2.0,4.0,3.0,3.0,5.0
-R0200,P067,Riyad-p15.ndjson,rating_reason,nan,3,1,3.0,1.0,-1.0,-1.0,5.0
-R0201,P068,Riyad-p16.ndjson,rating_reason,"playing for first time(did not have many strategies), maybe only one fixed arrangement at the start",99,16,1.0,3.0,4.0,4.0,6.0
-R0202,P068,Riyad-p16.ndjson,rating_reason,"took less time than the first. had some experience and learned some strategies from previous puzzle, two fixed arrangements this time?",134,21,2.0,5.0,3.0,3.0,6.0
-R0203,P068,Riyad-p16.ndjson,rating_reason,nan,3,1,3.0,2.0,-1.0,-1.0,6.0
-R0204,P001,Bing-p1.ndjson,strategy,"Solve the rows/columns that could be filled in without variation (e.g., 4-1-3) first, then look at all other columns/rows that required the most black spaces and find all possible variations of where the black squares could go. Cross off any white spaces as soon as possible, and solve the lines with the least amount of black squares last.",340,58,,,,,6.0
-R0205,P001,Bing-p1.ndjson,comments,The nonograms not being pictures can make it feel harder since it's easier to guess black squares for those kinds of puzzles even if you don't rely on the numbers.,163,30,,,,,6.0
-R0206,P001,Bing-p1.ndjson,size_experience_other,"Pokemon Picross (many different sizes but has ""abilities"" to help solve squares",79,12,,,,,6.0
-R0207,P002,Bing-p2.ndjson,strategy,"Avoid guessing no matter what. Whenever I am not sure what is my next step, I will wait for the hint. This is because I dont want to adjust my previous steps. All of my next step is rely on previous steps are correct.",217,44,,,,,7.0
-R0208,P002,Bing-p2.ndjson,comments,the way I rate the difficulty is based on the time I need to wait for hint.,75,17,,,,,7.0
-R0209,P002,Bing-p2.ndjson,size_experience_other,nan,3,1,,,,,7.0
+Easy: There was a column that was just ""4"". This gave the game away. There were a couple of rows that were like (1, 2, 1, 1) which gives you very limited options.",325,62,3.0,5.0,4.0,4.0,5
+R0186,P063,Riyad-p11.ndjson,rating_reason,Rated it hard because I was understanding the game and had less give aways for the first moves.,95,18,1.0,3.0,5.0,5.0,2
+R0187,P063,Riyad-p11.ndjson,rating_reason,nan,3,1,2.0,0.0,4.0,4.0,2
+R0188,P063,Riyad-p11.ndjson,rating_reason,nan,3,1,3.0,5.0,-1.0,-1.0,2
+R0189,P064,Riyad-p12.ndjson,rating_reason,"First time playing, had no strategies and made mistakes throughout. Very few fixed positions to start with.",107,17,1.0,3.0,4.0,4.0,3
+R0190,P064,Riyad-p12.ndjson,rating_reason,"Got used to the game, had two fixed arrangements right away.",60,11,2.0,0.0,2.0,2.0,3
+R0191,P064,Riyad-p12.ndjson,rating_reason,nan,3,1,3.0,5.0,-1.0,-1.0,3
+R0192,P065,Riyad-p13.ndjson,rating_reason,This one was pretty difficult because all the numbers were small and there weren't that many guaranteed placements.,115,18,1.0,3.0,4.0,4.0,7
+R0193,P065,Riyad-p13.ndjson,rating_reason,It seemed easier at first but then got harder once it was harder to deduce where the black squares go.,102,20,2.0,0.0,4.0,4.0,7
+R0194,P065,Riyad-p13.ndjson,rating_reason,"Practice through the previous two puzzles definitely helped in making this one seem easier, especially the strategies to use to logically deduce the placements of the squares.",175,27,3.0,5.0,3.0,3.0,7
+R0195,P066,Riyad-p14.ndjson,rating_reason,Hard to start somewhere. So many possibilities to juggle. Hard to choose which one to focus on.,95,17,1.0,4.0,4.0,4.0,7
+R0196,P066,Riyad-p14.ndjson,rating_reason,Hard to start somewhere. So many possibilities to juggle. Hard to choose which one to focus on.,95,17,2.0,1.0,5.0,5.0,7
+R0197,P066,Riyad-p14.ndjson,rating_reason,Hard to start somewhere. So many possibilities to juggle. Hard to choose which one to focus on.,95,17,3.0,3.0,5.0,5.0,7
+R0198,P067,Riyad-p15.ndjson,rating_reason,It was hard because it was my first one.,40,9,1.0,5.0,3.0,3.0,5
+R0199,P067,Riyad-p15.ndjson,rating_reason,it was hard because I needed a hint.,36,8,2.0,4.0,3.0,3.0,5
+R0200,P067,Riyad-p15.ndjson,rating_reason,nan,3,1,3.0,1.0,-1.0,-1.0,5
+R0201,P068,Riyad-p16.ndjson,rating_reason,"playing for first time(did not have many strategies), maybe only one fixed arrangement at the start",99,16,1.0,3.0,4.0,4.0,6
+R0202,P068,Riyad-p16.ndjson,rating_reason,"took less time than the first. had some experience and learned some strategies from previous puzzle, two fixed arrangements this time?",134,21,2.0,5.0,3.0,3.0,6
+R0203,P068,Riyad-p16.ndjson,rating_reason,nan,3,1,3.0,2.0,-1.0,-1.0,6
+R0204,P001,Bing-p1.ndjson,strategy,"Solve the rows/columns that could be filled in without variation (e.g., 4-1-3) first, then look at all other columns/rows that required the most black spaces and find all possible variations of where the black squares could go. Cross off any white spaces as soon as possible, and solve the lines with the least amount of black squares last.",340,58,,,,,6
+R0205,P001,Bing-p1.ndjson,comments,The nonograms not being pictures can make it feel harder since it's easier to guess black squares for those kinds of puzzles even if you don't rely on the numbers.,163,30,,,,,6
+R0206,P001,Bing-p1.ndjson,size_experience_other,"Pokemon Picross (many different sizes but has ""abilities"" to help solve squares",79,12,,,,,6
+R0207,P002,Bing-p2.ndjson,strategy,"Avoid guessing no matter what. Whenever I am not sure what is my next step, I will wait for the hint. This is because I dont want to adjust my previous steps. All of my next step is rely on previous steps are correct.",217,44,,,,,7
+R0208,P002,Bing-p2.ndjson,comments,the way I rate the difficulty is based on the time I need to wait for hint.,75,17,,,,,7
+R0209,P002,Bing-p2.ndjson,size_experience_other,nan,3,1,,,,,7
 R0210,P003,Bing-p3.ndjson,strategy,"Mostly check for forced moves; consider the amount of unclear blocks against the number of blocks a hint gives you info for. For example 5 2 1 is a forced config because you have 5 + 2 + 1 which is 8 solid blocks with 2 guaranteed gaps, which tells you this is a 10 block hint which is your forced move on an opener.
 
 If you click a block due to this forced move that is the edge of a row/column, you can then extend off of that block given those row/column's corresponding hints.
@@ -228,234 +228,234 @@ When you have a 4 block guaranteed to be within a 7 block span, and you have 1 b
 
 Right clicking guaranteed non-usable spaces helped.
 
-I also used the meta gaming of the hint button to my advantage as a ""debugger"" to check if I placed anything incorrectly so far; I would imagine someone can use it as a gamble check, but I didn't want to use it because of the disaster situation which happened to me in game 3.",993,191,,,,,2.0
-R0211,P003,Bing-p3.ndjson,comments,Hints refreshed too fast.,25,4,,,,,2.0
-R0212,P003,Bing-p3.ndjson,size_experience_other,nan,3,1,,,,,2.0
-R0213,P004,Bing-p4.ndjson,strategy,find if you can add any row or column number added up with gaps equal to 10 and fill it first,93,21,,,,,1.0
-R0214,P004,Bing-p4.ndjson,comments,the last one is kinda hard for me cuz the numbers of each row and column is the multiple of previous,100,21,,,,,1.0
-R0215,P004,Bing-p4.ndjson,size_experience_other,nan,3,1,,,,,1.0
-R0216,P005,Bing-p5.ndjson,strategy,"First check for rows that only have one combination (ex. 10, 4 5, 3 6, etc.). These can be filled in automatically. Then, if any squares along the edges are filled in, that means any start/end numbers from the rows/columns can be automatically filled in as well (it's kinda hard to explain...). For some combinations, there are squares that will always be filled, so I filled those in (ex. if the row is just 6, then the 5th and 6th square in the row will always be filled no matter where the full 6 line is).",509,96,,,,,8.0
-R0217,P005,Bing-p5.ndjson,comments,"Not being used to the UI made it kind of hard. Specifically how when you multi-select any area, it automatically swaps the colouring of the square. So for the last puzzle, I think that feature made me not realize some of my squares got swapped. This then made me realize near the end that I had to restart since the squares weren't selected properly.",350,64,,,,,8.0
-R0218,P005,Bing-p5.ndjson,size_experience_other,nan,3,1,,,,,8.0
-R0219,P006,Bing-p6.ndjson,strategy,determine the fixed lines first,31,5,,,,,6.0
-R0220,P006,Bing-p6.ndjson,comments,what makes it hard: the given numbers are small,47,9,,,,,6.0
-R0221,P006,Bing-p6.ndjson,size_experience_other,nan,3,1,,,,,6.0
-R0222,P007,Bing-p7.ndjson,strategy,I fill all rows first with minimum separation between black boxes then try to fill columns. Unless there is a really big chunk I can use since there's only one possible layout,175,32,,,,,1.0
-R0223,P007,Bing-p7.ndjson,comments,puzzle with 1 8 or 8 1 hints are significantly easier,53,11,,,,,1.0
-R0224,P007,Bing-p7.ndjson,size_experience_other,nan,3,1,,,,,1.0
-R0225,P008,Bing-p8.ndjson,strategy,"first do certain things, then do uncertain things. make guess only if it's a binary option",90,16,,,,,5.0
-R0226,P008,Bing-p8.ndjson,comments,no,2,1,,,,,5.0
-R0227,P008,Bing-p8.ndjson,size_experience_other,nan,3,1,,,,,5.0
-R0228,P009,Bing-p9.ndjson,strategy,"I would try to add numbers together. If the numbers and the spaces add up to 10, it becomes certain. I would put X on those grid which cannot be black. Since there is no penalty for using the hint, the best strategy is to use it as soon as possible.",249,51,,,,,8.0
-R0229,P009,Bing-p9.ndjson,comments,Smaller numbers would increase the uncertainity.,48,6,,,,,8.0
-R0230,P009,Bing-p9.ndjson,size_experience_other,nan,3,1,,,,,8.0
+I also used the meta gaming of the hint button to my advantage as a ""debugger"" to check if I placed anything incorrectly so far; I would imagine someone can use it as a gamble check, but I didn't want to use it because of the disaster situation which happened to me in game 3.",993,191,,,,,2
+R0211,P003,Bing-p3.ndjson,comments,Hints refreshed too fast.,25,4,,,,,2
+R0212,P003,Bing-p3.ndjson,size_experience_other,nan,3,1,,,,,2
+R0213,P004,Bing-p4.ndjson,strategy,find if you can add any row or column number added up with gaps equal to 10 and fill it first,93,21,,,,,1
+R0214,P004,Bing-p4.ndjson,comments,the last one is kinda hard for me cuz the numbers of each row and column is the multiple of previous,100,21,,,,,1
+R0215,P004,Bing-p4.ndjson,size_experience_other,nan,3,1,,,,,1
+R0216,P005,Bing-p5.ndjson,strategy,"First check for rows that only have one combination (ex. 10, 4 5, 3 6, etc.). These can be filled in automatically. Then, if any squares along the edges are filled in, that means any start/end numbers from the rows/columns can be automatically filled in as well (it's kinda hard to explain...). For some combinations, there are squares that will always be filled, so I filled those in (ex. if the row is just 6, then the 5th and 6th square in the row will always be filled no matter where the full 6 line is).",509,96,,,,,8
+R0217,P005,Bing-p5.ndjson,comments,"Not being used to the UI made it kind of hard. Specifically how when you multi-select any area, it automatically swaps the colouring of the square. So for the last puzzle, I think that feature made me not realize some of my squares got swapped. This then made me realize near the end that I had to restart since the squares weren't selected properly.",350,64,,,,,8
+R0218,P005,Bing-p5.ndjson,size_experience_other,nan,3,1,,,,,8
+R0219,P006,Bing-p6.ndjson,strategy,determine the fixed lines first,31,5,,,,,6
+R0220,P006,Bing-p6.ndjson,comments,what makes it hard: the given numbers are small,47,9,,,,,6
+R0221,P006,Bing-p6.ndjson,size_experience_other,nan,3,1,,,,,6
+R0222,P007,Bing-p7.ndjson,strategy,I fill all rows first with minimum separation between black boxes then try to fill columns. Unless there is a really big chunk I can use since there's only one possible layout,175,32,,,,,1
+R0223,P007,Bing-p7.ndjson,comments,puzzle with 1 8 or 8 1 hints are significantly easier,53,11,,,,,1
+R0224,P007,Bing-p7.ndjson,size_experience_other,nan,3,1,,,,,1
+R0225,P008,Bing-p8.ndjson,strategy,"first do certain things, then do uncertain things. make guess only if it's a binary option",90,16,,,,,5
+R0226,P008,Bing-p8.ndjson,comments,no,2,1,,,,,5
+R0227,P008,Bing-p8.ndjson,size_experience_other,nan,3,1,,,,,5
+R0228,P009,Bing-p9.ndjson,strategy,"I would try to add numbers together. If the numbers and the spaces add up to 10, it becomes certain. I would put X on those grid which cannot be black. Since there is no penalty for using the hint, the best strategy is to use it as soon as possible.",249,51,,,,,8
+R0229,P009,Bing-p9.ndjson,comments,Smaller numbers would increase the uncertainity.,48,6,,,,,8
+R0230,P009,Bing-p9.ndjson,size_experience_other,nan,3,1,,,,,8
 R0231,P010,Bing-p10.ndjson,strategy,"find the lines that add up to 10 (including spaces)
 Figuring out which of the numbers the cells are a part of helped so I could cross out a lot of nearby squares
-For big numbers, you can usually get the center squares for free",226,45,,,,,6.0
-R0232,P010,Bing-p10.ndjson,comments,"In a lot of other nonograms, they usually form a picture so you kind of get a free hint as to what the general shape should look like but these ones were more random",165,34,,,,,6.0
-R0233,P010,Bing-p10.ndjson,size_experience_other,nan,3,1,,,,,6.0
-R0234,P011,Bing-p11.ndjson,strategy,"I tried to figure out if there were any columns or rows where all the black and white spaces added up to 10. Once filling those in, tried to fill in any other deductions, crossed out all the blank spaces for places I knew had the right solution. Then for the rest, I tried to see if there were any overlaps between the leftmost/topmost and rightmost/bottommost solutions, and filled in black for the squares I thought had to be black. After that I repeated the process until I ran out of logical deductions and started guessing with assistance from the hints.",559,101,,,,,5.0
-R0235,P011,Bing-p11.ndjson,comments,"Puzzle 3 probably felt less hard than 2 because I'd already had practice from doing the previous puzzles. I think I measure how easy or hard a puzzle is based on how much information is given that guarantees I can fill in something for a square at the start of a puzzle, and how many times I have to guess something and verify the answer via a hint. 2 felt the hardest for me because I had to actually wait for hints to arrive because I ran out of things to fill in for the puzzle that I knew were correct.",506,101,,,,,5.0
-R0236,P011,Bing-p11.ndjson,size_experience_other,nan,3,1,,,,,5.0
-R0237,P012,Bing-p12.ndjson,strategy,"First I would look for the rows with larger numbers or more number to fill out the rows. Once that was filled in, it made it a lot easier to place corresponding values for the perpendicular row/columns because I was able to determine roughly where some of the boxes should be filled in. I also made sure to cross out any boxes on either side of a ""completed"" section so that I wouldn't accidentally add more later.",414,77,,,,,3.0
-R0238,P012,Bing-p12.ndjson,comments,I think generally puzzles with smaller numbers were harder to complete.,71,11,,,,,3.0
-R0239,P012,Bing-p12.ndjson,size_experience_other,nan,3,1,,,,,3.0
-R0240,P013,Bing-p13.ndjson,strategy,"I would start with a row/column that had only one possible answer, or one that had a lot of overlap in possible answers. I would then look to the crossing column/rows and work from there. I never had to guess cells because there were always enough columns/rows with enough information to deduce some black squares.",314,55,,,,,9.0
-R0241,P013,Bing-p13.ndjson,comments,"These puzzles were pretty straightforward for me because I used to (~4 years ago) play nonogram a lot on my phone, so the strategy comes quite easily.",150,27,,,,,9.0
-R0242,P013,Bing-p13.ndjson,size_experience_other,nan,3,1,,,,,9.0
-R0243,P014,Bing-p14.ndjson,strategy,"Fill the most restrictive conditions first, then test possibilities from most to least restrictive",98,14,,,,,5.0
-R0244,P014,Bing-p14.ndjson,comments,"Multiple intermediate steps seemed possible, but only one worked in the end",75,12,,,,,5.0
-R0245,P014,Bing-p14.ndjson,size_experience_other,nan,3,1,,,,,5.0
-R0246,P015,Bing-p15.ndjson,strategy,nan,3,1,,,,,
-R0247,P015,Bing-p15.ndjson,comments,nan,3,1,,,,,
-R0248,P015,Bing-p15.ndjson,size_experience_other,nan,3,1,,,,,
+For big numbers, you can usually get the center squares for free",226,45,,,,,6
+R0232,P010,Bing-p10.ndjson,comments,"In a lot of other nonograms, they usually form a picture so you kind of get a free hint as to what the general shape should look like but these ones were more random",165,34,,,,,6
+R0233,P010,Bing-p10.ndjson,size_experience_other,nan,3,1,,,,,6
+R0234,P011,Bing-p11.ndjson,strategy,"I tried to figure out if there were any columns or rows where all the black and white spaces added up to 10. Once filling those in, tried to fill in any other deductions, crossed out all the blank spaces for places I knew had the right solution. Then for the rest, I tried to see if there were any overlaps between the leftmost/topmost and rightmost/bottommost solutions, and filled in black for the squares I thought had to be black. After that I repeated the process until I ran out of logical deductions and started guessing with assistance from the hints.",559,101,,,,,5
+R0235,P011,Bing-p11.ndjson,comments,"Puzzle 3 probably felt less hard than 2 because I'd already had practice from doing the previous puzzles. I think I measure how easy or hard a puzzle is based on how much information is given that guarantees I can fill in something for a square at the start of a puzzle, and how many times I have to guess something and verify the answer via a hint. 2 felt the hardest for me because I had to actually wait for hints to arrive because I ran out of things to fill in for the puzzle that I knew were correct.",506,101,,,,,5
+R0236,P011,Bing-p11.ndjson,size_experience_other,nan,3,1,,,,,5
+R0237,P012,Bing-p12.ndjson,strategy,"First I would look for the rows with larger numbers or more number to fill out the rows. Once that was filled in, it made it a lot easier to place corresponding values for the perpendicular row/columns because I was able to determine roughly where some of the boxes should be filled in. I also made sure to cross out any boxes on either side of a ""completed"" section so that I wouldn't accidentally add more later.",414,77,,,,,3
+R0238,P012,Bing-p12.ndjson,comments,I think generally puzzles with smaller numbers were harder to complete.,71,11,,,,,3
+R0239,P012,Bing-p12.ndjson,size_experience_other,nan,3,1,,,,,3
+R0240,P013,Bing-p13.ndjson,strategy,"I would start with a row/column that had only one possible answer, or one that had a lot of overlap in possible answers. I would then look to the crossing column/rows and work from there. I never had to guess cells because there were always enough columns/rows with enough information to deduce some black squares.",314,55,,,,,9
+R0241,P013,Bing-p13.ndjson,comments,"These puzzles were pretty straightforward for me because I used to (~4 years ago) play nonogram a lot on my phone, so the strategy comes quite easily.",150,27,,,,,9
+R0242,P013,Bing-p13.ndjson,size_experience_other,nan,3,1,,,,,9
+R0243,P014,Bing-p14.ndjson,strategy,"Fill the most restrictive conditions first, then test possibilities from most to least restrictive",98,14,,,,,5
+R0244,P014,Bing-p14.ndjson,comments,"Multiple intermediate steps seemed possible, but only one worked in the end",75,12,,,,,5
+R0245,P014,Bing-p14.ndjson,size_experience_other,nan,3,1,,,,,5
+R0246,P015,Bing-p15.ndjson,strategy,"First, I coloured in the rows or columns that only had one possibility then I worked from there.",96,18,,,,,1
+R0247,P015,Bing-p15.ndjson,comments,If there are a lot of possibilities for a row or column it made the puzzle harder.,82,17,,,,,1
+R0248,P015,Bing-p15.ndjson,size_experience_other,nan,3,1,,,,,1
 R0249,P016,Bing-p16.ndjson,strategy,"- Looking for full rows and columns first and marking all boxes I am sure are white
 - When filling end or near-end boxes, checking the corresponding row/column to fill their end boxes
 - For near-full rows, filling in the guaranteed boxes (e.g. for 4 4, the guaranteed boxes would be 2-4, 7-9)
 - For sparse columns, using X boxes to ""try"" fitting groups and seeing if I can eliminate other boxes from there (e.g. for something like 1 2 1 if a 2 can only fit the second half of the board, then that immediately tells me that the 1 after it must be int he second half too, usually can deduce more Xs from this)
 - When filling a row, immediately checking if that adds information to deduce for their columns (and vice versa).
-- Checking different rows and columns rapidly rather than fixating and trying to immediately solve a section or such",838,155,,,,,9.0
-R0250,P016,Bing-p16.ndjson,comments,"These puzzles didn't have clear symmetry, which I suppose made them ""not easy""",78,13,,,,,9.0
-R0251,P016,Bing-p16.ndjson,size_experience_other,nan,3,1,,,,,9.0
-R0252,P017,Bing-p17.ndjson,strategy,Pick the row/column with the largest sum and separate entries(2 2 2 1) and try to fix the only solution. Use the hint to check if black boxes are correct.,154,30,,,,,1.0
-R0253,P017,Bing-p17.ndjson,comments,"If the hint don't prioritize wrong black boxes and is just random, the puzzle would be harder(?)",96,17,,,,,1.0
-R0254,P017,Bing-p17.ndjson,size_experience_other,nan,3,1,,,,,1.0
-R0255,P018,Bing-p18.ndjson,strategy,Starting with the row/column with the largest sum or the largest # of #s (determining which squares MUST be black / MUST be white) and then making a few educated guesses until I encountered a contradiction,205,36,,,,,3.0
-R0256,P018,Bing-p18.ndjson,comments,"The puzzles felt easier when I was given hints, since it let me determine whether the previous guesses I made were correct or incorrect (more often incorrect ...) or maybe I made too many guesses",195,35,,,,,3.0
-R0257,P018,Bing-p18.ndjson,size_experience_other,nan,3,1,,,,,3.0
+- Checking different rows and columns rapidly rather than fixating and trying to immediately solve a section or such",838,155,,,,,9
+R0250,P016,Bing-p16.ndjson,comments,"These puzzles didn't have clear symmetry, which I suppose made them ""not easy""",78,13,,,,,9
+R0251,P016,Bing-p16.ndjson,size_experience_other,nan,3,1,,,,,9
+R0252,P017,Bing-p17.ndjson,strategy,Pick the row/column with the largest sum and separate entries(2 2 2 1) and try to fix the only solution. Use the hint to check if black boxes are correct.,154,30,,,,,1
+R0253,P017,Bing-p17.ndjson,comments,"If the hint don't prioritize wrong black boxes and is just random, the puzzle would be harder(?)",96,17,,,,,1
+R0254,P017,Bing-p17.ndjson,size_experience_other,nan,3,1,,,,,1
+R0255,P018,Bing-p18.ndjson,strategy,Starting with the row/column with the largest sum or the largest # of #s (determining which squares MUST be black / MUST be white) and then making a few educated guesses until I encountered a contradiction,205,36,,,,,3
+R0256,P018,Bing-p18.ndjson,comments,"The puzzles felt easier when I was given hints, since it let me determine whether the previous guesses I made were correct or incorrect (more often incorrect ...) or maybe I made too many guesses",195,35,,,,,3
+R0257,P018,Bing-p18.ndjson,size_experience_other,nan,3,1,,,,,3
 R0258,P019,Bing-p19.ndjson,strategy,"Some strategies I used:
 - If there aren't any obvious rows/columns, starting off with the largest numbers/most numbers and checking the two opposing arrangements to see what squares are in common and must be filled (e.g. a 3 4 guarantees the third, seventh and eighth squares are filled)
-- if a row/column on the edge gets completed, its easy to get the first or last number in that row/column based on it",405,72,,,,,8.0
-R0259,P019,Bing-p19.ndjson,comments,The fact that it is a 10x10 inherently made the puzzles pretty simple but I'd say that they're still on the harder side of possible 10x10s,138,26,,,,,8.0
-R0260,P019,Bing-p19.ndjson,size_experience_other,nan,3,1,,,,,8.0
-R0261,P020,Bing-p20.ndjson,strategy,"Looking at where the big numbers were, for ex. 6 or 8, and seeing where the cells definitely have to be black because of the overlap of the large number. Or, cells that had a lot of numbers, such as 1, 1, 1, 1, 2 or something like that, where the white cells in between mean there is an easy way to figure out the only possible order.",334,68,,,,,7.0
-R0262,P020,Bing-p20.ndjson,comments,"Practice definitely made it easier, and the hints helped also build confidence and expadite the process",103,16,,,,,7.0
-R0263,P020,Bing-p20.ndjson,size_experience_other,nan,3,1,,,,,7.0
-R0264,P021,Bing-p21.ndjson,strategy,nan,3,1,,,,,1.0
-R0265,P021,Bing-p21.ndjson,comments,nan,3,1,,,,,1.0
-R0266,P021,Bing-p21.ndjson,size_experience_other,nan,3,1,,,,,1.0
+- if a row/column on the edge gets completed, its easy to get the first or last number in that row/column based on it",405,72,,,,,8
+R0259,P019,Bing-p19.ndjson,comments,The fact that it is a 10x10 inherently made the puzzles pretty simple but I'd say that they're still on the harder side of possible 10x10s,138,26,,,,,8
+R0260,P019,Bing-p19.ndjson,size_experience_other,nan,3,1,,,,,8
+R0261,P020,Bing-p20.ndjson,strategy,"Looking at where the big numbers were, for ex. 6 or 8, and seeing where the cells definitely have to be black because of the overlap of the large number. Or, cells that had a lot of numbers, such as 1, 1, 1, 1, 2 or something like that, where the white cells in between mean there is an easy way to figure out the only possible order.",334,68,,,,,7
+R0262,P020,Bing-p20.ndjson,comments,"Practice definitely made it easier, and the hints helped also build confidence and expadite the process",103,16,,,,,7
+R0263,P020,Bing-p20.ndjson,size_experience_other,nan,3,1,,,,,7
+R0264,P021,Bing-p21.ndjson,strategy,nan,3,1,,,,,1
+R0265,P021,Bing-p21.ndjson,comments,nan,3,1,,,,,1
+R0266,P021,Bing-p21.ndjson,size_experience_other,nan,3,1,,,,,1
 R0267,P022,Bing-p22.ndjson,strategy,"First, I find clues that sum up the most. Then I check if I can use that clue to fill in all the blocks with black or ""x""; if yes, I'll fill them up; if not, I will then look for other clue.
 
-In the middle of the puzzle, I check all clues for each line and see if I can fill up any blocks or cross out any blocks.",313,70,,,,,6.0
-R0268,P022,Bing-p22.ndjson,comments,"For me, the key to the puzzle is that you need to find a line that you are able to fill the whole line with the given clue. It will be harder if this kind of clue is less, and easier if there are many of this kind of clue.",222,50,,,,,6.0
-R0269,P022,Bing-p22.ndjson,size_experience_other,nan,3,1,,,,,6.0
-R0270,P023,Bing-p23.ndjson,strategy,I went row by row,17,5,,,,,1.0
-R0271,P023,Bing-p23.ndjson,comments,no!,3,1,,,,,1.0
-R0272,P023,Bing-p23.ndjson,size_experience_other,nan,3,1,,,,,1.0
-R0273,P024,Bing-p24.ndjson,strategy,"I liked to make my best guess and then use the hint feature to tell me whether or not I was right, and then use that information to keep making educated guesses / deducing the next right thing I could fill in.",209,42,,,,,1.0
-R0274,P024,Bing-p24.ndjson,comments,"No, I think I answered this in my other questions.",50,10,,,,,1.0
-R0275,P024,Bing-p24.ndjson,size_experience_other,nan,3,1,,,,,1.0
-R0276,P025,Juliana-p1.ndjson,strategy,"fill out guaranteed rows, and just proceed logically from there",63,10,,,,,8.0
-R0277,P025,Juliana-p1.ndjson,comments,"the last one had a bit of difficulties dealing with all the 1's, since they blend together and look funny",105,20,,,,,8.0
-R0278,P025,Juliana-p1.ndjson,size_experience_other,nan,3,1,,,,,8.0
-R0279,P026,Juliana-p2.ndjson,strategy,"I filled in the most obvious clues first, like two numbers adding to 9, and then tried to solve the others using that information.",130,24,,,,,1.0
-R0280,P026,Juliana-p2.ndjson,comments,"I didn't want to guess in case I got a square wrong, but that also made the puzzle harder because I didn't really have any more clues to help me.",145,30,,,,,1.0
-R0281,P026,Juliana-p2.ndjson,size_experience_other,nan,3,1,,,,,1.0
-R0282,P027,Juliana-p3.ndjson,strategy,I would look at how many numbers there are on the side and how many black blocks they each correspond to. I'd use a formula of (# of Black blocks in the row) + (number hints - 1) = 10. This tells me whether each block is separated by only 1 cross block.,253,53,,,,,6.0
-R0283,P027,Juliana-p3.ndjson,comments,I think it still took me some time to get into the mode of working it.,70,16,,,,,6.0
-R0284,P027,Juliana-p3.ndjson,size_experience_other,nan,3,1,,,,,6.0
+In the middle of the puzzle, I check all clues for each line and see if I can fill up any blocks or cross out any blocks.",313,70,,,,,6
+R0268,P022,Bing-p22.ndjson,comments,"For me, the key to the puzzle is that you need to find a line that you are able to fill the whole line with the given clue. It will be harder if this kind of clue is less, and easier if there are many of this kind of clue.",222,50,,,,,6
+R0269,P022,Bing-p22.ndjson,size_experience_other,nan,3,1,,,,,6
+R0270,P023,Bing-p23.ndjson,strategy,I went row by row,17,5,,,,,1
+R0271,P023,Bing-p23.ndjson,comments,no!,3,1,,,,,1
+R0272,P023,Bing-p23.ndjson,size_experience_other,nan,3,1,,,,,1
+R0273,P024,Bing-p24.ndjson,strategy,"I liked to make my best guess and then use the hint feature to tell me whether or not I was right, and then use that information to keep making educated guesses / deducing the next right thing I could fill in.",209,42,,,,,1
+R0274,P024,Bing-p24.ndjson,comments,"No, I think I answered this in my other questions.",50,10,,,,,1
+R0275,P024,Bing-p24.ndjson,size_experience_other,nan,3,1,,,,,1
+R0276,P025,Juliana-p1.ndjson,strategy,"fill out guaranteed rows, and just proceed logically from there",63,10,,,,,8
+R0277,P025,Juliana-p1.ndjson,comments,"the last one had a bit of difficulties dealing with all the 1's, since they blend together and look funny",105,20,,,,,8
+R0278,P025,Juliana-p1.ndjson,size_experience_other,nan,3,1,,,,,8
+R0279,P026,Juliana-p2.ndjson,strategy,"I filled in the most obvious clues first, like two numbers adding to 9, and then tried to solve the others using that information.",130,24,,,,,1
+R0280,P026,Juliana-p2.ndjson,comments,"I didn't want to guess in case I got a square wrong, but that also made the puzzle harder because I didn't really have any more clues to help me.",145,30,,,,,1
+R0281,P026,Juliana-p2.ndjson,size_experience_other,nan,3,1,,,,,1
+R0282,P027,Juliana-p3.ndjson,strategy,I would look at how many numbers there are on the side and how many black blocks they each correspond to. I'd use a formula of (# of Black blocks in the row) + (number hints - 1) = 10. This tells me whether each block is separated by only 1 cross block.,253,53,,,,,6
+R0283,P027,Juliana-p3.ndjson,comments,I think it still took me some time to get into the mode of working it.,70,16,,,,,6
+R0284,P027,Juliana-p3.ndjson,size_experience_other,nan,3,1,,,,,6
 R0285,P028,Juliana-p4.ndjson,strategy,"I feel like it's better to use hints especially at the very beginning, but I had a lot left when finished. 
-So the time interval of giving hints seems meaningful for me cause it helps but it doesn't spoil the game.",214,41,,,,,1.0
-R0286,P028,Juliana-p4.ndjson,comments,"Maybe for beginner, it takes some time to think the strategies.",63,11,,,,,1.0
-R0287,P028,Juliana-p4.ndjson,size_experience_other,nan,3,1,,,,,1.0
+So the time interval of giving hints seems meaningful for me cause it helps but it doesn't spoil the game.",214,41,,,,,1
+R0286,P028,Juliana-p4.ndjson,comments,"Maybe for beginner, it takes some time to think the strategies.",63,11,,,,,1
+R0287,P028,Juliana-p4.ndjson,size_experience_other,nan,3,1,,,,,1
 R0288,P029,Juliana-p5.ndjson,strategy,"1. start with the rows & columns with only 1 possible solution
 2. see if there's any overlap between possible solutions (ex. 1 box is always black)
-- repeat these 2 steps",170,32,,,,,8.0
-R0289,P029,Juliana-p5.ndjson,comments,It was a bit hard to do without additional annotations (like specific possibilities) as I had to remember them and that confused me sometimes as sometimes I would remember them wrong,182,31,,,,,8.0
-R0290,P029,Juliana-p5.ndjson,size_experience_other,nan,3,1,,,,,8.0
-R0291,P030,Juliana-p6.ndjson,strategy,Reasoning based on certain ones,31,5,,,,,3.0
-R0292,P030,Juliana-p6.ndjson,comments,NA,2,1,,,,,3.0
-R0293,P030,Juliana-p6.ndjson,size_experience_other,nan,3,1,,,,,3.0
-R0294,P031,Juliana-p7.ndjson,strategy,"I started doing the vertical rows, then I would complete the horizontal rows, and then go through what I had selected and edit my selections to match the numbers for each row.",175,32,,,,,1.0
-R0295,P031,Juliana-p7.ndjson,comments,"What made the puzzle harder for me was never having done nonograms, therefore, it took me a few tries to see what method would work best for me and the way that my mind understands logic games.",193,37,,,,,1.0
-R0296,P031,Juliana-p7.ndjson,size_experience_other,nan,3,1,,,,,1.0
-R0297,P032,Michael-p1.ndjson,strategy,"Some hints provided that the whole row/column must be filled out a certain way. When blocks were on the edge, I knew exactly how much to increase them. If I had to fill a line somewhere, I could use the max/min of its length to know where some blocks must be.",259,51,,,,,5.0
-R0298,P032,Michael-p1.ndjson,comments,Keeping track of what has been filled out made things overall harder.,69,12,,,,,5.0
-R0299,P032,Michael-p1.ndjson,size_experience_other,nan,3,1,,,,,5.0
-R0300,P033,Michael-p2.ndjson,strategy,"lines that added to 10 first, then figuring out what i could do from there. i used the X a lot to give me information about where black squares definitely could not go.",168,33,,,,,2.0
+- repeat these 2 steps",170,32,,,,,8
+R0289,P029,Juliana-p5.ndjson,comments,It was a bit hard to do without additional annotations (like specific possibilities) as I had to remember them and that confused me sometimes as sometimes I would remember them wrong,182,31,,,,,8
+R0290,P029,Juliana-p5.ndjson,size_experience_other,nan,3,1,,,,,8
+R0291,P030,Juliana-p6.ndjson,strategy,Reasoning based on certain ones,31,5,,,,,3
+R0292,P030,Juliana-p6.ndjson,comments,NA,2,1,,,,,3
+R0293,P030,Juliana-p6.ndjson,size_experience_other,nan,3,1,,,,,3
+R0294,P031,Juliana-p7.ndjson,strategy,"I started doing the vertical rows, then I would complete the horizontal rows, and then go through what I had selected and edit my selections to match the numbers for each row.",175,32,,,,,1
+R0295,P031,Juliana-p7.ndjson,comments,"What made the puzzle harder for me was never having done nonograms, therefore, it took me a few tries to see what method would work best for me and the way that my mind understands logic games.",193,37,,,,,1
+R0296,P031,Juliana-p7.ndjson,size_experience_other,nan,3,1,,,,,1
+R0297,P032,Michael-p1.ndjson,strategy,"Some hints provided that the whole row/column must be filled out a certain way. When blocks were on the edge, I knew exactly how much to increase them. If I had to fill a line somewhere, I could use the max/min of its length to know where some blocks must be.",259,51,,,,,5
+R0298,P032,Michael-p1.ndjson,comments,Keeping track of what has been filled out made things overall harder.,69,12,,,,,5
+R0299,P032,Michael-p1.ndjson,size_experience_other,nan,3,1,,,,,5
+R0300,P033,Michael-p2.ndjson,strategy,"lines that added to 10 first, then figuring out what i could do from there. i used the X a lot to give me information about where black squares definitely could not go.",168,33,,,,,2
 R0301,P033,Michael-p2.ndjson,comments,"easy: more information (more lines that add to 10) and less options
-hard: not really knowing how to puzzle, figuring out initial strategies.",140,23,,,,,2.0
-R0302,P033,Michael-p2.ndjson,size_experience_other,nan,3,1,,,,,2.0
-R0303,P034,Michael-p3.ndjson,strategy,i first filled the black ones with a lot of connective numbers(i.e. 7~10) and then focus on the smaller ones(i.e. 4~6).,119,21,,,,,7.0
-R0304,P034,Michael-p3.ndjson,comments,"like when there are a lot of smaller connective numbers such as ""1 1 1 1 "" and ""1 2 1""",86,21,,,,,7.0
-R0305,P034,Michael-p3.ndjson,size_experience_other,nan,3,1,,,,,7.0
-R0306,P035,Michael-p4.ndjson,strategy,Make sure all the known cells are filled,40,8,,,,,5.0
-R0307,P035,Michael-p4.ndjson,comments,No,2,1,,,,,5.0
-R0308,P035,Michael-p4.ndjson,size_experience_other,nan,3,1,,,,,5.0
-R0309,P036,Michael-p5.ndjson,strategy,finding overlaps,16,2,,,,,7.0
-R0310,P036,Michael-p5.ndjson,comments,"larger numbers in rows and columns provide more cues, more smaller numbers make it harder",89,15,,,,,7.0
-R0311,P036,Michael-p5.ndjson,size_experience_other,nan,3,1,,,,,7.0
+hard: not really knowing how to puzzle, figuring out initial strategies.",140,23,,,,,2
+R0302,P033,Michael-p2.ndjson,size_experience_other,nan,3,1,,,,,2
+R0303,P034,Michael-p3.ndjson,strategy,i first filled the black ones with a lot of connective numbers(i.e. 7~10) and then focus on the smaller ones(i.e. 4~6).,119,21,,,,,7
+R0304,P034,Michael-p3.ndjson,comments,"like when there are a lot of smaller connective numbers such as ""1 1 1 1 "" and ""1 2 1""",86,21,,,,,7
+R0305,P034,Michael-p3.ndjson,size_experience_other,nan,3,1,,,,,7
+R0306,P035,Michael-p4.ndjson,strategy,Make sure all the known cells are filled,40,8,,,,,5
+R0307,P035,Michael-p4.ndjson,comments,No,2,1,,,,,5
+R0308,P035,Michael-p4.ndjson,size_experience_other,nan,3,1,,,,,5
+R0309,P036,Michael-p5.ndjson,strategy,finding overlaps,16,2,,,,,7
+R0310,P036,Michael-p5.ndjson,comments,"larger numbers in rows and columns provide more cues, more smaller numbers make it harder",89,15,,,,,7
+R0311,P036,Michael-p5.ndjson,size_experience_other,nan,3,1,,,,,7
 R0312,P037,Michael-p6.ndjson,strategy,"The first strategy was to solve as many rows and columns by inspection. For example, if the numbers were 5 and 4, I could immediately eliminate that line from consideration and focus on harder sections.
 
-The second strategy I utilized was to fill out a few rows in an almost nondeterministic fashion. For example, in rows where there was one less tile than needed to solve by inspection (i.e 4, 4) I would fill that line in such a way that all possible permutations of shaded tile that fit that pattern would be derivable. With these extra cells, I would then complete other lines. Finally, when I had more information, I would loop back to the nondeterministic line and complete it.",683,121,,,,,9.0
-R0313,P037,Michael-p6.ndjson,comments,I will say there was a bit of initial shock from the spike in difficulty between the warmups and first nonogram. I think if someone had less experience doing nonograms they likely would have taken considerably longer.,217,37,,,,,9.0
-R0314,P037,Michael-p6.ndjson,size_experience_other,nan,3,1,,,,,9.0
-R0315,P038,Michael-p7.ndjson,strategy,"I would first look for lines/rows with guaranteed solution and fill them up. Then, based on the filled blocks, I try to fill the blocks next to them. For example, if a block on the edge is filled with guaranteed solution, I expand it to the centre based on what its line says about the first/last number, and cross out the one next to it. Also, some pattern would have non-trivial guaranteed blocks, I actively check all possible solutions and find the common filled/crossed-out blocks. (e.g. ""6 1"" would have some guaranteed blocks filled out near the middle)",560,98,,,,,3.0
-R0316,P038,Michael-p7.ndjson,comments,"When there's more steps where you have to start consider different possibilities, it feels harder. When there's more straight-forward guaranteed blocks, it feels easier (e.g. cross out a block around guaranteed filled blocks, fill blocks near a filled edge block according to the number).",288,44,,,,,3.0
-R0317,P038,Michael-p7.ndjson,size_experience_other,nan,3,1,,,,,3.0
-R0318,P039,Michael-p8.ndjson,strategy,"Either enumerating possible solutions for a row/column, or use contradiction to ""guess"" a candidate cell's opposite colours and see if it would lead to contradictions.",167,25,,,,,3.0
-R0319,P039,Michael-p8.ndjson,comments,"The starting row may not be too obvious, and the solution space from any single move might be large to search through.",118,22,,,,,3.0
-R0320,P039,Michael-p8.ndjson,size_experience_other,nan,3,1,,,,,3.0
-R0321,P040,Michael-p9.ndjson,strategy,"At first I tried to make educated guesses based on the hints but I then tried to take advantage of the ""x"" feature.",115,23,,,,,3.0
-R0322,P040,Michael-p9.ndjson,comments,n/a,3,1,,,,,3.0
-R0323,P040,Michael-p9.ndjson,size_experience_other,n/a,3,1,,,,,3.0
-R0324,P041,Michael-p10.ndjson,strategy,"I glance the grid to search for large numbers or a row with many numbers, those are easy start with, because you can find overlaps in the possible positions. I also try to start with the borders because having only one possible location to extend to makes the deductions easy.",276,50,,,,,9.0
-R0325,P041,Michael-p10.ndjson,comments,"The easiest puzzles would have rows of 10's, 9's or 8's, the numbers in these puzzles are generally smaller so they weren't super easy. The grid size is small though so the puzzles aren't very difficult. A larger grid size would have more variation in possible patterns.",270,47,,,,,9.0
-R0326,P041,Michael-p10.ndjson,size_experience_other,nan,3,1,,,,,9.0
-R0327,P042,Michael-p11.ndjson,strategy,Trying to compare values across rows and columns to see where the hints matched.,80,14,,,,,2.0
-R0328,P042,Michael-p11.ndjson,comments,Not applicable.,15,2,,,,,2.0
-R0329,P042,Michael-p11.ndjson,size_experience_other,nan,3,1,,,,,2.0
-R0330,P043,Michael-p12.ndjson,strategy,"logical deduction, trial and error",34,5,,,,,5.0
-R0331,P043,Michael-p12.ndjson,comments,n/a,3,1,,,,,5.0
-R0332,P043,Michael-p12.ndjson,size_experience_other,nan,3,1,,,,,5.0
-R0333,P044,Michael-p13.ndjson,strategy,"Start with row or column that I can fill out instantly. Don't just focus on squares to be filled, but also look at squares that are can be crossed-out.",151,29,,,,,3.0
-R0334,P044,Michael-p13.ndjson,comments,Small numbers (1 and 2) are harder than big numbers (3+).,57,11,,,,,3.0
-R0335,P044,Michael-p13.ndjson,size_experience_other,nan,3,1,,,,,3.0
-R0336,P045,Michael-p14.ndjson,strategy,"To fulfill the known lines first, and then along the guessing, I can cross some connected cells.",96,17,,,,,4.0
-R0337,P045,Michael-p14.ndjson,comments,Nothing else.,13,2,,,,,4.0
-R0338,P045,Michael-p14.ndjson,size_experience_other,nan,3,1,,,,,4.0
+The second strategy I utilized was to fill out a few rows in an almost nondeterministic fashion. For example, in rows where there was one less tile than needed to solve by inspection (i.e 4, 4) I would fill that line in such a way that all possible permutations of shaded tile that fit that pattern would be derivable. With these extra cells, I would then complete other lines. Finally, when I had more information, I would loop back to the nondeterministic line and complete it.",683,121,,,,,9
+R0313,P037,Michael-p6.ndjson,comments,I will say there was a bit of initial shock from the spike in difficulty between the warmups and first nonogram. I think if someone had less experience doing nonograms they likely would have taken considerably longer.,217,37,,,,,9
+R0314,P037,Michael-p6.ndjson,size_experience_other,nan,3,1,,,,,9
+R0315,P038,Michael-p7.ndjson,strategy,"I would first look for lines/rows with guaranteed solution and fill them up. Then, based on the filled blocks, I try to fill the blocks next to them. For example, if a block on the edge is filled with guaranteed solution, I expand it to the centre based on what its line says about the first/last number, and cross out the one next to it. Also, some pattern would have non-trivial guaranteed blocks, I actively check all possible solutions and find the common filled/crossed-out blocks. (e.g. ""6 1"" would have some guaranteed blocks filled out near the middle)",560,98,,,,,3
+R0316,P038,Michael-p7.ndjson,comments,"When there's more steps where you have to start consider different possibilities, it feels harder. When there's more straight-forward guaranteed blocks, it feels easier (e.g. cross out a block around guaranteed filled blocks, fill blocks near a filled edge block according to the number).",288,44,,,,,3
+R0317,P038,Michael-p7.ndjson,size_experience_other,nan,3,1,,,,,3
+R0318,P039,Michael-p8.ndjson,strategy,"Either enumerating possible solutions for a row/column, or use contradiction to ""guess"" a candidate cell's opposite colours and see if it would lead to contradictions.",167,25,,,,,3
+R0319,P039,Michael-p8.ndjson,comments,"The starting row may not be too obvious, and the solution space from any single move might be large to search through.",118,22,,,,,3
+R0320,P039,Michael-p8.ndjson,size_experience_other,nan,3,1,,,,,3
+R0321,P040,Michael-p9.ndjson,strategy,"At first I tried to make educated guesses based on the hints but I then tried to take advantage of the ""x"" feature.",115,23,,,,,3
+R0322,P040,Michael-p9.ndjson,comments,n/a,3,1,,,,,3
+R0323,P040,Michael-p9.ndjson,size_experience_other,n/a,3,1,,,,,3
+R0324,P041,Michael-p10.ndjson,strategy,"I glance the grid to search for large numbers or a row with many numbers, those are easy start with, because you can find overlaps in the possible positions. I also try to start with the borders because having only one possible location to extend to makes the deductions easy.",276,50,,,,,9
+R0325,P041,Michael-p10.ndjson,comments,"The easiest puzzles would have rows of 10's, 9's or 8's, the numbers in these puzzles are generally smaller so they weren't super easy. The grid size is small though so the puzzles aren't very difficult. A larger grid size would have more variation in possible patterns.",270,47,,,,,9
+R0326,P041,Michael-p10.ndjson,size_experience_other,nan,3,1,,,,,9
+R0327,P042,Michael-p11.ndjson,strategy,Trying to compare values across rows and columns to see where the hints matched.,80,14,,,,,2
+R0328,P042,Michael-p11.ndjson,comments,Not applicable.,15,2,,,,,2
+R0329,P042,Michael-p11.ndjson,size_experience_other,nan,3,1,,,,,2
+R0330,P043,Michael-p12.ndjson,strategy,"logical deduction, trial and error",34,5,,,,,5
+R0331,P043,Michael-p12.ndjson,comments,n/a,3,1,,,,,5
+R0332,P043,Michael-p12.ndjson,size_experience_other,nan,3,1,,,,,5
+R0333,P044,Michael-p13.ndjson,strategy,"Start with row or column that I can fill out instantly. Don't just focus on squares to be filled, but also look at squares that are can be crossed-out.",151,29,,,,,3
+R0334,P044,Michael-p13.ndjson,comments,Small numbers (1 and 2) are harder than big numbers (3+).,57,11,,,,,3
+R0335,P044,Michael-p13.ndjson,size_experience_other,nan,3,1,,,,,3
+R0336,P045,Michael-p14.ndjson,strategy,"To fulfill the known lines first, and then along the guessing, I can cross some connected cells.",96,17,,,,,4
+R0337,P045,Michael-p14.ndjson,comments,Nothing else.,13,2,,,,,4
+R0338,P045,Michael-p14.ndjson,size_experience_other,nan,3,1,,,,,4
 R0339,P046,Michael-p15.ndjson,strategy,"For puzzles 2 and 3, I made heavy use of marking off white space. This made the puzzle easier as I didn't need to keep everything in my head. 
 
 My main strategy when solving the puzzles was to find the row/column with the largest number of blacked-out boxes then immediately fill in as much as possible. From there, I would work out from where I started to use the initial deduction.
 
-Not sure if this is what you are looking for in terms of strategy.",451,85,,,,,5.0
-R0340,P046,Michael-p15.ndjson,comments,"As stated above, a concrete starting area, as well as the amount that needed to be filled in per row/column (since not having much to fill in made the space of possible solutions to consider much larger).",204,37,,,,,5.0
-R0341,P046,Michael-p15.ndjson,size_experience_other,nan,3,1,,,,,5.0
-R0342,P047,Michael-p16.ndjson,strategy,"trying to figure out what solutions were possible in each row/column and take the intersection of those solutions. Every time I learned a label on one of the cells, I would check the surrounding rows/columns to figure out if this could be used to figure something else out.",273,48,,,,,4.0
-R0343,P047,Michael-p16.ndjson,comments,"It made me a bit nervous near the end of the puzzles when I saw other participants leaving, it made me want to try to finish faster.",132,27,,,,,4.0
-R0344,P047,Michael-p16.ndjson,size_experience_other,nan,3,1,,,,,4.0
+Not sure if this is what you are looking for in terms of strategy.",451,85,,,,,5
+R0340,P046,Michael-p15.ndjson,comments,"As stated above, a concrete starting area, as well as the amount that needed to be filled in per row/column (since not having much to fill in made the space of possible solutions to consider much larger).",204,37,,,,,5
+R0341,P046,Michael-p15.ndjson,size_experience_other,nan,3,1,,,,,5
+R0342,P047,Michael-p16.ndjson,strategy,"trying to figure out what solutions were possible in each row/column and take the intersection of those solutions. Every time I learned a label on one of the cells, I would check the surrounding rows/columns to figure out if this could be used to figure something else out.",273,48,,,,,4
+R0343,P047,Michael-p16.ndjson,comments,"It made me a bit nervous near the end of the puzzles when I saw other participants leaving, it made me want to try to finish faster.",132,27,,,,,4
+R0344,P047,Michael-p16.ndjson,size_experience_other,nan,3,1,,,,,4
 R0345,P048,Michael-p17.ndjson,strategy,"- the ""total 9 line"" strategy (for 1, 8 line, 1, 4, 2, 2 line etc.)
-- a lot of guessing",87,21,,,,,5.0
-R0346,P048,Michael-p17.ndjson,comments,"a lack of ""fixed"" line makes it hard...",39,8,,,,,5.0
-R0347,P048,Michael-p17.ndjson,size_experience_other,nan,3,1,,,,,5.0
+- a lot of guessing",87,21,,,,,5
+R0346,P048,Michael-p17.ndjson,comments,"a lack of ""fixed"" line makes it hard...",39,8,,,,,5
+R0347,P048,Michael-p17.ndjson,size_experience_other,nan,3,1,,,,,5
 R0348,P049,Michael-p18.ndjson,strategy,"Every time I fill in a square, I look to the vertical and horizontal columns that square affects to see if I can fill in any of the other ones
 Blocking the moves to the side when they are invalid
-Check after every move if I can logically fill in the other squares to complete columns or rows based off of previously impossible / blocked  squares",345,66,,,,,2.0
-R0349,P049,Michael-p18.ndjson,comments,No,2,1,,,,,2.0
-R0350,P049,Michael-p18.ndjson,size_experience_other,nan,3,1,,,,,2.0
-R0351,P050,Michael-p19.ndjson,strategy,First find all the grid that must be black,42,9,,,,,6.0
-R0352,P050,Michael-p19.ndjson,comments,make it 15x15,13,3,,,,,6.0
-R0353,P050,Michael-p19.ndjson,size_experience_other,nan,3,1,,,,,6.0
-R0354,P051,Michael-p20.ndjson,strategy,"First I filled the rows that can be solved immediately (i.e, the rows or columns that has only one possible arragement of the black boxes), then I just try to use those solved boxes to solve whatever I could and make some guesses, and try to push until I find a contradiction and in that case I undo the guesses and try other guesses.",334,64,,,,,1.0
-R0355,P051,Michael-p20.ndjson,comments,"I think there are just some cases where the boxes to fill in is not possible to deterministically logically deduce, and those part of the solves were pretty frustrating and felt uncertain. However with some guessing it was okay.",228,39,,,,,1.0
-R0356,P051,Michael-p20.ndjson,size_experience_other,nan,3,1,,,,,1.0
-R0357,P052,Michael-p21.ndjson,strategy,Locate the largest number block first.,38,6,,,,,1.0
-R0358,P052,Michael-p21.ndjson,comments,The hints make them feel easier.,32,6,,,,,1.0
-R0359,P052,Michael-p21.ndjson,size_experience_other,nan,3,1,,,,,1.0
-R0360,P053,Riyad-p1.json,strategy,"I looked for groups where it was guaranteed to only have 1 possible solution for all the squares and gaps. When this was not possible, I considered both extremes regarding positioning of blocks, and marked the common ones in either case, which must be black. I also used the cross to mark incorrect blocks.",306,54,,,,,8.0
-R0361,P053,Riyad-p1.json,comments,Puzzles with nice groups of numbers that allowed more assumptions to be made felt easier. This is when larger numbers or more numbers are used.,143,25,,,,,8.0
-R0362,P053,Riyad-p1.json,size_experience_other,nan,3,1,,,,,8.0
-R0363,P054,Riyad-p2.json,strategy,"Started filling out via the columns/rows that had a deterministic output, guessed from there. Some of grid easier to deduce, some not",133,22,,,,,1.0
-R0364,P054,Riyad-p2.json,comments,"Time constraints. I'm a beginner so I was really into the puzzle. I wasn't optimising for a result, I wanted to see the end goal quickly. With more time and puzzles I think it will be easier.",191,37,,,,,1.0
-R0365,P054,Riyad-p2.json,size_experience_other,nan,3,1,,,,,1.0
-R0366,P055,Riyad-p3.json,strategy,"N = number of numbers in a line
+Check after every move if I can logically fill in the other squares to complete columns or rows based off of previously impossible / blocked  squares",345,66,,,,,2
+R0349,P049,Michael-p18.ndjson,comments,No,2,1,,,,,2
+R0350,P049,Michael-p18.ndjson,size_experience_other,nan,3,1,,,,,2
+R0351,P050,Michael-p19.ndjson,strategy,First find all the grid that must be black,42,9,,,,,6
+R0352,P050,Michael-p19.ndjson,comments,make it 15x15,13,3,,,,,6
+R0353,P050,Michael-p19.ndjson,size_experience_other,nan,3,1,,,,,6
+R0354,P051,Michael-p20.ndjson,strategy,"First I filled the rows that can be solved immediately (i.e, the rows or columns that has only one possible arragement of the black boxes), then I just try to use those solved boxes to solve whatever I could and make some guesses, and try to push until I find a contradiction and in that case I undo the guesses and try other guesses.",334,64,,,,,1
+R0355,P051,Michael-p20.ndjson,comments,"I think there are just some cases where the boxes to fill in is not possible to deterministically logically deduce, and those part of the solves were pretty frustrating and felt uncertain. However with some guessing it was okay.",228,39,,,,,1
+R0356,P051,Michael-p20.ndjson,size_experience_other,nan,3,1,,,,,1
+R0357,P052,Michael-p21.ndjson,strategy,Locate the largest number block first.,38,6,,,,,1
+R0358,P052,Michael-p21.ndjson,comments,The hints make them feel easier.,32,6,,,,,1
+R0359,P052,Michael-p21.ndjson,size_experience_other,nan,3,1,,,,,1
+R0360,P053,Riyad-p1.ndjson,strategy,"I looked for groups where it was guaranteed to only have 1 possible solution for all the squares and gaps. When this was not possible, I considered both extremes regarding positioning of blocks, and marked the common ones in either case, which must be black. I also used the cross to mark incorrect blocks.",306,54,,,,,8
+R0361,P053,Riyad-p1.ndjson,comments,Puzzles with nice groups of numbers that allowed more assumptions to be made felt easier. This is when larger numbers or more numbers are used.,143,25,,,,,8
+R0362,P053,Riyad-p1.ndjson,size_experience_other,nan,3,1,,,,,8
+R0363,P054,Riyad-p2.ndjson,strategy,"Started filling out via the columns/rows that had a deterministic output, guessed from there. Some of grid easier to deduce, some not",133,22,,,,,1
+R0364,P054,Riyad-p2.ndjson,comments,"Time constraints. I'm a beginner so I was really into the puzzle. I wasn't optimising for a result, I wanted to see the end goal quickly. With more time and puzzles I think it will be easier.",191,37,,,,,1
+R0365,P054,Riyad-p2.ndjson,size_experience_other,nan,3,1,,,,,1
+R0366,P055,Riyad-p3.ndjson,strategy,"N = number of numbers in a line
 T = total sum of the numbers per-line
 
 if (N-1) + T = 10 = size of board -> fill this in
 
 Afterwards, just fill in what is possible and what is not, chip away, and see the rest
 
-and don't mess up :) (else hints)",243,54,,,,,8.0
-R0367,P055,Riyad-p3.json,comments,practice (i.e. throughout the test) made it feel easier,55,9,,,,,8.0
-R0368,P055,Riyad-p3.json,size_experience_other,nan,3,1,,,,,8.0
-R0369,P056,Riyad-p4.json,strategy,"running counter-factuals, I think the added pressure made me perform better, but I had to guess more and didn't have time to overthink",134,23,,,,,1.0
-R0370,P056,Riyad-p4.json,comments,I think they would be easier on paper because I could annotate more instead of keeping it all in my head (minus the Xs),119,24,,,,,1.0
-R0371,P056,Riyad-p4.json,size_experience_other,nan,3,1,,,,,1.0
-R0372,P057,Riyad-p5.json,strategy,"Finding fixed positions first (freebies), analyzing what space each number is guaranteed given the other numbers in the row/column",130,19,,,,,6.0
-R0373,P057,Riyad-p5.json,comments,Not a lot of freebies,21,5,,,,,6.0
-R0374,P057,Riyad-p5.json,size_experience_other,nan,3,1,,,,,6.0
-R0375,P058,Riyad-p6.json,strategy,"Look for ""free columns"" (every piece is known given the numbers and gaps), If the general location of a line is known, filling in squares that have to be black/white based on that. Looking at remaining parts of columns to fill in white/X squares.",246,44,,,,,4.0
-R0376,P058,Riyad-p6.json,comments,Easier could generally be solved by only looking at one row/column at a time. Harder ones required you to look at multiple rows/columns at once in order to deduce information without guessing.,192,32,,,,,4.0
-R0377,P058,Riyad-p6.json,size_experience_other,nan,3,1,,,,,4.0
-R0378,P059,Riyad-p7.json,strategy,"seeing which squares are present in every combination for larger numbers. if a square was on an edge or next to an x, the number associated with it was guaranteed to trail in the other direction. cross checking rows and columns when there are those that are filled out. seeing if out of multiple combinations, there were cases where only one is actually possible, in which case its the only correct order.",405,72,,,,,8.0
-R0379,P059,Riyad-p7.json,comments,"not much, I had some prior practice so it was a pretty normal experience, and I like challenge",94,18,,,,,8.0
-R0380,P059,Riyad-p7.json,size_experience_other,nan,3,1,,,,,8.0
-R0381,P060,Riyad-p8.json,strategy,"look for the ones that would sum up to 10, then work from there, use hint when stuck",84,18,,,,,1.0
-R0382,P060,Riyad-p8.json,comments,undo button should not be the same color and right beside the reset button,74,14,,,,,1.0
-R0383,P060,Riyad-p8.json,size_experience_other,nan,3,1,,,,,1.0
-R0384,P061,Riyad-p9.json,strategy,looking for common black square during ambiguous possibilities. Started solving the bigger numbers first. Started longer sequences.,131,17,,,,,7.0
-R0385,P061,Riyad-p9.json,comments,Puzzle 2 was easy start because of many fixed arrangements,58,10,,,,,7.0
-R0386,P061,Riyad-p9.json,size_experience_other,nan,3,1,,,,,7.0
-R0387,P062,Riyad-p10.json,strategy,"1. Fill out freebies and eliminate any adjacent cells that don't work 
+and don't mess up :) (else hints)",243,54,,,,,8
+R0367,P055,Riyad-p3.ndjson,comments,practice (i.e. throughout the test) made it feel easier,55,9,,,,,8
+R0368,P055,Riyad-p3.ndjson,size_experience_other,nan,3,1,,,,,8
+R0369,P056,Riyad-p4.ndjson,strategy,"running counter-factuals, I think the added pressure made me perform better, but I had to guess more and didn't have time to overthink",134,23,,,,,1
+R0370,P056,Riyad-p4.ndjson,comments,I think they would be easier on paper because I could annotate more instead of keeping it all in my head (minus the Xs),119,24,,,,,1
+R0371,P056,Riyad-p4.ndjson,size_experience_other,nan,3,1,,,,,1
+R0372,P057,Riyad-p5.ndjson,strategy,"Finding fixed positions first (freebies), analyzing what space each number is guaranteed given the other numbers in the row/column",130,19,,,,,6
+R0373,P057,Riyad-p5.ndjson,comments,Not a lot of freebies,21,5,,,,,6
+R0374,P057,Riyad-p5.ndjson,size_experience_other,nan,3,1,,,,,6
+R0375,P058,Riyad-p6.ndjson,strategy,"Look for ""free columns"" (every piece is known given the numbers and gaps), If the general location of a line is known, filling in squares that have to be black/white based on that. Looking at remaining parts of columns to fill in white/X squares.",246,44,,,,,4
+R0376,P058,Riyad-p6.ndjson,comments,Easier could generally be solved by only looking at one row/column at a time. Harder ones required you to look at multiple rows/columns at once in order to deduce information without guessing.,192,32,,,,,4
+R0377,P058,Riyad-p6.ndjson,size_experience_other,nan,3,1,,,,,4
+R0378,P059,Riyad-p7.ndjson,strategy,"seeing which squares are present in every combination for larger numbers. if a square was on an edge or next to an x, the number associated with it was guaranteed to trail in the other direction. cross checking rows and columns when there are those that are filled out. seeing if out of multiple combinations, there were cases where only one is actually possible, in which case its the only correct order.",405,72,,,,,8
+R0379,P059,Riyad-p7.ndjson,comments,"not much, I had some prior practice so it was a pretty normal experience, and I like challenge",94,18,,,,,8
+R0380,P059,Riyad-p7.ndjson,size_experience_other,nan,3,1,,,,,8
+R0381,P060,Riyad-p8.ndjson,strategy,"look for the ones that would sum up to 10, then work from there, use hint when stuck",84,18,,,,,1
+R0382,P060,Riyad-p8.ndjson,comments,undo button should not be the same color and right beside the reset button,74,14,,,,,1
+R0383,P060,Riyad-p8.ndjson,size_experience_other,nan,3,1,,,,,1
+R0384,P061,Riyad-p9.ndjson,strategy,looking for common black square during ambiguous possibilities. Started solving the bigger numbers first. Started longer sequences.,131,17,,,,,7
+R0385,P061,Riyad-p9.ndjson,comments,Puzzle 2 was easy start because of many fixed arrangements,58,10,,,,,7
+R0386,P061,Riyad-p9.ndjson,size_experience_other,nan,3,1,,,,,7
+R0387,P062,Riyad-p10.ndjson,strategy,"1. Fill out freebies and eliminate any adjacent cells that don't work 
 2. Look at the start and end of the sequences. This can often eliminate or fill out the start or end. 
-3. Overlap of potential positions. For example, (1, 4, 1), 4 itself was very limited to where it could have been placed. Look for where a piece of 4 is guaranteed to fill.",345,66,,,,,5.0
-R0388,P062,Riyad-p10.json,comments,I liked it :D Best of luck with the research!,45,10,,,,,5.0
-R0389,P062,Riyad-p10.json,size_experience_other,nan,3,1,,,,,5.0
-R0390,P063,Riyad-p11.json,strategy,"Used hints, deductive reasoning, freebies first, used the overlap to reduce the possibilities, and also the x marks to keep track of the board.",143,24,,,,,2.0
-R0391,P063,Riyad-p11.json,comments,N/A,3,1,,,,,2.0
-R0392,P063,Riyad-p11.json,size_experience_other,nan,3,1,,,,,2.0
-R0393,P064,Riyad-p12.json,strategy,"Looking at fixed arrangements first, then blacked out guaranteed spots by looking at potential arrangements, then every time I colored a square or crossed it out, I would look through the row and column it affected.",215,36,,,,,3.0
-R0394,P064,Riyad-p12.json,comments,N/A,3,1,,,,,3.0
-R0395,P064,Riyad-p12.json,size_experience_other,nan,3,1,,,,,3.0
-R0396,P065,Riyad-p13.json,strategy,"Fixed arrangements first, then looked at overlap of potential positions. After that, I analyzed how much remaining space were left and if squares could fit there. Also, I crossed out all rows that were already completed so ensure that nothing was being overwritten.",265,43,,,,,7.0
-R0397,P065,Riyad-p13.json,comments,"Definitely the usefulness of the hints, depending on which cell it highlighted that was wrong.",94,15,,,,,7.0
-R0398,P065,Riyad-p13.json,size_experience_other,nan,3,1,,,,,7.0
-R0399,P066,Riyad-p14.ndjson,strategy,Go for freebies at the start. Find guaranteed squares in all possibilities. Mark the borders of the found numbers. Analyse all possibilities for the remaining space and find which order fits.,191,31,,,,,7.0
-R0400,P066,Riyad-p14.ndjson,comments,Less freebies given. Less total per row/column given.,53,8,,,,,7.0
-R0401,P066,Riyad-p14.ndjson,size_experience_other,nan,3,1,,,,,7.0
-R0402,P067,Riyad-p15.ndjson,strategy,"Process of elimination: overlap of potential positions, fixed arrangements from start/end positions, see possible solutions with remaining white space, immediately X out cells",175,23,,,,,5.0
-R0403,P067,Riyad-p15.ndjson,comments,It was hard because its 10pm and I had a long day,49,12,,,,,5.0
-R0404,P067,Riyad-p15.ndjson,size_experience_other,nan,3,1,,,,,5.0
-R0405,P068,Riyad-p16.ndjson,strategy,try to cross out as many squares as possible based on logic. go for fixed arrangements to start. overlapping method to determine guaranteed black squares. trying to see if the numbers would be able to fit into remaining spaces of a partially filled row to find more black squares or crosses.,291,51,,,,,6.0
-R0406,P068,Riyad-p16.ndjson,comments,not knowing the strategies made it hard. but learning them immediately made it easier.,86,14,,,,,6.0
-R0407,P068,Riyad-p16.ndjson,size_experience_other,nan,3,1,,,,,6.0
+3. Overlap of potential positions. For example, (1, 4, 1), 4 itself was very limited to where it could have been placed. Look for where a piece of 4 is guaranteed to fill.",345,66,,,,,5
+R0388,P062,Riyad-p10.ndjson,comments,I liked it :D Best of luck with the research!,45,10,,,,,5
+R0389,P062,Riyad-p10.ndjson,size_experience_other,nan,3,1,,,,,5
+R0390,P063,Riyad-p11.ndjson,strategy,"Used hints, deductive reasoning, freebies first, used the overlap to reduce the possibilities, and also the x marks to keep track of the board.",143,24,,,,,2
+R0391,P063,Riyad-p11.ndjson,comments,N/A,3,1,,,,,2
+R0392,P063,Riyad-p11.ndjson,size_experience_other,nan,3,1,,,,,2
+R0393,P064,Riyad-p12.ndjson,strategy,"Looking at fixed arrangements first, then blacked out guaranteed spots by looking at potential arrangements, then every time I colored a square or crossed it out, I would look through the row and column it affected.",215,36,,,,,3
+R0394,P064,Riyad-p12.ndjson,comments,N/A,3,1,,,,,3
+R0395,P064,Riyad-p12.ndjson,size_experience_other,nan,3,1,,,,,3
+R0396,P065,Riyad-p13.ndjson,strategy,"Fixed arrangements first, then looked at overlap of potential positions. After that, I analyzed how much remaining space were left and if squares could fit there. Also, I crossed out all rows that were already completed so ensure that nothing was being overwritten.",265,43,,,,,7
+R0397,P065,Riyad-p13.ndjson,comments,"Definitely the usefulness of the hints, depending on which cell it highlighted that was wrong.",94,15,,,,,7
+R0398,P065,Riyad-p13.ndjson,size_experience_other,nan,3,1,,,,,7
+R0399,P066,Riyad-p14.ndjson,strategy,Go for freebies at the start. Find guaranteed squares in all possibilities. Mark the borders of the found numbers. Analyse all possibilities for the remaining space and find which order fits.,191,31,,,,,7
+R0400,P066,Riyad-p14.ndjson,comments,Less freebies given. Less total per row/column given.,53,8,,,,,7
+R0401,P066,Riyad-p14.ndjson,size_experience_other,nan,3,1,,,,,7
+R0402,P067,Riyad-p15.ndjson,strategy,"Process of elimination: overlap of potential positions, fixed arrangements from start/end positions, see possible solutions with remaining white space, immediately X out cells",175,23,,,,,5
+R0403,P067,Riyad-p15.ndjson,comments,It was hard because its 10pm and I had a long day,49,12,,,,,5
+R0404,P067,Riyad-p15.ndjson,size_experience_other,nan,3,1,,,,,5
+R0405,P068,Riyad-p16.ndjson,strategy,try to cross out as many squares as possible based on logic. go for fixed arrangements to start. overlapping method to determine guaranteed black squares. trying to see if the numbers would be able to fit into remaining spaces of a partially filled row to find more black squares or crosses.,291,51,,,,,6
+R0406,P068,Riyad-p16.ndjson,comments,not knowing the strategies made it hard. but learning them immediately made it easier.,86,14,,,,,6
+R0407,P068,Riyad-p16.ndjson,size_experience_other,nan,3,1,,,,,6

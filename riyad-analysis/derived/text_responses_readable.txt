@@ -132,14 +132,14 @@ A lot more smaller numbers
 [R0041] (P014; puzzle=3, order=3, final_diff=3, skill_nono=5)
     A few fuller lines made it easier
 
-[R0042] (P015; puzzle=1, order=1)
-    nan
+[R0042] (P015; puzzle=2, order=1, final_diff=2, skill_nono=1)
+    The flow of logic was easy and I didn't have to make many educated guesses.
 
-[R0043] (P015; puzzle=2, order=2)
-    nan
+[R0043] (P015; puzzle=5, order=2, final_diff=4, skill_nono=1)
+    Alot of the rows and columns were getting into each other way which made it harder to get the correct answer.
 
-[R0044] (P015; puzzle=0, order=3)
-    nan
+[R0044] (P015; puzzle=0, order=3, final_diff=4, skill_nono=1)
+    Alot of the rows and columns were getting into each other way which made it harder to get the correct answer.
 
 [R0045] (P016; puzzle=2, order=1, final_diff=2, skill_nono=9)
     If I remember correctly, there were many "full" columns near the sides that allowed me to build off of the first/last rows (or rows/columns switched). There were mostly just big chunks, too (not sparse) so it was fairly straightforward. I didn't give it a 1 because it wasn't the most straightforward that I have seen.
@@ -680,8 +680,8 @@ For big numbers, you can usually get the center squares for free
 [R0243] (P014; skill_nono=5)
     Fill the most restrictive conditions first, then test possibilities from most to least restrictive
 
-[R0246] (P015; )
-    nan
+[R0246] (P015; skill_nono=1)
+    First, I coloured in the rows or columns that only had one possibility then I worked from there.
 
 [R0249] (P016; skill_nono=9)
     - Looking for full rows and columns first and marking all boxes I am sure are white
@@ -918,8 +918,8 @@ RESPONSE KIND: comments   (n = 68)
 [R0244] (P014; skill_nono=5)
     Multiple intermediate steps seemed possible, but only one worked in the end
 
-[R0247] (P015; )
-    nan
+[R0247] (P015; skill_nono=1)
+    If there are a lot of possibilities for a row or column it made the puzzle harder.
 
 [R0250] (P016; skill_nono=9)
     These puzzles didn't have clear symmetry, which I suppose made them "not easy"
@@ -1127,7 +1127,7 @@ RESPONSE KIND: size_experience_other   (n = 68)
 [R0245] (P014; skill_nono=5)
     nan
 
-[R0248] (P015; )
+[R0248] (P015; skill_nono=1)
     nan
 
 [R0251] (P016; skill_nono=9)

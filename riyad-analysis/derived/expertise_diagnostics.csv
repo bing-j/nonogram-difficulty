@@ -1,6 +1,6 @@
 metric,value
-cronbach_alpha_standardized,0.8357187466134989
-pca1_var_explained,0.5571085325134498
-pca2_var_explained,0.1840331109617283
+cronbach_alpha_standardized,0.8398183568326062
+pca1_var_explained,0.5629817968722207
+pca2_var_explained,0.1820157522758239
 n_participants,68.0
-n_missing_any_dim,1.0
+n_missing_any_dim,0.0
