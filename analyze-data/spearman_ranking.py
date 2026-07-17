@@ -16,8 +16,10 @@ saw, so we use a Bradley-Terry pairwise comparison model instead:
 Outputs
 -------
 - Console: win matrix, BT scores, Spearman ρ table (BT vs raw-mean comparison)
-- analyze-data/out_features/bt_scores.png         — bar chart of BT scores
-- analyze-data/out_features/bt_ranking_vs_sat.png — BT score vs SAT metrics
+- analyze-data/out_features/bt_scores.png                  — bar chart of BT scores (all participants)
+- analyze-data/out_features/bt_ranking_vs_sat.png          — BT score vs SAT metrics (all participants)
+- analyze-data/out_features/bt_scores_{group}.png          — per experience group (beginner/intermediate/experienced)
+- analyze-data/out_features/bt_ranking_vs_sat_{group}.png  — per experience group
 
 Usage
 -----
@@ -52,12 +54,16 @@ DEFAULT_SOLVER_CSV = REPO_ROOT / "selected_six_nonogram_stats.csv"
 DEFAULT_OUT_DIR = REPO_ROOT / "analyze-data" / "out_features"
 
 SAT_METRICS = ["decisions", "propagations", "conflicts"]
-RATING_COLS = ["initial_difficulty", "final_difficulty"]
+RATING_COLS = ["final_difficulty"]
 BEHAVIORAL_AGGREGATES = ["time_to_solve_sec", "error_count", "hint_count"]
 
 PUZZLE_COLORS = [
     "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b",
 ]
+
+EXPERIENCE_BINS   = [0, 3, 6, 10]   # right-inclusive: (0,3], (3,6], (6,10]
+EXPERIENCE_LABELS = ["beginner", "intermediate", "experienced"]
+MIN_OBS = 5  # minimum participants to run per-group analysis
 
 
 # ---------------------------------------------------------------------------
@@ -84,6 +90,24 @@ def load_solver_stats(path: Path) -> pd.DataFrame:
     df = df.reset_index()
     df["puzzle_id"] = df["puzzle_id"].astype(int)
     return df[["puzzle_id"] + SAT_METRICS]
+
+
+def assign_groups(df: pd.DataFrame) -> pd.DataFrame:
+    """Add an 'experience_group' column based on skill_nonogram (1–10 scale).
+
+    Groups:
+      beginner     — skill_nonogram 1–3
+      intermediate — skill_nonogram 4–6
+      experienced  — skill_nonogram 7–10
+    """
+    df = df.copy()
+    df["experience_group"] = pd.cut(
+        pd.to_numeric(df["skill_nonogram"], errors="coerce"),
+        bins=EXPERIENCE_BINS,
+        labels=EXPERIENCE_LABELS,
+        right=True,
+    )
+    return df
 
 
 # ---------------------------------------------------------------------------
@@ -288,7 +312,7 @@ def run_spearman_tests(
 # Visualisation
 # ---------------------------------------------------------------------------
 
-def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path) -> None:
+def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path, suffix: str = "") -> None:
     """Bar chart of BT scores per puzzle for each rating type."""
     n_ratings = len(bt_dfs)
     fig, axes = plt.subplots(1, n_ratings, figsize=(5 * n_ratings, 4), sharey=False)
@@ -319,7 +343,7 @@ def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path) -> None:
             )
 
     fig.tight_layout()
-    out_path = out_dir / "bt_scores.png"
+    out_path = out_dir / f"bt_scores{suffix}.png"
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
@@ -329,11 +353,11 @@ def plot_bt_vs_sat(
     bt_dfs: dict[str, pd.DataFrame],
     solver_df: pd.DataFrame,
     out_dir: Path,
+    suffix: str = "",
 ) -> None:
-    """Two-row scatter grid: BT score (top) and raw mean (bottom) vs SAT metrics."""
+    """Scatter grid: BT score vs SAT metrics, one row per rating type."""
     n_metrics = len(SAT_METRICS)
-    n_ratings = len(bt_dfs)
-    n_rows = n_ratings * 2  # BT row + raw-mean row per rating type
+    n_rows = len(bt_dfs)
 
     fig, axes = plt.subplots(
         n_rows, n_metrics,
@@ -341,13 +365,11 @@ def plot_bt_vs_sat(
         squeeze=False,
     )
 
-    row_offset = 0
-    for rating_col, bt_df in bt_dfs.items():
+    for row_idx, (rating_col, bt_df) in enumerate(bt_dfs.items()):
         merged = bt_df.merge(solver_df, on="puzzle_id")
 
         for col_idx, metric in enumerate(SAT_METRICS):
-            # --- BT score row ---
-            ax_bt = axes[row_offset][col_idx]
+            ax_bt = axes[row_idx][col_idx]
             _scatter_panel(
                 ax=ax_bt,
                 x=merged[metric],
@@ -360,28 +382,12 @@ def plot_bt_vs_sat(
                 x_series_for_spearman=merged[metric],
             )
 
-            # --- Raw mean row ---
-            ax_raw = axes[row_offset + 1][col_idx]
-            _scatter_panel(
-                ax=ax_raw,
-                x=merged[metric],
-                y=merged["raw_mean"],
-                labels=merged["puzzle_id"].astype(int),
-                xlabel=metric,
-                ylabel="Raw mean difficulty",
-                title=f"Raw mean vs {metric}\n({rating_col})",
-                y_series_for_spearman=merged["raw_rank"],
-                x_series_for_spearman=merged[metric],
-            )
-
-        row_offset += 2
-
     fig.suptitle(
-        "Bradley-Terry score vs SAT metrics\n(top: BT-adjusted, bottom: raw mean)",
+        "Bradley-Terry score vs SAT metrics",
         fontsize=13, fontweight="bold", y=1.01,
     )
     fig.tight_layout()
-    out_path = out_dir / "bt_ranking_vs_sat.png"
+    out_path = out_dir / f"bt_ranking_vs_sat{suffix}.png"
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
@@ -465,6 +471,47 @@ def main() -> None:
     print("\nGenerating figures...")
     plot_bt_scores(bt_dfs, args.out_dir)
     plot_bt_vs_sat(bt_dfs, solver_df, args.out_dir)
+
+    # ── Per-experience-group analysis ────────────────────────────────────────
+    if "skill_nonogram" not in features_df.columns:
+        print(
+            "\n[WARNING] 'skill_nonogram' column not found in features CSV. "
+            "Re-run extract_behavioral_features.py to add it, then re-run this script."
+        )
+    else:
+        df_grouped = assign_groups(features_df)
+        print("\n" + "=" * 60)
+        print("EXPERIENCE GROUP BREAKDOWN")
+        print("=" * 60)
+        for label in EXPERIENCE_LABELS:
+            group_df = df_grouped[df_grouped["experience_group"] == label]
+            n_participants = group_df["participant_id"].nunique()
+            print(f"  {label:<14}: {n_participants:>2} participants, {len(group_df):>3} rows")
+
+        for label in EXPERIENCE_LABELS:
+            group_df = df_grouped[df_grouped["experience_group"] == label].copy()
+            n_participants = group_df["participant_id"].nunique()
+            if n_participants < MIN_OBS:
+                print(f"\n  [{label}] only {n_participants} participants — skipping (need {MIN_OBS})")
+                continue
+
+            print(f"\n{'=' * 60}")
+            print(f"GROUP: {label.upper()}  ({n_participants} participants, {len(group_df)} rows)")
+            print(f"{'=' * 60}")
+
+            bt_dfs_group: dict[str, pd.DataFrame] = {}
+            for rating_col in RATING_COLS:
+                W_g = build_win_matrix(group_df, rating_col)
+                theta_g = fit_bradley_terry(W_g)
+                bt_df_g = build_bt_df(group_df, rating_col, theta_g)
+                bt_dfs_group[rating_col] = bt_df_g
+                print_bt_summary(bt_df_g, rating_col, W_g)
+
+            run_spearman_tests(bt_dfs_group, solver_df, group_df)
+
+            suffix = f"_{label}"
+            plot_bt_scores(bt_dfs_group, args.out_dir, suffix=suffix)
+            plot_bt_vs_sat(bt_dfs_group, solver_df, args.out_dir, suffix=suffix)
 
     print("\nDone.")
 

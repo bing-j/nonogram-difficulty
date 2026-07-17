@@ -33,6 +33,9 @@ import pandas as pd
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LOG_DIR = REPO_ROOT / "backend" / "logs"
 SOLVER_STATS_TXT = REPO_ROOT / "solver_statistics.txt"
+PUZZLES_JSON = REPO_ROOT / "nonograms_6.json"
+
+PAUSE_THRESHOLD_SEC: float = 2.40  # matches analyze-data/extract_behavioral_features.py
 
 LOG_EXTENSIONS = {".ndjson", ".json"}
 
@@ -125,12 +128,14 @@ class SlotAccumulator:
     n_cell_changes: int = 0
     n_hints: int = 0
     n_incorrect_submissions: int = 0
+    n_cell_errors: int = 0
     first_interaction: datetime | None = None
     last_interaction: datetime | None = None
     solved_time: datetime | None = None
     solved: bool = False
     skipped: bool = False
     puzzle_id_seen: int | None = None  # puzzle id from check_bank/skip events
+    interaction_times: list[datetime] = field(default_factory=list)
 
 
 def _new_slots(n: int) -> list[SlotAccumulator]:
@@ -138,7 +143,9 @@ def _new_slots(n: int) -> list[SlotAccumulator]:
 
 
 def extract_participant_rows(participant_id: str, source_file: str,
-                             events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+                             events: list[dict[str, Any]],
+                             solutions: dict[int, list[list[int]]] | None = None,
+                             ) -> list[dict[str, Any]]:
     start = next((e for e in events if e.get("type") == "session_start_three"), None)
     queue = start.get("queue") if start else None
     if not isinstance(queue, list) or not queue:
@@ -161,6 +168,12 @@ def extract_participant_rows(participant_id: str, source_file: str,
             if et == "move":
                 s.n_moves += 1
                 s.n_cell_changes += 1
+                if ev.get("value") == 1 and solutions:
+                    r, c = ev.get("r"), ev.get("c")
+                    pid = queue[idx]
+                    if r is not None and c is not None and pid in solutions:
+                        if solutions[pid][r][c] == 0:
+                            s.n_cell_errors += 1
             else:  # drag
                 s.n_drags += 1
                 s.n_cell_changes += int(ev.get("changed_cells") or 1)
@@ -170,6 +183,7 @@ def extract_participant_rows(participant_id: str, source_file: str,
             if s.first_interaction is None:
                 s.first_interaction = t
             s.last_interaction = t
+            s.interaction_times.append(t)
 
         if et == "hint" and idx < n_slots:
             slots[idx].n_hints += 1
@@ -229,6 +243,16 @@ def extract_participant_rows(participant_id: str, source_file: str,
         if s.first_interaction and s.last_interaction:
             time_on_puzzle = (s.last_interaction - s.first_interaction).total_seconds()
 
+        times = sorted(s.interaction_times)
+        if len(times) >= 2:
+            duration_sec = (times[-1] - times[0]).total_seconds()
+            gaps = [(times[j + 1] - times[j]).total_seconds() for j in range(len(times) - 1)]
+            pause_count = sum(1 for g in gaps if g >= PAUSE_THRESHOLD_SEC)
+            pause_freq = pause_count / (duration_sec / 60.0) if duration_sec > 0 else 0.0
+        else:
+            pause_count = 0
+            pause_freq = 0.0
+
         imm = immediate.get(i, {})
         immediate_diff = coerce_int(imm.get("difficulty"))
         immediate_guess = imm.get(f"puzzle_{i + 1}_guesses")
@@ -256,6 +280,9 @@ def extract_participant_rows(participant_id: str, source_file: str,
             "n_cell_changes": s.n_cell_changes,
             "n_hints": s.n_hints,
             "n_incorrect_submissions": s.n_incorrect_submissions,
+            "n_cell_errors": s.n_cell_errors,
+            "pause_count": pause_count,
+            "pause_freq_per_min": round(pause_freq, 4),
             "time_to_solve": time_to_solve,
             "time_on_puzzle": time_on_puzzle,
             # Subjective
@@ -299,12 +326,19 @@ def _list_len(value: Any) -> int | None:
 # --------------------------------------------------------------------------- #
 # Public loaders
 # --------------------------------------------------------------------------- #
+def _load_solutions() -> dict[int, list[list[int]]]:
+    with PUZZLES_JSON.open(encoding="utf-8") as f:
+        puzzles = json.load(f)
+    return {p["id"]: p["solution"] for p in puzzles}
+
+
 def load_participant_puzzle_df() -> pd.DataFrame:
+    solutions = _load_solutions()
     rows: list[dict[str, Any]] = []
     for index, path in enumerate(list_log_files(), start=1):
         pid = f"P{index:03d}"
         events = read_event_log(path)
-        rows.extend(extract_participant_rows(pid, path.name, events))
+        rows.extend(extract_participant_rows(pid, path.name, events, solutions))
     df = pd.DataFrame(rows)
     return df
 
@@ -402,7 +436,10 @@ if __name__ == "__main__":
     print("immediate_guess values:", df["immediate_guess"].value_counts(dropna=False).to_dict())
     print("\nmissing final_difficulty:", int(df["final_difficulty"].isna().sum()))
     print("solved:", int(df["solved"].sum()), "skipped:", int(df["skipped"].sum()))
-    print("\nbehavioural describe:\n", df[["n_actions", "n_hints", "n_incorrect_submissions", "time_to_solve"]].describe())
+    print("\nbehavioural describe:\n",
+          df[["n_actions", "n_hints", "n_incorrect_submissions",
+              "n_cell_errors", "pause_count", "pause_freq_per_min",
+              "time_to_solve"]].describe())
 
     txt = load_text_responses()
     print("\ntext responses by kind:\n", txt["response_kind"].value_counts())

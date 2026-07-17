@@ -38,7 +38,7 @@ from extract_features import (
     get_completion_flags,
 )
 
-PAUSE_THRESHOLD_SEC = 2.40
+PAUSE_THRESHOLD_SEC = 2.36
 
 
 def detect_pauses(

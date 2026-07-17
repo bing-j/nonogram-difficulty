@@ -1,0 +1,64 @@
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|l|p{8.5cm}|}
+\hline
+\textbf{Code} & \textbf{Theme} & \textbf{Definition} \\
+\hline
+\texttt{FOOT} & Starting footholds / forced lines & References to the availability (easier) or absence (harder) of lines that can be solved immediately: 'freebies', 'fixed/guaranteed arrangements', full rows, lines that sum to the grid width, or 'where to start'. \\
+\hline
+\texttt{CLUE} & Clue magnitude & Difficulty attributed to the size/composition of the clue numbers (large numbers easier; many small numbers / lots of 1s harder). \\
+\hline
+\texttt{PROP} & Constraint propagation / chaining & Deductions chain smoothly: one solved line/cell forces the next, working off crossing rows/columns; emphasis on logical flow. \\
+\hline
+\texttt{AMBIG} & Combinatorial ambiguity / overlap reasoning & Having to weigh many possible arrangements, consider overlaps of extremes, or cope with uncertainty about where blocks go. \\
+\hline
+\texttt{GUESS} & Guessing / certainty & Salient mention of guessing, trial-and-error, or (lack of) a deterministic/logical path forward. \\
+\hline
+\texttt{HINT} & Hint usage & References to using, waiting for, or relying on the Hint button. \\
+\hline
+\texttt{ERR} & Mistakes / error recovery & Made a mistake, hard to trace back, had to restart, undo, or recover from a wrong deduction. \\
+\hline
+\texttt{LEARN} & Learning / practice / fatigue & Order/experience effects within the session: first time, warming up, getting better with practice, learning techniques, or fatigue. \\
+\hline
+\texttt{LOAD} & Cognitive load / tracking & Mental bookkeeping burden: keeping track of state, remembering possibilities, holding deductions in the head, feeling overwhelmed. \\
+\hline
+\texttt{VIS} & Visual / spatial layout & Spatial layout cues: edges vs middle starts, sparsity/blank space, 1s blending together, grid size, lack of a picture/symmetry. \\
+\hline
+\texttt{TIME} & Time pressure & Difficulty/behaviour driven by time limits or social time pressure. \\
+\hline
+\texttt{UI} & Interface friction & Comments about the tool/UI: cross-toggle swapping colours, button placement, hint refresh timing, wanting paper annotations. \\
+\hline
+\texttt{AFF} & Confidence / affect & Affective / self-efficacy framing: confidence, frustration, nervousness, enjoyment, gut-feeling difficulty judgements. \\
+\hline
+\end{tabular}
+\caption{Difficulty themes (applied to \texttt{rating\_reason} + \texttt{comments})}
+\label{tab:difficulty-themes}
+\end{table}
+
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|l|p{8.5cm}|}
+\hline
+\textbf{Code} & \textbf{Strategy} & \textbf{Definition} \\
+\hline
+\texttt{S\_FORCED} & Forced-line solving & Find and fill fully-determined lines first (lines summing to grid width, '(N-1)+T=10', guaranteed/fixed lines, certain cells). \\
+\hline
+\texttt{S\_CONSTR} & Most-constrained-first ordering & Heuristic of starting from the most constrained lines: largest sum, largest numbers, or the most numbers in a line. \\
+\hline
+\texttt{S\_OVERLAP} & Overlap analysis & Compare extreme (leftmost/rightmost) placements and fill the cells common to all arrangements; 'guaranteed in every combination'. \\
+\hline
+\texttt{S\_EDGE} & Edge / anchor exploitation & Use borders and the start/end of sequences, or extend from cells already filled at an edge. \\
+\hline
+\texttt{S\_CROSS} & Row/column cross-referencing & After each fill, propagate to the perpendicular rows/columns; iterate row<->column until stuck. \\
+\hline
+\texttt{S\_NEG} & Negative marking (X-ing whites) & Actively cross out / X cells that must be empty to constrain the remaining space and track the board. \\
+\hline
+\texttt{S\_TRIAL} & Trial-and-error / contradiction & Make guesses, enumerate possibilities, or assume-and-check for contradictions, then backtrack. \\
+\hline
+\texttt{S\_HINT} & Hint-as-tool & Deliberate use of the Hint button to verify guesses, debug mistakes, or unstick progress. \\
+\hline
+\end{tabular}
+\caption{Strategy taxonomy (applied to \texttt{strategy})}
+\label{tab:strategy-taxonomy}
+\end{table}

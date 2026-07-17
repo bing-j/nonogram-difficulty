@@ -4,13 +4,13 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-PY=".venv/bin/python"
-if [ ! -x "$PY" ]; then
-  echo "Creating virtual environment..."
-  /opt/homebrew/bin/python3.12 -m venv .venv
-  .venv/bin/python -m pip install --upgrade pip
-  .venv/bin/python -m pip install pandas numpy scipy scikit-learn matplotlib statsmodels
-fi
+PY="python"
+# if [ ! -x "$PY" ]; then
+#   echo "Creating virtual environment..."
+#   /opt/homebrew/bin/python3.12 -m venv .venv
+#   .venv/bin/python -m pip install --upgrade pip
+#   .venv/bin/python -m pip install pandas numpy scipy scikit-learn matplotlib statsmodels
+# fi
 
 echo "== 01 export text responses =="      && $PY 01_export_text_responses.py
 echo "== 02 build coded dataset =="         && $PY 02_build_coded_dataset.py

@@ -143,47 +143,17 @@ def save_puzzle_rating_figures(ratings_df: pd.DataFrame, out_dir: str, puzzle_id
     for pid in puzzle_ids:
         sub = ratings_df[ratings_df["puzzle_id"] == pid].copy()
 
-        init = pd.to_numeric(sub["initial_difficulty"], errors="coerce").dropna()
         fin = pd.to_numeric(sub["final_difficulty"], errors="coerce").dropna()
 
-        # Paired rows where both exist
-        paired = sub.copy()
-        paired["initial_difficulty"] = pd.to_numeric(paired["initial_difficulty"], errors="coerce")
-        paired["final_difficulty"] = pd.to_numeric(paired["final_difficulty"], errors="coerce")
-        paired = paired.dropna(subset=["initial_difficulty", "final_difficulty"])
+        fig = plt.figure(figsize=(5, 4))
 
-        fig = plt.figure(figsize=(11, 4))
-
-        ax1 = fig.add_subplot(1, 3, 1)
-        if len(init) > 0:
-            ax1.hist(init, bins=range(1, 9), align="left", rwidth=0.85)
-        ax1.set_title(f"Puzzle {pid} - Initial ratings (n={len(init)})")
+        ax1 = fig.add_subplot(1, 1, 1)
+        if len(fin) > 0:
+            ax1.hist(fin, bins=range(1, 9), align="left", rwidth=0.85)
+        ax1.set_title(f"Puzzle {pid} - Final ratings (n={len(fin)})")
         ax1.set_xlabel("Rating")
         ax1.set_ylabel("Count")
         ax1.set_xticks(range(1, 8))
-
-        ax2 = fig.add_subplot(1, 3, 2)
-        if len(fin) > 0:
-            ax2.hist(fin, bins=range(1, 9), align="left", rwidth=0.85)
-        ax2.set_title(f"Puzzle {pid} - Final ratings (n={len(fin)})")
-        ax2.set_xlabel("Rating")
-        ax2.set_ylabel("Count")
-        ax2.set_xticks(range(1, 8))
-
-        ax3 = fig.add_subplot(1, 3, 3)
-        if len(paired) > 0:
-            ax3.scatter(paired["initial_difficulty"], paired["final_difficulty"])
-
-        # Add diagonal reference line (perfect agreement line)
-        ax3.plot([0.5, 7.5], [0.5, 7.5], linestyle="--", linewidth=1)
-
-        ax3.set_title(f"Puzzle {pid} - Initial vs Final (paired n={len(paired)})")
-        ax3.set_xlabel("Initial rating")
-        ax3.set_ylabel("Final rating")
-        ax3.set_xticks(range(1, 8))
-        ax3.set_yticks(range(1, 8))
-        ax3.set_xlim(0.5, 7.5)
-        ax3.set_ylim(0.5, 7.5)
 
         fig.tight_layout()
         fig.savefig(os.path.join(out_dir, f"puzzle_{pid}_ratings.png"), dpi=200)
@@ -191,37 +161,24 @@ def save_puzzle_rating_figures(ratings_df: pd.DataFrame, out_dir: str, puzzle_id
 
     # --- Overview figure: boxplots by puzzle ---
     # Build lists in puzzle order
-    init_lists = []
     fin_lists = []
     labels = []
     for pid in puzzle_ids:
         sub = ratings_df[ratings_df["puzzle_id"] == pid]
-        init_vals = pd.to_numeric(sub["initial_difficulty"], errors="coerce").dropna().tolist()
         fin_vals = pd.to_numeric(sub["final_difficulty"], errors="coerce").dropna().tolist()
-        init_lists.append(init_vals)
         fin_lists.append(fin_vals)
         labels.append(str(pid))
 
-    # Make two rows of boxplots
-    fig = plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(12, 4))
 
-    # ----- Initial ratings -----
-    ax1 = fig.add_subplot(2, 1, 1)
-    bp1 = ax1.boxplot(init_lists, tick_labels=labels, showmeans=True)
-    ax1.set_title("Initial difficulty ratings by puzzle ID")
+    ax1 = fig.add_subplot(1, 1, 1)
+    bp1 = ax1.boxplot(fin_lists, tick_labels=labels, showmeans=True)
+    ax1.set_title("Final difficulty ratings by puzzle ID")
     ax1.set_xlabel("Puzzle ID")
-    ax1.set_ylabel("Initial rating")
+    ax1.set_ylabel("Final rating")
     ax1.set_ylim(0.5, 5.5)
 
-    # ----- Final ratings -----
-    ax2 = fig.add_subplot(2, 1, 2)
-    bp2 = ax2.boxplot(fin_lists, tick_labels=labels, showmeans=True)
-    ax2.set_title("Final difficulty ratings by puzzle ID")
-    ax2.set_xlabel("Puzzle ID")
-    ax2.set_ylabel("Final rating")
-    ax2.set_ylim(0.5, 5.5)
-
-    # ----- Legend (shared) -----
+    # ----- Legend -----
     legend_elements = [
         Line2D([0], [0], color='orange', lw=2, label='Median'),
         Line2D([0], [0], marker='^', color='green', linestyle='None', label='Mean'),
@@ -439,16 +396,14 @@ def main():
 
     participants: List[ParticipantSummary] = []
     for p in paths:
-        participants.append(extract_participant(p))
+        try:
+            participants.append(extract_participant(p))
+        except ValueError as exc:
+            print(f"  SKIP {os.path.basename(p)}: {exc}", file=__import__("sys").stderr)
 
     os.makedirs(args.out_dir, exist_ok=True)
 
-    # # 1) Per-participant summary CSV
-    # rows = [flatten_for_csv(ps) for ps in participants]
-    # df_participants = pd.DataFrame(rows)
-    # df_participants.to_csv(os.path.join(args.out_dir, "participants_summary.csv"), index=False)
-
-    # 2) Visualizations for puzzle ratings (instead of per-puzzle CSVs)
+    # 1) Visualizations for puzzle ratings
     ratings_df = build_ratings_table(participants)
     fig_dir = os.path.join(args.out_dir, "figures")
     save_puzzle_rating_figures(ratings_df, fig_dir, puzzle_ids=list(range(6)))
@@ -459,7 +414,6 @@ def main():
         write_survey_dump(survey_dir, ps)
 
     print(f"Wrote outputs to: {args.out_dir}")
-    # print(" - participants_summary.csv")
     print(" - survey_dumps/*.json")
     print(" - figures/puzzle_<id>_ratings.png")
     print(" - figures/ratings_overview_all_puzzles.png")

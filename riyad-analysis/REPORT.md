@@ -18,7 +18,7 @@ We took 68 raw participant logs, rebuilt a clean table of 204 participant-puzzle
 
 Before any analysis, `nono_data.py` reads every log in `backend/logs` (all `.ndjson` format following the Riyad-p1–p13 rename) and reconstructs, for each attempt:
 
-- **Behaviour** — solve time, number of moves/drags/cell-changes, hints used, incorrect submissions, and whether the puzzle was solved.
+- **Behaviour** — solve time, number of moves/drags/cell-changes, hints used, incorrect board submissions, per-cell fill errors (move events where the user marks a cell black that the solution requires white), pause count, pause frequency per minute, and whether the puzzle was solved.
 - **Subjective ratings** — the immediate difficulty rating (1–5), the revised rating, the change between them, and self-reported guessing frequency.
 - **Background** — six expertise items (see Part B).
 - **Free text** — the difficulty explanation, the strategy description, and the general comments.
@@ -108,14 +108,16 @@ If the coding is trustworthy, what people *say* should match what they *did*. Th
 
 **How to read it:** six box-plots, each splitting attempts by whether a code is present, against a behavioural measure. The p-value is the Mann-Whitney test; the green triangle is the mean.
 
-**What it tells us — the codes line up with behaviour:**
+**What it tells us — most codes line up with behaviour:**
 
-- `ERR` **(mentions a mistake) → more incorrect submissions** (0.75 vs 0.28, p = .001). People who said they erred genuinely submitted more wrong answers.
-- `GUESS` **→ more hints used** (4.96 vs 2.88, p = .009) **and more incorrect submissions** (p = .049). Self-reported guessing shows up in the logs.
+- `GUESS` **→ more hints used** (4.96 vs 2.88, p = .009) **and more incorrect board submissions** (p = .049). Self-reported guessing shows up in the logs.
 - `FOOT` **→ faster solve times** (563 s vs 650 s, p = .025). Talking about easy footholds goes with actually finishing faster.
 - `HINT` **→ more hints used** (p = .059, right direction).
+- `ERR` **(mentions a mistake) → no significant difference in per-cell fill errors** (mean 12.3 vs 10.7, p = .169).
 
-Because the words match the behaviour, we can use the qualitative themes to *explain* the quantitative patterns rather than treat them as a separate, untrusted data source — which is exactly the supplementary-evidence role the study intended for the open text.
+> **Change from prior analysis:** ERR was previously validated against *incorrect board submissions* (0.75 vs 0.28, p = .001), which gave the strongest convergent validity signal in the panel. Switching to the more precise *per-cell error count* (move events where the user fills a cell black that the solution requires white) eliminates that significance. The most likely explanation is that ERR-mentioning participants don't actually place wrong cells more often — they are more likely to *notice and submit* a wrong board, making their experience one of catching mistakes rather than making more of them. `n_incorrect_submissions` was validating a related but distinct behaviour: premature or mistaken submission. The per-cell measure is the better operationalisation of "making errors during solving," but the ERR code may be capturing something closer to self-monitoring and submission behaviour than raw cell-fill accuracy.
+
+Because GUESS, FOOT, and HINT still track their corresponding logged behaviours, the self-reports remain useful as corroborating evidence for those themes. The ERR finding should be interpreted with caution — it reflects submission-level error *awareness*, not raw fill-error rate.
 
 ### Strategy breadth is a marker of real expertise
 
@@ -176,14 +178,18 @@ Before choosing an adjustment method, we checked **which outcomes expertise actu
 | -------------------------- | ------------------------- | --------------------- |
 | Mean solve time            | **−0.56**                 | yes (p < 1e-6)        |
 | Mean hints used            | **−0.60**                 | yes (p < 1e-7)        |
+| Mean pause count           | **−0.53**                 | yes (p < 1e-5)        |
 | Solve rate                 | **+0.34**                 | yes (p = .004)        |
 | Mean actions               | −0.19                     | no (p = .131)         |
+| Mean pause freq/min        | +0.14                     | no (p = .251)         |
 | **Mean difficulty rating** | **−0.08**                 | **no (p = .53)**      |
 | Mean incorrect submissions | −0.01                     | no                    |
 | Mean rating change         | −0.02                     | no                    |
 
 
-Expertise **strongly shapes behaviour** — experts solve faster, use far fewer hints, and succeed more often — but is **essentially unrelated to the 1–5 difficulty rating**. The most likely explanation is **self-anchoring**: people rate a puzzle against their *own* expectations, so an expert and a novice can both call a puzzle "a 3" for different reasons.
+Expertise **strongly shapes behaviour** — experts solve faster, use far fewer hints, take fewer pauses, and succeed more often — but is **essentially unrelated to the 1–5 difficulty rating**. The most likely explanation is **self-anchoring**: people rate a puzzle against their *own* expectations, so an expert and a novice can both call a puzzle "a 3" for different reasons.
+
+The split between pause count and pause frequency is informative: pause *count* is strongly negative (ρ = −0.53) while pause *frequency* (pauses per minute) is near zero (ρ = +0.14, n.s.). Experts take fewer pauses in total, but because they also solve faster, normalising by duration washes out the expertise signal. This suggests pausing reflects cumulative cognitive effort rather than per-unit-time hesitation.
 
 **The practical implication is the whole point of Part B:** *behavioural* difficulty must be expertise-adjusted to be comparable across people, but the *subjective rating* needs adjustment far less (and mainly through interactions, see B.4).
 

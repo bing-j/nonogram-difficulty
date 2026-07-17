@@ -77,13 +77,17 @@ def motivation(df: pd.DataFrame) -> pd.DataFrame:
         solve_rate=("solved", "mean"),
         mean_rating_change=("rating_change", "mean"),
         mean_actions=("n_actions", "mean"),
+        mean_pause_count=("pause_count", "mean"),
+        mean_pause_freq=("pause_freq_per_min", "mean"),
     ).reset_index()
 
     rows = []
     specs = [("mean_difficulty", "Mean difficulty rating"), ("mean_time", "Mean solve time (s)"),
              ("mean_hints", "Mean hints used"), ("mean_incorrect", "Mean incorrect subs"),
              ("solve_rate", "Solve rate"), ("mean_rating_change", "Mean rating change"),
-             ("mean_actions", "Mean actions")]
+             ("mean_actions", "Mean actions"),
+             ("mean_pause_count", "Mean pause count"),
+             ("mean_pause_freq", "Mean pause freq/min")]
     for col, lbl in specs:
         rho, p, n = spearman(perf["expertise"], perf[col])
         r = perf[["expertise", col]].dropna()
@@ -93,8 +97,11 @@ def motivation(df: pd.DataFrame) -> pd.DataFrame:
     stat = pd.DataFrame(rows)
     stat.to_csv(DERIVED / "stats_expertise_vs_outcomes.csv", index=False)
 
+    plot_specs = [(col, lbl) for col, lbl in specs
+                  if col not in ("mean_incorrect", "mean_rating_change", "mean_actions")]
+
     fig, axes = plt.subplots(2, 3, figsize=(15, 9), dpi=150)
-    for ax, (col, lbl) in zip(axes.ravel(), specs[:6]):
+    for ax, (col, lbl) in zip(axes.ravel(), plot_specs):
         d = perf[["expertise", col]].dropna()
         ax.scatter(d["expertise"], d[col], color=PALETTE[0], alpha=0.6)
         if len(d) > 3 and d["expertise"].nunique() > 1:
@@ -106,8 +113,7 @@ def motivation(df: pd.DataFrame) -> pd.DataFrame:
         ax.set_xlabel("Composite expertise (z)")
         ax.set_ylabel(lbl)
         ax.grid(alpha=0.25)
-    fig.suptitle("Why adjust? Expertise predicts subjective AND behavioural difficulty", fontsize=13)
-    fig.tight_layout(rect=(0, 0, 1, 0.96))
+    fig.tight_layout()
     fig.savefig(ADJ_FIG / "01_expertise_vs_outcomes.png", bbox_inches="tight")
     plt.close(fig)
     return stat

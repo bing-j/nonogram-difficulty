@@ -2,7 +2,7 @@
 Multi-linear regression of behavioral difficulty signals.
 
 Regression 1 (per puzzle): behavioral features -> user-reported difficulty
-  - Run separately for each puzzle_id (initial_difficulty and final_difficulty).
+  - Run separately for each puzzle_id, using final_difficulty (retrospective rating).
   - Output: per-puzzle coefficient tables + heatmap of B coefficients.
 
 Regression 2 (pooled): behavioral features -> SAT solver decisions
@@ -97,6 +97,16 @@ def ols_fit(df: pd.DataFrame, dv: str) -> sm.regression.linear_model.RegressionR
         return sm.OLS(y, X).fit()
 
 
+def _sig_stars(pval: float) -> str:
+    if pval < 0.001:
+        return "***"
+    if pval < 0.01:
+        return "**"
+    if pval < 0.05:
+        return "*"
+    return ""
+
+
 def print_model_table(result, label: str, n: int) -> None:
     print(f"\n{'-' * 60}")
     print(f"  {label}   N={n}   R2={result.rsquared:.3f}   adj-R2={result.rsquared_adj:.3f}")
@@ -127,32 +137,29 @@ def run_regression1(df: pd.DataFrame, out_dir: str, group_label: str = "") -> No
     print("=" * 60)
 
     puzzle_ids = sorted(df["puzzle_id"].dropna().unique().astype(int))
-    coef_init: Dict = {}
     coef_final: Dict = {}
+    pval_final: Dict = {}
 
     for pid in puzzle_ids:
         sub = df[df["puzzle_id"] == pid].copy()
-        n_init = sub[BEHAVIORAL_FEATURES + ["initial_difficulty"]].dropna().shape[0]
         n_final = sub[BEHAVIORAL_FEATURES + ["final_difficulty"]].dropna().shape[0]
 
-        for dv, coef_store, label in [
-            ("initial_difficulty", coef_init, f"Puzzle {pid}  - initial difficulty"),
-            ("final_difficulty", coef_final, f"Puzzle {pid}  - final difficulty"),
-        ]:
-            n = n_init if dv == "initial_difficulty" else n_final
-            if n < MIN_OBS:
-                print(f"\n  [Puzzle {pid} / {dv}] only {n} complete obs  - skipping (need {MIN_OBS})")
-                continue
-            result = ols_fit(sub, dv)
-            print_model_table(result, label, n)
-            coef_store[pid] = result.params[BEHAVIORAL_FEATURES].values
+        dv = "final_difficulty"
+        label = f"Puzzle {pid}  - final difficulty"
+        if n_final < MIN_OBS:
+            print(f"\n  [Puzzle {pid} / {dv}] only {n_final} complete obs  - skipping (need {MIN_OBS})")
+            continue
+        result = ols_fit(sub, dv)
+        print_model_table(result, label, n_final)
+        coef_final[pid] = result.params[BEHAVIORAL_FEATURES].values
+        pval_final[pid] = result.pvalues[BEHAVIORAL_FEATURES].values
 
-    _save_coef_heatmap(coef_init, puzzle_ids, "initial_difficulty", out_dir, group_label)
-    _save_coef_heatmap(coef_final, puzzle_ids, "final_difficulty", out_dir, group_label)
+    _save_coef_heatmap(coef_final, pval_final, puzzle_ids, "final_difficulty", out_dir, group_label)
 
 
 def _save_coef_heatmap(
     coef_dict: dict,
+    pval_dict: dict,
     puzzle_ids: list,
     dv_label: str,
     out_dir: str,
@@ -163,6 +170,7 @@ def _save_coef_heatmap(
         return
 
     mat = np.array([coef_dict[p] for p in pids_with_data])
+    pmat = np.array([pval_dict[p] for p in pids_with_data])
     fig, ax = plt.subplots(figsize=(9, max(3, len(pids_with_data) * 0.8)))
     vmax = np.abs(mat).max() or 1
     im = ax.imshow(mat, cmap="RdBu_r", vmin=-vmax, vmax=vmax, aspect="auto")
@@ -174,11 +182,22 @@ def _save_coef_heatmap(
     if group_label:
         title += f"  [{group_label}]"
     ax.set_title(title)
+
+    for i in range(mat.shape[0]):
+        for j in range(mat.shape[1]):
+            stars = _sig_stars(pmat[i, j])
+            text_color = "white" if abs(mat[i, j]) > vmax * 0.5 else "black"
+            ax.text(
+                j, i, f"{mat[i, j]:.2f}{stars}\n(p={pmat[i, j]:.3f})",
+                ha="center", va="center", fontsize=7.5, color=text_color,
+            )
+
     plt.colorbar(im, ax=ax, label="B")
+    fig.text(0.01, -0.02, "* p<.05   ** p<.01   *** p<.001", fontsize=8, ha="left")
     fig.tight_layout()
     suffix = f"_{group_label}" if group_label else ""
     fname = f"behavioral_reg1_coef_heatmap_{dv_label}{suffix}.png"
-    fig.savefig(os.path.join(out_dir, fname), dpi=150)
+    fig.savefig(os.path.join(out_dir, fname), dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"\nSaved: {fname}")
 
@@ -195,7 +214,7 @@ def run_regression1_pooled(df: pd.DataFrame, group_label: str = "") -> None:
     print(header)
     print("=" * 60)
 
-    for dv in ["initial_difficulty", "final_difficulty"]:
+    for dv in ["final_difficulty"]:
         complete = df[BEHAVIORAL_FEATURES + [dv]].dropna()
         n = len(complete)
         if n < MIN_OBS:
@@ -234,10 +253,10 @@ def run_regression2(df: pd.DataFrame, solver_stats: pd.DataFrame, out_dir: str, 
         label += f"  [{group_label}]"
     print_model_table(result, label, n)
 
-    _save_reg2_scatter(complete, out_dir, group_label)
+    _save_reg2_scatter(complete, result, out_dir, group_label)
 
 
-def _save_reg2_scatter(df: pd.DataFrame, out_dir: str, group_label: str = "") -> None:
+def _save_reg2_scatter(df: pd.DataFrame, result, out_dir: str, group_label: str = "") -> None:
     puzzle_ids = sorted(df["puzzle_id"].dropna().unique().astype(int))
     color_map = {pid: PUZZLE_COLORS[i % len(PUZZLE_COLORS)] for i, pid in enumerate(puzzle_ids)}
 
@@ -263,6 +282,15 @@ def _save_reg2_scatter(df: pd.DataFrame, out_dir: str, group_label: str = "") ->
             m, b = np.polyfit(x_c, y_c, 1)
             xline = np.linspace(x_c.min(), x_c.max(), 100)
             ax.plot(xline, m * xline + b, color="black", linewidth=1.2, linestyle="--")
+
+        coef = result.params[feat]
+        pval = result.pvalues[feat]
+        stars = _sig_stars(pval)
+        ax.text(
+            0.03, 0.97, f"B={coef:.2f}{stars}\np={pval:.3f}",
+            transform=ax.transAxes, ha="left", va="top", fontsize=8,
+            bbox=dict(boxstyle="round", facecolor="white", edgecolor="gray", alpha=0.8),
+        )
         ax.set_xlabel(feat, fontsize=9)
         ax.set_ylabel("decisions")
         ax.set_title(feat, fontsize=9)

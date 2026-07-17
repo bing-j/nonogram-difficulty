@@ -187,10 +187,10 @@ def main() -> None:
     behav_stat = pd.concat(behav_frames, ignore_index=True)
     behav_stat.to_csv(DERIVED / "stats_theme_vs_behaviour.csv", index=False)
 
-    # Convergent-validity figure: HINT theme -> hints; GUESS -> hints+incorrect; ERR -> incorrect.
+    # Convergent-validity figure: HINT theme -> hints; GUESS -> hints+incorrect; ERR -> cell errors.
     validity_pairs = [("HINT", "n_hints", "hints used"), ("GUESS", "n_hints", "hints used"),
                       ("GUESS", "n_incorrect_submissions", "incorrect subs"),
-                      ("ERR", "n_incorrect_submissions", "incorrect subs"),
+                      ("ERR", "n_cell_errors", "cell errors"),
                       ("AMBIG", "time_to_solve", "solve time"),
                       ("FOOT", "time_to_solve", "solve time")]
     fig, axes = plt.subplots(2, 3, figsize=(14, 8), dpi=150)
