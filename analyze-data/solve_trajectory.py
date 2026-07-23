@@ -55,6 +55,7 @@ from extract_features import (  # noqa: E402
     segment_puzzles,
     slice_events_by_time,
 )
+from plot_style import PUZZLE_COLORS, apply_style  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -62,16 +63,6 @@ from extract_features import (  # noqa: E402
 
 BOARD_SIZE: int = 10  # All research puzzles are 10x10
 N_BLACK_CELLS: int = 50  # All 6 puzzles have exactly 50 black cells
-
-# One color per puzzle_id (0–5), colorblind-friendly via matplotlib tab10 derivation
-PUZZLE_COLORS: List[str] = [
-    "#1f77b4",  # puzzle 0 — steel blue
-    "#ff7f0e",  # puzzle 1 — orange
-    "#2ca02c",  # puzzle 2 — green
-    "#d62728",  # puzzle 3 — red
-    "#9467bd",  # puzzle 4 — purple
-    "#8c564b",  # puzzle 5 — brown
-]
 
 # Time grid resolution for trajectory interpolation (seconds)
 GRID_STEP_SEC: int = 5
@@ -188,6 +179,30 @@ def compute_pct_solved(
     return correct / total_black
 
 
+def compute_mismatches(
+    board: List[List[int]], solution: List[List[int]]
+) -> int:
+    """Count cells where the board disagrees with the solution.
+
+    Mirrors backend/main.py's check_board(): a cell counts as filled if its
+    value is 1 (crossed-out (-1) and empty (0) both count as "not filled").
+
+    Args:
+        board: Current 10x10 board state (int values: 0, 1, or -1).
+        solution: 10x10 target solution (int values: 0 or 1).
+
+    Returns:
+        Number of cells (0-100) where board disagrees with solution.
+    """
+    count = 0
+    for r in range(len(solution)):
+        for c in range(len(solution[r])):
+            val = 1 if board[r][c] == 1 else 0
+            if val != solution[r][c]:
+                count += 1
+    return count
+
+
 def _empty_board() -> List[List[int]]:
     """Return a fresh 10x10 board initialised to all zeros.
 
@@ -252,6 +267,57 @@ def apply_drag(
 # ---------------------------------------------------------------------------
 
 
+def _apply_event(
+    board: List[List[int]],
+    undo_stack: List[List[Tuple[int, int, int]]],
+    event: Dict,
+) -> List[List[int]]:
+    """Apply one state-changing event to board, updating undo_stack.
+
+    Shared by reconstruct_trajectory (which records pct_solved after every
+    event) and reconstruct_final_board (which only needs the end state).
+
+    Args:
+        board: Current 10x10 board state.
+        undo_stack: Mutated in-place; a snapshot is pushed for undo/reset.
+        event: A move/drag/undo/reset event dict.
+
+    Returns:
+        The board reference (a *new* list on "reset", otherwise the same
+        mutated-in-place board) — callers must use the return value.
+    """
+    ev_type = event.get("type", "")
+
+    if ev_type == "move":
+        r, c, new_val = event["r"], event["c"], event["value"]
+        old_val = board[r][c]
+        board[r][c] = new_val
+        undo_stack.append([(r, c, old_val)])
+
+    elif ev_type == "drag":
+        snapshot = apply_drag(board, event)
+        if snapshot:  # Only push if anything was actually changed
+            undo_stack.append(snapshot)
+
+    elif ev_type == "undo":
+        if undo_stack:
+            snapshot = undo_stack.pop()
+            for r, c, old_val in snapshot:
+                board[r][c] = old_val
+
+    elif ev_type == "reset":
+        # Snapshot the entire board so reset is itself undoable
+        full_snapshot: List[Tuple[int, int, int]] = []
+        for r in range(BOARD_SIZE):
+            for c in range(BOARD_SIZE):
+                if board[r][c] != 0:
+                    full_snapshot.append((r, c, board[r][c]))
+        undo_stack.append(full_snapshot)
+        board = _empty_board()
+
+    return board
+
+
 def reconstruct_trajectory(
     puzzle_events: List[Dict],
     solution: List[List[int]],
@@ -296,38 +362,38 @@ def reconstruct_trajectory(
             continue
 
         elapsed = (parse_time(event["t"]) - t0).total_seconds()
-
-        if ev_type == "move":
-            r, c, new_val = event["r"], event["c"], event["value"]
-            old_val = board[r][c]
-            board[r][c] = new_val
-            undo_stack.append([(r, c, old_val)])
-
-        elif ev_type == "drag":
-            snapshot = apply_drag(board, event)
-            if snapshot:  # Only push if anything was actually changed
-                undo_stack.append(snapshot)
-
-        elif ev_type == "undo":
-            if undo_stack:
-                snapshot = undo_stack.pop()
-                for r, c, old_val in snapshot:
-                    board[r][c] = old_val
-
-        elif ev_type == "reset":
-            # Snapshot the entire board so reset is itself undoable
-            full_snapshot: List[Tuple[int, int, int]] = []
-            for r in range(BOARD_SIZE):
-                for c in range(BOARD_SIZE):
-                    if board[r][c] != 0:
-                        full_snapshot.append((r, c, board[r][c]))
-            undo_stack.append(full_snapshot)
-            board = _empty_board()
+        board = _apply_event(board, undo_stack, event)
 
         pct = compute_pct_solved(board, solution) * 100.0
         trajectory.append((elapsed, pct))
 
     return trajectory
+
+
+def reconstruct_final_board(puzzle_events: List[Dict]) -> List[List[int]]:
+    """Replay move/drag/undo/reset events and return only the final board state.
+
+    Reuses the same event semantics as reconstruct_trajectory via _apply_event,
+    without recording a time series — used by feature-extraction code that
+    only needs the end-of-session board (e.g. percent_error, percent_incomplete).
+
+    Args:
+        puzzle_events: Chronologically sorted list of event dicts for a single
+            puzzle window.
+
+    Returns:
+        Final 10x10 board state. All-zero board if puzzle_events is empty or
+        contains no state-changing events.
+    """
+    board: List[List[int]] = _empty_board()
+    undo_stack: List[List[Tuple[int, int, int]]] = []
+
+    for event in puzzle_events:
+        if event.get("type", "") not in STATE_CHANGE_TYPES:
+            continue
+        board = _apply_event(board, undo_stack, event)
+
+    return board
 
 
 # ---------------------------------------------------------------------------
@@ -447,7 +513,6 @@ def plot_individual(
     os.makedirs(out_dir, exist_ok=True)
 
     fig, axes = plt.subplots(2, 3, figsize=(15, 8))
-    fig.suptitle("Solve Trajectories — Individual Participants", fontsize=14)
 
     for puzzle_id in range(6):
         row, col = divmod(puzzle_id, 3)
@@ -541,7 +606,6 @@ def plot_aggregated(
     os.makedirs(out_dir, exist_ok=True)
 
     fig, axes = plt.subplots(2, 3, figsize=(15, 8))
-    fig.suptitle("Solve Trajectories — Median +/- IQR", fontsize=14)
 
     for puzzle_id in range(6):
         row, col = divmod(puzzle_id, 3)
@@ -709,7 +773,6 @@ def plot_first_action_heatmaps(
     os.makedirs(out_dir, exist_ok=True)
 
     fig, axes = plt.subplots(2, 3, figsize=(15, 9))
-    fig.suptitle("First Cell Acted Upon — Frequency per Puzzle", fontsize=14)
 
     # Shared colour scale across all puzzles so intensities are comparable
     global_max = max(
@@ -826,6 +889,8 @@ def main() -> None:
         help="Output directory for figures (default: analyze-data/out_features)",
     )
     args = ap.parse_args()
+
+    apply_style()
 
     print(f"Loading trajectories from: {args.input_glob}")
     trajectories = load_all_trajectories(args.input_glob, args.puzzles_file)

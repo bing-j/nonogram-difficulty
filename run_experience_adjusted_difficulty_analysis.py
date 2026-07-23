@@ -1,12 +1,14 @@
 """
-Experience-adjusted puzzle difficulty analysis.
+Expertise-adjusted puzzle difficulty analysis.
 
 Run from the repository root:
     python3 run_experience_adjusted_difficulty_analysis.py
 
-This script is additive. It uses outputs/clean_participant_puzzle_data.csv,
-estimates puzzle difficulty adjusted for participant experience and order, and
-writes new outputs without modifying raw data.
+Reads analyze-data/out_features/behavioral_features.csv (participant-puzzle
+ratings + the continuous expertise_composite score -- see analyze-data/
+expertise.py) merged with selected_six_nonogram_stats.csv, estimates puzzle
+difficulty adjusted for participant expertise and order, and writes new
+outputs without modifying raw data.
 """
 
 from __future__ import annotations
@@ -14,7 +16,6 @@ from __future__ import annotations
 import itertools
 import math
 import os
-import runpy
 from pathlib import Path
 from typing import Any
 
@@ -26,14 +27,28 @@ os.environ.setdefault("XDG_CACHE_HOME", "/private/tmp/nonogram-difficulty-cache"
 os.environ.setdefault("MPLBACKEND", "Agg")
 import matplotlib.pyplot as plt
 
+# Single-series marks/lines that aren't doing identity-coding work (matches
+# analyze-data/plot_style.py's NEUTRAL_COLOR -- kept as a local constant here
+# since this script otherwise has no dependency on analyze-data/).
+NEUTRAL_COLOR = "#4D4D4D"
+
+plt.rcParams.update({
+    "font.family": "sans-serif",
+    "font.size": 10,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+    "axes.grid": True,
+    "grid.color": "#cccccc",
+    "grid.linewidth": 0.6,
+    "grid.linestyle": "-",
+    "axes.axisbelow": True,
+})
+
 
 REPO_ROOT = Path(__file__).resolve().parent
 OUTPUT_DIR = REPO_ROOT / "outputs"
-CLEAN_DATA = OUTPUT_DIR / "clean_participant_puzzle_data.csv"
-ORIGINAL_PIPELINE = REPO_ROOT / "run_sat_human_difficulty_analysis.py"
-BASE_REPORT = OUTPUT_DIR / "sat_vs_human_difficulty_report.md"
-REPORT_BACKUP = OUTPUT_DIR / "sat_vs_human_difficulty_report_before_experience_adjusted_difficulty.md"
-REPORT_WITH_ADJUSTED = OUTPUT_DIR / "sat_vs_human_difficulty_report_with_experience_adjusted_difficulty.md"
+FEATURES_CSV = REPO_ROOT / "analyze-data" / "out_features" / "behavioral_features.csv"
+SOLVER_CSV = REPO_ROOT / "selected_six_nonogram_stats.csv"
 
 SAT_VARIABLES = [
     "conflicts",
@@ -47,10 +62,40 @@ SAT_VARIABLES = [
 ]
 
 
-def ensure_inputs() -> None:
-    # The adjusted analysis depends on the existing cleaned analysis dataset.
-    if not CLEAN_DATA.exists():
-        runpy.run_path(str(ORIGINAL_PIPELINE), run_name="__main__")
+def load_solver_stats() -> pd.DataFrame:
+    """Load SAT solver metrics, using the unnamed row index as puzzle_id."""
+    df = pd.read_csv(SOLVER_CSV, index_col=0)
+    if "puzzle_id" in df.columns:
+        df = df.drop(columns=["puzzle_id"])
+    df.index.name = "puzzle_id"
+    df = df.reset_index()
+    df["puzzle_id"] = df["puzzle_id"].astype(int)
+    df = df.rename(columns={"solving_time": "sat_time_to_solve"})
+    df["log_conflicts"] = np.log1p(df["conflicts"])
+    df["log_decisions"] = np.log1p(df["decisions"])
+    df["log_propagations"] = np.log1p(df["propagations"])
+    df["log_sat_time"] = np.log1p(df["sat_time_to_solve"])
+    return df[["puzzle_id"] + SAT_VARIABLES]
+
+
+def load_working_frame() -> pd.DataFrame:
+    """Build the participant-puzzle working frame from analyze-data's
+    behavioral_features.csv merged with SAT solver stats.
+
+    Replaces the deleted analyze-data/build_clean_participant_puzzle_data.py
+    generator, which used to produce outputs/clean_participant_puzzle_data.csv.
+    """
+    if not FEATURES_CSV.exists():
+        raise FileNotFoundError(
+            f"{FEATURES_CSV} not found. Run "
+            "analyze-data/extract_behavioral_features.py first."
+        )
+    df = pd.read_csv(FEATURES_CSV)
+    df = df.rename(columns={"final_difficulty": "final_rating"})
+    df["expertise_composite"] = pd.to_numeric(df["expertise_composite"], errors="coerce")
+    df["final_rating"] = pd.to_numeric(df["final_rating"], errors="coerce")
+    solver = load_solver_stats()
+    return df.merge(solver, on="puzzle_id", how="left")
 
 
 def average_ranks(values: list[float]) -> list[float]:
@@ -129,19 +174,10 @@ def exact_permutation_p_value(
     return observed, at_least_as_extreme / total if total else math.nan
 
 
-def prepare_data(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-    df["experience_level"] = pd.to_numeric(df["experience_level"], errors="coerce")
-    exp_mean = df["experience_level"].mean()
-    exp_sd = df["experience_level"].std(ddof=0)
-    df["z_experience"] = (df["experience_level"] - exp_mean) / exp_sd
-    return df
-
-
 def design_row(puzzle_id: int, order: int, columns: list[str]) -> np.ndarray:
     values = {column: 0.0 for column in columns}
     values["intercept"] = 1.0
-    values["z_experience"] = 0.0
+    values["expertise_composite"] = 0.0
     puzzle_column = f"puzzle_{puzzle_id}"
     order_column = f"order_{order}"
     if puzzle_column in values:
@@ -152,9 +188,9 @@ def design_row(puzzle_id: int, order: int, columns: list[str]) -> np.ndarray:
 
 
 def fit_adjusted_difficulty_model(df: pd.DataFrame) -> tuple[pd.DataFrame, np.ndarray, np.ndarray]:
-    model_df = df[["participant_id", "puzzle_id", "order", "final_rating", "z_experience"]].dropna().copy()
+    model_df = df[["participant_id", "puzzle_id", "order", "final_rating", "expertise_composite"]].dropna().copy()
 
-    # Model: final_rating ~ C(puzzle_id) + z_experience + C(order)
+    # Model: final_rating ~ C(puzzle_id) + expertise_composite + C(order)
     # Puzzle 0 and order 1 are reference categories.
     puzzle_dummies = pd.get_dummies(model_df["puzzle_id"].astype(int), prefix="puzzle", drop_first=True)
     order_dummies = pd.get_dummies(model_df["order"].astype(int), prefix="order", drop_first=True)
@@ -162,7 +198,7 @@ def fit_adjusted_difficulty_model(df: pd.DataFrame) -> tuple[pd.DataFrame, np.nd
         [
             pd.Series(1.0, index=model_df.index, name="intercept"),
             puzzle_dummies.astype(float),
-            model_df[["z_experience"]].astype(float),
+            model_df[["expertise_composite"]].astype(float),
             order_dummies.astype(float),
         ],
         axis=1,
@@ -205,8 +241,8 @@ def build_adjusted_puzzle_difficulty(df: pd.DataFrame) -> pd.DataFrame:
 
     rows = []
     for puzzle_id in sorted(df["puzzle_id"].dropna().astype(int).unique()):
-        # Marginal prediction at average experience (z=0) and balanced order:
-        # average of predicted ratings at order 1, 2, and 3.
+        # Marginal prediction at average expertise (composite=0) and balanced
+        # order: average of predicted ratings at order 1, 2, and 3.
         prediction_rows = np.vstack([design_row(puzzle_id, order, columns) for order in [1, 2, 3]])
         contrast = prediction_rows.mean(axis=0)
         adjusted = float(contrast @ beta)
@@ -217,8 +253,8 @@ def build_adjusted_puzzle_difficulty(df: pd.DataFrame) -> pd.DataFrame:
                 "adjusted_difficulty": adjusted,
                 "adjusted_standard_error": adjusted_se,
                 "notes": (
-                    "Predicted from final_rating ~ C(puzzle_id) + z_experience + C(order), "
-                    "holding z_experience=0 and averaging equally over order 1, 2, and 3; "
+                    "Predicted from final_rating ~ C(puzzle_id) + expertise_composite + C(order), "
+                    "holding expertise_composite=0 and averaging equally over order 1, 2, and 3; "
                     "participant-clustered covariance used for SE."
                 ),
             }
@@ -275,15 +311,51 @@ def save_adjusted_correlations(adjusted_df: pd.DataFrame) -> pd.DataFrame:
     return results
 
 
-def save_raw_vs_adjusted_comparison(adjusted_correlations: pd.DataFrame) -> pd.DataFrame:
-    raw_path = OUTPUT_DIR / "correlation_mean_final_rating_vs_sat.csv"
-    if not raw_path.exists():
-        runpy.run_path(str(ORIGINAL_PIPELINE), run_name="__main__")
-    raw = pd.read_csv(raw_path)
+def save_raw_correlations(df: pd.DataFrame) -> pd.DataFrame:
+    """Raw (unadjusted) mean_final_rating vs SAT correlations, for comparison
+    against the expertise-adjusted correlations. Self-contained -- no longer
+    depends on the deleted analyze-data/build_clean_participant_puzzle_data.py."""
+    raw_means = df.groupby("puzzle_id").agg(
+        mean_final_rating=("final_rating", "mean"),
+    ).reset_index()
+    sat_stats = df.groupby("puzzle_id")[SAT_VARIABLES].first().reset_index()
+    merged = raw_means.merge(sat_stats, on="puzzle_id")
 
+    methods = [
+        ("spearman", spearman_correlation),
+        ("kendall", kendall_tau_b),
+        ("pearson", pearson_correlation),
+    ]
     rows = []
     for sat_variable in SAT_VARIABLES:
-        raw_sub = raw[raw["sat_variable"] == sat_variable].set_index("method")
+        pair_df = merged[["mean_final_rating", sat_variable]].dropna()
+        x_values = pair_df["mean_final_rating"].astype(float).tolist()
+        y_values = pair_df[sat_variable].astype(float).tolist()
+        for method, func in methods:
+            if len(pair_df) < 2:
+                correlation = math.nan
+                p_value = math.nan
+            else:
+                correlation, p_value = exact_permutation_p_value(x_values, y_values, func)
+            rows.append(
+                {
+                    "human_variable": "mean_final_rating",
+                    "sat_variable": sat_variable,
+                    "method": method,
+                    "correlation": correlation,
+                    "p_value": p_value,
+                    "n_puzzles": len(pair_df),
+                }
+            )
+    results = pd.DataFrame(rows)
+    results.to_csv(OUTPUT_DIR / "correlation_mean_final_rating_vs_sat.csv", index=False)
+    return results
+
+
+def save_raw_vs_adjusted_comparison(raw_correlations: pd.DataFrame, adjusted_correlations: pd.DataFrame) -> pd.DataFrame:
+    rows = []
+    for sat_variable in SAT_VARIABLES:
+        raw_sub = raw_correlations[raw_correlations["sat_variable"] == sat_variable].set_index("method")
         adj_sub = adjusted_correlations[adjusted_correlations["sat_variable"] == sat_variable].set_index("method")
         rows.append(
             {
@@ -320,7 +392,7 @@ def save_adjusted_plots(adjusted_df: pd.DataFrame, adjusted_correlations: pd.Dat
             & (adjusted_correlations["method"] == "spearman")
         ]["correlation"].iloc[0]
         fig, ax = plt.subplots(figsize=(7, 5), dpi=160)
-        ax.scatter(adjusted_df[sat_variable], adjusted_df["adjusted_difficulty"], color="#245c7c", s=55)
+        ax.scatter(adjusted_df[sat_variable], adjusted_df["adjusted_difficulty"], color=NEUTRAL_COLOR, s=55)
         for row in adjusted_df.itertuples(index=False):
             ax.annotate(
                 str(int(row.puzzle_id)),
@@ -331,96 +403,37 @@ def save_adjusted_plots(adjusted_df: pd.DataFrame, adjusted_correlations: pd.Dat
             )
         ax.set_xlabel(x_label)
         ax.set_ylabel("Experience-adjusted human difficulty")
-        ax.set_title(
-            f"Adjusted difficulty vs {x_label}\n"
-            f"Spearman rho = {rho:.3f}; n = 6 puzzles; exploratory"
+        ax.text(
+            0.97, 0.03, f"Spearman rho = {rho:.3f}\nn = 6 puzzles; exploratory",
+            transform=ax.transAxes, ha="right", va="bottom", fontsize=8,
+            bbox=dict(boxstyle="round", facecolor="white", edgecolor="gray", alpha=0.8),
         )
-        ax.grid(True, alpha=0.25)
         fig.tight_layout()
         fig.savefig(figure_dir / filename, bbox_inches="tight")
         plt.close(fig)
 
 
-def format_float(value: float, digits: int = 3) -> str:
-    if pd.isna(value):
-        return "NA"
-    return f"{value:.{digits}f}"
+def main() -> None:
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-
-def update_report(adjusted_df: pd.DataFrame, adjusted_correlations: pd.DataFrame, comparison: pd.DataFrame) -> None:
-    if not BASE_REPORT.exists():
-        runpy.run_path(str(ORIGINAL_PIPELINE), run_name="__main__")
-    REPORT_BACKUP.write_text(BASE_REPORT.read_text(encoding="utf-8"), encoding="utf-8")
+    df = load_working_frame()
+    adjusted_df = build_adjusted_puzzle_difficulty(df)
+    adjusted_correlations = save_adjusted_correlations(adjusted_df)
+    raw_correlations = save_raw_correlations(df)
+    comparison = save_raw_vs_adjusted_comparison(raw_correlations, adjusted_correlations)
+    save_adjusted_plots(adjusted_df, adjusted_correlations)
 
     spearman = adjusted_correlations[adjusted_correlations["method"] == "spearman"].copy()
     spearman["abs_correlation"] = spearman["correlation"].abs()
     strongest = spearman.sort_values("abs_correlation", ascending=False).iloc[0]
 
-    comparison_spearman = comparison.copy()
-    comparison_spearman["abs_change"] = comparison_spearman["change_in_spearman"].abs()
-    largest_change = comparison_spearman.sort_values("abs_change", ascending=False).iloc[0]
-
-    ranking = adjusted_df.sort_values("adjusted_difficulty")[["puzzle_id", "adjusted_difficulty"]]
-    ranking_lines = "\n".join(
-        f"- Puzzle {int(row.puzzle_id)}: adjusted difficulty = {format_float(row.adjusted_difficulty)}"
-        for row in ranking.itertuples(index=False)
-    )
-
-    section = f"""
-
-## 12. Experience-Adjusted Puzzle Difficulty
-
-Raw ratings may not mean the same thing for participants with different Nonogram experience. To address this, we estimated puzzle difficulty after controlling for participant experience and puzzle order.
-
-The adjustment model was:
-
-`final_rating ~ C(puzzle_id) + z_experience + C(order)`
-
-The model used participant-clustered standard errors. It does not test SAT statistics directly; it estimates adjusted human difficulty for each puzzle. Adjusted difficulty was extracted by predicting each puzzle's final rating at average experience (`z_experience = 0`) and averaging equally over order positions 1, 2, and 3.
-
-Adjusted easiest-to-hardest puzzle order:
-
-{ranking_lines}
-
-The strongest Spearman correlation between adjusted difficulty and SAT statistics was for `{strongest.sat_variable}`, rho = {format_float(strongest.correlation)}. The largest change from the raw `mean_final_rating` Spearman result was for `{largest_change.sat_variable}`, changing by {format_float(largest_change.change_in_spearman)}.
-
-Overall, adjusting for experience and order does not materially change the original conclusion. SAT statistics still show weak and exploratory alignment with human-evaluated difficulty, and no SAT statistic clearly reproduces the human easiest-to-hardest ordering.
-
-Limitations:
-
-- This is still based on only 6 puzzles.
-- Adjustment can control for average experience differences, but it cannot solve the small puzzle-level sample size.
-- Experience is self-reported.
-- Ratings may still be affected by individual rating-scale behavior and by which other puzzles each participant saw.
-- Results remain exploratory.
-"""
-
-    base_text = BASE_REPORT.read_text(encoding="utf-8").rstrip()
-    if "## 12. Experience-Adjusted Puzzle Difficulty" not in base_text:
-        updated = base_text + section
-        BASE_REPORT.write_text(updated + "\n", encoding="utf-8")
-    else:
-        updated = base_text
-    REPORT_WITH_ADJUSTED.write_text(updated + "\n", encoding="utf-8")
-
-
-def main() -> None:
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    ensure_inputs()
-
-    df = pd.read_csv(CLEAN_DATA)
-    df = prepare_data(df)
-    adjusted_df = build_adjusted_puzzle_difficulty(df)
-    adjusted_correlations = save_adjusted_correlations(adjusted_df)
-    comparison = save_raw_vs_adjusted_comparison(adjusted_correlations)
-    save_adjusted_plots(adjusted_df, adjusted_correlations)
-    update_report(adjusted_df, adjusted_correlations, comparison)
-
-    print("Experience-adjusted difficulty analysis complete.")
+    print("Expertise-adjusted difficulty analysis complete.")
     print(f"Adjusted puzzle difficulty rows: {len(adjusted_df)}")
     print(f"Correlation result rows: {len(adjusted_correlations)}")
-    print(f"Report backup: {REPORT_BACKUP}")
-    print(f"Updated report copy: {REPORT_WITH_ADJUSTED}")
+    print(
+        f"Strongest adjusted-difficulty vs SAT correlation: {strongest.sat_variable} "
+        f"(rho={strongest.correlation:.3f})"
+    )
 
 
 if __name__ == "__main__":

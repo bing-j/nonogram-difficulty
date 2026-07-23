@@ -11,6 +11,8 @@ from matplotlib.lines import Line2D
 import pandas as pd
 from dateutil import parser as dtparser
 
+from plot_style import apply_style
+
 
 EXCLUDE_SESSION_TYPES = {"survey_submit", "session_start_three", "session_end"}
 
@@ -135,29 +137,9 @@ def build_ratings_table(participants: List[ParticipantSummary]) -> pd.DataFrame:
 
 def save_puzzle_rating_figures(ratings_df: pd.DataFrame, out_dir: str, puzzle_ids: List[int]) -> None:
     """
-    Saves per-puzzle figures + one overall overview figure into out_dir.
+    Saves an overview figure (boxplots by puzzle) into out_dir.
     """
     os.makedirs(out_dir, exist_ok=True)
-
-    # --- Per puzzle figures ---
-    for pid in puzzle_ids:
-        sub = ratings_df[ratings_df["puzzle_id"] == pid].copy()
-
-        fin = pd.to_numeric(sub["final_difficulty"], errors="coerce").dropna()
-
-        fig = plt.figure(figsize=(5, 4))
-
-        ax1 = fig.add_subplot(1, 1, 1)
-        if len(fin) > 0:
-            ax1.hist(fin, bins=range(1, 9), align="left", rwidth=0.85)
-        ax1.set_title(f"Puzzle {pid} - Final ratings (n={len(fin)})")
-        ax1.set_xlabel("Rating")
-        ax1.set_ylabel("Count")
-        ax1.set_xticks(range(1, 8))
-
-        fig.tight_layout()
-        fig.savefig(os.path.join(out_dir, f"puzzle_{pid}_ratings.png"), dpi=200)
-        plt.close(fig)
 
     # --- Overview figure: boxplots by puzzle ---
     # Build lists in puzzle order
@@ -173,7 +155,6 @@ def save_puzzle_rating_figures(ratings_df: pd.DataFrame, out_dir: str, puzzle_id
 
     ax1 = fig.add_subplot(1, 1, 1)
     bp1 = ax1.boxplot(fin_lists, tick_labels=labels, showmeans=True)
-    ax1.set_title("Final difficulty ratings by puzzle ID")
     ax1.set_xlabel("Puzzle ID")
     ax1.set_ylabel("Final rating")
     ax1.set_ylim(0.5, 5.5)
@@ -390,6 +371,8 @@ def main():
                     help="Output directory for CSV and JSON dumps")
     args = ap.parse_args()
 
+    apply_style()
+
     paths = sorted(glob.glob(args.input_glob))
     if not paths:
         raise SystemExit(f"No files matched: {args.input_glob}")
@@ -415,7 +398,6 @@ def main():
 
     print(f"Wrote outputs to: {args.out_dir}")
     print(" - survey_dumps/*.json")
-    print(" - figures/puzzle_<id>_ratings.png")
     print(" - figures/ratings_overview_all_puzzles.png")
 
 

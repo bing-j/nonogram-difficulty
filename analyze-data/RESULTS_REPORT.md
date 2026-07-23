@@ -1,6 +1,6 @@
 # Results Report — Nonogram Difficulty Study
 
-**Sample:** 67 participants, 201 puzzle-attempt observations (Bing-p21 excluded: incomplete surveys). Experience groups: 27 beginner (skill 1–3), 21 intermediate (4–6), 19 experienced (7–10). Each participant solved 3 of 6 puzzles.
+**Sample:** 67 participants, 201 puzzle-attempt observations (Bing-p21 excluded: incomplete surveys). Participant expertise is represented as `expertise_composite`, a continuous naive z-mean composite of six pre-survey background items (see `PIPELINE.md`) — this report no longer breaks results out by discrete experience group. Each participant solved 3 of 6 puzzles.
 
 ---
 
@@ -18,7 +18,7 @@ The Bradley-Terry model (which corrects for the incomplete 3-of-6 assignment) gi
 
 P3's BT score (~2.5×) is roughly 3× P2's and nearly 2× P4's, making it a clear outlier at the hard end. The four middle puzzles cluster tightly in the 3.4–3.5 range with barely separated raw means, which is why raw ranking is sensitive to assignment bias while BT ranking is more stable — P0's raw rank shifts from #5 to #2 after BT adjustment.
 
-Rankings are stable across initial and final difficulty ratings, and largely consistent across experience groups, though experienced participants rate **P0 notably harder** (BT rank #6 vs. #2 pooled), suggesting P0 may be deceptively easy for novices but genuinely challenging for those who engage more deeply.
+Rankings are stable across initial and final difficulty ratings.
 
 ![Bradley-Terry scores](out_features/bt_scores.png)
 
@@ -38,19 +38,15 @@ Notably, **decisions and propagations show slightly negative ρ** (pooled: ρ≈
 
 **Conflicts** shows the weakest but most positive signal (ρ≈+0.24 initial, 0.00 final), suggesting it may be marginally better aligned with human perception than search-effort metrics, though still far from significance.
 
-**Group analysis:** The experienced group shows the strongest (still non-significant) negative SAT correlation (ρ≈−0.60 for decisions), meaning experienced solvers rate the SAT-hard puzzles as relatively easier — consistent with their ability to exploit structure that the SAT solver searches for blindly.
-
 ---
 
 ## 3. Behavioral Predictors of Difficulty
 
 **No single behavioral feature reliably predicts difficulty ratings after controlling for the others, but `pause_freq_per_min` is the most consistent signal.**
 
-![Behavioral regression heatmap — initial difficulty](out_features/behavioral_reg1_coef_heatmap_initial_difficulty.png)
-
 ![Behavioral regression heatmap — final difficulty](out_features/behavioral_reg1_coef_heatmap_final_difficulty.png)
 
-The coefficient heatmap (Reg 1: behavioral → initial difficulty) shows:
+The coefficient heatmap (Reg 1: behavioral → final difficulty) shows:
 
 - **`pause_freq_per_min`** has the largest coefficients, uniformly negative for P0, P1, P2, P3 and positive for P4. More frequent pauses → lower perceived difficulty on most puzzles, but the opposite on P4. This likely reflects different solve strategies: deliberate pausing on constraint-heavy puzzles (P0–P3) signals careful reasoning rather than confusion, while pausing on P4 may reflect being stuck.
 - **`hint_count`** is notably negative for P2 (using hints there reduces perceived difficulty), which makes sense given P2 is already easy — hints in easy contexts don't inflate difficulty perception.
@@ -61,12 +57,6 @@ The coefficient heatmap (Reg 1: behavioral → initial difficulty) shows:
 **One significant cross-domain finding:** In Reg 2 (behavioral → SAT decisions), `error_count` is significantly negative (B=−0.32, p=0.005 pooled). Puzzles with fewer SAT decisions (solver-easy puzzles) generate more human errors — participants make more cell-filling mistakes on the puzzles the solver handles trivially. This is the clearest measurable mismatch between SAT complexity and human behavior.
 
 ![Behavioral reg 2 — SAT decisions scatter](out_features/behavioral_reg2_scatter_grid_decisions.png)
-
-**By experience group:** The beginner group shows the strongest behavioral signal — for puzzle 0, `pause_count`, `pause_freq_per_min`, and `time_to_solve_sec` are jointly significant predictors of **final** difficulty (R²=0.745). Experienced participants' difficulty ratings are largely unrelated to their behavioral trace (R²≈0.21 pooled, no significant predictors), suggesting they form difficulty judgments on grounds not captured by these behavioral features.
-
-![Behavioral reg 1 heatmap — beginner](out_features/behavioral_reg1_coef_heatmap_initial_difficulty_beginner.png)
-
-![Behavioral reg 1 heatmap — experienced](out_features/behavioral_reg1_coef_heatmap_initial_difficulty_experienced.png)
 
 ---
 
@@ -111,5 +101,4 @@ The strong concentration on P0, P2, and P5 shows these puzzles have obvious "fir
 | SAT metrics do not predict human difficulty | Clear (n=6 limits statistical power) |
 | Error count negatively predicts SAT decisions — solver-easy ≠ human-easy | Significant (p=0.005) |
 | Behavioral features explain ~8% of difficulty variance pooled | Weak, no significant individual predictors |
-| Beginners' difficulty ratings more behaviourally predictable than experts' | Moderate |
 | P0's "fast start" and P3's "stepped bursts" reflect distinct cognitive solving modes | Qualitative |

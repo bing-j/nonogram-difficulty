@@ -1,9 +1,0 @@
-human_rank_variable,sat_rank_variable,method,correlation,p_value,n_puzzles
-human_difficulty_rank,conflicts_rank,spearman,0.12126781251816648,0.8444444444444444,6
-human_difficulty_rank,decisions_rank,spearman,0.11595420713048969,0.8388888888888889,6
-human_difficulty_rank,propagations_rank,spearman,0.11595420713048969,0.8388888888888889,6
-human_difficulty_rank,sat_time_rank,spearman,-0.028988551782622423,0.9944444444444445,6
-human_difficulty_rank,log_conflicts_rank,spearman,0.12126781251816648,0.8444444444444444,6
-human_difficulty_rank,log_decisions_rank,spearman,0.11595420713048969,0.8388888888888889,6
-human_difficulty_rank,log_propagations_rank,spearman,0.11595420713048969,0.8388888888888889,6
-human_difficulty_rank,log_sat_time_rank,spearman,-0.028988551782622423,0.9944444444444445,6

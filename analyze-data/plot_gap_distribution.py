@@ -37,6 +37,7 @@ from extract_features import (
     segment_puzzles,
     slice_events_by_time,
 )
+from plot_style import apply_style
 
 
 # ---------------------------------------------------------------------------
@@ -93,7 +94,6 @@ def print_stats(gaps: np.ndarray) -> None:
 
 def plot(gaps: np.ndarray, out_path: str) -> None:
     fig, axes = plt.subplots(2, 2, figsize=(12, 9))
-    fig.suptitle("Inter-event gap distribution (within-puzzle, interaction events only)", fontsize=12)
 
     ax = axes[0, 0]
     bins = np.arange(0, 30.5, 0.5)
@@ -121,7 +121,7 @@ def plot(gaps: np.ndarray, out_path: str) -> None:
     ax.axhline(0.90, color="gray", lw=0.8, linestyle="--", label="90th pct")
     ax.axhline(0.95, color="gray", lw=0.8, linestyle=":",  label="95th pct")
     ax.legend(fontsize=8)
-    ax.grid(True, which="both", alpha=0.3)
+    ax.grid(True, which="both")
 
     ax = axes[1, 1]
     bins60 = np.arange(0, 61, 1)
@@ -372,7 +372,8 @@ def plot_log_intervals(gmm_result: dict, threshold: float, out_path: str) -> Non
     ax.axvline(np.log(threshold), color="orange", lw=1.8, linestyle="-",
                label=f"Equal-posterior threshold: {threshold:.2f}s")
     ax.text(0.97, 0.97,
-            f"dBIC (3v1) = {delta_bic:.1f}\nbest n = {best_n}",
+            f"dBIC (3v1) = {delta_bic:.1f}\nbest n = {best_n}\n"
+            f"pause threshold = {threshold:.2f}s",
             transform=ax.transAxes, ha="right", va="top", fontsize=8,
             bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow", edgecolor="gray"))
     ax.set_xlabel("log(gap_seconds)")
@@ -406,11 +407,6 @@ def plot_log_intervals(gmm_result: dict, threshold: float, out_path: str) -> Non
     ax.set_title("Component means - seconds scale")
     ax.legend(fontsize=7.5)
 
-    fig.suptitle(
-        f"3-component GMM log-interval analysis  |  dBIC(3v1)={delta_bic:.1f}  |  "
-        f"pause threshold = {threshold:.2f}s",
-        fontsize=10,
-    )
     fig.tight_layout()
     fig.savefig(out_path, dpi=150)
     plt.close(fig)
@@ -451,9 +447,8 @@ def plot_sensitivity(
     ax.set_xscale("log")
     ax.set_xlabel("Threshold (s, log scale)")
     ax.set_ylabel("Mean pause count per observation")
-    ax.set_title("Pause count sensitivity to threshold (2s - 30s band)")
     ax.legend(fontsize=9)
-    ax.grid(True, which="both", alpha=0.25)
+    ax.grid(True, which="both")
     fig.tight_layout()
     fig.savefig(out_path, dpi=150)
     plt.close(fig)
@@ -477,6 +472,8 @@ def main() -> None:
         default=os.path.join(os.path.dirname(__file__), "out_features"),
     )
     args = ap.parse_args()
+
+    apply_style()
 
     paths = sorted(glob.glob(args.input_glob))
     if not paths:

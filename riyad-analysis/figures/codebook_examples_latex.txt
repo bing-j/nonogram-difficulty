@@ -1,0 +1,58 @@
+% Requires \usepackage{array}, \usepackage{booktabs}, and \usepackage{placeins} in your preamble (for the m{} column type, \toprule/\midrule/\bottomrule, and \FloatBarrier below) -- remove this comment once added.
+
+\begin{table*}[t]
+\centering
+{\small
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lm{3.2cm}m{10.4cm}}
+\toprule
+\multicolumn{3}{l}{\textbf{Difficulty Themes}} \\
+\midrule
+\textbf{Code} & \textbf{Theme / Strategy} & \textbf{Example} \\
+\midrule
+\texttt{FOOT} & Starting footholds / forced lines & ``Not a lot of freebies'' \\
+\texttt{CLUE} & Clue magnitude & ``Clue number too small'' \\
+\texttt{PROP} & Constraint propagation / chaining & ``easier to solve using elimination'' \\
+\texttt{AMBIG} & Combinatorial ambiguity / overlap reasoning & ``Multiple intermediate steps seemed possible, but only one worked in the end'' \\
+\texttt{GUESS} & Guessing / certainty & ``never need to guess'' \\
+\texttt{HINT} & Hint usage & ``I use many hits.'' \\
+\texttt{ERR} & Mistakes / error recovery & ``I got a little stuck but maybe that's because I misread some of the numbers'' \\
+\texttt{LEARN} & Learning / practice / fatigue & ``easier than first one'' \\
+\texttt{LOAD} & Cognitive load / tracking & ``Keeping track of what has been filled out made things overall harder.'' \\
+\texttt{VIS} & Visual / spatial layout & ``In a lot of other nonograms, they usually form a picture so you kind of get a free hint as to what the general shape should look like but these ones were more random'' \\
+\texttt{TIME} & Time pressure & ``Tried solving via the column/row that had a deterministic output. Got a bit easier. Guessed because of time constraints.'' \\
+\texttt{UI} & Interface friction & ``undo button should not be the same color and right beside the reset button'' \\
+\texttt{AFF} & Confidence / affect & ``I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.'' \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\FloatBarrier
+
+\begin{table*}[t]
+\centering
+{\small
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lm{3.2cm}m{10.4cm}}
+\toprule
+\multicolumn{3}{l}{\textbf{Strategy Themes}} \\
+\midrule
+\textbf{Code} & \textbf{Theme / Strategy} & \textbf{Example} \\
+\midrule
+\texttt{S\_FORCED} & Forced-line solving & ``determine the fixed lines first'' \\
+\texttt{S\_CONSTR} & Most-constrained-first ordering & ``Locate the largest number block first.'' \\
+\texttt{S\_OVERLAP} & Overlap analysis & ``finding overlaps'' \\
+\texttt{S\_EDGE} & Edge / anchor exploitation & ``Process of elimination: overlap of potential positions, fixed arrangements from start/end positions, see possible solutions with remaining white space, immediately X out cells'' \\
+\texttt{S\_CROSS} & Row/column cross-referencing & ``Trying to compare values across rows and columns to see where the hints matched.'' \\
+\texttt{S\_NEG} & Negative marking (X-ing whites) & ``To fulfill the known lines first, and then along the guessing, I can cross some connected cells.'' \\
+\texttt{S\_TRIAL} & Trial-and-error / contradiction & ``logical deduction, trial and error'' \\
+\texttt{S\_HINT} & Hint-as-tool & ``I feel like it's better to use hints especially at the very beginning, but I had a lot left when finished. So the time interval of giving hints seems meaningful for me cause it helps but it doesn't spoil the game.'' \\
+\bottomrule
+\end{tabular}
+}
+\caption{Difficulty themes (applied to \texttt{rating\_reason} + \texttt{comments}) and strategy taxonomy (applied to \texttt{strategy}), with example responses}
+\label{tab:codebook-examples}
+\end{table*}

@@ -16,10 +16,8 @@ saw, so we use a Bradley-Terry pairwise comparison model instead:
 Outputs
 -------
 - Console: win matrix, BT scores, Spearman ρ table (BT vs raw-mean comparison)
-- analyze-data/out_features/bt_scores.png                  — bar chart of BT scores (all participants)
-- analyze-data/out_features/bt_ranking_vs_sat.png          — BT score vs SAT metrics (all participants)
-- analyze-data/out_features/bt_scores_{group}.png          — per experience group (beginner/intermediate/experienced)
-- analyze-data/out_features/bt_ranking_vs_sat_{group}.png  — per experience group
+- analyze-data/out_features/bt_scores.png                  — bar chart of BT scores
+- analyze-data/out_features/bt_ranking_vs_sat.png          — BT score vs SAT metrics
 
 Usage
 -----
@@ -43,6 +41,9 @@ import pandas as pd
 import scipy.optimize as opt
 import scipy.stats as stats
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from plot_style import PUZZLE_COLORS, apply_style  # noqa: E402
+
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 if sys.stderr.encoding and sys.stderr.encoding.lower() != "utf-8":
@@ -56,14 +57,6 @@ DEFAULT_OUT_DIR = REPO_ROOT / "analyze-data" / "out_features"
 SAT_METRICS = ["decisions", "propagations", "conflicts"]
 RATING_COLS = ["final_difficulty"]
 BEHAVIORAL_AGGREGATES = ["time_to_solve_sec", "error_count", "hint_count"]
-
-PUZZLE_COLORS = [
-    "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b",
-]
-
-EXPERIENCE_BINS   = [0, 3, 6, 10]   # right-inclusive: (0,3], (3,6], (6,10]
-EXPERIENCE_LABELS = ["beginner", "intermediate", "experienced"]
-MIN_OBS = 5  # minimum participants to run per-group analysis
 
 
 # ---------------------------------------------------------------------------
@@ -90,24 +83,6 @@ def load_solver_stats(path: Path) -> pd.DataFrame:
     df = df.reset_index()
     df["puzzle_id"] = df["puzzle_id"].astype(int)
     return df[["puzzle_id"] + SAT_METRICS]
-
-
-def assign_groups(df: pd.DataFrame) -> pd.DataFrame:
-    """Add an 'experience_group' column based on skill_nonogram (1–10 scale).
-
-    Groups:
-      beginner     — skill_nonogram 1–3
-      intermediate — skill_nonogram 4–6
-      experienced  — skill_nonogram 7–10
-    """
-    df = df.copy()
-    df["experience_group"] = pd.cut(
-        pd.to_numeric(df["skill_nonogram"], errors="coerce"),
-        bins=EXPERIENCE_BINS,
-        labels=EXPERIENCE_LABELS,
-        right=True,
-    )
-    return df
 
 
 # ---------------------------------------------------------------------------
@@ -312,7 +287,7 @@ def run_spearman_tests(
 # Visualisation
 # ---------------------------------------------------------------------------
 
-def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path, suffix: str = "") -> None:
+def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path) -> None:
     """Bar chart of BT scores per puzzle for each rating type."""
     n_ratings = len(bt_dfs)
     fig, axes = plt.subplots(1, n_ratings, figsize=(5 * n_ratings, 4), sharey=False)
@@ -330,9 +305,7 @@ def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path, suffix: str =
         )
         ax.set_xlabel("Puzzle", fontsize=10)
         ax.set_ylabel("BT strength score θ", fontsize=10)
-        ax.set_title(f"Bradley-Terry scores\n({rating_col})", fontsize=11)
         ax.axhline(1.0, color="black", linewidth=0.8, linestyle="--", alpha=0.5)
-        ax.grid(axis="y", linestyle="--", alpha=0.4)
 
         for bar, (_, row) in zip(bars, sorted_df.iterrows()):
             ax.text(
@@ -343,7 +316,7 @@ def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path, suffix: str =
             )
 
     fig.tight_layout()
-    out_path = out_dir / f"bt_scores{suffix}.png"
+    out_path = out_dir / "bt_scores.png"
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
@@ -353,7 +326,6 @@ def plot_bt_vs_sat(
     bt_dfs: dict[str, pd.DataFrame],
     solver_df: pd.DataFrame,
     out_dir: Path,
-    suffix: str = "",
 ) -> None:
     """Scatter grid: BT score vs SAT metrics, one row per rating type."""
     n_metrics = len(SAT_METRICS)
@@ -377,17 +349,12 @@ def plot_bt_vs_sat(
                 labels=merged["puzzle_id"].astype(int),
                 xlabel=metric,
                 ylabel="BT score θ",
-                title=f"BT score vs {metric}\n({rating_col})",
                 y_series_for_spearman=merged["bt_rank"],
                 x_series_for_spearman=merged[metric],
             )
 
-    fig.suptitle(
-        "Bradley-Terry score vs SAT metrics",
-        fontsize=13, fontweight="bold", y=1.01,
-    )
     fig.tight_layout()
-    out_path = out_dir / f"bt_ranking_vs_sat{suffix}.png"
+    out_path = out_dir / "bt_ranking_vs_sat.png"
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved: {out_path}")
@@ -400,7 +367,6 @@ def _scatter_panel(
     labels: pd.Series,
     xlabel: str,
     ylabel: str,
-    title: str,
     y_series_for_spearman: pd.Series,
     x_series_for_spearman: pd.Series,
 ) -> None:
@@ -419,10 +385,13 @@ def _scatter_panel(
 
     rho, p = stats.spearmanr(y_series_for_spearman, x_series_for_spearman)
     sig = _sig_stars(p)
-    ax.set_title(f"{title}\nSpearman ρ={rho:+.3f}  p={p:.3f} {sig}", fontsize=9)
+    ax.text(
+        0.03, 0.97, f"ρ={rho:+.3f}  p={p:.3f} {sig}",
+        transform=ax.transAxes, ha="left", va="top", fontsize=8,
+        bbox=dict(boxstyle="round", facecolor="white", edgecolor="gray", alpha=0.8),
+    )
     ax.set_xlabel(xlabel, fontsize=9)
     ax.set_ylabel(ylabel, fontsize=9)
-    ax.grid(True, linestyle="--", alpha=0.3)
     ax.tick_params(labelsize=8)
 
 
@@ -438,6 +407,8 @@ def main() -> None:
     ap.add_argument("--solver_csv", type=Path, default=DEFAULT_SOLVER_CSV)
     ap.add_argument("--out_dir", type=Path, default=DEFAULT_OUT_DIR)
     args = ap.parse_args()
+
+    apply_style()
 
     if not args.features_csv.exists():
         print(f"Features CSV not found: {args.features_csv}")
@@ -471,47 +442,6 @@ def main() -> None:
     print("\nGenerating figures...")
     plot_bt_scores(bt_dfs, args.out_dir)
     plot_bt_vs_sat(bt_dfs, solver_df, args.out_dir)
-
-    # ── Per-experience-group analysis ────────────────────────────────────────
-    if "skill_nonogram" not in features_df.columns:
-        print(
-            "\n[WARNING] 'skill_nonogram' column not found in features CSV. "
-            "Re-run extract_behavioral_features.py to add it, then re-run this script."
-        )
-    else:
-        df_grouped = assign_groups(features_df)
-        print("\n" + "=" * 60)
-        print("EXPERIENCE GROUP BREAKDOWN")
-        print("=" * 60)
-        for label in EXPERIENCE_LABELS:
-            group_df = df_grouped[df_grouped["experience_group"] == label]
-            n_participants = group_df["participant_id"].nunique()
-            print(f"  {label:<14}: {n_participants:>2} participants, {len(group_df):>3} rows")
-
-        for label in EXPERIENCE_LABELS:
-            group_df = df_grouped[df_grouped["experience_group"] == label].copy()
-            n_participants = group_df["participant_id"].nunique()
-            if n_participants < MIN_OBS:
-                print(f"\n  [{label}] only {n_participants} participants — skipping (need {MIN_OBS})")
-                continue
-
-            print(f"\n{'=' * 60}")
-            print(f"GROUP: {label.upper()}  ({n_participants} participants, {len(group_df)} rows)")
-            print(f"{'=' * 60}")
-
-            bt_dfs_group: dict[str, pd.DataFrame] = {}
-            for rating_col in RATING_COLS:
-                W_g = build_win_matrix(group_df, rating_col)
-                theta_g = fit_bradley_terry(W_g)
-                bt_df_g = build_bt_df(group_df, rating_col, theta_g)
-                bt_dfs_group[rating_col] = bt_df_g
-                print_bt_summary(bt_df_g, rating_col, W_g)
-
-            run_spearman_tests(bt_dfs_group, solver_df, group_df)
-
-            suffix = f"_{label}"
-            plot_bt_scores(bt_dfs_group, args.out_dir, suffix=suffix)
-            plot_bt_vs_sat(bt_dfs_group, solver_df, args.out_dir, suffix=suffix)
 
     print("\nDone.")
 

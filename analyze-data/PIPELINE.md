@@ -10,17 +10,11 @@ source .venv/bin/activate        # macOS/Linux
 
 ---
 
-## Participant Groups
+## Participant Expertise
 
-Participants are stratified by self-reported nonogram experience (`skill_nonogram`, 1–10 scale from the pre-survey):
+Participant expertise is a single continuous score, `expertise_composite`: a naive z-mean composite of six pre-survey background items (`skill_nonogram`, `skill_puzzles`, ordinal-encoded `played_before`/`puzzle_played_frequency`, and the breadth of `nonogram_size_experience`/`logic_experience` selections). Each item is z-scored across participants, averaged (skipping missing items), then re-standardized. See `expertise.py` for the implementation — ported from `riyad-analysis/04_build_expertise_score.py`'s "z-mean" method.
 
-| Group          | skill_nonogram range |
-|----------------|----------------------|
-| beginner       | 1–3                  |
-| intermediate   | 4–6                  |
-| experienced    | 7–10                 |
-
-Every analysis script that produces a pooled result also produces per-group figures (when ≥ 5 participants are in a group). Group suffixes follow the pattern `_beginner`, `_intermediate`, `_experienced`.
+There are no discrete experience tiers anywhere in this pipeline: `expertise_composite` is used directly as a continuous covariate rather than being cut into groups.
 
 ---
 
@@ -69,20 +63,31 @@ python analyze-data/extract_behavioral_features.py \
 | `pause_count` | Inter-event gaps ≥ 2.36 s |
 | `pause_freq_per_min` | `pause_count / duration_min` |
 | `time_to_solve_sec` | First interaction to first successful check; falls back to full duration |
+| `total_time_spent_sec` | Full interaction duration (first to last interaction event), regardless of solve outcome |
+| `check_count` | Number of `check_bank` events (times "check my solution" was clicked) |
 | `error_count` | Move events where cell is filled but solution is empty |
+| `percent_error` | Fraction of all 100 grid cells wrong in the final (end-of-session) board state |
+| `percent_incomplete` | Fraction of the 50 black solution cells not correctly filled in the final board state |
 | `hint_count` | Hint events (excludes `hint_none`) |
 | `initial_difficulty` | Rating immediately after the puzzle |
 | `final_difficulty` | Retrospective rating from the post-survey |
 | `solved_flag` | Whether the participant solved the puzzle |
+| `order` | 1/2/3 — the participant's presentation order for this puzzle |
 | `skill_nonogram` | Self-reported nonogram experience (1–10) |
+| `skill_puzzles` | Self-reported logic-puzzle experience (1–10) |
+| `played_before_ord` | Nonogram play frequency, ordinal-encoded (never=0 … regular=3) |
+| `puzzle_played_frequency_ord` | Other logic-puzzle play frequency, ordinal-encoded (never=0 … regular=3) |
+| `n_nonogram_sizes` | Breadth of Nonogram sizes solved (count of selections) |
+| `n_logic_puzzles` | Breadth of other logic puzzles known (count of selections) |
+| `expertise_composite` | Naive z-mean composite of the six items above (see "Participant Expertise") |
 
-**This CSV is required by Steps 2, 3, and 4.**
+**This CSV is required by Steps 2, 3, 4, and 7.** `total_time_spent_sec`, `check_count`, `percent_error`, and `percent_incomplete` mirror the paper's own Table 1 measures (see Step 7) — `percent_error`/`percent_incomplete` are computed from a final-board reconstruction shared with `solve_trajectory.py` (`reconstruct_final_board`).
 
 ---
 
 ## Step 2 — Behavioral Regression
 
-OLS regression: behavioral features → difficulty ratings, pooled and per experience group.
+OLS regression: behavioral features → difficulty ratings.
 
 ```bash
 python analyze-data/behavioral_regression.py
@@ -93,9 +98,7 @@ python analyze-data/behavioral_regression.py
 | **Inputs** | `analyze-data/out_features/behavioral_features.csv` |
 | | `selected_six_nonogram_stats.csv` |
 | **Outputs** | `analyze-data/out_features/behavioral_reg1_coef_heatmap_final_difficulty.png` |
-| | `analyze-data/out_features/behavioral_reg1_coef_heatmap_final_difficulty_{group}.png` (per group) |
 | | `analyze-data/out_features/behavioral_reg2_scatter_grid_decisions.png` |
-| | `analyze-data/out_features/behavioral_reg2_scatter_grid_decisions_{group}.png` (per group) |
 
 Two regression families are run:
 - **Reg 1**: `final_difficulty ~ behavioral_features` (per puzzle and pooled)
@@ -115,10 +118,8 @@ python analyze-data/spearman_ranking.py
 |---|---|
 | **Inputs** | `analyze-data/out_features/behavioral_features.csv` |
 | | `selected_six_nonogram_stats.csv` |
-| **Outputs** | `analyze-data/out_features/bt_scores.png` (pooled) |
-| | `analyze-data/out_features/bt_ranking_vs_sat.png` (pooled) |
-| | `analyze-data/out_features/bt_scores_{group}.png` (per group) |
-| | `analyze-data/out_features/bt_ranking_vs_sat_{group}.png` (per group) |
+| **Outputs** | `analyze-data/out_features/bt_scores.png` |
+| | `analyze-data/out_features/bt_ranking_vs_sat.png` |
 
 The Bradley-Terry model corrects for the fact that each participant only sees 3 of the 6 puzzles. Within each participant's session, every pair of rated puzzles generates one pairwise comparison (higher-rated = "wins"; ties split 0.5/0.5). A global strength score θ_i is estimated via MLE.
 
@@ -136,13 +137,8 @@ python analyze-data/regression_analysis.py
 |---|---|
 | **Inputs** | `backend/logs/*.ndjson` |
 | | `selected_six_nonogram_stats.csv` |
-| | `analyze-data/out_features/behavioral_features.csv` *(optional, for groups)* |
-| **Outputs** | `analyze-data/out_features/figures/spearman_rank_scatter.png` (pooled) |
-| | `analyze-data/out_features/figures/regression_per_puzzle_means.png` (pooled) |
-| | `analyze-data/out_features/figures/spearman_rank_scatter_{group}.png` (per group) |
-| | `analyze-data/out_features/figures/regression_per_puzzle_means_{group}.png` (per group) |
-
-If `behavioral_features.csv` is absent, the script runs the pooled analysis only and prints a warning. Per-group analysis requires Step 1 to be complete first.
+| **Outputs** | `analyze-data/out_features/figures/spearman_rank_scatter.png` |
+| | `analyze-data/out_features/figures/regression_per_puzzle_means.png` |
 
 ---
 
@@ -166,9 +162,9 @@ Trajectories are measured as the fraction of black cells correctly filled over e
 
 ---
 
-## Step 6 — Per-Puzzle Rating Figures (optional)
+## Step 6 — Rating Overview Figure (optional)
 
-Generate per-puzzle final-difficulty rating histograms and survey dumps.
+Generate the overview final-difficulty rating boxplot and survey dumps.
 
 ```bash
 python analyze-data/extract_features.py \
@@ -179,8 +175,7 @@ python analyze-data/extract_features.py \
 | | |
 |---|---|
 | **Input** | `backend/logs/*.ndjson` |
-| **Outputs** | `analyze-data/out_features/figures/puzzle_{id}_ratings.png` (per puzzle) |
-| | `analyze-data/out_features/figures/ratings_overview_all_puzzles.png` |
+| **Outputs** | `analyze-data/out_features/figures/ratings_overview_all_puzzles.png` |
 | | `analyze-data/out_features/survey_dumps/{participant_id}_surveys.json` |
 
 ---
@@ -191,14 +186,15 @@ python analyze-data/extract_features.py \
 extract_features.py  ← shared library (imported by steps 1, 5, and this step)
     ↑
     ├── extract_behavioral_features.py  (Step 1)  → behavioral_features.csv
-    ├── solve_trajectory.py             (Step 5)
+    ├── solve_trajectory.py             (Step 5)  ← also provides reconstruct_final_board,
+    │                                                compute_mismatches to Step 1
     └── plot_gap_distribution.py        (Step 0)
 
 behavioral_features.csv
     ↑
     ├── behavioral_regression.py        (Step 2)
     └── spearman_ranking.py             (Step 3)  ← also provides build_win_matrix,
-                                                     fit_bradley_terry to Step 4
+                                                                  fit_bradley_terry to Step 4
 
 backend/logs/*.ndjson
     ↑

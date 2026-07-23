@@ -1,6 +1,23 @@
+import os
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+
+plt.rcParams.update({
+    "font.family": "sans-serif",
+    "font.size": 10,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+    "axes.grid": True,
+    "grid.color": "#cccccc",
+    "grid.linewidth": 0.6,
+    "grid.linestyle": "-",
+    "axes.axisbelow": True,
+})
+
+OUTPUT_DIR = os.path.join("outputs", "figures", "solver_stats_diagnostics")
+
 
 def select_six(df: pd.DataFrame) -> pd.DataFrame:
     """Select six puzzles from the 1000 based on defining characteristics."""
@@ -17,6 +34,8 @@ def select_six(df: pd.DataFrame) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
     # Load solver statistics from CSV
     df = pd.read_csv("nonogram_solver_stats.csv")
 
@@ -30,19 +49,19 @@ if __name__ == "__main__":
     print(correlation_matrix)
 
     # Display the correlation matrix in a heatmap
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm")
-    plt.title("Correlation Matrix of Nonogram Solver Statistics")
+    fig = plt.figure(figsize=(10, 8))
+    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="RdBu_r")
+    fig.savefig(os.path.join(OUTPUT_DIR, "solver_stats_correlation_matrix.png"), bbox_inches="tight")
     plt.show()
 
     # Plot the distribution of conflicts
-    plt.figure(figsize=(10, 6))
+    fig = plt.figure(figsize=(10, 6))
     sns.histplot(df['conflicts'], discrete=True, kde=True)
-    plt.title('Distribution of Conflicts')
     plt.xlabel('Number of Conflicts')
     plt.ylabel('Frequency')
+    fig.savefig(os.path.join(OUTPUT_DIR, "solver_stats_conflicts_distribution.png"), bbox_inches="tight")
     plt.show()
-    
+
 
     # Select six representative puzzles
 
