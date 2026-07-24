@@ -1,0 +1,39 @@
+% Requires \usepackage{array}, \usepackage{booktabs}, and \usepackage{multirow} in your preamble (for the m{} column type, \toprule/\midrule/\bottomrule, and the Category column's \multirow below) -- remove this comment once added.
+
+\begin{table*}[t]
+\centering
+{\small
+\renewcommand{\arraystretch}{1.0}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llm{2.6cm}m{10.0cm}}
+\toprule
+\textbf{Category} & \textbf{Code} & \textbf{Theme / Strategy} & \textbf{Example} \\
+\midrule
+\multirow{13}{*}{\textbf{Difficulty}} & \texttt{FOOT} & Starting footholds / forced lines & ``Not a lot of freebies'' \\[3pt]
+ & \texttt{CLUE} & Clue magnitude & ``Clue number too small'' \\[3pt]
+ & \texttt{PROP} & Constraint propagation / chaining & ``easier to solve using elimination'' \\[3pt]
+ & \texttt{AMBIG} & Combinatorial ambiguity / overlap reasoning & ``Multiple intermediate steps seemed possible, but only one worked in the end'' \\[3pt]
+ & \texttt{GUESS} & Guessing / certainty & ``never need to guess'' \\[3pt]
+ & \texttt{HINT} & Hint usage & ``I use many hits.'' \\[3pt]
+ & \texttt{ERR} & Mistakes / error recovery & ``I got a little stuck but maybe that's because I misread some of the numbers'' \\[3pt]
+ & \texttt{LEARN} & Learning / practice / fatigue & ``easier than first one'' \\[3pt]
+ & \texttt{LOAD} & Cognitive load / tracking & ``Keeping track of what has been filled out made things overall harder.'' \\[3pt]
+ & \texttt{VIS} & Visual / spatial layout & ``In a lot of other nonograms, they usually form a picture so you kind of get a free hint as to what the general shape should look like but these ones were more random'' \\[3pt]
+ & \texttt{TIME} & Time pressure & ``Tried solving via the column/row that had a deterministic output. Got a bit easier. Guessed because of time constraints.'' \\[3pt]
+ & \texttt{UI} & Interface friction & ``undo button should not be the same color and right beside the reset button'' \\[3pt]
+ & \texttt{AFF} & Confidence / affect & ``I rated it this difficulty because I had to think about it a little, but I never got stuck and felt confident the entire time.'' \\[3pt]
+\midrule
+\multirow{8}{*}{\textbf{Strategy}} & \texttt{S\_FORCED} & Forced-line solving & ``determine the fixed lines first'' \\[3pt]
+ & \texttt{S\_CONSTR} & Most-constrained-first ordering & ``Locate the largest number block first.'' \\[3pt]
+ & \texttt{S\_OVERLAP} & Overlap analysis & ``finding overlaps'' \\[3pt]
+ & \texttt{S\_EDGE} & Edge / anchor exploitation & ``Process of elimination: overlap of potential positions, fixed arrangements from start/end positions, see possible solutions with remaining white space, immediately X out cells'' \\[3pt]
+ & \texttt{S\_CROSS} & Row/column cross-referencing & ``Trying to compare values across rows and columns to see where the hints matched.'' \\[3pt]
+ & \texttt{S\_NEG} & Negative marking (X-ing whites) & ``To fulfill the known lines first, and then along the guessing, I can cross some connected cells.'' \\[3pt]
+ & \texttt{S\_TRIAL} & Trial-and-error / contradiction & ``logical deduction, trial and error'' \\[3pt]
+ & \texttt{S\_HINT} & Hint-as-tool & ``I feel like it's better to use hints especially at the very beginning, but I had a lot left when finished. So the time interval of giving hints seems meaningful for me cause it…'' \\[3pt]
+\bottomrule
+\end{tabular}
+}
+\caption{Difficulty themes and strategy taxonomy, with example responses}
+\label{tab:codebook-examples}
+\end{table*}

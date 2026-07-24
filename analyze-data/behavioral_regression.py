@@ -25,7 +25,7 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
-from plot_style import PUZZLE_COLORS, apply_style
+from plot_style import NEUTRAL_COLOR, apply_style
 
 BEHAVIORAL_FEATURES = [
     "pause_count",
@@ -63,7 +63,7 @@ def load_solver_stats(path: str) -> pd.DataFrame:
     df.index.name = "puzzle_id"
     df = df.reset_index()
     df["puzzle_id"] = df["puzzle_id"].astype(int)
-    return df[["puzzle_id", "decisions", "propagations"]]
+    return df[["puzzle_id", "decisions", "propagations", "conflicts"]]
 
 
 def ols_fit(df: pd.DataFrame, dv: str) -> sm.regression.linear_model.RegressionResultsWrapper:
@@ -175,7 +175,7 @@ def _save_coef_heatmap(
 # Regression 1b: pooled across all puzzles, DV = user difficulty
 # ---------------------------------------------------------------------------
 
-def run_regression1_pooled(df: pd.DataFrame) -> None:
+def run_regression1_pooled(df: pd.DataFrame, out_dir: str) -> None:
     print("\n" + "=" * 60)
     print("REGRESSION 1 (pooled): behavioral features -> user difficulty")
     print("=" * 60)
@@ -188,50 +188,69 @@ def run_regression1_pooled(df: pd.DataFrame) -> None:
             continue
         result = ols_fit(complete, dv)
         print_model_table(result, f"All puzzles pooled  - {dv}", n)
+        _save_coef_table(
+            result, n, os.path.join(out_dir, "stats_behavioral_vs_difficulty_pooled.csv")
+        )
+
+
+def _save_coef_table(result, n: int, out_path: str) -> None:
+    """Save a pooled OLS coefficient table (predictor, B, SE, t, p) plus model
+    fit stats (N, R2, adj-R2) as extra rows with predictor='(model)'."""
+    rows = pd.DataFrame({
+        "predictor": result.params.index,
+        "coef": result.params.values,
+        "se": result.bse.values,
+        "t": result.tvalues.values,
+        "p_value": result.pvalues.values,
+    })
+    fit = pd.DataFrame([{
+        "predictor": "(model)",
+        "coef": float("nan"), "se": float("nan"), "t": float("nan"), "p_value": float("nan"),
+        "n": n, "r_squared": result.rsquared, "adj_r_squared": result.rsquared_adj,
+    }])
+    rows["n"] = n
+    rows["r_squared"] = result.rsquared
+    rows["adj_r_squared"] = result.rsquared_adj
+    out = pd.concat([rows, fit], ignore_index=True)
+    out.to_csv(out_path, index=False)
+    print(f"Saved: {out_path}")
 
 
 # ---------------------------------------------------------------------------
 # Regression 2: pooled, DV = decisions
 # ---------------------------------------------------------------------------
 
-def run_regression2(df: pd.DataFrame, solver_stats: pd.DataFrame, out_dir: str) -> None:
+def run_regression2(df: pd.DataFrame, solver_stats: pd.DataFrame, out_dir: str, dv: str = "decisions") -> None:
     print("\n" + "=" * 60)
-    print("REGRESSION 2: behavioral features -> SAT decisions (pooled)")
+    print(f"REGRESSION 2: behavioral features -> SAT {dv} (pooled)")
     print("=" * 60)
 
-    merged = df.merge(solver_stats[["puzzle_id", "decisions"]], on="puzzle_id", how="left")
-    complete = merged[BEHAVIORAL_FEATURES + ["decisions", "puzzle_id"]].dropna()
+    merged = df.merge(solver_stats[["puzzle_id", dv]], on="puzzle_id", how="left")
+    complete = merged[BEHAVIORAL_FEATURES + [dv, "puzzle_id"]].dropna()
     n = len(complete)
 
     if n < MIN_OBS:
         print(f"  Only {n} complete observations  - skipping regression.")
         return
 
-    result = ols_fit(complete, "decisions")
-    print_model_table(result, "All puzzles pooled  - decisions", n)
+    result = ols_fit(complete, dv)
+    print_model_table(result, f"All puzzles pooled  - {dv}", n)
 
-    _save_reg2_scatter(complete, result, out_dir)
+    _save_coef_table(result, n, os.path.join(out_dir, f"stats_behavioral_vs_{dv}.csv"))
+    _save_reg2_scatter(complete, result, out_dir, dv)
 
 
-def _save_reg2_scatter(df: pd.DataFrame, result, out_dir: str) -> None:
-    puzzle_ids = sorted(df["puzzle_id"].dropna().unique().astype(int))
-    color_map = {pid: PUZZLE_COLORS[i % len(PUZZLE_COLORS)] for i, pid in enumerate(puzzle_ids)}
-
+def _save_reg2_scatter(df: pd.DataFrame, result, out_dir: str, dv: str = "decisions") -> None:
     ncols = len(BEHAVIORAL_FEATURES)
     fig, axes = plt.subplots(1, ncols, figsize=(4 * ncols, 4), sharey=False)
     if ncols == 1:
         axes = [axes]
 
     for ax, feat in zip(axes, BEHAVIORAL_FEATURES):
-        for pid in puzzle_ids:
-            sub = df[df["puzzle_id"] == pid]
-            ax.scatter(
-                sub[feat], sub["decisions"],
-                color=color_map[pid], label=f"Puzzle {pid}", alpha=0.7, s=40,
-            )
+        ax.scatter(df[feat], df[dv], color=NEUTRAL_COLOR, alpha=0.5, s=40)
         # OLS line across all points
         x_all = df[feat].dropna()
-        y_all = df.loc[x_all.index, "decisions"].dropna()
+        y_all = df.loc[x_all.index, dv].dropna()
         common = x_all.index.intersection(y_all.index)
         if len(common) >= 2:
             x_c = x_all[common].values
@@ -249,16 +268,10 @@ def _save_reg2_scatter(df: pd.DataFrame, result, out_dir: str) -> None:
             bbox=dict(boxstyle="round", facecolor="white", edgecolor="gray", alpha=0.8),
         )
         ax.set_xlabel(feat, fontsize=9)
-        ax.set_ylabel("decisions")
+        ax.set_ylabel(dv)
 
-    # Shared legend
-    handles = [
-        plt.Line2D([0], [0], marker="o", color="w", markerfacecolor=color_map[p], markersize=8, label=f"Puzzle {p}")
-        for p in puzzle_ids
-    ]
-    axes[-1].legend(handles=handles, loc="best", fontsize=8)
     fig.tight_layout()
-    fname = "behavioral_reg2_scatter_grid_decisions.png"
+    fname = f"behavioral_reg2_scatter_grid_{dv}.png"
     fig.savefig(os.path.join(out_dir, fname), dpi=150)
     plt.close(fig)
     print(f"Saved: {fname}")
@@ -299,8 +312,9 @@ def main() -> None:
     print(f"Puzzles: {sorted(df['puzzle_id'].dropna().unique().astype(int).tolist())}")
 
     run_regression1(df, args.out_dir)
-    run_regression1_pooled(df)
-    run_regression2(df, solver, args.out_dir)
+    run_regression1_pooled(df, args.out_dir)
+    run_regression2(df, solver, args.out_dir, dv="decisions")
+    run_regression2(df, solver, args.out_dir, dv="conflicts")
 
     print("\nDone.")
 

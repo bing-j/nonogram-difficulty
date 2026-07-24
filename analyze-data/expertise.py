@@ -1,12 +1,12 @@
 """
-Shared participant-expertise composite, ported from
-riyad-analysis/04_build_expertise_score.py's "z-mean" method (Method A:
+Shared participant-expertise composite, ported from an earlier standalone
+exploratory analysis's "z-mean" method (since removed from the repo; Method A:
 equal-weighted mean of standardized background dimensions). This is the
 single source of truth for expertise across analyze-data/ and the root-level
 run_*.py scripts -- no fixed skill_nonogram bins, no discrete tiers.
 
-Dimensions (all oriented so higher = more expert), matching
-riyad-analysis/nono_data.py exactly:
+Dimensions (all oriented so higher = more expert), matching that earlier
+analysis's participant-log loader exactly:
   skill_nonogram               self-rated Nonogram skill (1-10)
   skill_puzzles                self-rated general logic-puzzle skill (1-10)
   played_before_ord            Nonogram play frequency (0-3)
@@ -57,7 +57,7 @@ def add_expertise_composite(df: pd.DataFrame, dims: List[str] = EXPERTISE_DIMS) 
     """Add an `expertise_composite` column: naive z-mean composite across `dims`,
     one score per participant_id, broadcast to every row of `df`.
 
-    Mirrors riyad-analysis/04_build_expertise_score.py's exp_zmean -> exp_zmean_z:
+    Mirrors that earlier analysis's exp_zmean -> exp_zmean_z method:
     z-score each dimension (population std, ddof=0) across participants, average
     the available z-scores per participant (skipna), then re-standardize.
     """

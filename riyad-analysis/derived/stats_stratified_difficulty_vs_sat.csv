@@ -1,4 +1,0 @@
-tier,spearman_rho_diff_vs_conflicts,p_value,n_puzzles
-novice,0.4780914437337575,0.3375018565403645,6
-intermediate,0.5976143046671969,0.210295383118347,6
-expert,0.0,1.0,6

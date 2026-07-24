@@ -1,0 +1,94 @@
+% Requires \usepackage{booktabs} in your preamble (for \toprule/\midrule/\bottomrule) -- remove this comment once added.
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{SAT metric} & \textbf{BT $\rho$} & \textbf{$p$} & \textbf{Raw $\rho$} & \textbf{$p$} \\
+\midrule
+Decisions & -0.257 & 0.623 & -0.493 & 0.321 \\
+Propagations & -0.257 & 0.623 & -0.493 & 0.321 \\
+Conflicts & +0.000 & 1.000 & -0.364 & 0.478 \\
+\bottomrule
+\end{tabular}
+\caption{Spearman correlation between Bradley-Terry-adjusted puzzle difficulty ranking and SAT solver metrics, compared against raw per-puzzle mean difficulty ranking ($n=6$ puzzles). * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\label{tab:bt-vs-sat}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Predictor} & \textbf{$B$} & \textbf{$SE$} & \textbf{$t$} & \textbf{$p$} \\
+\midrule
+Intercept & 4.330*** & 0.715 & 6.05 & $<$.001 \\
+Pause count & 0.026 & 0.015 & 1.73 & 0.085 \\
+Pause freq. (/min) & -0.259 & 0.135 & -1.92 & 0.056 \\
+Time to solve (s) & -0.001 & 0.001 & -1.23 & 0.222 \\
+Error count & 0.001 & 0.008 & 0.11 & 0.911 \\
+Hints used & -0.013 & 0.022 & -0.60 & 0.552 \\
+\bottomrule
+\end{tabular}
+\caption{Behavioral predictors of retrospective difficulty rating, at full per-response granularity (not pooled to per-puzzle means). Pooled OLS across all participant--puzzle observations ($N=177$, $R^2=0.083$, adjusted $R^2=0.056$). * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\label{tab:behavioral-vs-difficulty}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Predictor} & \textbf{$B$} & \textbf{$SE$} & \textbf{$t$} & \textbf{$p$} \\
+\midrule
+Intercept & 4.550 & 2.585 & 1.76 & 0.080 \\
+Pause count & 0.043 & 0.075 & 0.58 & 0.562 \\
+Pause freq. (/min) & 0.221 & 0.512 & 0.43 & 0.666 \\
+Time to solve (s) & 0.001 & 0.005 & 0.19 & 0.846 \\
+Error count & -0.141** & 0.050 & -2.85 & 0.005 \\
+Hints used & -0.022 & 0.134 & -0.16 & 0.871 \\
+\bottomrule
+\end{tabular}
+\caption{Behavioral predictors of SAT solver conflicts, at full per-response granularity (not pooled to per-puzzle means). Pooled OLS across all participant--puzzle observations ($N=197$, $R^2=0.047$, adjusted $R^2=0.022$). * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\label{tab:behavioral-vs-conflicts}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Outcome} & \textbf{$\rho$} & \textbf{$p$} & \textbf{$n$} \\
+\midrule
+Mean time to solve (s) & -0.541*** & $<$.001 & 67 \\
+Mean pause count & -0.507*** & $<$.001 & 67 \\
+Mean pause freq/min & +0.168 & 0.175 & 67 \\
+Mean error count & -0.407*** & $<$.001 & 67 \\
+Mean hints used & -0.583*** & $<$.001 & 67 \\
+Mean final difficulty & -0.067 & 0.593 & 66 \\
+\bottomrule
+\end{tabular}
+\caption{Spearman correlation between participant expertise (composite score) and behavioral outcomes / retrospective difficulty rating, aggregated to participant-level means. * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\label{tab:expertise-vs-outcomes}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{SAT metric} & \textbf{Raw $\rho$} & \textbf{$p$} & \textbf{Adj. $\rho$} & \textbf{$p$} \\
+\midrule
+Decisions & -0.493 & 0.321 & -0.371 & 0.468 \\
+Propagations & -0.493 & 0.321 & -0.371 & 0.468 \\
+Conflicts & -0.364 & 0.478 & -0.239 & 0.648 \\
+\bottomrule
+\end{tabular}
+\caption{Spearman correlation between per-puzzle difficulty and SAT solver metrics, before and after expertise adjustment (residualized on expertise composite and puzzle order; $n=6$ puzzles). * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\label{tab:expertise-adjusted-vs-sat}
+\end{table}

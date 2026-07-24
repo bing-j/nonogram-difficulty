@@ -55,7 +55,7 @@ from extract_features import (  # noqa: E402
     segment_puzzles,
     slice_events_by_time,
 )
-from plot_style import PUZZLE_COLORS, apply_style  # noqa: E402
+from plot_style import NEUTRAL_COLOR, apply_style  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -517,7 +517,7 @@ def plot_individual(
     for puzzle_id in range(6):
         row, col = divmod(puzzle_id, 3)
         ax = axes[row][col]
-        color = PUZZLE_COLORS[puzzle_id]
+        color = NEUTRAL_COLOR
         data = trajectories.get(puzzle_id, [])
         n = len(data)
 
@@ -610,7 +610,7 @@ def plot_aggregated(
     for puzzle_id in range(6):
         row, col = divmod(puzzle_id, 3)
         ax = axes[row][col]
-        color = PUZZLE_COLORS[puzzle_id]
+        color = NEUTRAL_COLOR
         data = trajectories.get(puzzle_id, [])
         n = len(data)
 

@@ -53,7 +53,7 @@ import scipy.stats as stats
 if str(Path(__file__).resolve().parent) not in sys.path:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
 from spearman_ranking import build_win_matrix, fit_bradley_terry  # noqa: E402
-from plot_style import PUZZLE_COLORS, NEUTRAL_COLOR, apply_style  # noqa: E402
+from plot_style import NEUTRAL_COLOR, apply_style  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -459,7 +459,7 @@ def plot_rank_scatter(
             puzzle_ids = res["puzzle_ids"]
 
             for bt_r, sat_r, pid in zip(bt_ranks, sat_ranks, puzzle_ids):
-                ax.scatter(sat_r, bt_r, color=PUZZLE_COLORS[int(pid)], s=90, zorder=3)
+                ax.scatter(sat_r, bt_r, color=NEUTRAL_COLOR, s=90, zorder=3)
                 ax.annotate(
                     f"P{int(pid)}",
                     (sat_r, bt_r),
@@ -487,19 +487,6 @@ def plot_rank_scatter(
             ax.set_ylim(0.5, 6.5)
             ax.tick_params(labelsize=8)
             ax.set_aspect("equal")
-
-    # Shared puzzle legend in bottom-right subplot
-    handles = [
-        plt.Line2D(
-            [0], [0],
-            marker="o", color="w",
-            markerfacecolor=PUZZLE_COLORS[i],
-            markersize=8, label=f"Puzzle {i}",
-        )
-        for i in range(6)
-    ]
-    axes[2][n_cols - 1].legend(handles=handles, title="Puzzle ID", fontsize=8,
-                      title_fontsize=9, loc="upper left")
 
     fig.tight_layout()
     fig.savefig(output_path, dpi=150, bbox_inches="tight")

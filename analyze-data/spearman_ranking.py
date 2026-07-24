@@ -42,7 +42,7 @@ import scipy.optimize as opt
 import scipy.stats as stats
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from plot_style import PUZZLE_COLORS, apply_style  # noqa: E402
+from plot_style import NEUTRAL_COLOR, apply_style  # noqa: E402
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -237,14 +237,22 @@ def run_spearman_tests(
     bt_dfs: dict[str, pd.DataFrame],
     solver_df: pd.DataFrame,
     features_df: pd.DataFrame,
-) -> None:
-    """Print Spearman ρ table for BT rankings vs SAT metrics and behavioral aggregates."""
+    out_dir: Optional[Path] = None,
+) -> pd.DataFrame:
+    """Print Spearman ρ table for BT rankings vs SAT metrics and behavioral aggregates.
+
+    Also returns (and, if out_dir is given, saves to CSV) the same rows that get
+    printed, so downstream LaTeX rendering has exact reproducible numbers instead
+    of console-only output.
+    """
 
     print(f"\n{'='*72}")
     print("SPEARMAN CORRELATION: Bradley-Terry rank vs predictor rank")
     print(f"{'='*72}")
     print(f"  {'Rating type':<22}  {'Predictor':<22}  {'rho':>7}  {'p':>7}  {'sig':>4}  {'BT vs raw'}")
     print(f"  {'-'*22}  {'-'*22}  {'-'*7}  {'-'*7}  {'-'*4}  {'-'*10}")
+
+    rows = []
 
     for rating_col, bt_df in bt_dfs.items():
         bt_ranks = bt_df.set_index("puzzle_id")["bt_rank"]
@@ -263,6 +271,16 @@ def run_spearman_tests(
                 f"  {rating_col:<22}  {metric:<22}  {rho_bt:>+7.3f}  {p_bt:>7.4f}"
                 f"  {_sig_stars(p_bt):>4}  {delta}"
             )
+            rows.append({
+                "rating_col": rating_col,
+                "predictor_type": "sat_metric",
+                "predictor": metric,
+                "bt_rho": rho_bt,
+                "bt_p": p_bt,
+                "raw_rho": rho_raw,
+                "raw_p": p_raw,
+                "n": len(common),
+            })
 
         # Behavioral aggregates (per-puzzle mean)
         for feat in BEHAVIORAL_AGGREGATES:
@@ -279,8 +297,25 @@ def run_spearman_tests(
                 f"  {rating_col:<22}  {feat:<22}  {rho_bt:>+7.3f}  {p_bt:>7.4f}"
                 f"  {_sig_stars(p_bt):>4}  {delta}"
             )
+            rows.append({
+                "rating_col": rating_col,
+                "predictor_type": "behavioral_aggregate",
+                "predictor": feat,
+                "bt_rho": rho_bt,
+                "bt_p": p_bt,
+                "raw_rho": rho_raw,
+                "raw_p": p_raw,
+                "n": len(common),
+            })
 
         print()  # blank line between rating types
+
+    result = pd.DataFrame(rows)
+    if out_dir is not None:
+        out_path = out_dir / "stats_bt_vs_sat.csv"
+        result.to_csv(out_path, index=False)
+        print(f"  Saved: {out_path}")
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -299,7 +334,7 @@ def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path) -> None:
         bars = ax.bar(
             [f"P{i}" for i in sorted_df["puzzle_id"]],
             sorted_df["bt_score"],
-            color=[PUZZLE_COLORS[i] for i in sorted_df["puzzle_id"]],
+            color=NEUTRAL_COLOR,
             edgecolor="black",
             linewidth=0.7,
         )
@@ -371,7 +406,7 @@ def _scatter_panel(
     x_series_for_spearman: pd.Series,
 ) -> None:
     for xi, yi, label in zip(x, y, labels):
-        ax.scatter(xi, yi, color=PUZZLE_COLORS[int(label)], s=80, zorder=3)
+        ax.scatter(xi, yi, color=NEUTRAL_COLOR, s=80, zorder=3)
         ax.annotate(
             f"P{label}", (xi, yi),
             textcoords="offset points", xytext=(6, 4),
@@ -386,8 +421,8 @@ def _scatter_panel(
     rho, p = stats.spearmanr(y_series_for_spearman, x_series_for_spearman)
     sig = _sig_stars(p)
     ax.text(
-        0.03, 0.97, f"ρ={rho:+.3f}  p={p:.3f} {sig}",
-        transform=ax.transAxes, ha="left", va="top", fontsize=8,
+        0.97, 0.03, f"ρ={rho:+.3f}  p={p:.3f} {sig}",
+        transform=ax.transAxes, ha="right", va="bottom", fontsize=8,
         bbox=dict(boxstyle="round", facecolor="white", edgecolor="gray", alpha=0.8),
     )
     ax.set_xlabel(xlabel, fontsize=9)
@@ -437,7 +472,7 @@ def main() -> None:
         bt_dfs[rating_col] = bt_df
         print_bt_summary(bt_df, rating_col, W)
 
-    run_spearman_tests(bt_dfs, solver_df, features_df)
+    run_spearman_tests(bt_dfs, solver_df, features_df, out_dir=args.out_dir)
 
     print("\nGenerating figures...")
     plot_bt_scores(bt_dfs, args.out_dir)

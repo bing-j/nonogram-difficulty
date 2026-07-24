@@ -1,0 +1,8 @@
+metric,value
+cronbach_alpha,0.83575816873117
+pca1_var_explained,0.5572291944502942
+pca2_var_explained,0.18420523239845996
+n_participants,67.0
+n_missing_any_dim,0.0
+composite_pca_spearman_rho,0.9954100977848731
+composite_pca_spearman_p,5.693877409212439e-68

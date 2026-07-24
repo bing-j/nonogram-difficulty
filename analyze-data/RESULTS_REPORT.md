@@ -66,12 +66,12 @@ The coefficient heatmap (Reg 1: behavioral → final difficulty) shows:
 
 ![Aggregated solve trajectories](out_features/solve_trajectories_aggregated.png)
 
-- **P0** (blue): The most distinctive pattern — participants jump immediately to ~40% solved in the first 30 seconds. This reflects highly constrained initial cells (long clues that can be filled deterministically without any cross-referencing). The remainder of the puzzle requires inference.
-- **P2** (green): Fastest median completion (~550s) with the narrowest IQR — the most consistently solved puzzle, matching its lowest difficulty rating.
-- **P3** (red): Longest median completion time (~1300s) and widest IQR — the hardest and most variable. The trajectory shows a stepped pattern: participants make progress in bursts, consistent with insight-based solving.
-- **P4** (purple): Starts slowly (near zero at ~100s), then accelerates sharply around 300s — suggesting a necessary unlock point that, once found, lets the puzzle fall quickly.
-- **P5** (brown): Longest absolute duration tail, widest IQR at the upper end — some participants take over 1600s. This matches its large participant count (n=43) and moderately high SAT decisions.
-- **P1** (orange): Steady linear climb from near-zero, no distinctive early burst.
+- **P0**: The most distinctive pattern — participants jump immediately to ~40% solved in the first 30 seconds. This reflects highly constrained initial cells (long clues that can be filled deterministically without any cross-referencing). The remainder of the puzzle requires inference.
+- **P2**: Fastest median completion (~550s) with the narrowest IQR — the most consistently solved puzzle, matching its lowest difficulty rating.
+- **P3**: Longest median completion time (~1300s) and widest IQR — the hardest and most variable. The trajectory shows a stepped pattern: participants make progress in bursts, consistent with insight-based solving.
+- **P4**: Starts slowly (near zero at ~100s), then accelerates sharply around 300s — suggesting a necessary unlock point that, once found, lets the puzzle fall quickly.
+- **P5**: Longest absolute duration tail, widest IQR at the upper end — some participants take over 1600s. This matches its large participant count (n=43) and moderately high SAT decisions.
+- **P1**: Steady linear climb from near-zero, no distinctive early burst.
 
 ![Individual solve trajectories](out_features/solve_trajectories_individual.png)
 
