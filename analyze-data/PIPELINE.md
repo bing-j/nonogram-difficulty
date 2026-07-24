@@ -140,8 +140,13 @@ python analyze-data/spearman_ranking.py
 | | `selected_six_nonogram_stats.csv` |
 | **Outputs** | `analyze-data/out_features/bt_scores.png` |
 | | `analyze-data/out_features/bt_ranking_vs_sat.png` |
+| | `analyze-data/out_features/stats_bt_vs_sat.csv` |
+| | `analyze-data/out_features/bt_difficulty_vs_sat.csv` |
+| | `analyze-data/out_features/order_adjustment_model_params.csv` |
 
 The Bradley-Terry model corrects for the fact that each participant only sees 3 of the 6 puzzles. Within each participant's session, every pair of rated puzzles generates one pairwise comparison (higher-rated = "wins"; ties split 0.5/0.5). A global strength score θ_i is estimated via MLE.
+
+A second, **order-adjusted** BT variant is also fit: `final_difficulty ~ C(order)` is residualized first (so within-session presentation order can't bias which puzzle "wins" a comparison), then BT is fit on the residuals instead of the raw ratings. Both variants appear side by side in `bt_scores.png`/`bt_ranking_vs_sat.png` and as separate `rating_col` rows in `stats_bt_vs_sat.csv`; `bt_difficulty_vs_sat.csv` puts both variants' per-puzzle scores next to the SAT metrics in one table, and `order_adjustment_model_params.csv` has the underlying OLS coefficients. Participant-level traits that are constant across a session (e.g. expertise) are *not* worth residualizing this way before BT — they cancel out exactly in a within-participant pairwise difference, so BT is already robust to them by construction. See `expertise_adjustment.py`'s docstring for the fuller explanation of why an expertise-adjusted BT variant was considered and dropped.
 
 ---
 
@@ -222,9 +227,9 @@ Ported from an earlier standalone exploratory analysis's z-mean/PCA methods (sin
 
 ---
 
-## Step 9 — Expertise-Adjusted Difficulty
+## Step 9 — Expertise vs. Behavior and Difficulty
 
-Three related analyses over `expertise_composite`: (1) does expertise correlate with the behavioral signals and difficulty rating already tracked in this pipeline? (2) an expertise-adjusted per-puzzle difficulty estimate via residualization; (3) how that adjusted difficulty correlates with SAT solver metrics, compared to the raw (unadjusted) correlation.
+Does `expertise_composite` correlate with the behavioral signals and difficulty rating already tracked in this pipeline?
 
 ```bash
 python analyze-data/expertise_adjustment.py
@@ -233,17 +238,12 @@ python analyze-data/expertise_adjustment.py
 | | |
 |---|---|
 | **Inputs** | `analyze-data/out_features/behavioral_features.csv` |
-| | `selected_six_nonogram_stats.csv` |
 | **Outputs** | `analyze-data/out_features/expertise_vs_outcomes.csv` |
 | | `analyze-data/out_features/figures/expertise_vs_outcomes.png` |
-| | `analyze-data/out_features/expertise_adjusted_puzzle_difficulty.csv` |
-| | `analyze-data/out_features/expertise_adjustment_model_params.csv` |
-| | `analyze-data/out_features/stats_expertise_adjusted_difficulty_vs_sat.csv` |
-| | `analyze-data/out_features/figures/expertise_adjusted_difficulty_vs_sat.png` |
 
-Part 1 correlates `expertise_composite` against `behavioral_regression.py`'s own `BEHAVIORAL_FEATURES` (`time_to_solve_sec`, `pause_count`, `pause_freq_per_min`, `error_count`, `hint_count`) plus `final_difficulty`. Part 2 is the **M2 residualization method only** — `final_difficulty ~ expertise_composite + C(order)`, per-puzzle mean of (residual + grand mean) — the raw per-puzzle mean is kept alongside it purely as a reference column, not as an alternative method. M1 (within-participant), M3 (mixed model), M4 (stratification — would reintroduce discrete expertise tiers, which this pipeline doesn't use anywhere), and M5 (expertise×SAT interaction) are all excluded. Part 3 Spearman-correlates the Part 2 adjusted difficulty against `decisions`/`propagations`/`conflicts`.
+Correlates `expertise_composite` against `behavioral_regression.py`'s own `BEHAVIORAL_FEATURES` (`time_to_solve_sec`, `pause_count`, `pause_freq_per_min`, `error_count`, `hint_count`) plus `final_difficulty`, aggregated to participant-level means.
 
-Ported from an earlier standalone exploratory analysis's `motivation()` and M2 methods (since removed from the repo).
+This step used to also produce an expertise-adjusted per-puzzle difficulty estimate via OLS residualization (`final_difficulty ~ expertise_composite + C(order)`, per-puzzle mean of residual + grand mean), correlated against SAT metrics. That was removed: it corrected raw per-puzzle *means* for imbalanced rater composition, but this pipeline's actual per-puzzle difficulty measure is Step 4's Bradley-Terry ranking, not raw means — and BT's within-participant pairwise design already cancels out participant-level traits like expertise by construction, so composing it into BT would have had zero effect on the ranking. See `expertise_adjustment.py`'s docstring and Step 4's order-adjusted BT variant (the one covariate that *does* affect BT, since it varies within a session).
 
 ---
 

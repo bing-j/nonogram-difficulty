@@ -13,11 +13,24 @@ saw, so we use a Bradley-Terry pairwise comparison model instead:
   * The resulting ranking is tested for Spearman correlation against SAT solver
     metrics (decisions, propagations, conflicts) and behavioral aggregates.
 
+A second, order-adjusted variant is also fit: `final_difficulty ~ C(order)` is
+residualized first (so within-session presentation order can no longer bias
+which puzzle "wins" a comparison), then BT is fit on those residuals instead
+of the raw ratings. Participant-level traits that are constant across a
+session (e.g. expertise) are *not* worth residualizing this way — they cancel
+out exactly in a within-participant pairwise difference, so BT's design is
+already robust to them without any adjustment. Order does vary within a
+session, so it's the one covariate where this composition actually changes
+the ranking.
+
 Outputs
 -------
-- Console: win matrix, BT scores, Spearman ρ table (BT vs raw-mean comparison)
-- analyze-data/out_features/bt_scores.png                  — bar chart of BT scores
-- analyze-data/out_features/bt_ranking_vs_sat.png          — BT score vs SAT metrics
+- Console: win matrix, BT scores (raw + order-adjusted), Spearman ρ table
+- analyze-data/out_features/bt_scores.png                  — bar chart of BT scores (raw + order-adjusted panels)
+- analyze-data/out_features/bt_ranking_vs_sat.png          — BT score vs SAT metrics (raw + order-adjusted rows)
+- analyze-data/out_features/stats_bt_vs_sat.csv            — Spearman ρ/p per rating variant, SAT metric, and behavioral aggregate
+- analyze-data/out_features/bt_difficulty_vs_sat.csv       — per-puzzle BT scores (raw + order-adjusted) alongside SAT metrics
+- analyze-data/out_features/order_adjustment_model_params.csv — OLS coefficients for the order-only residualization model
 
 Usage
 -----
@@ -40,6 +53,7 @@ import numpy as np
 import pandas as pd
 import scipy.optimize as opt
 import scipy.stats as stats
+import statsmodels.formula.api as smf
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from plot_style import NEUTRAL_COLOR, apply_style  # noqa: E402
@@ -165,6 +179,43 @@ def fit_bradley_terry(W: np.ndarray) -> np.ndarray:
 
 
 # ---------------------------------------------------------------------------
+# Order-adjusted ratings (for the second BT variant)
+# ---------------------------------------------------------------------------
+
+def build_order_residualized_ratings(
+    df: pd.DataFrame, rating_col: str, out_dir: Optional[Path] = None
+) -> pd.DataFrame:
+    """Return a copy of df with an order-residualized version of rating_col.
+
+    Regresses rating_col ~ C(order) and adds the grand mean back onto the
+    residuals, so the result stays on the original rating scale but has
+    within-session presentation-order effects partialed out before BT sees it.
+
+    If out_dir is given, also saves the OLS model's coefficients (term, coef,
+    se, p_value) to order_adjustment_model_params.csv -- the order-only
+    analogue of the expertise+order model params the old expertise-adjustment
+    step used to save.
+    """
+    work = df.dropna(subset=[rating_col, "order"]).copy()
+    grand = work[rating_col].mean()
+    model = smf.ols(f"{rating_col} ~ C(order)", data=work).fit()
+    work[f"{rating_col}_order_adj"] = model.resid + grand
+
+    if out_dir is not None:
+        params = pd.DataFrame({
+            "term": model.params.index,
+            "coef": model.params.values,
+            "se": model.bse.values,
+            "p_value": model.pvalues.values,
+        })
+        out_path = out_dir / "order_adjustment_model_params.csv"
+        params.to_csv(out_path, index=False)
+        print(f"  Saved: {out_path}")
+
+    return work
+
+
+# ---------------------------------------------------------------------------
 # Summary table
 # ---------------------------------------------------------------------------
 
@@ -217,6 +268,30 @@ def print_bt_summary(bt_df: pd.DataFrame, rating_col: str, W: np.ndarray) -> Non
             f"  {int(row['raw_rank']):>9}"
             f"{changed}"
         )
+
+
+def _rating_variant_key(rating_col: str) -> str:
+    """Short column-name-safe variant tag, paired with _rating_label below."""
+    suffix = "_order_adjusted"
+    return "order_adjusted" if rating_col.endswith(suffix) else "raw"
+
+
+def build_bt_vs_sat_df(bt_dfs: dict[str, pd.DataFrame], solver_df: pd.DataFrame) -> pd.DataFrame:
+    """Per-puzzle BT scores (raw + order-adjusted) alongside SAT metrics.
+
+    The BT-based analogue of the old expertise_adjusted_puzzle_difficulty.csv:
+    one row per puzzle, one BT score/rank column pair per rating variant, plus
+    the SAT solver metrics for direct eyeballing alongside the correlation
+    tests in stats_bt_vs_sat.csv.
+    """
+    combined: Optional[pd.DataFrame] = None
+    for rating_col, bt_df in bt_dfs.items():
+        variant = _rating_variant_key(rating_col)
+        sub = bt_df[["puzzle_id", "bt_score", "bt_rank"]].rename(
+            columns={"bt_score": f"bt_score_{variant}", "bt_rank": f"bt_rank_{variant}"}
+        )
+        combined = sub if combined is None else combined.merge(sub, on="puzzle_id")
+    return combined.merge(solver_df, on="puzzle_id", how="left")
 
 
 # ---------------------------------------------------------------------------
@@ -322,6 +397,14 @@ def run_spearman_tests(
 # Visualisation
 # ---------------------------------------------------------------------------
 
+def _rating_label(rating_col: str) -> str:
+    """Human-readable panel label distinguishing raw vs. order-adjusted BT."""
+    suffix = "_order_adjusted"
+    if rating_col.endswith(suffix):
+        return f"{rating_col[: -len(suffix)]} (order-adjusted)"
+    return f"{rating_col} (raw)"
+
+
 def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path) -> None:
     """Bar chart of BT scores per puzzle for each rating type."""
     n_ratings = len(bt_dfs)
@@ -338,6 +421,7 @@ def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path) -> None:
             edgecolor="black",
             linewidth=0.7,
         )
+        ax.set_title(_rating_label(rating_col), fontsize=11)
         ax.set_xlabel("Puzzle", fontsize=10)
         ax.set_ylabel("BT strength score θ", fontsize=10)
         ax.axhline(1.0, color="black", linewidth=0.8, linestyle="--", alpha=0.5)
@@ -375,15 +459,17 @@ def plot_bt_vs_sat(
     for row_idx, (rating_col, bt_df) in enumerate(bt_dfs.items()):
         merged = bt_df.merge(solver_df, on="puzzle_id")
 
+        row_label = _rating_label(rating_col)
         for col_idx, metric in enumerate(SAT_METRICS):
             ax_bt = axes[row_idx][col_idx]
+            ylabel = "BT score θ" if col_idx > 0 else f"BT score θ\n[{row_label}]"
             _scatter_panel(
                 ax=ax_bt,
                 x=merged[metric],
                 y=merged["bt_score"],
                 labels=merged["puzzle_id"].astype(int),
                 xlabel=metric,
-                ylabel="BT score θ",
+                ylabel=ylabel,
                 y_series_for_spearman=merged["bt_rank"],
                 x_series_for_spearman=merged[metric],
             )
@@ -472,7 +558,21 @@ def main() -> None:
         bt_dfs[rating_col] = bt_df
         print_bt_summary(bt_df, rating_col, W)
 
+        order_adj_label = f"{rating_col}_order_adjusted"
+        order_adj_df = build_order_residualized_ratings(features_df, rating_col, out_dir=args.out_dir)
+        order_adj_col = f"{rating_col}_order_adj"
+        W_adj = build_win_matrix(order_adj_df, order_adj_col)
+        theta_adj = fit_bradley_terry(W_adj)
+        bt_adj_df = build_bt_df(order_adj_df, order_adj_col, theta_adj)
+        bt_dfs[order_adj_label] = bt_adj_df
+        print_bt_summary(bt_adj_df, order_adj_label, W_adj)
+
     run_spearman_tests(bt_dfs, solver_df, features_df, out_dir=args.out_dir)
+
+    bt_vs_sat_df = build_bt_vs_sat_df(bt_dfs, solver_df)
+    bt_vs_sat_path = args.out_dir / "bt_difficulty_vs_sat.csv"
+    bt_vs_sat_df.to_csv(bt_vs_sat_path, index=False)
+    print(f"  Saved: {bt_vs_sat_path}")
 
     print("\nGenerating figures...")
     plot_bt_scores(bt_dfs, args.out_dir)

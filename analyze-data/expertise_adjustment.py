@@ -1,30 +1,36 @@
 """
 expertise_adjustment.py
 ========================
-Two things: (1) does expertise predict behavior/difficulty? and (2) an
-expertise-adjusted per-puzzle difficulty estimate via residualization,
-correlated against SAT solver metrics.
+Does participant expertise predict behavior/difficulty? Correlates
+`expertise_composite` against behavioral outcomes and retrospective
+difficulty rating, aggregated to participant-level means.
 
-Ported from an earlier standalone exploratory analysis's motivation() and
-M2 residualization method (since removed from the repo). M0 (raw) is kept only as a side-by-side reference
-column, not as an alternative adjustment method. M1 (within-participant),
-M3 (mixed model), M4 (stratification -- would reintroduce discrete expertise
-tiers, which this pipeline does not use anywhere), and M5 (expertise x SAT
-interaction) are intentionally excluded.
+A per-puzzle "expertise-adjusted difficulty" via OLS residualization used to
+live here too (the M2 method from an earlier standalone exploratory
+analysis), producing a per-puzzle mean of (residual + grand mean). It was
+removed: the whole point of that residualization was to correct raw
+per-puzzle *means* for imbalanced rater composition (e.g. a puzzle
+disproportionately rated by novices looking harder than it "really" is), but
+this pipeline's actual per-puzzle difficulty measure is the Bradley-Terry
+ranking in spearman_ranking.py, not raw means. BT's within-participant
+pairwise design already cancels out participant-level traits that are
+constant across a session (like expertise) -- a participant's own expertise
+can't bias which of two puzzles *they* judged harder, since it's identical on
+both sides of that comparison. So the residualize-on-expertise-then-average
+approach was solving a problem BT doesn't have, and composing it into BT
+(residualize, then fit BT on the residuals) would have had literally zero
+effect on the resulting ranking. See spearman_ranking.py's order-adjusted BT
+variant for the one covariate (presentation order) that *does* vary within a
+session and is therefore worth adjusting BT for.
 
 Inputs
 ------
 - analyze-data/out_features/behavioral_features.csv
-- selected_six_nonogram_stats.csv
 
 Outputs
 -------
 - analyze-data/out_features/expertise_vs_outcomes.csv
 - analyze-data/out_features/figures/expertise_vs_outcomes.png
-- analyze-data/out_features/expertise_adjusted_puzzle_difficulty.csv
-- analyze-data/out_features/expertise_adjustment_model_params.csv
-- analyze-data/out_features/stats_expertise_adjusted_difficulty_vs_sat.csv
-- analyze-data/out_features/figures/expertise_adjusted_difficulty_vs_sat.png
 
 Usage
 -----
@@ -47,14 +53,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import scipy.stats as stats
-import statsmodels.formula.api as smf
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from plot_style import NEUTRAL_COLOR, apply_style  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_FEATURES_CSV = REPO_ROOT / "analyze-data" / "out_features" / "behavioral_features.csv"
-DEFAULT_SOLVER_CSV = REPO_ROOT / "selected_six_nonogram_stats.csv"
 DEFAULT_OUT_DIR = REPO_ROOT / "analyze-data" / "out_features"
 
 # Same behavioral signals as behavioral_regression.py's BEHAVIORAL_FEATURES.
@@ -67,17 +71,6 @@ OUTCOME_LABELS = {
     "hint_count": "Mean hints used",
     "final_difficulty": "Mean final difficulty",
 }
-SAT_PREDICTORS = ["decisions", "propagations", "conflicts"]
-
-
-def load_solver_stats(path: Path) -> pd.DataFrame:
-    df = pd.read_csv(path, index_col=0)
-    if "puzzle_id" in df.columns:
-        df = df.drop(columns=["puzzle_id"])
-    df.index.name = "puzzle_id"
-    df = df.reset_index()
-    df["puzzle_id"] = df["puzzle_id"].astype(int)
-    return df[["puzzle_id"] + SAT_PREDICTORS]
 
 
 def load_features(path: Path) -> pd.DataFrame:
@@ -140,83 +133,14 @@ def run_expertise_vs_outcomes(df: pd.DataFrame, out_dir: Path, fig_dir: Path) ->
 
 
 # ---------------------------------------------------------------------------
-# Part 2: residualization-adjusted difficulty (M2 only)
-# ---------------------------------------------------------------------------
-
-def run_residualized_difficulty(df: pd.DataFrame, sat_df: pd.DataFrame, out_dir: Path) -> pd.DataFrame:
-    work = df.dropna(subset=["final_difficulty"]).copy()
-    grand = work["final_difficulty"].mean()
-
-    m0 = work.groupby("puzzle_id")["final_difficulty"].agg(raw_mean_difficulty="mean", n_ratings="count")
-
-    res_df = work.dropna(subset=["expertise_composite", "order"]).copy()
-    model = smf.ols("final_difficulty ~ expertise_composite + C(order)", data=res_df).fit()
-    res_df["resid_adj"] = model.resid + grand
-    m2 = res_df.groupby("puzzle_id")["resid_adj"].mean().rename("adjusted_difficulty")
-
-    out = m0.join(m2).reset_index()
-    out = out.merge(sat_df, on="puzzle_id", how="left")
-    out.to_csv(out_dir / "expertise_adjusted_puzzle_difficulty.csv", index=False)
-
-    params = pd.DataFrame({
-        "term": model.params.index,
-        "coef": model.params.values,
-        "se": model.bse.values,
-        "p_value": model.pvalues.values,
-    })
-    params.to_csv(out_dir / "expertise_adjustment_model_params.csv", index=False)
-
-    return out
-
-
-# ---------------------------------------------------------------------------
-# Part 3: adjusted difficulty vs. SAT metrics
-# ---------------------------------------------------------------------------
-
-def run_adjusted_vs_sat(adjusted_df: pd.DataFrame, out_dir: Path, fig_dir: Path) -> pd.DataFrame:
-    rows = []
-    for predictor in SAT_PREDICTORS:
-        raw_rho, raw_p, n = spearman(adjusted_df["raw_mean_difficulty"], adjusted_df[predictor])
-        adj_rho, adj_p, _ = spearman(adjusted_df["adjusted_difficulty"], adjusted_df[predictor])
-        rows.append({
-            "sat_metric": predictor,
-            "raw_spearman_rho": raw_rho, "raw_spearman_p": raw_p,
-            "adjusted_spearman_rho": adj_rho, "adjusted_spearman_p": adj_p,
-            "n_puzzles": n,
-        })
-    result = pd.DataFrame(rows)
-    result.to_csv(out_dir / "stats_expertise_adjusted_difficulty_vs_sat.csv", index=False)
-
-    fig, axes = plt.subplots(1, 3, figsize=(16, 5), dpi=150)
-    for ax, predictor in zip(axes, SAT_PREDICTORS):
-        ax.scatter(adjusted_df[predictor], adjusted_df["adjusted_difficulty"], color=NEUTRAL_COLOR, s=55)
-        for row in adjusted_df.itertuples(index=False):
-            ax.annotate(
-                str(int(row.puzzle_id)),
-                (getattr(row, predictor), row.adjusted_difficulty),
-                textcoords="offset points", xytext=(6, 5), fontsize=9,
-            )
-        rho_row = result[result["sat_metric"] == predictor].iloc[0]
-        ax.set_xlabel(predictor)
-        ax.set_ylabel("Expertise-adjusted difficulty")
-        ax.set_title(f"Adjusted difficulty vs {predictor}\nSpearman rho={rho_row['adjusted_spearman_rho']:.3f}")
-        ax.grid(alpha=0.25)
-    fig.tight_layout()
-    fig.savefig(fig_dir / "expertise_adjusted_difficulty_vs_sat.png", bbox_inches="tight")
-    plt.close(fig)
-    return result
-
-
-# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
 def main() -> None:
     ap = argparse.ArgumentParser(
-        description="Expertise vs. behavior/difficulty, and residualization-adjusted puzzle difficulty."
+        description="Expertise vs. behavioral outcomes and retrospective difficulty rating."
     )
     ap.add_argument("--features_csv", type=Path, default=DEFAULT_FEATURES_CSV)
-    ap.add_argument("--solver_csv", type=Path, default=DEFAULT_SOLVER_CSV)
     ap.add_argument("--out_dir", type=Path, default=DEFAULT_OUT_DIR)
     args = ap.parse_args()
 
@@ -232,25 +156,12 @@ def main() -> None:
     fig_dir.mkdir(parents=True, exist_ok=True)
 
     df = load_features(args.features_csv)
-    sat_df = load_solver_stats(args.solver_csv)
 
     print("=" * 60)
     print("EXPERTISE vs. BEHAVIOR AND DIFFICULTY")
     print("=" * 60)
     outcomes = run_expertise_vs_outcomes(df, args.out_dir, fig_dir)
     print(outcomes.to_string(index=False))
-
-    print("\n" + "=" * 60)
-    print("EXPERTISE-ADJUSTED DIFFICULTY (residualization only)")
-    print("=" * 60)
-    adjusted = run_residualized_difficulty(df, sat_df, args.out_dir)
-    print(adjusted.to_string(index=False))
-
-    print("\n" + "=" * 60)
-    print("EXPERTISE-ADJUSTED DIFFICULTY vs SAT METRICS")
-    print("=" * 60)
-    sat_corr = run_adjusted_vs_sat(adjusted, args.out_dir, fig_dir)
-    print(sat_corr.to_string(index=False))
 
     print("\nDone.")
 

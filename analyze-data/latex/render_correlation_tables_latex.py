@@ -1,4 +1,4 @@
-"""Render five correlation/regression result tables as AAAI-compliant LaTeX.
+"""Render four correlation/regression result tables as AAAI-compliant LaTeX.
 
 Lives in analyze-data/latex/ alongside render_codebook_examples_latex.py,
 following the same AAAI Press style conventions established there (see that
@@ -8,21 +8,24 @@ plain \\caption (AAAI requires table captions below, opposite of figures), no
 \\resizebox (explicitly disallowed by AAAI), and \\small (9pt) body text (the
 smallest AAAI permits for table content).
 
-Unlike the codebook table, these five tables are narrow and numeric (a
+Unlike the codebook table, these four tables are narrow and numeric (a
 handful of rows, short labels plus a few numeric columns), so each fits
 comfortably inside AAAI's single-column width (~3.3in/8.4cm) as a plain
 `table` -- no `table*`, `m{}` wrapping, or `multirow` needed here.
 
-Reads five CSVs produced by the analyze-data/ pipeline:
+Reads four CSVs produced by the analyze-data/ pipeline:
   - out_features/stats_bt_vs_sat.csv                            (spearman_ranking.py)
   - out_features/stats_behavioral_vs_difficulty_pooled.csv       (behavioral_regression.py)
   - out_features/stats_behavioral_vs_conflicts.csv                (behavioral_regression.py)
   - out_features/expertise_vs_outcomes.csv                        (expertise_adjustment.py)
-  - out_features/stats_expertise_adjusted_difficulty_vs_sat.csv   (expertise_adjustment.py)
 
 The first three are exported specifically for this renderer (added alongside
-this script); the last two already existed. Renders one `table` per analysis
-into a single output file, analyze-data/latex/figures/correlation_tables_latex.txt.
+this script); the last already existed. A fifth table
+(tab:expertise-adjusted-vs-sat, reading stats_expertise_adjusted_difficulty_vs_sat.csv)
+was removed along with expertise_adjustment.py's residualization-based
+per-puzzle difficulty estimate -- see that script's docstring for why. Renders
+one `table` per analysis into a single output file,
+analyze-data/latex/figures/correlation_tables_latex.txt.
 
 Usage
 -----
@@ -135,25 +138,28 @@ def build_table(
 
 def table_bt_vs_sat() -> str:
     df = pd.read_csv(OUT_FEATURES / "stats_bt_vs_sat.csv")
-    df = df[(df["predictor_type"] == "sat_metric") & (df["rating_col"] == "final_difficulty")]
-    n = int(df["n"].iloc[0])
+    df = df[df["predictor_type"] == "sat_metric"]
+    raw = df[df["rating_col"] == "final_difficulty"].set_index("predictor")
+    adj = df[df["rating_col"] == "final_difficulty_order_adjusted"].set_index("predictor")
+    n = int(raw["n"].iloc[0])
     rows = []
-    for _, r in df.iterrows():
+    for predictor in raw.index:
+        r_raw, r_adj = raw.loc[predictor], adj.loc[predictor]
         rows.append([
-            METRIC_LABELS.get(r["predictor"], r["predictor"]),
-            fmt_rho(r["bt_rho"], r["bt_p"]),
-            fmt_p(r["bt_p"]),
-            fmt_rho(r["raw_rho"], r["raw_p"]),
-            fmt_p(r["raw_p"]),
+            METRIC_LABELS.get(predictor, predictor),
+            fmt_rho(r_raw["bt_rho"], r_raw["bt_p"]),
+            fmt_p(r_raw["bt_p"]),
+            fmt_rho(r_adj["bt_rho"], r_adj["bt_p"]),
+            fmt_p(r_adj["bt_p"]),
         ])
     return build_table(
-        ["SAT metric", r"BT $\rho$", "$p$", r"Raw $\rho$", "$p$"],
+        ["SAT metric", r"Raw $\rho$", "$p$", r"Order-adj. $\rho$", "$p$"],
         "lrrrr",
         rows,
         caption=(
-            "Spearman correlation between Bradley-Terry-adjusted puzzle "
-            "difficulty ranking and SAT solver metrics, compared against "
-            f"raw per-puzzle mean difficulty ranking ($n={n}$ puzzles). " + SIG_NOTE
+            "Spearman correlation between Bradley-Terry puzzle difficulty "
+            "ranking and SAT solver metrics, raw ratings vs. order-adjusted "
+            f"ratings ($n={n}$ puzzles). " + SIG_NOTE
         ),
         label="tab:bt-vs-sat",
     )
@@ -168,20 +174,16 @@ def _coef_table(csv_name: str, caption_prefix: str, label: str) -> str:
         rows.append([
             PREDICTOR_LABELS.get(r["predictor"], r["predictor"]),
             fmt_coef(r["coef"], r["p_value"]),
-            f"{r['se']:.3f}",
-            f"{r['t']:.2f}",
             fmt_p(r["p_value"]),
         ])
     n = int(model_row["n"])
-    r2 = model_row["r_squared"]
-    adj_r2 = model_row["adj_r_squared"]
     caption = (
         f"{caption_prefix} Pooled OLS across all participant--puzzle "
-        f"observations ($N={n}$, $R^2={r2:.3f}$, adjusted $R^2={adj_r2:.3f}$). " + SIG_NOTE
+        f"observations ($N={n}$). " + SIG_NOTE
     )
     return build_table(
-        ["Predictor", "$B$", "$SE$", "$t$", "$p$"],
-        "lrrrr",
+        ["Predictor", "$B$", "$p$"],
+        "lrr",
         rows,
         caption=caption,
         label=label,
@@ -214,11 +216,10 @@ def table_expertise_vs_outcomes() -> str:
             escape_latex(r["outcome"]),
             fmt_rho(r["spearman_rho"], r["spearman_p"]),
             fmt_p(r["spearman_p"]),
-            str(int(r["n"])),
         ])
     return build_table(
-        ["Outcome", r"$\rho$", "$p$", "$n$"],
-        "lrrr",
+        ["Outcome", r"$\rho$", "$p$"],
+        "lrr",
         rows,
         caption=(
             "Spearman correlation between participant expertise (composite "
@@ -229,39 +230,12 @@ def table_expertise_vs_outcomes() -> str:
     )
 
 
-def table_expertise_adjusted_vs_sat() -> str:
-    df = pd.read_csv(OUT_FEATURES / "stats_expertise_adjusted_difficulty_vs_sat.csv")
-    n = int(df["n_puzzles"].iloc[0])
-    rows = []
-    for _, r in df.iterrows():
-        rows.append([
-            METRIC_LABELS.get(r["sat_metric"], r["sat_metric"]),
-            fmt_rho(r["raw_spearman_rho"], r["raw_spearman_p"]),
-            fmt_p(r["raw_spearman_p"]),
-            fmt_rho(r["adjusted_spearman_rho"], r["adjusted_spearman_p"]),
-            fmt_p(r["adjusted_spearman_p"]),
-        ])
-    return build_table(
-        ["SAT metric", r"Raw $\rho$", "$p$", r"Adj. $\rho$", "$p$"],
-        "lrrrr",
-        rows,
-        caption=(
-            "Spearman correlation between per-puzzle difficulty and SAT "
-            "solver metrics, before and after expertise adjustment "
-            f"(residualized on expertise composite and puzzle order; $n={n}$ "
-            "puzzles). " + SIG_NOTE
-        ),
-        label="tab:expertise-adjusted-vs-sat",
-    )
-
-
 def main() -> None:
     tables = [
         table_bt_vs_sat(),
         table_behavioral_vs_difficulty(),
         table_behavioral_vs_conflicts(),
         table_expertise_vs_outcomes(),
-        table_expertise_adjusted_vs_sat(),
     ]
     preamble_note = (
         "% Requires \\usepackage{booktabs} in your preamble (for "
