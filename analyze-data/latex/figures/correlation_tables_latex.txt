@@ -5,14 +5,14 @@
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lrrrr}
 \toprule
-\textbf{SAT metric} & \textbf{Raw $\rho$} & \textbf{$p$} & \textbf{Order-adj. $\rho$} & \textbf{$p$} \\
+\textbf{SAT metric} & \textbf{BT $\rho$} & \textbf{$p$} & \textbf{Raw $\rho$} & \textbf{$p$} \\
 \midrule
-Decisions & -0.257 & 0.623 & -0.257 & 0.623 \\
-Propagations & -0.257 & 0.623 & -0.257 & 0.623 \\
-Conflicts & +0.000 & 1.000 & +0.000 & 1.000 \\
+Decisions & -0.257 & 0.623 & -0.371 & 0.468 \\
+Propagations & -0.257 & 0.623 & -0.371 & 0.468 \\
+Conflicts & +0.000 & 1.000 & -0.239 & 0.648 \\
 \bottomrule
 \end{tabular}
-\caption{Spearman correlation between Bradley-Terry puzzle difficulty ranking and SAT solver metrics, raw ratings vs. order-adjusted ratings ($n=6$ puzzles). * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\caption{Spearman correlation between Bradley-Terry-adjusted puzzle difficulty ranking and SAT solver metrics, compared against raw per-puzzle mean difficulty ranking ($n=6$ puzzles). * $p<.05$, ** $p<.01$, *** $p<.001$.}
 \label{tab:bt-vs-sat}
 \end{table}
 
@@ -24,15 +24,14 @@ Conflicts & +0.000 & 1.000 & +0.000 & 1.000 \\
 \toprule
 \textbf{Predictor} & \textbf{$B$} & \textbf{$p$} \\
 \midrule
-Intercept & 4.330*** & $<$.001 \\
-Pause count & 0.026 & 0.085 \\
-Pause freq. (/min) & -0.259 & 0.056 \\
-Time to solve (s) & -0.001 & 0.222 \\
-Error count & 0.001 & 0.911 \\
-Hints used & -0.013 & 0.552 \\
+Intercept & 3.017*** & $<$.001 \\
+Pause count & 0.003 & 0.682 \\
+Time to solve (s) & 0.000 & 0.484 \\
+Error count & 0.003 & 0.689 \\
+Hints used & -0.001 & 0.963 \\
 \bottomrule
 \end{tabular}
-\caption{Behavioral predictors of retrospective difficulty rating, at full per-response granularity (not pooled to per-puzzle means). Pooled OLS across all participant--puzzle observations ($N=177$). * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\caption{Behavioral predictors of retrospective difficulty rating, at full per-response granularity (not pooled to per-puzzle means). Pooled OLS across all participant--puzzle observations ($N=180$). * $p<.05$, ** $p<.01$, *** $p<.001$.}
 \label{tab:behavioral-vs-difficulty}
 \end{table}
 
@@ -40,20 +39,26 @@ Hints used & -0.013 & 0.552 \\
 \centering
 \small
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{lrr}
+\begin{tabular}{llcr}
 \toprule
-\textbf{Predictor} & \textbf{$B$} & \textbf{$p$} \\
+\textbf{Behavioral signal} & \textbf{SAT metric} & \textbf{$\beta$ [95\% CI]} & \textbf{$N$} \\
 \midrule
-Intercept & 4.550 & 0.080 \\
-Pause count & 0.043 & 0.562 \\
-Pause freq. (/min) & 0.221 & 0.666 \\
-Time to solve (s) & 0.001 & 0.846 \\
-Error count & -0.141** & 0.005 \\
-Hints used & -0.022 & 0.871 \\
+Pause count & Decisions & -0.0509 [-0.7909, +0.6891] & 201 \\
+Pause count & Propagations & -0.0004 [-0.0309, +0.0300] & 201 \\
+Pause count & Conflicts & +0.0950 [-1.5691, +1.7591] & 201 \\
+Time to solve (s) & Decisions & -0.4754 [-9.7309, +8.7800] & 197 \\
+Time to solve (s) & Propagations & +0.0020 [-0.3788, +0.3829] & 197 \\
+Time to solve (s) & Conflicts & +1.3984 [-19.3782, +22.1749] & 197 \\
+Error count & Decisions & -0.1166 [-0.3566, +0.1234] & 201 \\
+Error count & Propagations & -0.0042 [-0.0143, +0.0060] & 201 \\
+Error count & Conflicts & -0.1996 [-0.7660, +0.3669] & 201 \\
+Hints used & Decisions & -0.0145 [-0.1038, +0.0748] & 201 \\
+Hints used & Propagations & -0.0003 [-0.0040, +0.0035] & 201 \\
+Hints used & Conflicts & -0.0073 [-0.2107, +0.1962] & 201 \\
 \bottomrule
 \end{tabular}
-\caption{Behavioral predictors of SAT solver conflicts, at full per-response granularity (not pooled to per-puzzle means). Pooled OLS across all participant--puzzle observations ($N=197$). * $p<.05$, ** $p<.01$, *** $p<.001$.}
-\label{tab:behavioral-vs-conflicts}
+\caption{SAT-metric fixed effects on behavioral difficulty signals: crossed-random-effects linear mixed model (behavioral signal $\sim$ SAT metric, with crossed random intercepts for participant and puzzle -- Baayen, Davidson \& Bates 2008), Wald 95\% CIs, one row per behavioral-signal $\times$ SAT-metric pair. * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\label{tab:behavioral-vs-sat-metrics}
 \end{table}
 
 \begin{table}[t]
@@ -66,12 +71,45 @@ Hints used & -0.022 & 0.871 \\
 \midrule
 Mean time to solve (s) & -0.541*** & $<$.001 \\
 Mean pause count & -0.507*** & $<$.001 \\
-Mean pause freq/min & +0.168 & 0.175 \\
 Mean error count & -0.407*** & $<$.001 \\
 Mean hints used & -0.583*** & $<$.001 \\
-Mean final difficulty & -0.067 & 0.593 \\
+Mean final difficulty & -0.094 & 0.451 \\
 \bottomrule
 \end{tabular}
 \caption{Spearman correlation between participant expertise (composite score) and behavioral outcomes / retrospective difficulty rating, aggregated to participant-level means. * $p<.05$, ** $p<.01$, *** $p<.001$.}
 \label{tab:expertise-vs-outcomes}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc}
+\toprule
+\textbf{SAT metric} & \textbf{Metric $\beta$ [95\% CI]} & \textbf{Expertise $\beta$ [95\% CI]} & \textbf{Interaction $\beta$ [95\% CI]} \\
+\midrule
+Decisions & -0.0007 [-0.0309, +0.0295] & +0.0875 [-0.1141, +0.2890] & -0.0096* [-0.0171, -0.0021] \\
+Propagations & +0.0001 [-0.0011, +0.0013] & +0.2053 [-0.0481, +0.4588] & -0.0004** [-0.0008, -0.0001] \\
+Conflicts & +0.0067 [-0.0610, +0.0744] & +0.0891 [-0.1034, +0.2817] & -0.0247** [-0.0419, -0.0075] \\
+\bottomrule
+\end{tabular}
+\caption{Moderation of the SAT-metric $\to$ difficulty relationship by participant expertise: fixed effects from a crossed-random-effects linear mixed model (\texttt{final\_difficulty} $\sim$ metric $\times$ expertise, with crossed random intercepts for participant and puzzle -- Baayen, Davidson \& Bates 2008), Wald 95\% CIs ($N=180$ observations, 67 participants, 6 puzzles). * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\label{tab:moderation-interaction}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc}
+\toprule
+\textbf{SAT metric} & \textbf{Slope @ $z{=}{-}1$} & \textbf{Slope @ $z{=}0$} & \textbf{Slope @ $z{=}{+}1$} \\
+\midrule
+Decisions & +0.0089 [-0.0224, +0.0402] & -0.0007 [-0.0309, +0.0295] & -0.0103 [-0.0412, +0.0206] \\
+Propagations & +0.0006 [-0.0007, +0.0018] & +0.0001 [-0.0011, +0.0013] & -0.0003 [-0.0016, +0.0009] \\
+Conflicts & +0.0314 [-0.0390, +0.1018] & +0.0067 [-0.0610, +0.0744] & -0.0179 [-0.0873, +0.0514] \\
+\bottomrule
+\end{tabular}
+\caption{Simple slopes (Aiken \& West 1991) of SAT metric on \texttt{final\_difficulty} at representative expertise levels -- \texttt{expertise\_composite} is a population $z$-score by construction, so $z{=}{-}1/0/{+}1$ correspond to low/average/high expertise. Delta-method 95\% CIs from the crossed-effects model in Table~\ref{tab:moderation-interaction}. * $p<.05$, ** $p<.01$, *** $p<.001$.}
+\label{tab:moderation-simple-slopes}
 \end{table}

@@ -34,6 +34,7 @@ from typing import Dict, List, Optional, Tuple
 
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import numpy as np
 
 # ---------------------------------------------------------------------------
@@ -820,7 +821,11 @@ def plot_first_action_heatmaps(
                         color="black", zorder=3,
                     )
 
-        # Grid lines via minor ticks
+        # Grid lines via minor ticks, at cell boundaries only -- explicitly
+        # disable the major grid (on by default via plot_style's apply_style),
+        # which would otherwise draw a second set of lines through each cell's
+        # center (major ticks sit at cell centers, set below for labels).
+        ax.grid(which="major", visible=False)
         ax.set_xticks(np.arange(-0.5, BOARD_SIZE, 1), minor=True)
         ax.set_yticks(np.arange(-0.5, BOARD_SIZE, 1), minor=True)
         ax.tick_params(which="minor", length=0)
@@ -843,10 +848,14 @@ def plot_first_action_heatmaps(
             ax.set_xticklabels(range(BOARD_SIZE), fontsize=7)
             ax.set_yticklabels(range(BOARD_SIZE), fontsize=7)
 
-        plt.colorbar(im, ax=ax, label="# participants", shrink=0.8)
         ax.set_title(f"Puzzle {puzzle_id}  (n={n_total})", fontsize=10)
 
-    fig.tight_layout()
+    # One shared colorbar for the whole figure -- every subplot already uses
+    # the same vmin/vmax (global_max), so a colorbar per puzzle was redundant.
+    cbar = fig.colorbar(im, ax=axes.ravel().tolist(), label="# participants", shrink=0.8)
+    cbar.locator = MaxNLocator(integer=True)  # counts are whole numbers
+    cbar.update_ticks()
+
     out_path = os.path.join(out_dir, "solve_trajectories_first_action_heatmap.png")
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)

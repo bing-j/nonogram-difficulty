@@ -1,0 +1,7 @@
+experiment_id,pool_puzzle_id,decisions_value,decisions_percentile,propagations_value,propagations_percentile,conflicts_value,conflicts_percentile
+0,2,4.0,7.3,313.0,7.8,0.0,0.0
+1,21,2.0,0.0,307.0,3.0,0.0,0.0
+2,1789,13.0,47.3,453.0,48.0,4.0,44.3
+3,58,8.0,27.6,417.0,40.699999999999996,4.0,44.3
+4,142,31.0,86.3,1063.0,91.5,15.0,92.7
+5,378,40.0,92.30000000000001,1133.0,93.2,15.0,92.7

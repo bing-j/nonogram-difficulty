@@ -16,7 +16,7 @@ The original threshold of 5 s was a conservative heuristic. This report document
 
 ## 2. Data
 
-Inter-event gaps were collected from all complete participant sessions stored in `backend/logs/*.ndjson`. One session was excluded because it was missing the survey events needed to segment puzzle windows (`Bing-p21`). Only gaps *within* a single puzzle window were retained; gaps at puzzle boundaries (between the end of one puzzle and the start of the next) were excluded.
+Inter-event gaps were collected from all complete participant sessions stored in `backend/logs/*.ndjson`. One session was excluded because it was missing the survey events needed to segment puzzle windows. Only gaps *within* a single puzzle window were retained; gaps at puzzle boundaries (between the end of one puzzle and the start of the next) were excluded.
 
 **Interaction events** included: `move`, `drag`, `hint`, `check_bank`, `reset`, `undo`, `skip_puzzle`, `puzzle_advanced`. Non-interaction events (`session_start_three`, `survey_submit`, `session_end`) were excluded before computing gaps.
 

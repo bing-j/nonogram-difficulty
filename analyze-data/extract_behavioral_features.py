@@ -3,7 +3,6 @@ Extract per-participant, per-puzzle behavioral difficulty signals from NDJSON lo
 
 Signals extracted:
   pause_count       — number of inter-event gaps >= PAUSE_THRESHOLD_SEC
-  pause_freq_per_min — pause_count / (duration_min), or 0 if duration is zero
   time_to_solve_sec — seconds from first interaction to first successful check_bank;
                       falls back to full interaction duration if puzzle never solved
   total_time_spent_sec — total interaction duration (first to last interaction event),
@@ -140,14 +139,13 @@ def extract_behavioral_row(
     expertise_dims: Optional[Dict[str, Any]] = None,
     pause_threshold: float = PAUSE_THRESHOLD_SEC,
 ) -> Dict[str, Any]:
-    pause_count, pause_freq = detect_pauses(puzzle_events, threshold_sec=pause_threshold)
+    pause_count, _pause_freq = detect_pauses(puzzle_events, threshold_sec=pause_threshold)
     final_board = reconstruct_final_board(puzzle_events)
     row = {
         "participant_id": participant_id,
         "puzzle_id": puzzle_id,
         "order": order,
         "pause_count": pause_count,
-        "pause_freq_per_min": round(pause_freq, 4),
         "time_to_solve_sec": time_to_first_solve(puzzle_events),
         "total_time_spent_sec": puzzle_interaction_duration_seconds(puzzle_events),
         "check_count": count_checks(puzzle_events),

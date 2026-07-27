@@ -1,6 +1,6 @@
 # Results Report — Nonogram Difficulty Study
 
-**Sample:** 67 participants, 201 puzzle-attempt observations (Bing-p21 excluded: incomplete surveys). Participant expertise is represented as `expertise_composite`, a continuous naive z-mean composite of six pre-survey background items (see `PIPELINE.md`) — this report no longer breaks results out by discrete experience group. Each participant solved 3 of 6 puzzles.
+**Sample:** 67 participants, 201 puzzle-attempt observations (one session excluded: incomplete surveys). Participant expertise is represented as `expertise_composite`, a continuous naive z-mean composite of six pre-survey background items (see `PIPELINE.md`) — this report no longer breaks results out by discrete experience group. Each participant solved 3 of 6 puzzles.
 
 ---
 
@@ -42,17 +42,16 @@ Notably, **decisions and propagations show slightly negative ρ** (pooled: ρ≈
 
 ## 3. Behavioral Predictors of Difficulty
 
-**No single behavioral feature reliably predicts difficulty ratings after controlling for the others, but `pause_freq_per_min` is the most consistent signal.**
+**No single behavioral feature reliably predicts difficulty ratings after controlling for the others.** (`pause_freq_per_min` was tested in an earlier pass and dropped from the predictor set entirely — it never reached significance in any model, pooled or per-puzzle, or in the moderation/expertise analyses below.)
 
 ![Behavioral regression heatmap — final difficulty](out_features/behavioral_reg1_coef_heatmap_final_difficulty.png)
 
-The coefficient heatmap (Reg 1: behavioral → final difficulty) shows:
+The coefficient heatmap (Reg 1: behavioral → final difficulty) shows no predictor with a consistent sign or magnitude across puzzles:
 
-- **`pause_freq_per_min`** has the largest coefficients, uniformly negative for P0, P1, P2, P3 and positive for P4. More frequent pauses → lower perceived difficulty on most puzzles, but the opposite on P4. This likely reflects different solve strategies: deliberate pausing on constraint-heavy puzzles (P0–P3) signals careful reasoning rather than confusion, while pausing on P4 may reflect being stuck.
-- **`hint_count`** is notably negative for P2 (using hints there reduces perceived difficulty), which makes sense given P2 is already easy — hints in easy contexts don't inflate difficulty perception.
-- **`time_to_solve_sec`** and **`error_count`** contribute weakly and inconsistently across puzzles.
+- **`hint_count`** is negative in most puzzles (largest for P2), but the effect flips sign in others and never reaches significance after FDR correction.
+- **`pause_count`**, **`time_to_solve_sec`**, and **`error_count`** are all small and inconsistent in sign across puzzles.
 
-**Pooled regression (all puzzles):** R²=0.075 for initial difficulty, 0.082 for final — the behavioral features together explain only ~8% of variance. No individual predictor reaches significance.
+**Pooled regression (all puzzles):** R²=0.059 for final difficulty — the remaining four behavioral features together explain under 6% of variance. No individual predictor reaches significance, pooled or per-puzzle.
 
 **One significant cross-domain finding:** In Reg 2 (behavioral → SAT decisions), `error_count` is significantly negative (B=−0.32, p=0.005 pooled). Puzzles with fewer SAT decisions (solver-easy puzzles) generate more human errors — participants make more cell-filling mistakes on the puzzles the solver handles trivially. This is the clearest measurable mismatch between SAT complexity and human behavior.
 

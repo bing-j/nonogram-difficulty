@@ -28,6 +28,7 @@ Outputs
 - analyze-data/out_features/figures/expertise_dimension_correlations.png
 - analyze-data/out_features/figures/expertise_pca_scree_loadings.png
 - analyze-data/out_features/figures/expertise_composite_agreement.png
+- analyze-data/out_features/figures/expertise_composite_distribution.png
 
 Usage
 -----
@@ -54,7 +55,7 @@ from sklearn.decomposition import PCA
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from expertise import EXPERTISE_DIMS  # noqa: E402
-from plot_style import NEUTRAL_COLOR, apply_style  # noqa: E402
+from plot_style import ACCENT_COLOR, NEUTRAL_COLOR, apply_style  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_FEATURES_CSV = REPO_ROOT / "analyze-data" / "out_features" / "behavioral_features.csv"
@@ -169,6 +170,7 @@ def main() -> None:
     # --- Figures ---
     fig, ax = plt.subplots(figsize=(7.5, 6.5), dpi=160)
     im = ax.imshow(corr.to_numpy(), cmap="RdBu_r", vmin=-1, vmax=1)
+    ax.grid(which="major", visible=False)  # apply_style's major grid would bisect cells at their centers
     ax.set_xticks(range(len(EXPERTISE_DIMS)))
     ax.set_yticks(range(len(EXPERTISE_DIMS)))
     ax.set_xticklabels([DIM_LABELS[d] for d in EXPERTISE_DIMS], rotation=45, ha="right", fontsize=8)
@@ -176,7 +178,9 @@ def main() -> None:
     for i in range(len(EXPERTISE_DIMS)):
         for j in range(len(EXPERTISE_DIMS)):
             ax.text(j, i, f"{corr.iloc[i, j]:.2f}", ha="center", va="center", fontsize=8, color="black")
-    ax.set_title(f"Expertise dimensions: inter-correlations\nstandardized Cronbach alpha = {alpha:.2f}")
+    ax.text(1.0, 1.06, f"Standardized Cronbach's alpha = {alpha:.2f}",
+            transform=ax.transAxes, ha="right", va="bottom", fontsize=9,
+            bbox=dict(boxstyle="round", facecolor="white", edgecolor="gray", alpha=0.8))
     fig.colorbar(im, ax=ax, label="Pearson r")
     fig.tight_layout()
     fig.savefig(fig_dir / "expertise_dimension_correlations.png", bbox_inches="tight")
@@ -202,10 +206,13 @@ def main() -> None:
     fig, axes = plt.subplots(1, 2, figsize=(13, 5), dpi=160)
     axes[0].scatter(part["expertise_composite"], expertise_pca, color=NEUTRAL_COLOR, alpha=0.6)
     lims = [-2.5, 2.5]
-    axes[0].plot(lims, lims, "--", color="grey")
+    axes[0].plot(lims, lims, "--", color=ACCENT_COLOR)
     axes[0].set_xlabel("z-mean composite (expertise_composite)")
     axes[0].set_ylabel("PCA-1 composite")
-    axes[0].set_title(f"Composite vs PCA-1 agreement\nSpearman rho={rho:.3f}, p={p:.3f}")
+    axes[0].set_title("Composite vs PCA-1 agreement")
+    axes[0].text(0.97, 0.03, f"rho={rho:.3f}\np={p:.3f}",
+                 transform=axes[0].transAxes, ha="right", va="bottom", fontsize=8,
+                 bbox=dict(boxstyle="round", facecolor="white", edgecolor="gray", alpha=0.8))
     axes[0].grid(alpha=0.25)
     axes[1].hist(part["expertise_composite"], bins=12, color=NEUTRAL_COLOR, edgecolor="white")
     axes[1].set_xlabel("expertise_composite (z-mean, standardized)")
@@ -213,6 +220,16 @@ def main() -> None:
     axes[1].set_title("Distribution of composite expertise")
     fig.tight_layout()
     fig.savefig(fig_dir / "expertise_composite_agreement.png", bbox_inches="tight")
+    plt.close(fig)
+
+    # Standalone version of the distribution panel above -- just the
+    # histogram, no PCA-agreement scatter, no title (single-panel figure).
+    fig, ax = plt.subplots(figsize=(6.5, 5), dpi=160)
+    ax.hist(part["expertise_composite"], bins=12, color=NEUTRAL_COLOR, edgecolor="white")
+    ax.set_xlabel("expertise_composite (z-mean, standardized)")
+    ax.set_ylabel("Participants")
+    fig.tight_layout()
+    fig.savefig(fig_dir / "expertise_composite_distribution.png", bbox_inches="tight")
     plt.close(fig)
 
     print(f"\nWrote diagnostics tables and figures -> {args.out_dir}")

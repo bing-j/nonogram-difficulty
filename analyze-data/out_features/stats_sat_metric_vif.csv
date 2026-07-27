@@ -1,0 +1,7 @@
+sample,metric,vif
+pool,decisions,7.186835896284599
+pool,propagations,7.925235200735489
+pool,conflicts,9.274706879487674
+selected_six,decisions,36.61908934738057
+selected_six,propagations,101.67319423284799
+selected_six,conflicts,59.71148680947124

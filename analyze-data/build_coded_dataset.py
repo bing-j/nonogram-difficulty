@@ -19,6 +19,9 @@ Outputs
 - analyze-data/out_features/text_coding/coded_responses.csv
 - analyze-data/out_features/text_coding/coded_difficulty_themes.csv
 - analyze-data/out_features/text_coding/coded_strategies.csv
+- analyze-data/out_features/text_coding/coding_coverage.csv -- per-response-kind
+  total/codeable/coded counts (previously console-output only; now a citable
+  artifact for the paper's methods text on codebook coverage)
 
 Usage
 -----
@@ -130,14 +133,24 @@ def main() -> None:
                   "codeable", "n_codes", "codes_str"] + [f"code_{c}" for c in ALL_STRATEGY_CODES]
     strat[strat_cols].to_csv(args.out_dir / "coded_strategies.csv", index=False)
 
-    # Coverage report.
+    # Coverage report -- persisted as a CSV (previously console-only) so it's a
+    # citable artifact for the paper's methods text on codebook coverage.
     print("=== Coding coverage ===")
+    coverage_rows = []
     for kind in ["rating_reason", "comments", "strategy", "size_experience_other"]:
         sub = df[df["response_kind"] == kind]
         n = len(sub)
         codeable = int(sub["codeable"].sum())
         coded = int((sub["n_codes"] > 0).sum())
         print(f"{kind:22s} total={n:3d}  codeable={codeable:3d}  coded={coded:3d}")
+        coverage_rows.append({
+            "response_kind": kind, "total": n, "codeable": codeable, "coded": coded,
+            "pct_codeable": 100.0 * codeable / n if n else float("nan"),
+            "pct_coded_of_codeable": 100.0 * coded / codeable if codeable else float("nan"),
+        })
+    coverage_path = args.out_dir / "coding_coverage.csv"
+    pd.DataFrame(coverage_rows).to_csv(coverage_path, index=False)
+    print(f"Saved: {coverage_path}")
     # Sanity: every coded response should be codeable.
     bad = df[(df["n_codes"] > 0) & (~df["codeable"])]
     print(f"\ncoded-but-flagged-empty (should be 0): {len(bad)}")

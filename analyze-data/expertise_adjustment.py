@@ -19,9 +19,11 @@ can't bias which of two puzzles *they* judged harder, since it's identical on
 both sides of that comparison. So the residualize-on-expertise-then-average
 approach was solving a problem BT doesn't have, and composing it into BT
 (residualize, then fit BT on the residuals) would have had literally zero
-effect on the resulting ranking. See spearman_ranking.py's order-adjusted BT
-variant for the one covariate (presentation order) that *does* vary within a
-session and is therefore worth adjusting BT for.
+effect on the resulting ranking.
+
+Runs 6 Spearman tests (expertise vs. each of 6 outcomes), corrected as one
+Benjamini-Hochberg FDR family (`spearman_p_fdr` column) -- previously
+uncorrected. CSV-only; the scatter-grid figure is unchanged.
 
 Inputs
 ------
@@ -55,18 +57,18 @@ import pandas as pd
 import scipy.stats as stats
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from plot_style import NEUTRAL_COLOR, apply_style  # noqa: E402
+from plot_style import ACCENT_COLOR, NEUTRAL_COLOR, apply_style  # noqa: E402
+from stats_utils import benjamini_hochberg  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_FEATURES_CSV = REPO_ROOT / "analyze-data" / "out_features" / "behavioral_features.csv"
 DEFAULT_OUT_DIR = REPO_ROOT / "analyze-data" / "out_features"
 
 # Same behavioral signals as behavioral_regression.py's BEHAVIORAL_FEATURES.
-BEHAVIORAL_FEATURES = ["time_to_solve_sec", "pause_count", "pause_freq_per_min", "error_count", "hint_count"]
+BEHAVIORAL_FEATURES = ["time_to_solve_sec", "pause_count", "error_count", "hint_count"]
 OUTCOME_LABELS = {
     "time_to_solve_sec": "Mean time to solve (s)",
     "pause_count": "Mean pause count",
-    "pause_freq_per_min": "Mean pause freq/min",
     "error_count": "Mean error count",
     "hint_count": "Mean hints used",
     "final_difficulty": "Mean final difficulty",
@@ -100,7 +102,6 @@ def run_expertise_vs_outcomes(df: pd.DataFrame, out_dir: Path, fig_dir: Path) ->
         expertise=("expertise_composite", "first"),
         time_to_solve_sec=("time_to_solve_sec", "mean"),
         pause_count=("pause_count", "mean"),
-        pause_freq_per_min=("pause_freq_per_min", "mean"),
         error_count=("error_count", "mean"),
         hint_count=("hint_count", "mean"),
         final_difficulty=("final_difficulty", "mean"),
@@ -111,6 +112,7 @@ def run_expertise_vs_outcomes(df: pd.DataFrame, out_dir: Path, fig_dir: Path) ->
         rho, p, n = spearman(perf["expertise"], perf[col])
         rows.append({"outcome": OUTCOME_LABELS[col], "column": col, "spearman_rho": rho, "spearman_p": p, "n": n})
     stat = pd.DataFrame(rows)
+    stat["spearman_p_fdr"] = benjamini_hochberg(stat["spearman_p"].tolist())
     stat.to_csv(out_dir / "expertise_vs_outcomes.csv", index=False)
 
     fig, axes = plt.subplots(2, 3, figsize=(15, 9), dpi=150)
@@ -120,9 +122,11 @@ def run_expertise_vs_outcomes(df: pd.DataFrame, out_dir: Path, fig_dir: Path) ->
         if len(d) > 3 and d["expertise"].nunique() > 1:
             m, b = np.polyfit(d["expertise"], d[col], 1)
             xs = np.array([d["expertise"].min(), d["expertise"].max()])
-            ax.plot(xs, m * xs + b, "--", color="black")
+            ax.plot(xs, m * xs + b, "--", color=ACCENT_COLOR)
             rho, p, _ = spearman(d["expertise"], d[col])
-            ax.set_title(f"{OUTCOME_LABELS[col]}\nSpearman rho={rho:.2f}, p={p:.3f}", fontsize=10)
+            ax.text(0.97, 0.03, f"rho={rho:.2f}\np={p:.3f}",
+                    transform=ax.transAxes, ha="right", va="bottom", fontsize=8,
+                    bbox=dict(boxstyle="round", facecolor="white", edgecolor="gray", alpha=0.8))
         ax.set_xlabel("Composite expertise (z)")
         ax.set_ylabel(OUTCOME_LABELS[col])
         ax.grid(alpha=0.25)

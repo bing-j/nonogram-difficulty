@@ -11,7 +11,7 @@ from matplotlib.lines import Line2D
 import pandas as pd
 from dateutil import parser as dtparser
 
-from plot_style import apply_style
+from plot_style import ACCENT_COLOR, ACCENT_COLOR_2, NEUTRAL_COLOR, apply_style
 
 
 EXCLUDE_SESSION_TYPES = {"survey_submit", "session_start_three", "session_end"}
@@ -154,15 +154,23 @@ def save_puzzle_rating_figures(ratings_df: pd.DataFrame, out_dir: str, puzzle_id
     fig = plt.figure(figsize=(12, 4))
 
     ax1 = fig.add_subplot(1, 1, 1)
-    bp1 = ax1.boxplot(fin_lists, tick_labels=labels, showmeans=True)
+    bp1 = ax1.boxplot(
+        fin_lists, tick_labels=labels, showmeans=True,
+        boxprops=dict(color=NEUTRAL_COLOR),
+        whiskerprops=dict(color=NEUTRAL_COLOR),
+        capprops=dict(color=NEUTRAL_COLOR),
+        flierprops=dict(markeredgecolor=NEUTRAL_COLOR),
+        medianprops=dict(color=ACCENT_COLOR, linewidth=2),
+        meanprops=dict(marker='^', markerfacecolor=ACCENT_COLOR_2, markeredgecolor=ACCENT_COLOR_2),
+    )
     ax1.set_xlabel("Puzzle ID")
     ax1.set_ylabel("Final rating")
     ax1.set_ylim(0.5, 5.5)
 
     # ----- Legend -----
     legend_elements = [
-        Line2D([0], [0], color='orange', lw=2, label='Median'),
-        Line2D([0], [0], marker='^', color='green', linestyle='None', label='Mean'),
+        Line2D([0], [0], color=ACCENT_COLOR, lw=2, label='Median'),
+        Line2D([0], [0], marker='^', color=ACCENT_COLOR_2, linestyle='None', label='Mean'),
     ]
 
     ax1.legend(handles=legend_elements, loc='upper right')

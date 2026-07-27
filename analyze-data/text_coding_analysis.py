@@ -55,20 +55,20 @@ if sys.stderr.encoding and sys.stderr.encoding.lower() != "utf-8":
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 import numpy as np
 import pandas as pd
 from scipy import stats
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from codes import ALL_DIFFICULTY_CODES, ALL_STRATEGY_CODES, DIFFICULTY_THEMES, STRATEGY_TAXONOMY  # noqa: E402
-from plot_style import NEUTRAL_COLOR, apply_style  # noqa: E402
+from plot_style import ACCENT_COLOR, NEUTRAL_COLOR, apply_style  # noqa: E402
+from stats_utils import benjamini_hochberg  # noqa: E402
 from text_response_loader import load_participant_puzzle_df  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEXT_CODING_DIR = REPO_ROOT / "analyze-data" / "out_features" / "text_coding"
 DEFAULT_OUT_DIR = REPO_ROOT / "analyze-data" / "out_features"
-
-ACCENT_COLOR = "#b8531f"  # highlights p < .05 bars against NEUTRAL_COLOR
 
 
 def label(code: str) -> str:
@@ -136,26 +136,6 @@ def group_compare(values: pd.Series, present: pd.Series) -> dict:
     return out
 
 
-def benjamini_hochberg(pvalues: list[float]) -> list[float]:
-    """BH-FDR adjusted p-values; NaNs preserved."""
-    p = np.asarray(pvalues, dtype=float)
-    mask = ~np.isnan(p)
-    adj = np.full_like(p, np.nan)
-    pv = p[mask]
-    m = len(pv)
-    if m == 0:
-        return adj.tolist()
-    order = np.argsort(pv)
-    ranked = pv[order]
-    bh = ranked * m / (np.arange(1, m + 1))
-    bh = np.minimum.accumulate(bh[::-1])[::-1]
-    bh = np.clip(bh, 0, 1)
-    out = np.empty(m)
-    out[order] = bh
-    adj[mask] = out
-    return adj.tolist()
-
-
 def theme_vs_outcome(attempts: pd.DataFrame, outcome: str, code_cols: list[str],
                      outcome_label: str) -> pd.DataFrame:
     """Compare an attempt-level outcome between theme-present vs absent."""
@@ -176,7 +156,7 @@ def theme_vs_outcome(attempts: pd.DataFrame, outcome: str, code_cols: list[str],
 # --------------------------------------------------------------------------- #
 # Part 1: prevalence
 # --------------------------------------------------------------------------- #
-def prevalence_plot(coded: pd.DataFrame, code_cols: list[str], title: str, fig_path: Path) -> pd.DataFrame:
+def prevalence_plot(coded: pd.DataFrame, code_cols: list[str], fig_path: Path) -> pd.DataFrame:
     n = len(coded)
     counts = {c: int(coded[f"code_{c}"].sum()) for c in code_cols}
     rows = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)
@@ -190,7 +170,6 @@ def prevalence_plot(coded: pd.DataFrame, code_cols: list[str], title: str, fig_p
     ax.set_yticklabels(labels)
     ax.invert_yaxis()
     ax.set_xlabel(f"% of coded responses mentioning theme (n = {n})")
-    ax.set_title(title)
     for i, (v, p) in enumerate(zip(vals, pct)):
         ax.text(p + 0.5, i, f"{v} ({p:.0f}%)", va="center", fontsize=8)
     ax.grid(axis="x", alpha=0.25)
@@ -210,18 +189,26 @@ def outcome_effect_plot(stat_df: pd.DataFrame, outcome_label: str, fig_path: Pat
         return
     d = stat_df.sort_values("rank_biserial")
     colors = [ACCENT_COLOR if p < 0.05 else NEUTRAL_COLOR for p in d["mannwhitney_p"]]
-    fig, ax = plt.subplots(figsize=(8.5, 5.5), dpi=160)
+    fig, ax = plt.subplots(figsize=(11, 5.5), dpi=160)
     ax.barh(range(len(d)), d["rank_biserial"], color=colors)
     ax.axvline(0, color="black", lw=0.8)
     ax.set_yticks(range(len(d)))
-    ax.set_yticklabels(d["theme"])
-    ax.set_xlabel(f"Rank-biserial effect (theme-present vs absent) on {outcome_label}\n"
-                  f"{ACCENT_COLOR} = Mann-Whitney p < .05")
-    ax.set_title(f"Which difficulty themes track higher {outcome_label}?")
+    ax.set_yticklabels(d["theme"], fontsize=12)
+    ax.set_xlabel(f"Rank-biserial effect (theme-present vs absent) on {outcome_label}", fontsize=12)
+    ax.tick_params(axis="x", labelsize=11)
+    ax.legend(
+        handles=[Patch(facecolor=ACCENT_COLOR, label="Mann-Whitney p < .05"),
+                 Patch(facecolor=NEUTRAL_COLOR, label="n.s.")],
+        loc="lower right", fontsize=10,
+    )
+    xmin, xmax = d["rank_biserial"].min(), d["rank_biserial"].max()
+    xrange = max(xmax - xmin, 0.1)
+    ax.set_xlim(xmin - 0.22 * xrange, xmax + 0.22 * xrange)
     for i, (rb, mp) in enumerate(zip(d["rank_biserial"], d["mannwhitney_p"])):
         ax.text(rb + (0.01 if rb >= 0 else -0.01), i, f"p={mp:.3f}",
-                va="center", ha="left" if rb >= 0 else "right", fontsize=7)
+                va="center", ha="left" if rb >= 0 else "right", fontsize=10)
     ax.grid(axis="x", alpha=0.25)
+    ax.grid(axis="y", visible=False)
     fig.tight_layout()
     fig.savefig(fig_path, bbox_inches="tight")
     plt.close(fig)
@@ -258,10 +245,8 @@ def main() -> None:
     print("PREVALENCE")
     print("=" * 60)
     diff_prev = prevalence_plot(diff_coded, ALL_DIFFICULTY_CODES,
-                                "Difficulty themes across all open-text difficulty explanations",
                                 args.fig_dir / "01_difficulty_theme_prevalence.png")
     strat_prev = prevalence_plot(strat_coded, ALL_STRATEGY_CODES,
-                                 "Solving strategies described by participants",
                                  args.fig_dir / "02_strategy_prevalence.png")
     diff_prev.to_csv(args.out_dir / "stats_difficulty_theme_prevalence.csv", index=False)
     strat_prev.to_csv(args.out_dir / "stats_strategy_prevalence.csv", index=False)
@@ -320,16 +305,18 @@ def main() -> None:
         res = group_compare(attempts[col], present)
         res.update({"code": code, "outcome": col})
         val_rows.append(res)
+        sig_color = ACCENT_COLOR if res["mannwhitney_p"] < 0.05 else "black"
         ax.text(0.5, 0.95, f"MW p={res['mannwhitney_p']:.3f}", transform=ax.transAxes,
-                ha="center", va="top", fontsize=8, color=ACCENT_COLOR)
-    fig.suptitle("Convergent validity: do qualitative codes match logged behaviour?", fontsize=12)
-    fig.tight_layout(rect=(0, 0, 1, 0.97))
+                ha="center", va="top", fontsize=8, color=sig_color)
+    fig.tight_layout()
     fig.savefig(args.fig_dir / "04_convergent_validity.png", bbox_inches="tight")
     plt.close(fig)
-    pd.DataFrame(val_rows).to_csv(args.out_dir / "stats_convergent_validity.csv", index=False)
+    val_df = pd.DataFrame(val_rows)
+    val_df["mw_p_fdr"] = benjamini_hochberg(val_df["mannwhitney_p"].tolist())
+    val_df.to_csv(args.out_dir / "stats_convergent_validity.csv", index=False)
     print("\nConvergent validity:")
-    print(pd.DataFrame(val_rows)[["code", "outcome", "mean_present", "mean_absent",
-                                  "mannwhitney_p", "rank_biserial"]].to_string(index=False))
+    print(val_df[["code", "outcome", "mean_present", "mean_absent",
+                  "mannwhitney_p", "mw_p_fdr", "rank_biserial"]].to_string(index=False))
 
     # ---- 3. Theme vs self-reported guessing --------------------------------- #
     guess_stat = theme_vs_outcome(
@@ -364,6 +351,7 @@ def main() -> None:
             res.update({"code": c, "strategy": label(c), "outcome": lbl})
             strat_rows.append(res)
     strat_outcome = pd.DataFrame(strat_rows)
+    strat_outcome["mw_p_fdr"] = benjamini_hochberg(strat_outcome["mannwhitney_p"].tolist())
     strat_outcome.to_csv(args.out_dir / "stats_strategy_vs_outcomes.csv", index=False)
 
     print(f"\nWrote stats tables -> {args.out_dir}")

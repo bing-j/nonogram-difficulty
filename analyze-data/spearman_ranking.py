@@ -13,24 +13,25 @@ saw, so we use a Bradley-Terry pairwise comparison model instead:
   * The resulting ranking is tested for Spearman correlation against SAT solver
     metrics (decisions, propagations, conflicts) and behavioral aggregates.
 
-A second, order-adjusted variant is also fit: `final_difficulty ~ C(order)` is
-residualized first (so within-session presentation order can no longer bias
-which puzzle "wins" a comparison), then BT is fit on those residuals instead
-of the raw ratings. Participant-level traits that are constant across a
-session (e.g. expertise) are *not* worth residualizing this way — they cancel
-out exactly in a within-participant pairwise difference, so BT's design is
-already robust to them without any adjustment. Order does vary within a
-session, so it's the one covariate where this composition actually changes
-the ranking.
+Also fits a participant-cluster bootstrap 95% CI on each puzzle's θ (resample
+participant_id with replacement, rebuild the win matrix, refit BT, percentile
+CI across resamples — same pattern used in moderation_analysis.py), and a
+likelihood-ratio test of the fitted model against the null that all puzzles
+are equally difficult (λ=0 for every puzzle), so the BT ranking's uncertainty
+and overall fit are reported rather than left implicit in a point estimate.
+Spearman tests also get a Benjamini-Hochberg FDR-corrected p-value
+(`bt_p_fdr`), correcting the 3 SAT-metric tests and the 3 behavioral-aggregate
+tests as two separate families per rating column. These are diagnostic/CI
+columns for reference (console + CSV) — the existing figures are unchanged.
 
 Outputs
 -------
-- Console: win matrix, BT scores (raw + order-adjusted), Spearman ρ table
-- analyze-data/out_features/bt_scores.png                  — bar chart of BT scores (raw + order-adjusted panels)
-- analyze-data/out_features/bt_ranking_vs_sat.png          — BT score vs SAT metrics (raw + order-adjusted rows)
-- analyze-data/out_features/stats_bt_vs_sat.csv            — Spearman ρ/p per rating variant, SAT metric, and behavioral aggregate
-- analyze-data/out_features/bt_difficulty_vs_sat.csv       — per-puzzle BT scores (raw + order-adjusted) alongside SAT metrics
-- analyze-data/out_features/order_adjustment_model_params.csv — OLS coefficients for the order-only residualization model
+- Console: win matrix, BT scores + bootstrap CI, LR goodness-of-fit test, Spearman ρ table (BT vs raw-mean comparison)
+- analyze-data/out_features/bt_scores.png                  — bar chart of BT scores
+- analyze-data/out_features/bt_ranking_vs_sat.png          — BT score vs SAT metrics
+- analyze-data/out_features/stats_bt_vs_sat.csv            — Spearman ρ/p (+ FDR-corrected p) per SAT metric and behavioral aggregate
+- analyze-data/out_features/bt_difficulty_vs_sat.csv       — per-puzzle BT scores + bootstrap CI alongside SAT metrics
+- analyze-data/out_features/stats_bt_model_fit.csv         — BT likelihood-ratio goodness-of-fit test
 
 Usage
 -----
@@ -53,10 +54,10 @@ import numpy as np
 import pandas as pd
 import scipy.optimize as opt
 import scipy.stats as stats
-import statsmodels.formula.api as smf
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from plot_style import NEUTRAL_COLOR, apply_style  # noqa: E402
+from plot_style import ACCENT_COLOR, NEUTRAL_COLOR, apply_style  # noqa: E402
+from stats_utils import benjamini_hochberg  # noqa: E402
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -71,6 +72,8 @@ DEFAULT_OUT_DIR = REPO_ROOT / "analyze-data" / "out_features"
 SAT_METRICS = ["decisions", "propagations", "conflicts"]
 RATING_COLS = ["final_difficulty"]
 BEHAVIORAL_AGGREGATES = ["time_to_solve_sec", "error_count", "hint_count"]
+N_BOOT = 5000
+SEED = 42
 
 
 # ---------------------------------------------------------------------------
@@ -178,41 +181,48 @@ def fit_bradley_terry(W: np.ndarray) -> np.ndarray:
     return np.exp(lam)
 
 
-# ---------------------------------------------------------------------------
-# Order-adjusted ratings (for the second BT variant)
-# ---------------------------------------------------------------------------
+def bt_bootstrap_ci(
+    df: pd.DataFrame, rating_col: str, n_puzzles: int = 6,
+    n_boot: int = N_BOOT, seed: int = SEED,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Participant-cluster bootstrap 95% CI on theta (one lower/upper pair
+    per puzzle). Resamples participant_id with replacement, rebuilds the win
+    matrix, and refits BT -- not a row-level bootstrap, since a participant's
+    comparisons aren't independent of each other."""
+    rng = np.random.default_rng(seed)
+    participant_ids = df["participant_id"].unique()
+    groups = {pid: g for pid, g in df.groupby("participant_id")}
 
-def build_order_residualized_ratings(
-    df: pd.DataFrame, rating_col: str, out_dir: Optional[Path] = None
-) -> pd.DataFrame:
-    """Return a copy of df with an order-residualized version of rating_col.
+    boot_theta = np.empty((n_boot, n_puzzles))
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")  # isolated-puzzle/non-convergence warnings expected in some resamples
+        for i in range(n_boot):
+            sampled = rng.choice(participant_ids, size=len(participant_ids), replace=True)
+            boot_df = pd.concat([groups[pid] for pid in sampled], ignore_index=True)
+            W_boot = build_win_matrix(boot_df, rating_col, n_puzzles)
+            boot_theta[i] = fit_bradley_terry(W_boot)
 
-    Regresses rating_col ~ C(order) and adds the grand mean back onto the
-    residuals, so the result stays on the original rating scale but has
-    within-session presentation-order effects partialed out before BT sees it.
+    ci_lower = np.percentile(boot_theta, 2.5, axis=0)
+    ci_upper = np.percentile(boot_theta, 97.5, axis=0)
+    return ci_lower, ci_upper
 
-    If out_dir is given, also saves the OLS model's coefficients (term, coef,
-    se, p_value) to order_adjustment_model_params.csv -- the order-only
-    analogue of the expertise+order model params the old expertise-adjustment
-    step used to save.
-    """
-    work = df.dropna(subset=[rating_col, "order"]).copy()
-    grand = work[rating_col].mean()
-    model = smf.ols(f"{rating_col} ~ C(order)", data=work).fit()
-    work[f"{rating_col}_order_adj"] = model.resid + grand
 
-    if out_dir is not None:
-        params = pd.DataFrame({
-            "term": model.params.index,
-            "coef": model.params.values,
-            "se": model.bse.values,
-            "p_value": model.pvalues.values,
-        })
-        out_path = out_dir / "order_adjustment_model_params.csv"
-        params.to_csv(out_path, index=False)
-        print(f"  Saved: {out_path}")
-
-    return work
+def bt_goodness_of_fit(W: np.ndarray) -> dict:
+    """Likelihood-ratio test of the fitted BT model against the null that
+    every puzzle is equally difficult (lambda=0 for all)."""
+    n = W.shape[0]
+    x0 = np.zeros(n - 1)
+    result = opt.minimize(
+        _neg_log_likelihood, x0, args=(W,), method="L-BFGS-B",
+        options={"maxiter": 1000, "ftol": 1e-12},
+    )
+    nll_fit = result.fun
+    nll_null = _neg_log_likelihood(np.zeros(n - 1), W)
+    lr_stat = 2.0 * (nll_null - nll_fit)
+    df_lr = n - 1
+    p_value = float(stats.chi2.sf(lr_stat, df_lr))
+    return {"nll_null": float(nll_null), "nll_fit": float(nll_fit),
+            "lr_stat": float(lr_stat), "df": df_lr, "p_value": p_value}
 
 
 # ---------------------------------------------------------------------------
@@ -256,40 +266,37 @@ def print_bt_summary(bt_df: pd.DataFrame, rating_col: str, W: np.ndarray) -> Non
         row = "  ".join(f"{W[i][j]:4.1f}" for j in range(n))
         print(f"  P{i}  {row}")
 
-    print(f"\n{'Puzzle':>8}  {'BT score':>10}  {'BT rank':>8}  {'Raw mean':>9}  {'Raw rank':>9}")
-    print(f"  {'--':>6}  {'--------':>10}  {'-------':>8}  {'--------':>9}  {'--------':>9}")
+    has_ci = "theta_ci_lower" in bt_df.columns
+    ci_header = "  95% CI" if has_ci else ""
+    print(f"\n{'Puzzle':>8}  {'BT score':>10}  {'BT rank':>8}  {'Raw mean':>9}  {'Raw rank':>9}{ci_header}")
+    print(f"  {'--':>6}  {'--------':>10}  {'-------':>8}  {'--------':>9}  {'--------':>9}{'  --------' if has_ci else ''}")
     for _, row in bt_df.sort_values("bt_rank").iterrows():
         changed = " <-" if row["bt_rank"] != row["raw_rank"] else ""
+        ci_str = f"  [{row['theta_ci_lower']:.3f}, {row['theta_ci_upper']:.3f}]" if has_ci else ""
         print(
             f"  Puzzle {int(row['puzzle_id'])}"
             f"  {row['bt_score']:>10.4f}"
             f"  {int(row['bt_rank']):>8}"
             f"  {row['raw_mean']:>9.3f}"
             f"  {int(row['raw_rank']):>9}"
+            f"{ci_str}"
             f"{changed}"
         )
 
 
-def _rating_variant_key(rating_col: str) -> str:
-    """Short column-name-safe variant tag, paired with _rating_label below."""
-    suffix = "_order_adjusted"
-    return "order_adjusted" if rating_col.endswith(suffix) else "raw"
-
-
 def build_bt_vs_sat_df(bt_dfs: dict[str, pd.DataFrame], solver_df: pd.DataFrame) -> pd.DataFrame:
-    """Per-puzzle BT scores (raw + order-adjusted) alongside SAT metrics.
+    """Per-puzzle BT scores alongside SAT metrics.
 
     The BT-based analogue of the old expertise_adjusted_puzzle_difficulty.csv:
-    one row per puzzle, one BT score/rank column pair per rating variant, plus
-    the SAT solver metrics for direct eyeballing alongside the correlation
-    tests in stats_bt_vs_sat.csv.
+    one row per puzzle, BT score/rank, plus the SAT solver metrics for direct
+    eyeballing alongside the correlation tests in stats_bt_vs_sat.csv.
     """
     combined: Optional[pd.DataFrame] = None
     for rating_col, bt_df in bt_dfs.items():
-        variant = _rating_variant_key(rating_col)
-        sub = bt_df[["puzzle_id", "bt_score", "bt_rank"]].rename(
-            columns={"bt_score": f"bt_score_{variant}", "bt_rank": f"bt_rank_{variant}"}
-        )
+        cols = ["puzzle_id", "bt_score", "bt_rank"]
+        if "theta_ci_lower" in bt_df.columns:
+            cols += ["theta_ci_lower", "theta_ci_upper"]
+        sub = bt_df[cols]
         combined = sub if combined is None else combined.merge(sub, on="puzzle_id")
     return combined.merge(solver_df, on="puzzle_id", how="left")
 
@@ -386,6 +393,12 @@ def run_spearman_tests(
         print()  # blank line between rating types
 
     result = pd.DataFrame(rows)
+    if not result.empty:
+        # FDR-correct within each (rating_col, predictor_type) family separately --
+        # SAT metrics and behavioral aggregates are conceptually distinct questions.
+        result["bt_p_fdr"] = np.nan
+        for _, idx in result.groupby(["rating_col", "predictor_type"]).groups.items():
+            result.loc[idx, "bt_p_fdr"] = benjamini_hochberg(result.loc[idx, "bt_p"].tolist())
     if out_dir is not None:
         out_path = out_dir / "stats_bt_vs_sat.csv"
         result.to_csv(out_path, index=False)
@@ -396,14 +409,6 @@ def run_spearman_tests(
 # ---------------------------------------------------------------------------
 # Visualisation
 # ---------------------------------------------------------------------------
-
-def _rating_label(rating_col: str) -> str:
-    """Human-readable panel label distinguishing raw vs. order-adjusted BT."""
-    suffix = "_order_adjusted"
-    if rating_col.endswith(suffix):
-        return f"{rating_col[: -len(suffix)]} (order-adjusted)"
-    return f"{rating_col} (raw)"
-
 
 def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path) -> None:
     """Bar chart of BT scores per puzzle for each rating type."""
@@ -421,7 +426,6 @@ def plot_bt_scores(bt_dfs: dict[str, pd.DataFrame], out_dir: Path) -> None:
             edgecolor="black",
             linewidth=0.7,
         )
-        ax.set_title(_rating_label(rating_col), fontsize=11)
         ax.set_xlabel("Puzzle", fontsize=10)
         ax.set_ylabel("BT strength score θ", fontsize=10)
         ax.axhline(1.0, color="black", linewidth=0.8, linestyle="--", alpha=0.5)
@@ -459,17 +463,15 @@ def plot_bt_vs_sat(
     for row_idx, (rating_col, bt_df) in enumerate(bt_dfs.items()):
         merged = bt_df.merge(solver_df, on="puzzle_id")
 
-        row_label = _rating_label(rating_col)
         for col_idx, metric in enumerate(SAT_METRICS):
             ax_bt = axes[row_idx][col_idx]
-            ylabel = "BT score θ" if col_idx > 0 else f"BT score θ\n[{row_label}]"
             _scatter_panel(
                 ax=ax_bt,
                 x=merged[metric],
                 y=merged["bt_score"],
                 labels=merged["puzzle_id"].astype(int),
                 xlabel=metric,
-                ylabel=ylabel,
+                ylabel="BT score θ",
                 y_series_for_spearman=merged["bt_rank"],
                 x_series_for_spearman=merged[metric],
             )
@@ -502,7 +504,7 @@ def _scatter_panel(
     if len(x) >= 2:
         m, b = np.polyfit(x.values.astype(float), y.values.astype(float), 1)
         xline = np.linspace(x.min(), x.max(), 100)
-        ax.plot(xline, m * xline + b, color="black", linewidth=1, linestyle="--", alpha=0.6)
+        ax.plot(xline, m * xline + b, color=ACCENT_COLOR, linewidth=1, linestyle="--", alpha=0.6)
 
     rho, p = stats.spearmanr(y_series_for_spearman, x_series_for_spearman)
     sig = _sig_stars(p)
@@ -550,22 +552,33 @@ def main() -> None:
           f"puzzles {sorted(features_df['puzzle_id'].unique().tolist())}")
 
     bt_dfs: dict[str, pd.DataFrame] = {}
+    fit_stats_rows = []
 
     for rating_col in RATING_COLS:
         W = build_win_matrix(features_df, rating_col)
         theta = fit_bradley_terry(W)
         bt_df = build_bt_df(features_df, rating_col, theta)
+
+        print("  Computing bootstrap CI on theta (participant-cluster, "
+              f"{N_BOOT} resamples)...")
+        ci_lower, ci_upper = bt_bootstrap_ci(features_df, rating_col)
+        bt_df["theta_ci_lower"] = ci_lower
+        bt_df["theta_ci_upper"] = ci_upper
+
+        fit = bt_goodness_of_fit(W)
+        fit["rating_col"] = rating_col
+        fit_stats_rows.append(fit)
+
         bt_dfs[rating_col] = bt_df
         print_bt_summary(bt_df, rating_col, W)
+        print(
+            f"\n  Goodness-of-fit (LR test vs. null that all puzzles are equally "
+            f"difficult): LR={fit['lr_stat']:.3f}  df={fit['df']}  p={fit['p_value']:.4f}"
+        )
 
-        order_adj_label = f"{rating_col}_order_adjusted"
-        order_adj_df = build_order_residualized_ratings(features_df, rating_col, out_dir=args.out_dir)
-        order_adj_col = f"{rating_col}_order_adj"
-        W_adj = build_win_matrix(order_adj_df, order_adj_col)
-        theta_adj = fit_bradley_terry(W_adj)
-        bt_adj_df = build_bt_df(order_adj_df, order_adj_col, theta_adj)
-        bt_dfs[order_adj_label] = bt_adj_df
-        print_bt_summary(bt_adj_df, order_adj_label, W_adj)
+    fit_stats_path = args.out_dir / "stats_bt_model_fit.csv"
+    pd.DataFrame(fit_stats_rows).to_csv(fit_stats_path, index=False)
+    print(f"  Saved: {fit_stats_path}")
 
     run_spearman_tests(bt_dfs, solver_df, features_df, out_dir=args.out_dir)
 

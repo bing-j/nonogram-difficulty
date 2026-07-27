@@ -340,5 +340,5 @@
 {"type": "survey_submit", "survey_type": "puzzle_3", "puzzle_idx": 2, "answers": {"difficulty": 5, "puzzle_3_guesses": "all"}, "t": "2026-03-16T19:53:06.498122+00:00"}
 {"type": "skip_puzzle", "idx": 2, "puzzle_id": 4, "t": "2026-03-16T19:53:06.504611+00:00"}
 {"type": "ended_without_full_completion", "solved_flags": [false, false, false], "skipped_flags": [true, true, true], "t": "2026-03-16T19:53:06.505319+00:00"}
-{"type": "survey_submit", "survey_type": "post", "puzzle_idx": null, "answers": {"strategy": "Trying to compare values across rows and columns to see where the hints matched.", "comments": "Not applicable."}, "t": "2026-03-16T19:53:38.850901+00:00"}
+{"type": "survey_submit", "survey_type": "post", "puzzle_idx": null, "answers": {"strategy": "Trying to compare values across rows and columns to see where the hints matched.", "comments": "Not applicable.", "puzzle_1_rate_again": 4, "puzzle_2_rate_again": 4, "puzzle_3_rate_again": 5}, "t": "2026-03-16T19:53:38.850901+00:00"}
 {"type": "session_end", "t": "2026-03-16T19:53:06.505319+00:00"}

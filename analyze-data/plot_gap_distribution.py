@@ -37,7 +37,15 @@ from extract_features import (
     segment_puzzles,
     slice_events_by_time,
 )
-from plot_style import apply_style
+from plot_style import (
+    ACCENT_COLOR,
+    ACCENT_COLOR_2,
+    ACCENT_COLOR_2_DARK,
+    ACCENT_COLOR_2_LIGHT,
+    GRAY_MID,
+    NEUTRAL_COLOR,
+    apply_style,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -97,14 +105,14 @@ def plot(gaps: np.ndarray, out_path: str) -> None:
 
     ax = axes[0, 0]
     bins = np.arange(0, 30.5, 0.5)
-    ax.hist(gaps[gaps <= 30], bins=bins, color="steelblue", edgecolor="none")
+    ax.hist(gaps[gaps <= 30], bins=bins, color=NEUTRAL_COLOR, edgecolor="none")
     ax.set_xlabel("Gap (s)")
     ax.set_ylabel("Count")
     ax.set_title("Linear scale, 0–30 s (0.5 s bins)")
 
     ax = axes[0, 1]
     log_bins = np.logspace(np.log10(max(gaps.min(), 0.01)), np.log10(gaps.max()), 60)
-    ax.hist(gaps, bins=log_bins, color="steelblue", edgecolor="none")
+    ax.hist(gaps, bins=log_bins, color=NEUTRAL_COLOR, edgecolor="none")
     ax.set_xscale("log")
     ax.set_xlabel("Gap (s, log scale)")
     ax.set_ylabel("Count")
@@ -113,21 +121,22 @@ def plot(gaps: np.ndarray, out_path: str) -> None:
     ax = axes[1, 0]
     sorted_gaps = np.sort(gaps)
     ecdf = np.arange(1, len(sorted_gaps) + 1) / len(sorted_gaps)
-    ax.plot(sorted_gaps, ecdf, lw=1.2, color="steelblue")
+    ax.plot(sorted_gaps, ecdf, lw=1.2, color=NEUTRAL_COLOR)
     ax.set_xscale("log")
     ax.set_xlabel("Gap (s, log scale)")
     ax.set_ylabel("Cumulative fraction")
     ax.set_title("ECDF (log x-axis)")
-    ax.axhline(0.90, color="gray", lw=0.8, linestyle="--", label="90th pct")
-    ax.axhline(0.95, color="gray", lw=0.8, linestyle=":",  label="95th pct")
+    ax.axhline(0.90, color=ACCENT_COLOR, lw=0.8, linestyle="--", label="90th pct")
+    ax.axhline(0.95, color=ACCENT_COLOR, lw=0.8, linestyle=":",  label="95th pct")
     ax.legend(fontsize=8)
     ax.grid(True, which="both")
 
     ax = axes[1, 1]
     bins60 = np.arange(0, 61, 1)
-    ax.hist(gaps[gaps <= 60], bins=bins60, color="steelblue", edgecolor="none")
-    for thresh, col in [(3, "orange"), (5, "red"), (10, "purple"), (20, "green")]:
-        ax.axvline(thresh, color=col, lw=1.2, linestyle="--", label=f"{thresh}s")
+    ax.hist(gaps[gaps <= 60], bins=bins60, color=NEUTRAL_COLOR, edgecolor="none")
+    candidate_shades = ["#C9C9C9", GRAY_MID, "#666666", NEUTRAL_COLOR]
+    for (thresh, shade) in zip([3, 5, 10, 20], candidate_shades):
+        ax.axvline(thresh, color=shade, lw=1.2, linestyle="--", label=f"{thresh}s")
     ax.set_xlabel("Gap (s)")
     ax.set_ylabel("Count")
     ax.set_title("Zoomed 0–60 s (1 s bins) with candidate thresholds")
@@ -338,73 +347,40 @@ def plot_log_intervals(gmm_result: dict, threshold: float, out_path: str) -> Non
 
     log_gaps = gmm_result["log_gaps"].ravel()
     gmm3 = gmm_result["gmm3"]
-    delta_bic = gmm_result["delta_bic_3v1"]
-    best_n = gmm_result["best_n"]
-    use_gmm = delta_bic >= 10
 
     mus = gmm3.means_.ravel()
     sigmas = np.sqrt(gmm3.covariances_[:, 0, 0])
     ws = gmm3.weights_
 
-    comp_colors = ["steelblue", "darkorange", "purple"]
+    # Distinct from ACCENT_COLOR_2 itself (used below for the threshold line) --
+    # a plain 3-stop tint ramp would put the middle component at that exact color.
+    comp_colors = [ACCENT_COLOR_2_LIGHT, "#5A8CAA", ACCENT_COLOR_2_DARK]
+    comp_linestyles = [":", "-.", "--"]
     comp_labels = [
         f"Comp 0 UI artifact (mean={np.exp(mus[0]):.2f}s)",
         f"Comp 1 interaction  (mean={np.exp(mus[1]):.2f}s)",
         f"Comp 2 pause        (mean={np.exp(mus[2]):.2f}s)",
     ]
 
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    fig, ax = plt.subplots(figsize=(7, 5))
 
-    # --- Left panel: log(gap) histogram + 3-component GMM overlay ---
-    ax = axes[0]
-    ax.hist(log_gaps, bins=60, density=True, color="lightsteelblue",
+    # log(gap) histogram + 3-component GMM overlay
+    ax.hist(log_gaps, bins=60, density=True, color="#D8D8D8",
             edgecolor="none", alpha=0.7, label="Observed")
 
     x_plot = np.linspace(log_gaps.min(), log_gaps.max(), 500)
 
     mixture = sum(ws[k] * stats.norm.pdf(x_plot, mus[k], sigmas[k]) for k in range(3))
-    ax.plot(x_plot, mixture, color="red", lw=2, label="GMM mixture (3 comp)")
+    ax.plot(x_plot, mixture, color=ACCENT_COLOR, lw=2, label="GMM mixture (3 comp)")
 
     for k in range(3):
         ax.plot(x_plot, ws[k] * stats.norm.pdf(x_plot, mus[k], sigmas[k]),
-                color=comp_colors[k], lw=1.3, linestyle="--", label=comp_labels[k])
+                color=comp_colors[k], lw=1.3, linestyle=comp_linestyles[k], label=comp_labels[k])
 
-    ax.axvline(np.log(threshold), color="orange", lw=1.8, linestyle="-",
+    ax.axvline(np.log(threshold), color=ACCENT_COLOR_2, lw=1.8, linestyle="-",
                label=f"Equal-posterior threshold: {threshold:.2f}s")
-    ax.text(0.97, 0.97,
-            f"dBIC (3v1) = {delta_bic:.1f}\nbest n = {best_n}\n"
-            f"pause threshold = {threshold:.2f}s",
-            transform=ax.transAxes, ha="right", va="top", fontsize=8,
-            bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow", edgecolor="gray"))
     ax.set_xlabel("log(gap_seconds)")
     ax.set_ylabel("Density")
-    ax.set_title("Log-interval distribution with 3-component GMM")
-    ax.legend(fontsize=7.5)
-
-    # --- Right panel: component means on seconds scale ---
-    ax = axes[1]
-    x_sec = np.linspace(0, min(np.exp(mus[2]) * 4, 150), 600)
-    # plot mixture PDF in seconds space for visual reference
-    log_x = np.log(np.maximum(x_sec, 1e-6))
-    # Jacobian: p(x) = p(log x) / x
-    mixture_sec = sum(
-        ws[k] * stats.norm.pdf(log_x, mus[k], sigmas[k])
-        for k in range(3)
-    ) / np.maximum(x_sec, 1e-6)
-    ax.plot(x_sec, mixture_sec, color="red", lw=1.5, alpha=0.6, label="Mixture PDF")
-
-    for k in range(3):
-        comp_sec = ws[k] * stats.norm.pdf(log_x, mus[k], sigmas[k]) / np.maximum(x_sec, 1e-6)
-        ax.plot(x_sec, comp_sec, color=comp_colors[k], lw=1.3,
-                linestyle="--", label=comp_labels[k])
-        ax.axvline(np.exp(mus[k]), color=comp_colors[k], lw=0.8, linestyle=":")
-
-    ax.axvline(threshold, color="orange", lw=2, linestyle="-",
-               label=f"Threshold: {threshold:.2f}s")
-    ax.set_xlim(0, min(np.exp(mus[2]) * 4, 150))
-    ax.set_xlabel("Gap (seconds)")
-    ax.set_ylabel("Density")
-    ax.set_title("Component means - seconds scale")
     ax.legend(fontsize=7.5)
 
     fig.tight_layout()
@@ -435,15 +411,15 @@ def plot_sensitivity(
     sds = np.array(sds)
 
     fig, ax = plt.subplots(figsize=(8, 5))
-    ax.plot(thresholds, means, color="steelblue", lw=2, label="Mean pause count")
+    ax.plot(thresholds, means, color=NEUTRAL_COLOR, lw=2, label="Mean pause count")
     ax.fill_between(thresholds, means - sds, np.maximum(means - sds, 0),
-                    alpha=0.2, color="steelblue")
-    ax.fill_between(thresholds, means, means + sds, alpha=0.2, color="steelblue",
+                    alpha=0.2, color=NEUTRAL_COLOR)
+    ax.fill_between(thresholds, means, means + sds, alpha=0.2, color=NEUTRAL_COLOR,
                     label="±1 SD")
-    ax.axvline(chosen_threshold, color="orange", lw=1.8, linestyle="--",
+    ax.axvline(chosen_threshold, color=ACCENT_COLOR, lw=1.8, linestyle="--",
                label=f"Chosen: {chosen_threshold:.2f}s")
     ax.text(chosen_threshold * 1.05, ax.get_ylim()[1] * 0.95,
-            f"{chosen_threshold:.2f}s", color="orange", fontsize=9, va="top")
+            f"{chosen_threshold:.2f}s", color=ACCENT_COLOR, fontsize=9, va="top")
     ax.set_xscale("log")
     ax.set_xlabel("Threshold (s, log scale)")
     ax.set_ylabel("Mean pause count per observation")

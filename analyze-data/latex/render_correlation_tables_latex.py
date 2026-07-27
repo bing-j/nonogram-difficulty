@@ -1,4 +1,4 @@
-"""Render four correlation/regression result tables as AAAI-compliant LaTeX.
+"""Render six correlation/regression result tables as AAAI-compliant LaTeX.
 
 Lives in analyze-data/latex/ alongside render_codebook_examples_latex.py,
 following the same AAAI Press style conventions established there (see that
@@ -8,19 +8,20 @@ plain \\caption (AAAI requires table captions below, opposite of figures), no
 \\resizebox (explicitly disallowed by AAAI), and \\small (9pt) body text (the
 smallest AAAI permits for table content).
 
-Unlike the codebook table, these four tables are narrow and numeric (a
+Unlike the codebook table, these six tables are narrow and numeric (a
 handful of rows, short labels plus a few numeric columns), so each fits
 comfortably inside AAAI's single-column width (~3.3in/8.4cm) as a plain
 `table` -- no `table*`, `m{}` wrapping, or `multirow` needed here.
 
-Reads four CSVs produced by the analyze-data/ pipeline:
+Reads six CSVs produced by the analyze-data/ pipeline:
   - out_features/stats_bt_vs_sat.csv                            (spearman_ranking.py)
   - out_features/stats_behavioral_vs_difficulty_pooled.csv       (behavioral_regression.py)
-  - out_features/stats_behavioral_vs_conflicts.csv                (behavioral_regression.py)
+  - out_features/stats_behavioral_vs_sat_metrics.csv               (behavioral_regression.py)
   - out_features/expertise_vs_outcomes.csv                        (expertise_adjustment.py)
+  - out_features/stats_moderation_expertise.csv                    (moderation_analysis.py, two tables)
 
 The first three are exported specifically for this renderer (added alongside
-this script); the last already existed. A fifth table
+this script); the fourth already existed. A table
 (tab:expertise-adjusted-vs-sat, reading stats_expertise_adjusted_difficulty_vs_sat.csv)
 was removed along with expertise_adjustment.py's residualization-based
 per-puzzle difficulty estimate -- see that script's docstring for why. Renders
@@ -95,10 +96,15 @@ def fmt_coef(coef: float, p: float) -> str:
     return f"{coef:.3f}{sig_stars(p)}"
 
 
+def fmt_coef_ci(coef: float, p: float, lo: float, hi: float) -> str:
+    if pd.isna(coef):
+        return "--"
+    return f"{coef:+.4f}{sig_stars(p)} [{lo:+.4f}, {hi:+.4f}]"
+
+
 PREDICTOR_LABELS = {
     "const": "Intercept",
     "pause_count": "Pause count",
-    "pause_freq_per_min": "Pause freq. (/min)",
     "time_to_solve_sec": "Time to solve (s)",
     "error_count": "Error count",
     "hint_count": "Hints used",
@@ -138,28 +144,25 @@ def build_table(
 
 def table_bt_vs_sat() -> str:
     df = pd.read_csv(OUT_FEATURES / "stats_bt_vs_sat.csv")
-    df = df[df["predictor_type"] == "sat_metric"]
-    raw = df[df["rating_col"] == "final_difficulty"].set_index("predictor")
-    adj = df[df["rating_col"] == "final_difficulty_order_adjusted"].set_index("predictor")
-    n = int(raw["n"].iloc[0])
+    df = df[(df["predictor_type"] == "sat_metric") & (df["rating_col"] == "final_difficulty")]
+    n = int(df["n"].iloc[0])
     rows = []
-    for predictor in raw.index:
-        r_raw, r_adj = raw.loc[predictor], adj.loc[predictor]
+    for _, r in df.iterrows():
         rows.append([
-            METRIC_LABELS.get(predictor, predictor),
-            fmt_rho(r_raw["bt_rho"], r_raw["bt_p"]),
-            fmt_p(r_raw["bt_p"]),
-            fmt_rho(r_adj["bt_rho"], r_adj["bt_p"]),
-            fmt_p(r_adj["bt_p"]),
+            METRIC_LABELS.get(r["predictor"], r["predictor"]),
+            fmt_rho(r["bt_rho"], r["bt_p"]),
+            fmt_p(r["bt_p"]),
+            fmt_rho(r["raw_rho"], r["raw_p"]),
+            fmt_p(r["raw_p"]),
         ])
     return build_table(
-        ["SAT metric", r"Raw $\rho$", "$p$", r"Order-adj. $\rho$", "$p$"],
+        ["SAT metric", r"BT $\rho$", "$p$", r"Raw $\rho$", "$p$"],
         "lrrrr",
         rows,
         caption=(
-            "Spearman correlation between Bradley-Terry puzzle difficulty "
-            "ranking and SAT solver metrics, raw ratings vs. order-adjusted "
-            f"ratings ($n={n}$ puzzles). " + SIG_NOTE
+            "Spearman correlation between Bradley-Terry-adjusted puzzle "
+            "difficulty ranking and SAT solver metrics, compared against "
+            f"raw per-puzzle mean difficulty ranking ($n={n}$ puzzles). " + SIG_NOTE
         ),
         label="tab:bt-vs-sat",
     )
@@ -199,12 +202,29 @@ def table_behavioral_vs_difficulty() -> str:
     )
 
 
-def table_behavioral_vs_conflicts() -> str:
-    return _coef_table(
-        "stats_behavioral_vs_conflicts.csv",
-        "Behavioral predictors of SAT solver conflicts, at full per-response "
-        "granularity (not pooled to per-puzzle means).",
-        "tab:behavioral-vs-conflicts",
+def table_behavioral_vs_sat_metrics() -> str:
+    df = pd.read_csv(OUT_FEATURES / "stats_behavioral_vs_sat_metrics.csv")
+    rows = []
+    for _, r in df.iterrows():
+        rows.append([
+            PREDICTOR_LABELS.get(r["outcome"], r["outcome"]),
+            METRIC_LABELS.get(r["predictor"], r["predictor"]),
+            fmt_coef_ci(r["coef"], r["p"], r["ci_lower"], r["ci_upper"]),
+            str(int(r["n"])),
+        ])
+    return build_table(
+        ["Behavioral signal", "SAT metric", r"$\beta$ [95\% CI]", "$N$"],
+        "llcr",
+        rows,
+        caption=(
+            "SAT-metric fixed effects on behavioral difficulty signals: "
+            "crossed-random-effects linear mixed model (behavioral signal "
+            "$\\sim$ SAT metric, with crossed random intercepts for "
+            "participant and puzzle -- Baayen, Davidson \\& Bates 2008), "
+            "Wald 95\\% CIs, one row per behavioral-signal $\\times$ "
+            "SAT-metric pair. " + SIG_NOTE
+        ),
+        label="tab:behavioral-vs-sat-metrics",
     )
 
 
@@ -230,12 +250,70 @@ def table_expertise_vs_outcomes() -> str:
     )
 
 
+def table_moderation_interaction() -> str:
+    df = pd.read_csv(OUT_FEATURES / "stats_moderation_expertise.csv")
+    n = int(df["n"].iloc[0])
+    n_participants = int(df["n_participants"].iloc[0])
+    n_puzzles = int(df["n_puzzles"].iloc[0])
+    rows = []
+    for _, r in df.iterrows():
+        rows.append([
+            METRIC_LABELS.get(r["predictor"], r["predictor"]),
+            fmt_coef_ci(r["coef_metric"], r["p_metric"], r["ci_lower_metric"], r["ci_upper_metric"]),
+            fmt_coef_ci(r["coef_expertise"], r["p_expertise"], r["ci_lower_expertise"], r["ci_upper_expertise"]),
+            fmt_coef_ci(r["interaction"], r["p_interaction"], r["ci_lower_interaction"], r["ci_upper_interaction"]),
+        ])
+    return build_table(
+        ["SAT metric", "Metric $\\beta$ [95\\% CI]", "Expertise $\\beta$ [95\\% CI]", "Interaction $\\beta$ [95\\% CI]"],
+        "lccc",
+        rows,
+        caption=(
+            "Moderation of the SAT-metric $\\to$ difficulty relationship by "
+            "participant expertise: fixed effects from a crossed-random-"
+            "effects linear mixed model (\\texttt{final\\_difficulty} $\\sim$ "
+            "metric $\\times$ expertise, with crossed random intercepts for "
+            "participant and puzzle -- Baayen, Davidson \\& Bates 2008), Wald "
+            f"95\\% CIs ($N={n}$ observations, {n_participants} participants, "
+            f"{n_puzzles} puzzles). " + SIG_NOTE
+        ),
+        label="tab:moderation-interaction",
+    )
+
+
+def table_moderation_simple_slopes() -> str:
+    df = pd.read_csv(OUT_FEATURES / "stats_moderation_expertise.csv")
+    rows = []
+    for _, r in df.iterrows():
+        rows.append([
+            METRIC_LABELS.get(r["predictor"], r["predictor"]),
+            fmt_coef_ci(r["slope_low"], r["p_slope_low"], r["ci_lower_slope_low"], r["ci_upper_slope_low"]),
+            fmt_coef_ci(r["slope_mean"], r["p_slope_mean"], r["ci_lower_slope_mean"], r["ci_upper_slope_mean"]),
+            fmt_coef_ci(r["slope_high"], r["p_slope_high"], r["ci_lower_slope_high"], r["ci_upper_slope_high"]),
+        ])
+    return build_table(
+        ["SAT metric", "Slope @ $z{=}{-}1$", "Slope @ $z{=}0$", "Slope @ $z{=}{+}1$"],
+        "lccc",
+        rows,
+        caption=(
+            "Simple slopes (Aiken \\& West 1991) of SAT metric on "
+            "\\texttt{final\\_difficulty} at representative expertise levels "
+            "-- \\texttt{expertise\\_composite} is a population $z$-score "
+            "by construction, so $z{=}{-}1/0/{+}1$ correspond to low/average/"
+            "high expertise. Delta-method 95\\% CIs from the crossed-effects "
+            "model in Table~\\ref{tab:moderation-interaction}. " + SIG_NOTE
+        ),
+        label="tab:moderation-simple-slopes",
+    )
+
+
 def main() -> None:
     tables = [
         table_bt_vs_sat(),
         table_behavioral_vs_difficulty(),
-        table_behavioral_vs_conflicts(),
+        table_behavioral_vs_sat_metrics(),
         table_expertise_vs_outcomes(),
+        table_moderation_interaction(),
+        table_moderation_simple_slopes(),
     ]
     preamble_note = (
         "% Requires \\usepackage{booktabs} in your preamble (for "
